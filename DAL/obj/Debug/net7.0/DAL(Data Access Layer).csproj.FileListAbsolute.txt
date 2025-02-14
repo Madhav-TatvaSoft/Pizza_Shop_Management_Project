@@ -1,0 +1,9 @@
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\DAL(Data Access Layer)\bin\Debug\net7.0\DAL(Data Access Layer).deps.json
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\DAL(Data Access Layer)\bin\Debug\net7.0\DAL(Data Access Layer).dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\DAL(Data Access Layer)\bin\Debug\net7.0\DAL(Data Access Layer).pdb
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\DAL(Data Access Layer)\obj\Debug\net7.0\DAL(Data Access Layer).GeneratedMSBuildEditorConfig.editorconfig
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\DAL(Data Access Layer)\obj\Debug\net7.0\DAL(Data Access Layer).csproj.CoreCompileInputs.cache
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\DAL(Data Access Layer)\obj\Debug\net7.0\DAL(Data Access Layer).dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\DAL(Data Access Layer)\obj\Debug\net7.0\refint\DAL(Data Access Layer).dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\DAL(Data Access Layer)\obj\Debug\net7.0\DAL(Data Access Layer).pdb
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\DAL(Data Access Layer)\obj\Debug\net7.0\ref\DAL(Data Access Layer).dll

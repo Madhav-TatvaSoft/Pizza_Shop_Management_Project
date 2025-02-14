@@ -1,0 +1,9 @@
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\BLL(Business Logic Layer)\bin\Debug\net7.0\BLL(Business Logic Layer).deps.json
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\BLL(Business Logic Layer)\bin\Debug\net7.0\BLL(Business Logic Layer).dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\BLL(Business Logic Layer)\bin\Debug\net7.0\BLL(Business Logic Layer).pdb
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\BLL(Business Logic Layer)\obj\Debug\net7.0\BLL(Business Logic Layer).GeneratedMSBuildEditorConfig.editorconfig
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\BLL(Business Logic Layer)\obj\Debug\net7.0\BLL(Business Logic Layer).csproj.CoreCompileInputs.cache
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\BLL(Business Logic Layer)\obj\Debug\net7.0\BLL(Business Logic Layer).dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\BLL(Business Logic Layer)\obj\Debug\net7.0\refint\BLL(Business Logic Layer).dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\BLL(Business Logic Layer)\obj\Debug\net7.0\BLL(Business Logic Layer).pdb
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\BLL(Business Logic Layer)\obj\Debug\net7.0\ref\BLL(Business Logic Layer).dll

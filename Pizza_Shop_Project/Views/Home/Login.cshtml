@@ -1,0 +1,83 @@
+@model DAL.Models.UserLogin
+@{
+    ViewData["Title"] = "Login Page";
+    Layout = "_LoginLayout";
+}
+
+<div class="container-fluid  ">
+    <div class="login-container row   ">
+
+        <!-- Image Section -->
+        <div class="pizza-img-div col-md-6 d-none d-md-block">
+
+            <img src="~/images/dominos_background.jpg" alt="Logo" class="pizza-img-tag img-fluid min-vh-100" />
+
+        </div>
+
+
+        <!-- Login Section -->
+        <div
+            class="login-main-div col-md-6 text-center text-md-start min-vh-100 d-flex flex-column align-content-center justify-content-center   ">
+
+            <!-- Logo -->
+            <div class="d-flex align-items-center justify-content-center mb-4">
+                <img src="./images/logos/pizzashop_logo.png" alt="Logo" class="img-fluid" style="width: 50px;" /><span
+                    class="logo-name">PIZZASHOP</span>
+            </div>
+
+            <div class="welcome-text mb-3"> <span class="fw-bold fs-3">Welcome,</span></div>
+
+            <!-- Login Form-->
+            <form asp-action="Create" class="login-form w-75 mx-auto ">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group pass-div mb-4 ">
+                    <label asp-for="Email" class="control-label"></label>
+
+                    <input asp-for="Email" type="text" class="form-control email-inp" 
+                        placeholder="Email*" required />
+                    <i class="bi bi-person-fill"></i>
+                    <span asp-validation-for="Email" class="text-danger ms-4"></span>
+
+                </div>
+
+                <div class="form-group pass-div mb-4 ">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" type="password" class="form-control pass-inp"
+                        placeholder="Password*"  required />
+                    <i class="bi bi-eye-slash-fill" id="togglePassword"></i>
+                    <span asp-validation-for="Password" class="text-danger ms-4"></span>
+                </div>
+
+                <!-- Remember me and frgt pass section -->
+                <div class="rememberme-div d-flex justify-content-between mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="">Remember Me</label>
+                    </div>
+                    <a href="forgetpassword.html" class="text-decoration-none ms-3 frgt-pass ">Forgot Password?</a>
+                </div>
+                <div class=" d-grid">
+                    <input value="Create" class="login-btn btn btn-primary" onclick="return ValidateAllInputs()"
+                        type="submit" />
+                </div>
+
+            </form>
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+@* <script src="/js/custom.js"></script> *@
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

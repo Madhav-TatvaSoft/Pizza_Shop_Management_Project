@@ -1,0 +1,121 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/* login page css  */
+
+body {
+  background-color: #fafafa;
+}
+
+.pizza-img-div {
+  padding: 0px 0px !important;
+}
+
+.pizza-img-tag {
+  object-fit: cover;
+}
+
+.login-main-div {
+  background-color: rgb(207 233 243);
+}
+
+.logo-name {
+  color: #0084c3;
+  font-weight: 600;
+  opacity: 1;
+  font-size: xx-large;
+  margin-left: 10px;
+
+}
+
+form i {
+  margin-left: -30px;
+  cursor: pointer;
+}
+
+.pass-inp, .email-inp, .confirmPassword-inp {
+  width: 100%;
+  border: 1px solid rgb(156, 156, 156);
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.login-form input[type=email]::-webkit-input-placeholder:after,
+.login-form input[type=password]::-webkit-input-placeholder:after {
+  content: '*' !important;
+  color: red !important;
+}
+
+@media (max-width:767px) {
+  .login-main-div {
+      background-image: linear-gradient(rgba(210, 208, 208, 0.743), rgba(198, 198, 198, 0.423)), url("/images/dominos_background.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+  }
+
+  .rememberme-div {
+      font-weight: 500;
+
+  }
+
+  .rememberme-div a {
+      color: #002130;
+
+  }
+
+  .logo-name {
+      color: #00567a;
+      font-weight: 700;
+      opacity: 1;
+      font-size: xx-large;
+      margin-left: 10px;
+
+  }
+}
+
+.rememberme-div {
+  font-size: 14px;
+  padding: 8px;
+}
+
+.login-btn {
+  margin-left: 3px !important;
+}
+
+.welcome-text {
+  display: flex;
+  padding-left: 13%;
+}
+
+#email-error-txt, #password-error-txt {
+  display: flex;
+  padding-left: 1%;
+  font-size: 15px;
+}
+
+.text {
+  display: flex;
+  padding-left: 13%;
+  /* font-size: 13px; */
+}
