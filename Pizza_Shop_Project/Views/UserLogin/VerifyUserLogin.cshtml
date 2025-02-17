@@ -1,4 +1,4 @@
-@model DAL.Models.UserLogin
+@model DAL.ViewModels.UserLoginViewModel;
 @{
     ViewData["Title"] = "Login Page";
     Layout = "_LoginLayout";
@@ -28,14 +28,14 @@
             <div class="welcome-text mb-3"> <span class="fw-bold fs-3">Welcome,</span></div>
 
             <!-- Login Form-->
-            <form asp-action="Create" class="login-form w-75 mx-auto ">
+            <form asp-action="VerifyUserLogin" class="login-form w-75 mx-auto ">
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="form-group pass-div mb-4 ">
                     <label asp-for="Email" class="control-label"></label>
 
-                    <input asp-for="Email" type="text" class="form-control email-inp" 
+                    <input asp-for="Email" type="email" id="Email" class="form-control email-inp" 
                         placeholder="Email*" required />
                     <i class="bi bi-person-fill"></i>
                     <span asp-validation-for="Email" class="text-danger ms-4"></span>
@@ -53,29 +53,47 @@
                 <!-- Remember me and frgt pass section -->
                 <div class="rememberme-div d-flex justify-content-between mb-4">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <input class="form-check-input" asp-for="Remember_me" type="checkbox" id="flexCheckDefault">
                         <label class="">Remember Me</label>
                     </div>
-                    <a href="forgetpassword.html" class="text-decoration-none ms-3 frgt-pass ">Forgot Password?</a>
+                    <a id="forgot-password" class="text-decoration-none ms-3 ">Forgot Password?</a>
                 </div>
                 <div class=" d-grid">
-                    <input value="Create" class="login-btn btn btn-primary" onclick="return ValidateAllInputs()"
+                    <span class="text-danger ms-1">@ViewBag.message</span>
+                    <input value="Login" class="login-btn btn btn-primary"
                         type="submit" />
                 </div>
 
             </form>
-
-
-
-
-
         </div>
     </div>
 </div>
 
 <!-- Bootstrap JS -->
 @* <script src="/js/custom.js"></script> *@
+<script>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+</script>
+
+<script>
+
+$(document).ready(function(){
+  $("#forgot-password").click(function(){
+    console.log($("#Email").val())
+    $.ajax({
+        type:"POST",
+        url:"@Url.Action("GetEmail","UserLogin")",
+        data: {"Email": $("#Email").val() },
+        success: function(res){
+            window.location.href="@Url.Action("ForgotPassword","UserLogin")";
+        }
+    })
+  });
+});
+
+</script>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

@@ -277,3 +277,5 @@ D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\obj\Debug\net7.0\refint\Pizza_Shop_
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\obj\Debug\net7.0\Pizza_Shop_Project.pdb
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\obj\Debug\net7.0\Pizza_Shop_Project.genruntimeconfig.cache
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\obj\Debug\net7.0\ref\Pizza_Shop_Project.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\BLL.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\BLL.pdb

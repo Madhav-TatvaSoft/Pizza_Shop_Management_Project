@@ -3,17 +3,17 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-  <IsPackable>false</IsPackable>
+    <IsPackable>false</IsPackable>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-	  <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-	  <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-	  <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>  
-	  <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-	  <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-	  <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-	  <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>   
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
