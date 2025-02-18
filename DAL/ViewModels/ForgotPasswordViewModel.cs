@@ -1,8 +1,7 @@
-namespace DAL_Data_Access_Layer_;
+namespace DAL.ViewModels;
 
 public class ForgotPasswordViewModel
 {
-    
     public string Email { get; set; }
 
 }

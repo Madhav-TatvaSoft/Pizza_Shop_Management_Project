@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using DAL.Models;
 using BLL_Business_Logic_Layer_;
 using DAL.ViewModels;
+using System.Net.Mail;
+using System.Net;
+
 
 namespace Pizza_Shop_Project.Controllers
 {
@@ -26,27 +29,7 @@ namespace Pizza_Shop_Project.Controllers
         //     var userlogindata = await _userLoginService.GetUserLogins();
         //     return View(userlogindata);
         // }
-
-        // GET: UserLogin/Details/5
-        // public async Task<IActionResult> Details(long? id)
-        // {
-        //     if (id == null || _context.UserLogins == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     var userLogin = await _context.UserLogins
-        //         .Include(u => u.Role)
-        //         .FirstOrDefaultAsync(m => m.UserloginId == id);
-        //     if (userLogin == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     return View(userLogin);
-        // }
-
-        // GET: UserLogin/Create
+        // GET: UserLogin/Verify
         public IActionResult VerifyUserLogin()
         {
             if (Request.Cookies.ContainsKey("email"))
@@ -64,8 +47,6 @@ namespace Pizza_Shop_Project.Controllers
 
         public async Task<IActionResult> VerifyUserLogin(UserLoginViewModel userLogin)
         {
-
-
             var verification = await _userLoginService.VerifyUserLogin(userLogin);
             if (verification)
             {
@@ -81,16 +62,78 @@ namespace Pizza_Shop_Project.Controllers
             return View();
         }
 
-        public IActionResult ForgotPassword()
+        public IActionResult ForgotPassword(string Email)
+        {
+            ViewBag.Email = Email;
+            return View();
+        }
+
+        public IActionResult SendEmail()
         {
             return View();
         }
 
         [HttpPost]
-        public String GetEmail(String Email)
+        public async Task<IActionResult> SendEmail(ForgotPasswordViewModel forgotpassword)
         {
-            TempData["email"] = Email;
-            return Email;
+            var userLogin = new UserLoginViewModel();
+            userLogin.Email = forgotpassword.Email;
+            var isSendEmail = await _userLoginService.IsSendEmail(userLogin);
+            if (isSendEmail)
+            {
+                var resetLink = Url.Action("ResetPassword", "UserLogin", new { email = forgotpassword.Email }, Request.Scheme);
+                var sendEmail = await _userLoginService.SendEmail(forgotpassword, resetLink);
+                if (sendEmail)
+                {
+                    return View("VerifyUserLogin");
+                }
+                else
+                {
+                    ViewBag.message = "Please try again!!!";
+                    return View("ForgotPassword");
+                }
+            }
+            else
+            {
+                ViewBag.message = "Please enter valid email";
+                return View("ForgotPassword");
+            }
+        }
+
+        public IActionResult ResetPassword(string Email)
+        {
+            var resetPassword = new ResetPasswordViewModel();
+            resetPassword.Email = Email;
+            return View("ResetPassword");
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPassword)
+        {
+            if (ModelState.IsValid)
+            {
+                if (resetPassword.Password == resetPassword.ConfirmPassword)
+                {
+                    var checkresetpassword = await _userLoginService.ResetPassword(resetPassword);
+                    if (checkresetpassword)
+                    {
+                        return RedirectToAction("VerifyUserLogin");
+                    }
+                    else
+                    {
+                        ViewBag.message = "Please try again!!!";
+                        return View("ResetPassword");
+                    }
+                }
+                else
+                {
+                    ViewBag.message = "Password and Confirm Password should be same";
+                    return View("ResetPassword");
+                }
+            }
+            return View("ResetPassword");
+
         }
     }
 }

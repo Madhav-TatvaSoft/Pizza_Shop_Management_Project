@@ -36,6 +36,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckxvZ2luXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/UserLogin/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckxvZ2luXFJlc2V0UGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/UserLogin/VerifyUserLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckxvZ2luXFZlcmlmeVVzZXJMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

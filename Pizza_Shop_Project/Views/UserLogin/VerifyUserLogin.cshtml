@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Login Page";
     Layout = "_LoginLayout";
+    @* "Email" = TempData["Email"]; *@
 }
 
 <div class="container-fluid  ">
@@ -35,8 +36,8 @@
                 <div class="form-group pass-div mb-4 ">
                     <label asp-for="Email" class="control-label"></label>
 
-                    <input asp-for="Email" type="email" id="Email" class="form-control email-inp" 
-                        placeholder="Email*" required />
+                    <input asp-for="Email" type="email" id="Email" class="form-control email-inp" placeholder="Email*"
+                        required />
                     <i class="bi bi-person-fill"></i>
                     <span asp-validation-for="Email" class="text-danger ms-4"></span>
 
@@ -44,8 +45,8 @@
 
                 <div class="form-group pass-div mb-4 ">
                     <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" type="password" class="form-control pass-inp"
-                        placeholder="Password*"  required />
+                    <input asp-for="Password" type="password" class="form-control pass-inp" placeholder="Password*"
+                        required />
                     <i class="bi bi-eye-slash-fill" id="togglePassword"></i>
                     <span asp-validation-for="Password" class="text-danger ms-4"></span>
                 </div>
@@ -56,12 +57,11 @@
                         <input class="form-check-input" asp-for="Remember_me" type="checkbox" id="flexCheckDefault">
                         <label class="">Remember Me</label>
                     </div>
-                    <a id="forgot-password" class="text-decoration-none ms-3 ">Forgot Password?</a>
+                    <a id="forgot-password" class="text-decoration-none ms-3 " onclick="redirectForgotPassword()">Forgot Password?</a>
                 </div>
                 <div class=" d-grid">
                     <span class="text-danger ms-1">@ViewBag.message</span>
-                    <input value="Login" class="login-btn btn btn-primary"
-                        type="submit" />
+                    <input value="Login" class="login-btn btn btn-primary" type="submit" />
                 </div>
 
             </form>
@@ -71,29 +71,14 @@
 
 <!-- Bootstrap JS -->
 @* <script src="/js/custom.js"></script> *@
-<script>
-    
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-</script>
+<scrip src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></scrip>
 
 <script>
-
-$(document).ready(function(){
-  $("#forgot-password").click(function(){
-    console.log($("#Email").val())
-    $.ajax({
-        type:"POST",
-        url:"@Url.Action("GetEmail","UserLogin")",
-        data: {"Email": $("#Email").val() },
-        success: function(res){
-            window.location.href="@Url.Action("ForgotPassword","UserLogin")";
-        }
-    })
-  });
-});
-
-</script>
+    function redirectForgotPassword() {
+        var email = document.getElementById('Email').value;
+        window.location.href = '/UserLogin/ForgotPassword?email=' + encodeURIComponent(email);
+    }
+    </script>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
