@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Login Page";
     Layout = "_LoginLayout";
-    @* "Email" = TempData["Email"]; *@
 }
 
 <div class="container-fluid  ">
@@ -57,7 +56,7 @@
                         <input class="form-check-input" asp-for="Remember_me" type="checkbox" id="flexCheckDefault">
                         <label class="">Remember Me</label>
                     </div>
-                    <a id="forgot-password" class="text-decoration-none ms-3 " onclick="redirectForgotPassword()">Forgot Password?</a>
+                    <a id="forgot-password" class="text-decoration-none ms-3 "  >Forgot Password?</a>
                 </div>
                 <div class=" d-grid">
                     <span class="text-danger ms-1">@ViewBag.message</span>
@@ -71,14 +70,37 @@
 
 <!-- Bootstrap JS -->
 @* <script src="/js/custom.js"></script> *@
-<scrip src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></scrip>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
 
 <script>
-    function redirectForgotPassword() {
+    @* function redirectForgotPassword() {
         var email = document.getElementById('Email').value;
         window.location.href = '/UserLogin/ForgotPassword?email=' + encodeURIComponent(email);
-    }
-    </script>
+    } *@
+
+    // write the above logic for forgotpassword in ajax
+    
+$(document).ready( function() {
+    $('#forgot-password').click(function() {
+        var email = document.getElementById('Email').value;
+        $.ajax({
+            url: '/UserLogin/ForgotPassword',
+            type: 'GET',
+            data: { email: email },
+            success: function(response) {
+                // Handle success response
+                window.location.href = "@Url.Action("ForgotPassword","UserLogin")";
+                console.log('Password reset link sent successfully.');
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                console.error('Error sending password reset link:', error);
+            }
+        });
+    });
+});   
+</script>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

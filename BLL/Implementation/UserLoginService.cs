@@ -1,40 +1,68 @@
 using System.Net;
 using System.Net.Mail;
-using System.Security.Policy;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using DAL.Models;
 using DAL.ViewModels;
+using BLL.Implementation;
+using Microsoft.AspNetCore.Http;
+using Azure;
+using System.Net.Http;
 using Microsoft.EntityFrameworkCore;
 
-namespace BLL_Business_Logic_Layer_;
+namespace BLL.Implementation;
 
 public class UserLoginService
 {
     private readonly PizzaShopDbContext _context;
+    private readonly JWTService _jwtService;
 
-    public UserLoginService(PizzaShopDbContext context)
+
+    public UserLoginService(PizzaShopDbContext context, JWTService jwtService)
     {
         _context = context;
+        _jwtService = jwtService;
     }
 
-    // public async Task<List<UserLogin>> GetUserLogins()
-    // {
-    //     var pizzaShopDbContext = _context.UserLogins.Include(u => u.Role);
-    //     return await pizzaShopDbContext.ToListAsync();
-    // }
-    public async Task<bool> VerifyUserLogin(UserLoginViewModel userLogin)
+    public static string EncryptPassword(string password)
     {
-        var user = _context.UserLogins.FirstOrDefault(e => e.Email == userLogin.Email && e.Password == userLogin.Password);
-        if ( user != null)
+        string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: password,
+            salt: new byte[0],
+            prf: KeyDerivationPrf.HMACSHA1,
+            iterationCount: 10000,
+            numBytesRequested: 256 / 8));
+        return hashed;
+    }
+
+    public async Task<List<UserLogin>> GetUserLogins()
+    {
+        var pizzaShopDbContext = _context.UserLogins.Include(u => u.Role);
+        return await pizzaShopDbContext.ToListAsync();
+    }
+
+    //Used to check the credentials of user
+    public async Task<string> VerifyUserLogin(UserLoginViewModel userLogin)
+    {
+        // var user = _context.UserLogins.FirstOrDefault(e => e.Email == userLogin.Email && e.Password == EncryptPassword(userLogin.Password));
+        var user = _context.UserLogins.Where(e => e.Email == userLogin.Email).FirstOrDefault();
+
+        if (user != null)
         {
-            return true;
+            if (user.Password == EncryptPassword(userLogin.Password))
+            {
+                var roleObj = _context.Roles.FirstOrDefault(e => e.RoleId == user.RoleId);
+                var token = _jwtService.GenerateToken(userLogin.Email, roleObj.RoleName);
+                return token;
+            }
+            return null;
         }
-        return false;
+        return null;
     }
 
     public async Task<bool> IsSendEmail(UserLoginViewModel userLogin)
     {
         var user = _context.UserLogins.FirstOrDefault(e => e.Email == userLogin.Email);
-        if ( user != null)
+        if (user != null)
         {
             return true;
         }
@@ -42,15 +70,15 @@ public class UserLoginService
     }
 
     public async Task<bool> SendEmail(ForgotPasswordViewModel forgotpassword, string resetLink)
+    {
+        var user = forgotpassword.Email;
+        if (user != null)
         {
-            var user = forgotpassword.Email;
-                if (user != null)
-                {
-                    var senderEmail = new MailAddress("tatva.pca42@outlook.com", "sender");
-                    var receiverEmail = new MailAddress(forgotpassword.Email, "reciever");
-                    var password = "P}N^{z-]7Ilp";
-                    var sub = "Forgot Password";
-                    var body = $@"
+            var senderEmail = new MailAddress("tatva.pca42@outlook.com", "sender");
+            var receiverEmail = new MailAddress(forgotpassword.Email, "reciever");
+            var password = "P}N^{z-]7Ilp";
+            var sub = "Forgot Password";
+            var body = $@"
                 <div style='max-width: 500px; font-family: Arial, sans-serif; border: 1px solid #ddd;'>
                 <div style='background: #006CAC; padding: 10px; text-align: center; height:90px; max-width:100%; display: flex; justify-content: center; align-items: center;'>
                     <img src='https://images.vexels.com/media/users/3/128437/isolated/preview/2dd809b7c15968cb7cc577b2cb49c84f-pizza-food-restaurant-logo.png' style='max-width: 50px;' />
@@ -66,38 +94,37 @@ public class UserLoginService
                     </p>
                 </div>
                 </div>";
-                    var smtp = new SmtpClient
-                    {
-                        Host = "mail.etatvasoft.com",
-                        Port = 587,
-                        EnableSsl = true,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(senderEmail.Address, password)
-                    };
-                    using (var mess = new MailMessage(senderEmail, receiverEmail))
-                    {
-                        mess.Subject = sub;
-                        mess.Body = body;
-                        mess.IsBodyHtml = true;
-                        await smtp.SendMailAsync(mess);
-                    }
+            var smtp = new SmtpClient
+            {
+                Host = "mail.etatvasoft.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(senderEmail.Address, password)
+            };
+            using (var mess = new MailMessage(senderEmail, receiverEmail))
+            {
+                mess.Subject = sub;
+                mess.Body = body;
+                mess.IsBodyHtml = true;
+                await smtp.SendMailAsync(mess);
+            }
 
-                    return true;
-                }
-            
-            
-            return false;
+            return true;
         }
 
 
-     public async Task<bool> ResetPassword(ResetPasswordViewModel resetPassword)
+        return false;
+    }
+
+    public async Task<bool> ResetPassword(ResetPasswordViewModel resetPassword)
     {
-        var user = _context.UserLogins.FirstOrDefault(e => e.Email == resetPassword.Email);
-        if (user != null)
+        var data = _context.UserLogins.FirstOrDefault(e => e.Email == resetPassword.Email);
+        if (data != null)
         {
-            user.Password = resetPassword.Password;
-            _context.Update(user);
+            data.Password = EncryptPassword(resetPassword.Password);
+            _context.Update(data);
             await _context.SaveChangesAsync();
             return true;
         }

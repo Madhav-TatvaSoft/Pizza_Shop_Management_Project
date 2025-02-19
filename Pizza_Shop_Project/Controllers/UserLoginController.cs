@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.Models;
-using BLL_Business_Logic_Layer_;
 using DAL.ViewModels;
 using System.Net.Mail;
 using System.Net;
+using BLL.Implementation;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Pizza_Shop_Project.Controllers
@@ -18,20 +19,22 @@ namespace Pizza_Shop_Project.Controllers
     {
         private readonly UserLoginService _userLoginService;
 
+
         public UserLoginController(UserLoginService userLoginService)
         {
             this._userLoginService = userLoginService;
         }
-
         // GET: UserLogin
-        // public async Task<IActionResult> Index()
-        // {
-        //     var userlogindata = await _userLoginService.GetUserLogins();
-        //     return View(userlogindata);
-        // }
+        // [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Index()
+        {
+            var userlogindata = await _userLoginService.GetUserLogins();
+            return View(userlogindata);
+        }
         // GET: UserLogin/Verify
         public IActionResult VerifyUserLogin()
         {
+
             if (Request.Cookies.ContainsKey("email"))
             {
                 return RedirectToAction("Index", "UserLogin");
@@ -47,14 +50,21 @@ namespace Pizza_Shop_Project.Controllers
 
         public async Task<IActionResult> VerifyUserLogin(UserLoginViewModel userLogin)
         {
-            var verification = await _userLoginService.VerifyUserLogin(userLogin);
-            if (verification)
+
+            var verification_token = await _userLoginService.VerifyUserLogin(userLogin);
+
+            CookieOptions option = new CookieOptions();
+            option.Expires = DateTime.Now.AddMinutes(1);
+
+            if (verification_token != null)
             {
+                //JWT token
+                Response.Cookies.Append("AuthToken", verification_token, option);
+
                 if (userLogin.Remember_me)
                 {
-                    CookieOptions option = new CookieOptions();
-                    option.Expires = DateTime.Now.AddMinutes(1);
                     Response.Cookies.Append("email", userLogin.Email, option);
+                    return RedirectToAction("Index", "UserLogin");
                 }
                 return RedirectToAction("Index", "UserLogin");
             }
@@ -62,11 +72,26 @@ namespace Pizza_Shop_Project.Controllers
             return View();
         }
 
-        public IActionResult ForgotPassword(string Email)
+        // public IActionResult ForgotPassword(string Email)
+        // {
+        //     ViewBag.Email = Email;
+        //     return View();
+        // }
+
+        public IActionResult ForgotPassword(string email)
         {
-            ViewBag.Email = Email;
+            // Your logic to handle the forgot password request
+            if (email == null)
+            {
+                return BadRequest("Email is required.");
+            }
+
+            // Process the email (e.g., send a password reset link)
+            // ...
+
             return View();
         }
+
 
         public IActionResult SendEmail()
         {
@@ -108,7 +133,6 @@ namespace Pizza_Shop_Project.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPassword)
         {
             if (ModelState.IsValid)

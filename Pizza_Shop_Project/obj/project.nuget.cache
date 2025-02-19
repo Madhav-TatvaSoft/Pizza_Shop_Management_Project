@@ -1,12 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "z217xvfS7dPfnvOgpP1t8HRuUE17vuvBWb6FIr91xCu4/vXvKCwu/F0/W4G61eIMVnqPjJoEi/fx9p9lDhJBCA==",
+  "dgSpecHash": "Bdok0k38frj4JK+ScweUOtpAb3kczMZBXBBvhjWIRD3bWs41pH2L+2svRdCPEc9a6tYyXsnoMjptV4e09kSfZA==",
   "success": true,
-  "projectFilePath": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj",
+  "projectFilePath": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pca155\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\pca155\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\pca155\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\pca155\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\pca155\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.4\\microsoft.aspnetcore.authentication.jwtbearer.7.0.4.nupkg.sha512",
+    "C:\\Users\\pca155\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\7.0.4\\microsoft.aspnetcore.cryptography.internal.7.0.4.nupkg.sha512",
+    "C:\\Users\\pca155\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\7.0.4\\microsoft.aspnetcore.cryptography.keyderivation.7.0.4.nupkg.sha512",
     "C:\\Users\\pca155\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\6.0.11\\microsoft.aspnetcore.razor.language.6.0.11.nupkg.sha512",
     "C:\\Users\\pca155\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\pca155\\.nuget\\packages\\microsoft.build\\17.3.2\\microsoft.build.17.3.2.nupkg.sha512",

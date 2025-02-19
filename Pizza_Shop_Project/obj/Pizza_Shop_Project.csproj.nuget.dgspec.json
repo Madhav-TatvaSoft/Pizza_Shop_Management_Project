@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj": {}
+    "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj": {}
   },
   "projects": {
     "D:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj": {
@@ -42,6 +42,18 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
+            "Microsoft.AspNetCore.Cryptography.KeyDerivation": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -125,6 +137,18 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
+            "Microsoft.AspNetCore.Cryptography.KeyDerivation": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -174,14 +198,14 @@
         }
       }
     },
-    "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj": {
+    "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj",
+        "projectUniqueName": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj",
         "projectName": "Pizza_Shop_Project",
-        "projectPath": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj",
+        "projectPath": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj",
         "packagesPath": "C:\\Users\\pca155\\.nuget\\packages\\",
-        "outputPath": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\",
+        "outputPath": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pca155\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -215,6 +239,18 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
+            "Microsoft.AspNetCore.Cryptography.KeyDerivation": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",

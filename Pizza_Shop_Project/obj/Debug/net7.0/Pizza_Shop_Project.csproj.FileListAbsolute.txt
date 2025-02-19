@@ -279,3 +279,7 @@ D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\obj\Debug\net7.0\Pizza_Shop_Project
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\obj\Debug\net7.0\ref\Pizza_Shop_Project.dll
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\BLL.dll
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\BLL.pdb
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\BCrypt.Net-Next.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
