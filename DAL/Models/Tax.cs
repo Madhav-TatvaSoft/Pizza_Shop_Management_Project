@@ -19,11 +19,15 @@ public partial class Tax
 
     public DateTime? CreatedAt { get; set; }
 
-    public long CreatedBy { get; set; }
-
     public DateTime? ModifiedAt { get; set; }
 
-    public long ModifiedBy { get; set; }
-
     public bool Isdelete { get; set; }
+
+    public long? ModifiedBy { get; set; }
+
+    public long? CreatedBy { get; set; }
+
+    public virtual User? CreatedByNavigation { get; set; }
+
+    public virtual User? ModifiedByNavigation { get; set; }
 }

@@ -15,17 +15,21 @@ public partial class Customer
 
     public DateTime? CreatedAt { get; set; }
 
-    public long CreatedBy { get; set; }
-
     public DateTime? ModifiedAt { get; set; }
-
-    public long ModifiedBy { get; set; }
 
     public bool Isdelete { get; set; }
 
+    public long? CreatedBy { get; set; }
+
+    public long? ModifiedBy { get; set; }
+
     public virtual ICollection<AssignTable> AssignTables { get; } = new List<AssignTable>();
 
+    public virtual User? CreatedByNavigation { get; set; }
+
     public virtual ICollection<Invoice> Invoices { get; } = new List<Invoice>();
+
+    public virtual User? ModifiedByNavigation { get; set; }
 
     public virtual ICollection<Order> Orders { get; } = new List<Order>();
 

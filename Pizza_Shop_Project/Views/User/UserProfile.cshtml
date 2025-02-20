@@ -1,0 +1,141 @@
+@model DAL.Models.User;
+@{
+    ViewData["Title"] = "UserProfile Page";
+    Layout = "_Layout";
+}
+
+<!-- user list -->
+<div class="user-list-main-div bg-light d-md-flex justify-content-between">
+    <!-- user txt -->
+
+    <div class="user-text fs-3 mt-3 fw-bold text-primary ms-3">My Profile</div>
+
+</div>
+
+<form class="form-main-div mt-3 mx-auto bg-white shadow-lg" style="width: 96%;">
+
+    <!-- bg div  -->
+    <div class="row">
+        <img src="../images/profile_div_bg.jpg" class="p-0" style="width: 100%; height: 80px;" />
+    </div>
+
+    <!-- profile pic -->
+    <div class="row mt-3">
+        <!-- <div class=""> -->
+        <div class="position-relative">
+
+            <img src="../images/Default_pfp.svg.png" class="user-profile position-absolute ms-3 " />
+
+            <img src="../images/camera.svg" class="camera-img ms-3 position-absolute bg-white" alt="" />
+
+            <input type="file" class="form-control d-none" id="floatingInput" placeholder="First Name">
+        </div>
+
+        <div class="ms-md-5 ">
+
+            <div class="d-flex justify-content-md-between flex-md-row flex-column mt-4 mt-md-0 ms-md-5 mt-1">
+                <span class="fs-3 fw-bold ms-md-4">@Model.FirstName @Model.LastName
+                </span>
+                <span class="me-md-5 mt-sm-3 ">@Model.Userlogin.Email</span>
+            </div>
+
+            <div class="fs-6 ms-md-5 me-md-5 "><span class="ms-md-4">@Model.Username</span></div>
+
+        </div>
+        <!-- </div> -->
+
+    </div>
+
+
+    <div class="row ">
+
+        <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+            <div class="form-floating ">
+                <input asp-for="FirstName" type="text" class="form-control" id="floatingInput" placeholder="First Name">
+                <label asp-for="FirstName" for="floatingInput" class="fs-6 text-secondary">First Name</label>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+            <div class="form-floating ">
+                <input asp-for="LastName" type="text" class="form-control" id="floatingInput" placeholder="Last Name">
+                <label asp-for="LastName" for="floatingInput" class="fs-6 text-secondary">Last Name</label>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+            <div class="form-floating ">
+                <input asp-for="Username" type="text" class="form-control" id="floatingInput" placeholder="John Deo">
+                <label asp-for="Username" for="floatingInput" class="fs-6 text-secondary">User Name</label>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+            <div class="form-floating">
+                <input asp-for="Phone" type="number" class="form-control" id="floatingInput" placeholder="Phone">
+                <label asp-for="Phone" for="floatingInput" class="fs-6 text-secondary">Phone</label>
+            </div>
+        </div>
+
+        <!-- country div  -->
+        <div class="col-md-4 col-lg-4 col-xl-4 col-sm-12 col-12 mt-3">
+            <div class="form-floating">
+                <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                    <option selected>Select Country</option>
+                    <option value="india">India</option>
+                    <option value="russia">Russia</option>
+                    <option value="china">China</option>
+                </select>
+                <label for="floatingSelect text-secondary">Country</label>
+            </div>
+        </div>
+
+        <!-- State div  -->
+        <div class="col-md-4 col-lg-4 col-xl-4 col-sm-12 col-12 mt-3">
+            <div class="form-floating">
+                <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                    <option selected>Select State</option>
+                    <option value="gujarat">Gujarat</option>
+                    <option value="maharastra">Maharastra</option>
+                    <option value="rajasthan">Rajasthan</option>
+                </select>
+                <label for="floatingSelect text-secondary">State</label>
+            </div>
+        </div>
+
+        <!-- city div  -->
+        <div class="col-md-4 col-lg-4 col-xl-4 col-sm-12 col-12 mt-3">
+            <div class="form-floating">
+                <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                    <option selected>Select City</option>
+                    <option value="bhavnagar">Bhavnagar</option>
+                    <option value="ahmedabad">Ahmedabad</option>
+                    <option value="ankleshwar">Ankleshwar</option>
+                </select>
+                <label for="floatingSelect text-secondary">City</label>
+            </div>
+        </div>
+
+        <div class="col-md-8 col-lg-8 col-xl-8 col-sm-12 col-12 mt-3">
+            <div class="form-floating ">
+                <input asp-for="Address" type="text" class="form-control" id="floatingInput" placeholder="Address">
+                <label asp-for="Address" for="floatingInput" class="fs-6 text-secondary">Address</label>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-lg-4 col-xl-4 col-sm-12 col-12 mt-3">
+            <div class="form-floating ">
+                <input asp-for="Zipcode" type="text" class="form-control" id="floatingInput" placeholder="Zipcode">
+                <label asp-for="Zipcode" for="floatingInput" class="fs-6 text-secondary">Zipcode</label>
+            </div>
+        </div>
+
+        <div class="create-user-cancel-div mt-4 mb-4 text-end">
+            <a type="button" href="user.html" class="btn btn-primary">Update</a>
+            <a type="button" href="#" class="btn btn-light text-primary border border-primary">Cancel</a>
+        </div>
+
+    </div>
+</form>
+
+

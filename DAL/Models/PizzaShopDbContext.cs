@@ -73,7 +73,7 @@ public partial class PizzaShopDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Database=Pizza_Shop_DB;Username=postgres; password=tatva123");
+        => optionsBuilder.UseNpgsql("Host=localhost;Database=Pizza_Shop_DB;Username=postgres;password=tatva123");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -156,10 +156,18 @@ public partial class PizzaShopDbContext : DbContext
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
             entity.Property(e => e.TableId).HasColumnName("table_id");
 
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.AssignTableCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("assignTable_created_by_fkey");
+
             entity.HasOne(d => d.Customer).WithMany(p => p.AssignTables)
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("assignTable_customer_id_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.AssignTableModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("assignTable_modified_by_fkey");
 
             entity.HasOne(d => d.Table).WithMany(p => p.AssignTables)
                 .HasForeignKey(d => d.TableId)
@@ -188,6 +196,14 @@ public partial class PizzaShopDbContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.CategoryCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("category_created_by_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.CategoryModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("category_modified_by_fkey");
         });
 
         modelBuilder.Entity<City>(entity =>
@@ -242,6 +258,14 @@ public partial class PizzaShopDbContext : DbContext
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
             entity.Property(e => e.PhoneNo).HasColumnName("phone_no");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.CustomerCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("customers_created_by_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.CustomerModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("customers_modified_by_fkey");
         });
 
         modelBuilder.Entity<Favouriteitem>(entity =>
@@ -262,6 +286,10 @@ public partial class PizzaShopDbContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany()
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("favouriteitem_created_by_fkey");
 
             entity.HasOne(d => d.Customer).WithMany()
                 .HasForeignKey(d => d.CustomerId)
@@ -312,10 +340,18 @@ public partial class PizzaShopDbContext : DbContext
                 .HasPrecision(10, 2)
                 .HasColumnName("total_amount");
 
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.InvoiceCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("invoice_created_by_fkey");
+
             entity.HasOne(d => d.Customer).WithMany(p => p.Invoices)
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("invoice_customer_id_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.InvoiceModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("invoice_modified_by_fkey");
 
             entity.HasOne(d => d.Order).WithMany(p => p.Invoices)
                 .HasForeignKey(d => d.OrderId)
@@ -372,10 +408,18 @@ public partial class PizzaShopDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("items_category_id_fkey");
 
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ItemCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("items_created_by_fkey");
+
             entity.HasOne(d => d.ItemType).WithMany(p => p.Items)
                 .HasForeignKey(d => d.ItemTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("items_item_type_id_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.ItemModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("items_modified_by_fkey");
         });
 
         modelBuilder.Entity<Itemtype>(entity =>
@@ -399,6 +443,14 @@ public partial class PizzaShopDbContext : DbContext
             entity.Property(e => e.TypeName)
                 .HasMaxLength(50)
                 .HasColumnName("type_name");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ItemtypeCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("itemtype_created_by_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.ItemtypeModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("itemtype_modified_by_fkey");
         });
 
         modelBuilder.Entity<Kot>(entity =>
@@ -420,6 +472,14 @@ public partial class PizzaShopDbContext : DbContext
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
             entity.Property(e => e.OrderId).HasColumnName("order_id");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.KotCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("kot_created_by_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.KotModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("kot_modified_by_fkey");
 
             entity.HasOne(d => d.Order).WithMany(p => p.Kots)
                 .HasForeignKey(d => d.OrderId)
@@ -457,6 +517,14 @@ public partial class PizzaShopDbContext : DbContext
                 .HasMaxLength(10)
                 .HasColumnName("unit");
 
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ModifierCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("modifier_created_by_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.ModifierModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("modifier_modified_by_fkey");
+
             entity.HasOne(d => d.ModifierGrp).WithMany(p => p.Modifiers)
                 .HasForeignKey(d => d.ModifierGrpId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -484,6 +552,14 @@ public partial class PizzaShopDbContext : DbContext
             entity.Property(e => e.ModifierGrpName)
                 .HasMaxLength(50)
                 .HasColumnName("modifier_grp_name");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ModifiergroupCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("modifiergroup_created_by_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.ModifiergroupModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("modifiergroup_modified_by_fkey");
         });
 
         modelBuilder.Entity<Modifierorder>(entity =>
@@ -505,6 +581,14 @@ public partial class PizzaShopDbContext : DbContext
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
             entity.Property(e => e.ModifierId).HasColumnName("modifier_id");
             entity.Property(e => e.OrderdetailId).HasColumnName("orderdetail_id");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ModifierorderCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("modifierorder_created_by_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.ModifierorderModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("modifierorder_modified_by_fkey");
 
             entity.HasOne(d => d.Modifier).WithMany(p => p.Modifierorders)
                 .HasForeignKey(d => d.ModifierId)
@@ -550,10 +634,18 @@ public partial class PizzaShopDbContext : DbContext
                 .HasPrecision(10, 2)
                 .HasColumnName("total_amount");
 
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.OrderCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("orders_created_by_fkey");
+
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("orders_customer_id_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.OrderModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("orders_modified_by_fkey");
 
             entity.HasOne(d => d.PaymentStatus).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.PaymentStatusId)
@@ -608,10 +700,18 @@ public partial class PizzaShopDbContext : DbContext
                 .HasMaxLength(20)
                 .HasColumnName("status");
 
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.OrderdetailCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("orderdetails_created_by_fkey");
+
             entity.HasOne(d => d.Item).WithMany(p => p.Orderdetails)
                 .HasForeignKey(d => d.ItemId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("orderdetails_item_id_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.OrderdetailModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("orderdetails_modified_by_fkey");
 
             entity.HasOne(d => d.Order).WithMany(p => p.Orderdetails)
                 .HasForeignKey(d => d.OrderId)
@@ -692,10 +792,18 @@ public partial class PizzaShopDbContext : DbContext
                 .HasMaxLength(20)
                 .HasColumnName("service");
 
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.RatingCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("ratings_created_by_fkey");
+
             entity.HasOne(d => d.Customer).WithMany(p => p.Ratings)
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("ratings_customer_id_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.RatingModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("ratings_modified_by_fkey");
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -744,6 +852,14 @@ public partial class PizzaShopDbContext : DbContext
             entity.Property(e => e.SectionName)
                 .HasMaxLength(50)
                 .HasColumnName("section_name");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.SectionCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("sections_created_by_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.SectionModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("sections_modified_by_fkey");
         });
 
         modelBuilder.Entity<State>(entity =>
@@ -792,6 +908,14 @@ public partial class PizzaShopDbContext : DbContext
                 .HasMaxLength(20)
                 .HasColumnName("table_name");
 
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.TableCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("tables_created_by_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.TableModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("tables_modified_by_fkey");
+
             entity.HasOne(d => d.Section).WithMany(p => p.Tables)
                 .HasForeignKey(d => d.SectionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -828,6 +952,14 @@ public partial class PizzaShopDbContext : DbContext
                 .HasMaxLength(20)
                 .HasColumnName("tax_type");
             entity.Property(e => e.TaxValue).HasColumnName("tax_value");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.TaxCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("tax_created_by_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.TaxModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("tax_modified_by_fkey");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -863,10 +995,7 @@ public partial class PizzaShopDbContext : DbContext
             entity.Property(e => e.Phone).HasColumnName("phone");
             entity.Property(e => e.ProfileImage).HasColumnName("profile_image");
             entity.Property(e => e.StateId).HasColumnName("state_id");
-            entity.Property(e => e.Status)
-                .HasMaxLength(20)
-                .HasDefaultValueSql("true")
-                .HasColumnName("status");
+            entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UserloginId).HasColumnName("userlogin_id");
             entity.Property(e => e.Username)
                 .HasMaxLength(30)
@@ -945,10 +1074,18 @@ public partial class PizzaShopDbContext : DbContext
             entity.Property(e => e.NoOfPerson).HasColumnName("no_of_person");
             entity.Property(e => e.TableId).HasColumnName("table_id");
 
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.WaitinglistCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("waitinglist_created_by_fkey");
+
             entity.HasOne(d => d.Customer).WithMany(p => p.Waitinglists)
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("waitinglist_customer_id_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.WaitinglistModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("waitinglist_modified_by_fkey");
 
             entity.HasOne(d => d.Table).WithMany(p => p.Waitinglists)
                 .HasForeignKey(d => d.TableId)

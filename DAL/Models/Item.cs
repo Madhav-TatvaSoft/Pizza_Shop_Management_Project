@@ -33,17 +33,21 @@ public partial class Item
 
     public DateTime? CreatedAt { get; set; }
 
-    public long CreatedBy { get; set; }
-
     public DateTime? ModifiedAt { get; set; }
-
-    public long ModifiedBy { get; set; }
 
     public bool Isdelete { get; set; }
 
+    public long? CreatedBy { get; set; }
+
+    public long? ModifiedBy { get; set; }
+
     public virtual Category Category { get; set; } = null!;
 
+    public virtual User? CreatedByNavigation { get; set; }
+
     public virtual Itemtype ItemType { get; set; } = null!;
+
+    public virtual User? ModifiedByNavigation { get; set; }
 
     public virtual ICollection<Orderdetail> Orderdetails { get; } = new List<Orderdetail>();
 }

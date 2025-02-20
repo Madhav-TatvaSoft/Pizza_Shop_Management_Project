@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\images\\QR.png"
     },
     {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\camera.svg",
+      "PackagePath": "staticwebassets\\images\\camera.svg"
+    },
+    {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\dashboard-default.svg",
       "PackagePath": "staticwebassets\\images\\dashboard-default.svg"
     },
@@ -31,6 +35,10 @@
     {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\dominos_background.jpg",
       "PackagePath": "staticwebassets\\images\\dominos_background.jpg"
+    },
+    {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\camera.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\camera.svg"
     },
     {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\customer.svg",

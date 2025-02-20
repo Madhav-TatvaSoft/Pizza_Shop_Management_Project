@@ -12,8 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 var conn = builder.Configuration.GetConnectionString("DemoDbConnection");
 builder.Services.AddDbContext<PizzaShopDbContext>(q => q.UseNpgsql(conn));
 builder.Services.AddScoped<UserLoginService>();
-builder.Services.AddScoped<UserLoginService>();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<JWTService>();
+
 
 builder.Services.AddControllersWithViews();
 

@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,43 +8,269 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Pizza_Shop_Project.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Pizza_Shop_Project</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- Left-sidebar -->
+            <div
+                class="left-sidebar-main-div pt-0 col-sm-4 col-md-3 col-xl-2 d-none d-sm-flex justify-content-start min-vh-100 bg-white">
+                <div class="row w-100 justify-content-center">
+
+                    <div class="leftsidebar-options-menu d-flex flex-column mt-2 ">
+
+                        <!-- logo -->
+                        <div class="logo-main-div d-flex justify-content-start mb-3">
+                            <div class="logo-image  me-2">
+                                <img src="../images/logos/pizzashop_logo.png" width="60px" alt="">
+                            </div>
+                            <div class="logo-text fs-5 mt-2 fw-bold">PIZZASHOP</div>
+                        </div>
+
+                        <!-- dashboard -->
+                        <a class="text-decoration-none dashboard-text-inactive text-dark">
+                            <div class="dashboard-inactive-div d-flex p-3">
+                                <img src="../images/dashboard-default.svg" width="20px" class=" " alt>
+                                <p class="mt-1 ms-3 fw-bold ">Dashboard</p>
+                            </div>
+                        </a>
+
+                        <!-- users -->
+                        <a href="user.html" class="text-decoration-none dashboard-text-active ">
+                            <div class="dashboard-active-div d-flex align-items-center p-3 ">
+                                <i class="fa-solid fa-users "></i>
+                                <p class="m-0 ms-3 fw-bold">Users</p>
+                            </div>
+                        </a>
+
+                        <!--Role and Permission  -->
+                        <a href="permission.html" class="text-decoration-none dashboard-text-inactive ">
+                            <div class="dashboard-inactive-div d-flex align-items-center p-3">
+                                <i class="fa-solid fa-user-clock "></i>
+                                <p class="  m-0 ms-3 fw-bold">Role and Permission</p>
+                            </div>
+                        </a>
+
+                        <!-- menu -->
+                        <a href="menu.html" class="text-decoration-none dashboard-text-inactive ">
+                            <div class="dashboard-inactive-div d-flex align-items-center  p-3">
+                                <i class="fa-solid fa-calendar-minus "></i>
+                                <p class="  m-0 ms-4 fw-bold">Menu</p>
+                            </div>
+                        </a>
+
+                        <!-- Table and Section -->
+                        <a href="table-section.html" class="text-decoration-none dashboard-text-inactive ">
+                            <div class="dashboard-inactive-div d-flex p-3">
+                                <i class="fa-solid fa-table-cells-large mt-1 "></i>
+                                <p class="mt-1 m-0 ms-3 fw-bold">Table and Section</p>
+                            </div>
+                        </a>
+
+                        <!-- taxes and fees -->
+                        <a href="taxes-fees.html" class="text-decoration-none dashboard-text-inactive ">
+                            <div class="dashboard-inactive-div d-flex p-3">
+                                <i class="fa-solid fa-money-check-dollar mt-1 "></i>
+                                <p class=" mt-1 m-0 ms-3 fw-bold">Taxes and Fees</p>
+                            </div>
+                        </a>
+
+                        <!-- orders -->
+                        <a href="orders.html" class="text-decoration-none dashboard-text-inactive ">
+                            <div class="dashboard-inactive-div d-flex p-3">
+                                <i class="fa-solid fa-clipboard-check mt-1"></i>
+                                <p class="mt-1 m-0 ms-4 fw-bold">Orders</p>
+                            </div>
+                        </a>
+
+                        <!-- customer -->
+                        <a href="customer.html" class="text-decoration-none dashboard-text-inactive ">
+                            <div class="dashboard-inactive-div d-flex p-3">
+                                <i class="fa-regular fa-id-card mt-1"></i>
+                                <p class="mt-1 m-0 ms-3 fw-bold">Cutomers</p>
+                            </div>
+                        </a>
+
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Pizza_Shop_Project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <!-- rightside  -->
+            <div class=" col-sm-8 col-md-9 col-xl-10 col-12 bg-light min-vh-100">
+                <div class="row">
+
+                    <!-- navbar -->
+                    <div class="nav-header d-flex justify-content-between">
+
+                        <!-- left elements  -->
+                        <div class="left-elements d-flex">
+
+                            <!-- Menu  btn -->
+                            <button class="btn d-sm-none" type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+                                <i class="bi bi-list"></i></button>
+
+                            <!-- offcanvas -->
+                            <div class="offcanvas-class offcanvas d-sm-none offcanvas-start" data-bs-scroll="true"
+                                data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling"
+                                aria-labelledby="offcanvasScrollingLabel">
+
+                                <div class="offcanvas-header">
+                                    <h5 class="offcanvas-title ms-3" id="offcanvasScrollingLabel">PIZZASHOP</h5>
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="navbar-nav sidebar-options-menu  d-flex flex-column ">
+
+                                    <!-- dashboard -->
+                                    <a href="dashboard.html"
+                                        class="text-decoration-none dashboard-text-inactive text-dark">
+                                        <div class="dashboard-inactive-div d-flex p-3">
+                                            <img src="../images/dashboard-default.svg" width="20px" class=" " alt>
+                                            <p class=" mt-1 ms-3 fw-bold ">Dashboard</p>
+                                        </div>
+                                    </a>
+
+                                    <!-- users -->
+                                    <a href="user.html" class="text-decoration-none dashboard-text-active ">
+                                        <div class="dashboard-active-div d-flex align-items-center p-3 ">
+                                            <i class="fa-solid fa-users "></i>
+                                            <p class="m-0 ms-3 fw-bold">Users</p>
+                                        </div>
+                                    </a>
+
+                                    <!--Role and Permission  -->
+                                    <a href="permission.html" class="text-decoration-none dashboard-text-inactive ">
+                                        <div class="dashboard-inactive-div d-flex align-items-center p-3">
+                                            <i class="fa-solid fa-user-clock "></i>
+                                            <p class="  m-0 ms-3 fw-bold">Role and Permission</p>
+                                        </div>
+                                    </a>
+
+                                    <!-- menu -->
+                                    <a href="menu.html" class="text-decoration-none dashboard-text-inactive ">
+                                        <div class="dashboard-inactive-div d-flex align-items-center  p-3">
+                                            <i class="fa-solid fa-calendar-minus "></i>
+                                            <p class="  m-0 ms-4 fw-bold">Menu</p>
+                                        </div>
+                                    </a>
+
+                                    <!-- Table and Section -->
+                                    <a href="table-section.html" class="text-decoration-none dashboard-text-inactive ">
+                                        <div class="dashboard-inactive-div d-flex p-3 ">
+                                            <i class="fa-solid fa-table-cells-large mt-1"></i>
+                                            <p class="  mt-1 m-0 ms-3 fw-bold">Table and Section</p>
+                                        </div>
+                                    </a>
+
+                                    <!-- taxes and fees -->
+                                    <a href="taxes-fees.html" class="text-decoration-none dashboard-text-inactive ">
+                                        <div class="dashboard-inactive-div d-flex p-3">
+                                            <i class="fa-solid fa-money-check-dollar mt-1 "></i>
+                                            <p class="mt-1  m-0 ms-3 fw-bold">Taxes and Fees</p>
+                                        </div>
+                                    </a>
+
+                                    <!-- orders -->
+                                    <a href="orders.html" class="text-decoration-none dashboard-text-inactive ">
+                                        <div class="dashboard-inactive-div d-flex p-3">
+                                            <i class="fa-solid fa-clipboard-check  mt-1"></i>
+                                            <p class="mt-1 m-0 ms-4 fw-bold">Orders</p>
+                                        </div>
+                                    </a>
+
+                                    <!-- customer -->
+                                    <a href="customer.html" class="text-decoration-none dashboard-text-inactive ">
+                                        <div class="dashboard-inactive-div d-flex p-3">
+                                            <i class="fa-regular fa-id-card mt-1"></i>
+                                            <p class="mt-1 m-0 ms-3 fw-bold">Cutomers</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- profile -->
+                        <div class="profilepic-div m-2">
+                            <!-- dropdown div  -->
+                            <div class="dropdown ">
+
+                                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <img src="../images/Default_pfp.svg.png" width="40px" alt="">
+
+                                </button>
+
+                                <ul class="dropdown-menu">
+
+                                    <li>
+                                        <div class="d-flex border border-bottom-black border-top-0 pb-2">
+                                            <img src="../images/Default_pfp.svg.png" class="ms-3 w-25 h-25" />
+                                            <span class="fs-6 fw-bold ms-3 mt-3">@Model.Username</span>
+                                        </div>
+                                    </li>
+                                    <li><a class="dropdown-item fw-bold mt-1" asp-action="UserProfile" asp-controller="User"><i
+                                                class="bi bi-person-circle me-2"></i>My Profile</a></li>
+                                    <li><a class="dropdown-item fw-bold" ><i
+                                                class="fa-solid fa-rotate-right me-2"></i>Change Password</a></li>
+                                    <li data-bs-toggle="modal" data-bs-target="#exampleModal"><a class="dropdown-item fw-bold" ><i
+                                                class="fa-solid fa-right-from-bracket me-2" ></i>Logout</a></li>
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    @RenderBody()
+                </div>
+            </div>
+
         </div>
-    </footer>
+    </div>
+    @* <div class="container">
+    <main role="main" class="pb-3"> *@
+    @* </main>
+    </div> *@
+
+
+
+
+
+    @* Model   *@
+
+  <div class="modal" tabindex="-1" id="exampleModal" >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold text-secondary">Delete Confirmation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <div class="d-flex justify-content-center"><img src="/images/toppng.com-warning-icon-2400x2400.png" style="width: 30px;" alt="" ></div>
+        <p class="fw-bold text-secondary text-center">Are you sure you want to delete this user ?</p>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <a asp-action="UserLogout" asp-controller="User" type="button" class="btn btn-primary fw-bold">Yes</a>
+          <a  type="button" class="btn btn-light fw-bold text-primary border border-primary" data-bs-dismiss="modal">No</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

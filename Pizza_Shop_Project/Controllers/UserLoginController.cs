@@ -37,7 +37,7 @@ namespace Pizza_Shop_Project.Controllers
 
             if (Request.Cookies.ContainsKey("email"))
             {
-                return RedirectToAction("Index", "UserLogin");
+                return RedirectToAction("UserProfile", "User");
             }
             // ViewData["RoleId"] = new SelectList(_userLoginService.Roles, "RoleId", "RoleId");
             return View();
@@ -64,33 +64,34 @@ namespace Pizza_Shop_Project.Controllers
                 if (userLogin.Remember_me)
                 {
                     Response.Cookies.Append("email", userLogin.Email, option);
-                    return RedirectToAction("Index", "UserLogin");
+                    return RedirectToAction("UserProfile", "User");
+
                 }
-                return RedirectToAction("Index", "UserLogin");
+                return RedirectToAction("UserProfile", "User");
             }
             ViewBag.message = "Please enter valid credentials";
             return View();
         }
 
-        // public IActionResult ForgotPassword(string Email)
-        // {
-        //     ViewBag.Email = Email;
-        //     return View();
-        // }
-
-        public IActionResult ForgotPassword(string email)
+        public IActionResult ForgotPassword(string Email)
         {
-            // Your logic to handle the forgot password request
-            if (email == null)
-            {
-                return BadRequest("Email is required.");
-            }
-
-            // Process the email (e.g., send a password reset link)
-            // ...
-
+            ViewBag.Email = Email;
             return View();
         }
+
+        // public IActionResult ForgotPassword(string email)
+        // {
+        //     // Your logic to handle the forgot password request
+        //     if (email == null)
+        //     {
+        //         return BadRequest("Email is required.");
+        //     }
+
+        //     // Process the email (e.g., send a password reset link)
+        //     // ...
+
+        //     return View();
+        // }
 
 
         public IActionResult SendEmail()
