@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Http;
 using Azure;
 using System.Net.Http;
 using Microsoft.EntityFrameworkCore;
+using BLL.Interface;
 
 namespace BLL.Implementation;
 
-public class UserLoginService
+public class UserLoginService : IUserLoginService
 {
     private readonly PizzaShopDbContext _context;
     private readonly JWTService _jwtService;
@@ -23,7 +24,7 @@ public class UserLoginService
         _jwtService = jwtService;
     }
 
-    public static string EncryptPassword(string password)
+    public  string EncryptPassword(string password)
     {
         string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
             password: password,

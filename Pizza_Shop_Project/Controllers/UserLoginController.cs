@@ -24,20 +24,22 @@ namespace Pizza_Shop_Project.Controllers
         {
             this._userLoginService = userLoginService;
         }
+
         // GET: UserLogin
-        // [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index()
-        {
-            var userlogindata = await _userLoginService.GetUserLogins();
-            return View(userlogindata);
-        }
+
+        // public async Task<IActionResult> Index()
+        // {
+        //     var userlogindata = await _userLoginService.GetUserLogins();
+        //     return View(userlogindata);
+        // }
+
         // GET: UserLogin/Verify
         public IActionResult VerifyUserLogin()
         {
 
             if (Request.Cookies.ContainsKey("email"))
             {
-                return RedirectToAction("UserProfile", "User");
+                return RedirectToAction("Dashboard", "User");
             }
             // ViewData["RoleId"] = new SelectList(_userLoginService.Roles, "RoleId", "RoleId");
             return View();
@@ -54,7 +56,7 @@ namespace Pizza_Shop_Project.Controllers
             var verification_token = await _userLoginService.VerifyUserLogin(userLogin);
 
             CookieOptions option = new CookieOptions();
-            option.Expires = DateTime.Now.AddMinutes(1);
+            option.Expires = DateTime.Now.AddHours(9);
 
             if (verification_token != null)
             {
@@ -64,13 +66,13 @@ namespace Pizza_Shop_Project.Controllers
                 if (userLogin.Remember_me)
                 {
                     Response.Cookies.Append("email", userLogin.Email, option);
-                    return RedirectToAction("UserProfile", "User");
+                    return RedirectToAction("Dashboard", "User");
 
                 }
-                return RedirectToAction("UserProfile", "User");
+                return RedirectToAction("Dashboard", "User");
             }
             ViewBag.message = "Please enter valid credentials";
-            return View();
+            return View("VerifyUserLogin");
         }
 
         public IActionResult ForgotPassword(string Email)

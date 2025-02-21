@@ -195,6 +195,17 @@ form i {
 
 }
 
+.solid-btn{
+    background-color: #0084c3;
+    color: white;
+}
+
+.hollow-btn{
+    background-color: white;
+    color: #0084c3;
+    border: 1px solid #0084c3;
+}
+
 .user-text{
     color: #0084c3;
 
@@ -368,3 +379,4 @@ form i {
         left: 57px !important;
     }
 }
+

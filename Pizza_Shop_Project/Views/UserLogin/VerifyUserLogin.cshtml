@@ -54,13 +54,13 @@
                 <div class="rememberme-div d-flex justify-content-between mb-4">
                     <div class="form-check">
                         <input class="form-check-input" asp-for="Remember_me" type="checkbox" id="flexCheckDefault">
-                        <label class="">Remember Me</label>
+                        <label class="mt-1">Remember Me</label>
                     </div>
-                    <a id="forgot-password" class="text-decoration-none ms-3 " onclick="redirectForgotPassword()"  >Forgot Password?</a>
+                    <a id="forgot-password" class="text-decoration-none user-btn ms-3 " onclick="redirectForgotPassword()"  >Forgot Password?</a>
                 </div>
                 <div class=" d-grid">
                     <span class="text-danger ms-1">@ViewBag.message</span>
-                    <input value="Login" class="login-btn btn btn-primary" type="submit" />
+                    <input value="Login" class="login-btn solid-btn btn btn-primary" type="submit" />
                 </div>
 
             </form>

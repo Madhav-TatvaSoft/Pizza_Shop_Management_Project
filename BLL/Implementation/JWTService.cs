@@ -3,11 +3,10 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using BLL.Interface;
 
 namespace BLL.Implementation;
-
-
-public class JWTService
+public class JWTService :IJWTService
 {
     private readonly string _secretKey;
     private readonly int _tokenDuration;

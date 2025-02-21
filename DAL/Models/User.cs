@@ -15,7 +15,7 @@ public partial class User
 
     public long Phone { get; set; }
 
-    public string Username { get; set; } = null!;
+    public string Username { get; set; }
 
     public string? ProfileImage { get; set; }
 
