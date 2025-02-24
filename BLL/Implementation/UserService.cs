@@ -1,4 +1,5 @@
 using BLL.Interface;
+// using BLL.Helpers;
 using DAL.Models;
 using DAL.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -74,9 +75,43 @@ public class UserService : IUserService
         return false;
     }
 
-    public List<User> GetUserList(string Email)
+    // public List<User> GetUserList(string Email)
+    // {
+    //     return _context.Users.Include(x => x.Userlogin).Include(x => x.Userlogin.Role).ToList();
+    // }
+
+
+    public class PaginatedList<T>
+{
+    public List<T> Items { get; set; }
+    public int TotalRecords { get; set; }
+    public int Page { get; set; }
+    public int PageSize { get; set; }
+
+    public PaginatedList(List<T> items, int totalRecords, int page, int pageSize)
     {
-        return _context.Users.Include(x => x.Userlogin).Include(x => x.Userlogin.Role).ToList();
+        Items = items;
+        TotalRecords = totalRecords;
+        Page = page;
+        PageSize = pageSize;
+    }
+}
+    public async Task<PaginatedList<User>> GetUsersAsync(int page, int pageSize, string search)
+    {
+        var query = _context.Users.Include(u => u.Userlogin.Role)
+                                  .Where(u => !u.Isdelete);
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(u => u.FirstName.Contains(search) || 
+                                     u.Userlogin.Role.RoleName.Contains(search) || 
+                                     u.Userlogin.Email.Contains(search));
+        }
+
+        int totalRecords = await query.CountAsync();
+        var users = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+        return new PaginatedList<User>(users, totalRecords, page, pageSize);
     }
 
     public List<Role> GetRole()

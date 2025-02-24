@@ -134,12 +134,34 @@ public class UserController : Controller
     //     return View(data);
     // }
 
-    public IActionResult UserListData()
+    // public IActionResult UserListData()
+    // {
+    //     var token = Request.Cookies["AuthToken"];
+    //     var Email = _JWTService.GetClaimValue(token, "email");
+    //     var users = _userService.GetUserList(Email);
+    //     return View(users);
+    // }
+
+    public async Task<IActionResult> UserListData(int page = 1, int pageSize = 5, string search = "")
     {
-        var token = Request.Cookies["AuthToken"];
-        var Email = _JWTService.GetClaimValue(token, "email");
-        var users = _userService.GetUserList(Email);
-        return View(users);
+        var result = await _userService.GetUsersAsync(page, pageSize, search);
+
+        return Json(new
+        {
+            users = result.Items.Select(u => new
+            {
+                u.UserId,
+                Name = $"{u.FirstName} {u.LastName}",
+                Email = u.Userlogin.Email,
+                Phone = u.Phone,
+                Role = u.Userlogin.Role.RoleName,
+                Status = (bool)u.Status ? "Active" : "Inactive"
+            }),
+            start = ((page - 1) * pageSize) + 1,
+            end = Math.Min(page * pageSize, result.TotalRecords),
+            totalRecords = result.TotalRecords
+        });
+
     }
 
     public IActionResult AddUser()

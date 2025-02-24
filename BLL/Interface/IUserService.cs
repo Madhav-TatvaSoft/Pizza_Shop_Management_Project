@@ -12,6 +12,8 @@ public interface IUserService
     public bool UpdateUser(User user, string Email);
     public bool UserChangePassword(ChangePasswordViewModel changepassword, string Email);
 
-    public Task<bool> AddUser(AddUserViewModel userVM , String Email);
+    public Task<Implementation.UserService.PaginatedList<User>> GetUsersAsync(int page, int pageSize, string search);
+
+    public Task<bool> AddUser(AddUserViewModel userVM, String Email);
 
 }

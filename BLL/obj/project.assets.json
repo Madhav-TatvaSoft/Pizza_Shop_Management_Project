@@ -10934,32 +10934,34 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\pca155\\.nuget\\packages\\": {}
+    "C:\\Users\\madha\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj",
+      "projectUniqueName": "D:\\Pizzashop_Management\\Pizza_Shop_Management_Project\\BLL\\BLL.csproj",
       "projectName": "BLL",
-      "projectPath": "D:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj",
-      "packagesPath": "C:\\Users\\pca155\\.nuget\\packages\\",
-      "outputPath": "D:\\T30_Pizza_Shop_Project\\BLL\\obj\\",
+      "projectPath": "D:\\Pizzashop_Management\\Pizza_Shop_Management_Project\\BLL\\BLL.csproj",
+      "packagesPath": "C:\\Users\\madha\\.nuget\\packages\\",
+      "outputPath": "D:\\Pizzashop_Management\\Pizza_Shop_Management_Project\\BLL\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\pca155\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\madha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj": {
-              "projectPath": "D:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj"
+            "D:\\Pizzashop_Management\\Pizza_Shop_Management_Project\\DAL\\DAL.csproj": {
+              "projectPath": "D:\\Pizzashop_Management\\Pizza_Shop_Management_Project\\DAL\\DAL.csproj"
             }
           }
         }
