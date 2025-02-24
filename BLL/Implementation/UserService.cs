@@ -9,22 +9,29 @@ public class UserService : IUserService
 {
     private readonly PizzaShopDbContext _context;
     private readonly JWTService _JWTService;
-    public UserService(PizzaShopDbContext context, JWTService jwtService)
+
+    private readonly UserLoginService _userLoginService;
+    public UserService(PizzaShopDbContext context, JWTService jwtService, UserLoginService userLoginService)
     {
         _context = context;
         _JWTService = jwtService;
+        _userLoginService = userLoginService;
     }
 
-    public List<Country> GetCountry(){
+    public List<Country> GetCountry()
+    {
+
         return _context.Countries.ToList();
     }
 
-    public List<State> GetState(){
-        return _context.States.ToList();
+    public List<State> GetState(long? countryId)
+    {
+        return _context.States.Where(x => x.CountryId == countryId).ToList();
     }
 
-    public List<City> GetCity(){
-        return _context.Cities.ToList();
+    public List<City> GetCity(long? stateId)
+    {
+        return _context.Cities.Where(x => x.StateId == stateId).ToList();
     }
 
     public List<User> GetUserProfileDetails(string cookieSavedToken)
@@ -67,5 +74,56 @@ public class UserService : IUserService
         return false;
     }
 
-}
+    public List<User> GetUserList(string Email)
+    {
+        return _context.Users.Include(x => x.Userlogin).Include(x => x.Userlogin.Role).ToList();
+    }
 
+    public List<Role> GetRole()
+    {
+        return _context.Roles.ToList();
+    }
+
+    public async Task<bool> AddUser(AddUserViewModel adduser, String Email)
+    {
+        if (_context.UserLogins.Any(x => x.Email == adduser.Email))
+        {
+            return false;
+        }
+
+        UserLogin userlogin = new UserLogin();
+        userlogin.Email = adduser.Email;
+        userlogin.Password = _userLoginService.EncryptPassword(adduser.Password);
+        userlogin.RoleId = adduser.RoleId;
+
+        await _context.AddAsync(userlogin);
+        await _context.SaveChangesAsync();
+
+        User user = new User();
+        user.UserloginId = userlogin.UserloginId;
+        user.FirstName = adduser.FirstName;
+        user.LastName = adduser.LastName;
+        user.Phone = adduser.Phone;
+        user.Username = adduser.Username;
+        // user.ProfileImage = userVM.ProfileImage;
+        // user.Status = userVM.Status;
+        user.CountryId = adduser.CountryId;
+        user.StateId = adduser.StateId;
+        user.CityId = adduser.CityId;
+        user.Address = adduser.Address;
+        user.Zipcode = adduser.Zipcode;
+
+        await _context.Users.AddAsync(user);
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+
+    public bool DeleteUser(int id)
+    {
+        var user = _context.Users.FirstOrDefault(x => x.UserId == id).Isdelete = true;
+        _context.SaveChanges();
+        return true;
+    }
+
+}

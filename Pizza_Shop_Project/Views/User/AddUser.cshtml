@@ -1,0 +1,214 @@
+@model DAL.ViewModels.AddUserViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- user list -->
+<div class="user-list-main-div bg-light d-md-flex justify-content-between">
+    <!-- user txt -->
+
+    <div class="user-text fs-3 fw-bold text-primary ms-3">Add New User</div>
+
+
+    <!-- search add user -->
+    <div class="search-adduser-div d-flex justify-content-end  align-items-center">
+        <div class="add-user-button ">
+            <a href="user.html"
+                class="add-user-button btn text-primary border border-primary p-sm-2 mt-2 ms-3 me-4 border text">
+                <i class="bi bi-caret-left-fill"></i>Back</a>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- form -->
+<form asp-action="AddUser" asp-controller="User">
+    <div class="form-main-div mt-3 mx-auto bg-light " style="width: 98%;">
+        <div class="row d-flex ">
+            <!-- two cols -->
+            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+                <div class="form-floating ">
+                    <input type="text" asp-for="FirstName" class="form-control" id="floatingInput"
+                        placeholder="First Name">
+                    <label for="floatingInput" asp-for="FirstName" class="fs-6 text-secondary">First Name</label>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+                <div class="form-floating ">
+                    <input type="text" asp-for="LastName" class="form-control" id="floatingInput"
+                        placeholder="Last Name">
+                    <label for="floatingInput" asp-for="LastName" class="fs-6 text-secondary">Last Name</label>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+                <div class="form-floating ">
+                    <input type="text" asp-for="Username" class="form-control" id="floatingInput"
+                        placeholder="John Deo">
+                    <label for="floatingInput" asp-for="Username" class="fs-6 text-secondary">Username</label>
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+                <div class="form-floating">
+                    <select class="form-select" asp-for="RoleId" asp-items="@ViewBag.Roles" id="Roles"
+                        aria-label="Floating label select example">
+                        @* <option selected>Select Role</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option> *@
+                    </select>
+                    <label for="floatingSelect text-secondary">Role</label>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+                <div class="form-floating ">
+                    <input type="email" asp-for="Email" class="form-control" id="floatingInput"
+                        placeholder="abc2gmail.com">
+                    <label for="floatingInput" asp-for="Email" class="fs-6 text-secondary">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3 ">
+                <div class="form-floating text-secondary">
+                    <input type="password" asp-for="Password" class="inputText form-control " id="password"
+                        placeholder="Password" />
+                    <label for="password" asp-for="Password">Password</label>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                    <span><i class="bi bi-eye-slash-fill password-icon" id="togglepassword"
+                            onclick="toggle_fnction('togglepassword','password')"></i></span>
+                    <span class="" id=""></span>
+                </div>
+            </div>
+
+            <div class="col-12 mt-3 d-flex justify-content-center align-content-center ">
+                <div class="d-flex justify-content-center align-items-center  text-secondary browse-file-div bg-white"
+                    style="height: 90px; width: 100%;  ">
+                    <input type="file" asp-for="Image" class=" d-none " id="choose-file" />
+                    <label for="choose-file" asp-for="Image">
+                        <i class="fa-solid fa-cloud-arrow-up d-flex justify-content-center"></i> Browse
+                        files</label>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
+                <div class="form-floating">
+                    <select asp-for="CountryId" class="form-select" id="Countries"
+                        aria-label="Floating label select example" asp-items="@ViewBag.Countries">
+                        <option value="-1">Select Country</option>
+                    </select>
+                    <label for="floatingSelect text-secondary">Country</label>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
+                <div class="form-floating">
+                    <select class="form-select" asp-for="StateId" asp-items="@ViewBag.States" id="States"
+                        aria-label="Floating label select example"> </select>
+                    <label for="floatingSelect text-secondary">State</label>
+                    <span class="text-danger">@TempData["stateErrorMessage"]</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
+                <div class="form-floating">
+                    <select class="form-select" asp-for="CityId" asp-items="@ViewBag.Cities" id="Cities"
+                        aria-label="Floating label select example"></select>
+                    <label for="floatingSelect text-secondary">City</label>
+                    <span class="text-danger">@TempData["cityErrorMessage"]</span>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
+                <div class="form-floating ">
+                    <input asp-for="Zipcode" type="text" class="form-control" id="floatingInput" placeholder="John Deo">
+                    <label asp-for="Zipcode" for="floatingInput" class="fs-6 text-secondary">Zipcode</label>
+                    <span asp-validation-for="Zipcode" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
+                <div class="form-floating ">
+                    <input asp-for="Address" type="text" class="form-control" id="floatingInput" placeholder="John Deo">
+                    <label asp-for="Address" for="floatingInput" class="fs-6 text-secondary">Address</label>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
+                <div class="form-floating ">
+                    <input asp-for="Phone" type="text" class="form-control" id="floatingInput" placeholder="John Deo">
+                    <label asp-for="Phone" for="floatingInput" class="fs-6 text-secondary">Phone</label>
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+
+            <span>@TempData["EmailErrorMessage"]</span>
+            <div class="d-flex mb-4">
+                <div class="craete-button mt-3">
+                    <button type="submit" class="btn btn-primary text-light  border text">
+                        Create User</button>
+                </div>
+
+                <div class="craete-button mt-3 text-primary ms-3">
+                    <a href="#" class="btn  btn-outline-primary border border-primary  border ">
+                        Cancel</a>
+                </div>
+            </div>
+
+</form>
+
+</div>
+
+</div>
+
+
+
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#Countries').change(function () {
+                var countryId = $(this).val();
+                console.log(countryId);
+
+                $.getJSON('@Url.Action("GetStates", "User")', { countryId: countryId }, function (states) {
+                    var statesSelect = $('#States');
+                    console.log(states);
+                    statesSelect.empty();
+                    $("#Cities").empty();
+                    statesSelect.append('<option selected value="">Select State</option>');
+                    $("#Cities").append('<option selected value="">Select City</option>');
+                    $.each(states, function (index, state) {
+                        statesSelect.append($('<option/>', {
+                            value: state.value,
+                            text: state.text
+                        }));
+                    });
+                });
+            });
+            $('#States').change(function () {
+                var stateId = $(this).val();
+                $.getJSON('@Url.Action("GetCities", "User")', { stateId: stateId }, function (cities) {
+                    var citiesSelect = $('#Cities');
+                    citiesSelect.empty();
+                    citiesSelect.append('<option selected value="">Select City</option>');
+                    $.each(cities, function (index, city) {
+                        citiesSelect.append($('<option/>', {
+                            value: city.value,
+                            text: city.text
+                        }));
+                    });
+                });
+            });
+        });
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

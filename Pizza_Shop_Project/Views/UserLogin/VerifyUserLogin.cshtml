@@ -33,7 +33,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="form-group pass-div mb-4 ">
-                    <label asp-for="Email" class="control-label"></label>
+                    @* <label asp-for="Email" class="control-label"></label> *@
 
                     <input asp-for="Email" type="email" id="Email" class="form-control email-inp" placeholder="Email*"
                         required />
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="form-group pass-div mb-4 ">
-                    <label asp-for="Password" class="control-label"></label>
+                    @* <label asp-for="Password" class="control-label"></label> *@
                     <input asp-for="Password" type="password" class="form-control pass-inp" placeholder="Password*"
                         required />
                     <i class="bi bi-eye-slash-fill" id="togglePassword"></i>

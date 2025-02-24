@@ -39,7 +39,7 @@ namespace Pizza_Shop_Project.Controllers
 
             if (Request.Cookies.ContainsKey("email"))
             {
-                return RedirectToAction("Dashboard", "User");
+                return RedirectToAction("UserListData", "User");
             }
             // ViewData["RoleId"] = new SelectList(_userLoginService.Roles, "RoleId", "RoleId");
             return View();
@@ -66,10 +66,10 @@ namespace Pizza_Shop_Project.Controllers
                 if (userLogin.Remember_me)
                 {
                     Response.Cookies.Append("email", userLogin.Email, option);
-                    return RedirectToAction("Dashboard", "User");
+                    return RedirectToAction("UserListData", "User");
 
                 }
-                return RedirectToAction("Dashboard", "User");
+                return RedirectToAction("UserListData", "User");
             }
             ViewBag.message = "Please enter valid credentials";
             return View("VerifyUserLogin");
@@ -94,7 +94,6 @@ namespace Pizza_Shop_Project.Controllers
 
         //     return View();
         // }
-
 
         public IActionResult SendEmail()
         {
