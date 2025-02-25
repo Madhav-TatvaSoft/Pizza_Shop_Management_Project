@@ -10,7 +10,7 @@ using BLL.Interface;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var conn = builder.Configuration.GetConnectionString("DemoDbConnection");
+var conn = builder.Configuration.GetConnectionString("PizzaShopConnection");
 builder.Services.AddDbContext<PizzaShopDbContext>(q => q.UseNpgsql(conn));
 builder.Services.AddScoped<UserLoginService>();
 builder.Services.AddScoped<UserService>();
