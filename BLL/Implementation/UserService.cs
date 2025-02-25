@@ -79,6 +79,39 @@ public class UserService : IUserService
         return _context.Users.Include(x => x.Userlogin).Include(x => x.Userlogin.Role).ToList();
     }
 
+    //     public class PaginatedList<User>
+    // {
+    //     public List<User> Items { get; set; }
+    //     public int TotalRecords { get; set; }
+    //     public int Page { get; set; }
+    //     public int PageSize { get; set; }
+
+    //     public PaginatedList(List<User> items, int totalRecords, int page, int pageSize)
+    //     {
+    //         Items = items;
+    //         TotalRecords = totalRecords;
+    //         Page = page;
+    //         PageSize = pageSize;
+    //     }
+    // }
+    //     public async Task<PaginatedList<User>> GetUsersAsync(int page, int pageSize, string search)
+    //     {
+    //         var query = _context.Users.Include(u => u.Userlogin.Role)
+    //                                   .Where(u => !u.Isdelete);
+
+    //         if (!string.IsNullOrEmpty(search))
+    //         {
+    //             query = query.Where(u => u.FirstName.Contains(search) || 
+    //                                      u.Userlogin.Role.RoleName.Contains(search) || 
+    //                                      u.Userlogin.Email.Contains(search));
+    //         }
+
+    //         int totalRecords = await query.CountAsync();
+    //         var users = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+    //         return new PaginatedList<User>(users, totalRecords, page, pageSize);
+    //     }
+
     public List<Role> GetRole()
     {
         return _context.Roles.ToList();
@@ -105,7 +138,7 @@ public class UserService : IUserService
         user.LastName = adduser.LastName;
         user.Phone = adduser.Phone;
         user.Username = adduser.Username;
-        // user.ProfileImage = userVM.ProfileImage;
+        user.ProfileImage = adduser.Image;
         // user.Status = userVM.Status;
         user.CountryId = adduser.CountryId;
         user.StateId = adduser.StateId;
@@ -119,10 +152,61 @@ public class UserService : IUserService
         return true;
     }
 
-    public bool DeleteUser(int id)
+    public List<AddUserViewModel> GetUserByEmail(string email)
     {
-        var user = _context.Users.FirstOrDefault(x => x.UserId == id).Isdelete = true;
+        var data = _context.Users.Include(x => x.Userlogin).Where(x => x.Userlogin.Email == email).Select(
+            x => new AddUserViewModel
+            {
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Username = x.Username,
+                Phone = x.Phone,
+                RoleId = x.Userlogin.RoleId,
+                Email = x.Userlogin.Email,
+                // ProfileImage = x.Image,
+                StateId = x.StateId,
+                CityId = x.CityId,
+                Status = x.Status,
+                Address = x.Address,
+                Zipcode = x.Zipcode,
+                CountryId = x.CountryId
+            }
+        ).ToList();
+        return data;
+    }
+
+
+    public bool EditUser(AddUserViewModel user, string Email)
+    {
+        var userdetails = _context.Users.Include(x => x.Userlogin).FirstOrDefault(x => x.Userlogin.Email == Email);
+        userdetails.FirstName = user.FirstName;
+        userdetails.LastName = user.LastName;
+        userdetails.Username = user.Username;
+        userdetails.Address = user.Address;
+        userdetails.Phone = user.Phone;
+        userdetails.Zipcode = user.Zipcode;
+        userdetails.CountryId = user.CountryId;
+        userdetails.StateId = user.StateId;
+        userdetails.CityId = user.CityId;
+        userdetails.Userlogin.RoleId = user.RoleId;
+        userdetails.Status = user.Status;
+
+        _context.Update(userdetails);
         _context.SaveChanges();
+        return true;
+    }
+    public async Task<bool> DeleteUser(string Email)
+    {
+        var userlogin = _context.UserLogins.FirstOrDefault(x => x.Email == Email);
+        var user = _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email);
+
+        userlogin.Isdelete = true;
+        _context.Update(userlogin);
+
+        user.Isdelete = true;
+        _context.Update(user);
+
+        await _context.SaveChangesAsync();
         return true;
     }
 

@@ -19,7 +19,6 @@ builder.Services.AddScoped<JWTService>();
 
 builder.Services.AddControllersWithViews();
 
-
 builder.Services.AddAuthentication(x=>{
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -56,6 +55,14 @@ builder.Services.AddAuthentication(x=>{
     }
 );
 
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(60); // Set session timeout
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -76,8 +83,10 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+app.UseSession();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=UserLogin}/{action=VerifyUserLogin}/{id?}");
+    pattern: "{controller=UserLogin}/{action=VerifyUserLogin}");
 
 app.Run();

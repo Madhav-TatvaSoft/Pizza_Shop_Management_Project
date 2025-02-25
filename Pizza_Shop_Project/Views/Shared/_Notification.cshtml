@@ -1,0 +1,14 @@
+ <script>
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            var errorMessage = '@TempData["ErrorMessage"]';
+            console.log("successMessage",successMessage);
+            if (successMessage) {
+                toastr.success(successMessage);
+            }
+            if (errorMessage && errorMessage == "") {
+                {
+                    toastr.error(errorMessage);
+                }
+            })
+    </script>

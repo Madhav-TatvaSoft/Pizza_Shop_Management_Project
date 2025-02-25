@@ -24,7 +24,7 @@
         <!-- <div class=""> -->
         <div class="position-relative">
 
-            <img src="../images/Default_pfp.svg.png" class="user-profile position-absolute ms-3 " />
+            <img src="../images/Default_pfp.svg.png" id="user-profile" class="user-profile position-absolute ms-3 " />
 
             <label for="profile-img">
                 <img src="../images/camera.svg" class="camera-img ms-3 position-absolute bg-white" alt="" />
@@ -228,7 +228,16 @@
             });
     </script>
 
-
+    <script>$("#profile-img").change(function () {
+            const file = this.files[0];
+            if (file) {
+                const fileReader = new FileReader();
+                fileReader.onload = function (event) {
+                    $("#user-profile").attr("src", event.target.result);
+                };
+                fileReader.readAsDataURL(file);
+            }
+        });
     </script>
 
     @{

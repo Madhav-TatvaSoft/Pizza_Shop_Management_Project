@@ -8,7 +8,7 @@
 <div class="user-list-main-div bg-light d-md-flex justify-content-between">
     <!-- user txt -->
 
-    <div class="user-text fs-3 fw-bold ms-3 mt-3">Add New User</div>
+    <div class="user-text fs-3 fw-bold ms-3 mt-3">Edit User</div>
 
 
     <!-- search add user -->
@@ -24,7 +24,7 @@
 </div>
 
 <!-- form -->
-<form asp-action="AddUser" asp-controller="User" class="form-main-div mt-3 mx-auto bg-white shadow-lg"
+<form asp-action="EditUser" asp-controller="User" class="form-main-div mt-3 mx-auto bg-white shadow-lg"
     style="width: 96%;">
     <div class="form-main-div mt-3 mx-auto bg-white " style="width: 98%;">
         <div class="row">
@@ -58,10 +58,6 @@
                 <div class="form-floating d-flex flex-column">
                     <select class="form-select" asp-for="RoleId" asp-items="@ViewBag.Roles" id="Roles"
                         aria-label="Floating label select example">
-                        @* <option selected>Select Role</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option> *@
                     </select>
                     <label for="floatingSelect text-secondary">Role</label>
                 </div>
@@ -69,21 +65,21 @@
 
             <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
                 <div class="form-floating d-flex flex-column">
+                    <input type="hidden" asp-for="Email" />
                     <input type="email" asp-for="Email" class="form-control" id="floatingInput"
-                        placeholder="abc2gmail.com">
+                        placeholder="abc2gmail.com" disabled>
                     <label for="floatingInput" asp-for="Email" class="fs-6 text-secondary">Email</label>
-                    <span asp-validation-for="Email" class="text-danger ms-1 mt-2 validate"></span>
+
                 </div>
             </div>
             <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3 ">
                 <div class="form-floating text-secondary d-flex flex-column">
-                    <input type="password" asp-for="Password" class="pass-inp form-control " id="pass-inp"
-                        placeholder="Password" />
-                    <label for="password" asp-for="Password">Password</label>
-                    <span><i class="bi bi-eye-slash-fill password-icon" id="togglepassword"
-                            onclick="toggle_fnction('togglepassword','password')"></i></span>
-                    <span class="" id=""></span>
-                    <span asp-validation-for="Password" class="text-danger ms-1 mt-2 validate"></span>
+                    <select class="form-select" asp-for="Status" id="Status" aria-label="Floating label select example">
+                        <option value="true">Active</option>
+                        <option value="false">InActive</option>
+                    </select>
+                    <label for="floatingSelect text-secondary">Status</label>
+                    <span asp-validation-for="Status" class="text-danger ms-1 mt-2 validate"></span>
                 </div>
             </div>
 
@@ -99,28 +95,28 @@
 
             <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
                 <div class="form-floating d-flex flex-column">
-                    <select asp-for="CountryId" class="form-select" id="Countries"
+                    <select asp-for="@Model.CountryId" class="form-select" id="Countries"
                         aria-label="Floating label select example" asp-items="@ViewBag.Countries">
                         <option value="-1">Select Country</option>
                     </select>
                     <label for="floatingSelect text-secondary">Country</label>
-                    <span asp-Validation-for="CountryId" class="text-danger ms-1 mt-2 validate"></span>
+                    <span asp-Validation-for="@Model.CountryId" class="text-danger ms-1 mt-2 validate"></span>
                 </div>
             </div>
             <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
                 <div class="form-floating d-flex flex-column">
-                    <select class="form-select" asp-for="StateId" asp-items="@ViewBag.States" id="States"
+                    <select class="form-select" asp-for="@Model.StateId" asp-items="@ViewBag.States" id="States"
                         aria-label="Floating label select example"> </select>
                     <label for="floatingSelect text-secondary">State</label>
-                    <span asp-Validation-for="StateId" class="text-danger ms-1 mt-2 validate"></span>
+                    <span asp-Validation-for="@Model.StateId" class="text-danger ms-1 mt-2 validate"></span>
                 </div>
             </div>
             <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
                 <div class="form-floating d-flex flex-column">
-                    <select class="form-select" asp-for="CityId" asp-items="@ViewBag.Cities" id="Cities"
+                    <select class="form-select" asp-for="@Model.CityId" asp-items="@ViewBag.Cities" id="Cities"
                         aria-label="Floating label select example"></select>
                     <label for="floatingSelect text-secondary">City</label>
-                    <span asp-Validation-for="CityId" class="text-danger ms-1 mt-2 validate"></span>
+                    <span asp-Validation-for="@Model.CityId" class="text-danger ms-1 mt-2 validate"></span>
                 </div>
             </div>
 
@@ -149,16 +145,10 @@
             <span class="text-danger">@ViewBag.Message</span>
 
             <div class="create-user-cancel-div mt-4 mb-4">
-                <button type="submit" class="btn solid-btn">Create User</button>
+                <button type="submit" class="btn solid-btn">Update User</button>
                 <a type="button" asp-action="UserListData" asp-controller="User" class="btn hollow-btn">Cancel</a>
             </div>
 </form>
-
-
-
-
-
-
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -56,7 +56,7 @@ namespace Pizza_Shop_Project.Controllers
             var verification_token = await _userLoginService.VerifyUserLogin(userLogin);
 
             CookieOptions option = new CookieOptions();
-            option.Expires = DateTime.Now.AddHours(9);
+            option.Expires = DateTime.Now.AddHours(10);
 
             if (verification_token != null)
             {
@@ -66,9 +66,12 @@ namespace Pizza_Shop_Project.Controllers
                 if (userLogin.Remember_me)
                 {
                     Response.Cookies.Append("email", userLogin.Email, option);
+                    TempData["SuccessMessage"] = "Login Successfully";
                     return RedirectToAction("UserListData", "User");
 
                 }
+                HttpContext.Session.SetString("email", userLogin.Email);
+                TempData["SuccessMessage"] = "Login Successfully";
                 return RedirectToAction("UserListData", "User");
             }
             ViewBag.message = "Please enter valid credentials";

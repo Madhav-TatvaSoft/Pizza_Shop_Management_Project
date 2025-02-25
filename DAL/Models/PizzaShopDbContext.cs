@@ -1040,6 +1040,7 @@ public partial class PizzaShopDbContext : DbContext
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .HasColumnName("email");
+            entity.Property(e => e.Isdelete).HasColumnName("isdelete");
             entity.Property(e => e.Password).HasColumnName("password");
             entity.Property(e => e.RoleId).HasColumnName("role_id");
 

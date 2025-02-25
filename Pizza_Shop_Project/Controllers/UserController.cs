@@ -2,11 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using BLL.Implementation;
 using Microsoft.AspNetCore.Authorization;
 using DAL.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net.Mail;
+using System.Net;
 
 
 public class UserController : Controller
@@ -79,6 +80,7 @@ public class UserController : Controller
         return RedirectToAction("UserListData", "User");
     }
 
+    #region ChangePassword
     public IActionResult ChangePassword()
     {
         return View();
@@ -119,6 +121,7 @@ public class UserController : Controller
             }
         }
     }
+    #endregion
 
     public IActionResult UserLogout()
     {
@@ -127,13 +130,7 @@ public class UserController : Controller
         return RedirectToAction("VerifyUserLogin", "UserLogin");
     }
 
-    // public IActionResult UserListData()
-    // {
-    //     var cookieSavedToken = Request.Cookies["AuthToken"];
-    //     var data = _userService.GetUserList(cookieSavedToken);
-    //     return View(data);
-    // }
-
+    // [Authorize(Roles = "Admin")]
     public IActionResult UserListData()
     {
         var token = Request.Cookies["AuthToken"];
@@ -142,6 +139,28 @@ public class UserController : Controller
         return View(users);
     }
 
+    // public async Task<IActionResult> UserListData(int page = 1, int pageSize = 5, string search = "")
+    // {
+    //     var result = await _userService.GetUsersAsync(page, pageSize, search);
+
+    //     return Json(new
+    //     {
+    //         users = result.Items.Select(u => new
+    //         {
+    //             u.UserId,
+    //             Name = $"{u.FirstName} {u.LastName}",
+    //             Email = u.Userlogin.Email,
+    //             Phone = u.Phone,
+    //             Role = u.Userlogin.Role.RoleName,
+    //             Status = (bool)u.Status ? "Active" : "Inactive"
+    //         }),
+    //         start = ((page - 1) * pageSize) + 1,
+    //         end = Math.Min(page * pageSize, result.TotalRecords),
+    //         totalRecords = result.TotalRecords
+    //     });
+    // }
+
+    #region AddUser
     public IActionResult AddUser()
     {
         var Roles = _userService.GetRole();
@@ -159,21 +178,17 @@ public class UserController : Controller
     [HttpPost]
     public async Task<IActionResult> AddUser(AddUserViewModel user)
     {
-        if (user.StateId == -1 && user.CityId == -1)
+        if (user.CountryId == null)
         {
-            TempData["stateErrorMessage"] = "Please select a state";
-            TempData["cityErrorMessage"] = "Please select a city";
-            return RedirectToAction("AddUser", "User");
+            TempData["CountryError"] = "Please select a country";
         }
-        if (user.StateId == -1)
+        if (user.StateId == null)
         {
-            TempData["stateErrorMessage"] = "Please select a state";
-            return RedirectToAction("AddUser", "User");
+            TempData["StateError"] = "Please select a state";
         }
-        if (user.CityId == -1)
+        if (user.CityId == null)
         {
-            TempData["cityErrorMessage"] = "Please select a city";
-            return RedirectToAction("AddUser", "User");
+            TempData["CityError"] = "Please select a city";
         }
 
         var token = Request.Cookies["AuthToken"];
@@ -181,18 +196,125 @@ public class UserController : Controller
 
         if (!await _userService.AddUser(user, Email))
         {
-            ViewBag.Message = "Email already exists";
+            ViewBag.Message = "Account with this email already exists";
             return View();
         }
+
+        if (user.ProfileImage != null)
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            string fileName = $"{Guid.NewGuid()}_{user.ProfileImage.FileName}";
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                user.ProfileImage.CopyTo(stream);
+            }
+            user.Image = $"/uploads/{fileName}";
+        }
+
+        var senderEmail = new MailAddress("tatva.pca42@outlook.com", "tatva.pca42@outlook.com");
+        var receiverEmail = new MailAddress(user.Email, user.Email);
+        var password = "P}N^{z-]7Ilp";
+        var sub = "Add user";
+        var resetLink = Url.Action("ResetPassword", "UserLogin", new { Email = user.Email }, Request.Scheme);
+        var body = $@"<div style='max-width: 500px; font-family: Arial, sans-serif; border: 1px solid #ddd;'>
+                <div style='background: #006CAC; padding: 10px; text-align: center; height:90px; max-width:100%; display: flex; justify-content: center; align-items: center;'>
+                    <img class='mt-2' src='https://images.vexels.com/media/users/3/128437/isolated/preview/2dd809b7c15968cb7cc577b2cb49c84f-pizza-food-restaurant-logo.png' style='max-width: 50px;' />
+                    <span style='color: #fff; font-size: 24px; margin-left: 10px; font-weight: 600;'>PIZZASHOP</span>
+                </div>
+                <div style='padding: 20px 5px; background-color: #e8e8e8;'>
+                    <p>Welcome to Pizza shop,</p>
+                    <p>Please Find the details below to login to your account:</p><br>
+                    <h3>Login details</h3>
+                    <p>Email: {user.Email}</p>
+                    <p>Password: {user.Password}</p><br>
+                    <p>If you encounter any issues or have any questions, please do not hesitate to contact our support team.</p>
+                    
+                </div>
+                </div>";
+        var smtp = new SmtpClient
+        {
+            Host = "mail.etatvasoft.com",
+            Port = 587,
+            EnableSsl = true,
+            DeliveryMethod = SmtpDeliveryMethod.Network,
+            UseDefaultCredentials = false,
+            Credentials = new NetworkCredential(senderEmail.Address, password)
+        };
+        using (var mess = new MailMessage(senderEmail, receiverEmail))
+        {
+            mess.Subject = sub;
+            mess.Body = body;
+            mess.IsBodyHtml = true;
+            await smtp.SendMailAsync(mess);
+        }
+
+
         // _userService.AddUser(user, Email);
-        return RedirectToAction("UsersList", "User");
+        return RedirectToAction("UserListData", "User");
         // return View();
     }
+    #endregion
 
-    public IActionResult DeleteUser(int id)
+    #region EditUser
+    public IActionResult EditUser(string Email)
     {
-        _userService.DeleteUser(id);
+        var user = _userService.GetUserByEmail(Email);
+        var Roles = _userService.GetRole();
+        var Countries = _userService.GetCountry();
+        var States = _userService.GetState(user[0].CountryId);
+        var Cities = _userService.GetCity(user[0].StateId);
+        ViewBag.Roles = new SelectList(Roles, "RoleId", "RoleName");
+        ViewBag.Countries = new SelectList(Countries, "CountryId", "CountryName");
+        ViewBag.States = new SelectList(States, "StateId", "StateName");
+        ViewBag.Cities = new SelectList(Cities, "CityId", "CityName");
+        return View(user[0]);
+    }
+
+    [HttpPost]
+
+    public IActionResult EditUser(AddUserViewModel adduser)
+    {
+        var Email = adduser.Email;
+
+        if (adduser.CountryId == null)
+        {
+            TempData["CountryError"] = "Please select a country";
+        }
+        if (adduser.StateId == null)
+        {
+            TempData["StateError"] = "Please select a state";
+        }
+        if (adduser.CityId == null)
+        {
+            TempData["CityError"] = "Please select a city";
+        }
+
+        _userService.EditUser(adduser, Email);
+        return RedirectToAction("UserListData", "User");
+
+    }
+    #endregion
+
+    #region DeleteUser
+    public async Task<IActionResult> DeleteUser(string Email)
+    {
+        var isDeleted = await _userService.DeleteUser(Email);
+
+        if (!isDeleted)
+        {
+            ViewBag.Message = "User cannot be deleted";
+            return RedirectToAction("UserListData", "User");
+        }
         return RedirectToAction("UserListData", "User");
     }
+    #endregion
+
 
 }

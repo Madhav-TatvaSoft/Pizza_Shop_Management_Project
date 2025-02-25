@@ -13,6 +13,8 @@ public partial class UserLogin
 
     public string Password { get; set; } = null!;
 
+    public bool Isdelete { get; set; }
+
     public virtual Role Role { get; set; } = null!;
 
     public virtual ICollection<User> Users { get; } = new List<User>();
