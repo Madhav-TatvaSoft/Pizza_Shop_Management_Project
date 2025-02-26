@@ -21,7 +21,7 @@
 
             <!-- Logo -->
             <div class="d-flex align-items-center justify-content-center mb-4">
-                <img src="./images/logos/pizzashop_logo.png" alt="Logo" class="img-fluid" style="width: 50px;" /><span
+                <img src="~/images/logos/pizzashop_logo.png" alt="Logo" class="img-fluid" style="width: 50px;" /><span
                     class="logo-name">PIZZASHOP</span>
             </div>
 
@@ -33,19 +33,17 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="form-group pass-div mb-4 ">
-                    @* <label asp-for="Email" class="control-label"></label> *@
 
-                    <input asp-for="Email" type="email" id="Email" class="form-control email-inp" placeholder="Email*"
-                        required />
+                    <input asp-for="Email" type="email" id="Email" class="form-control d-inline email-inp"
+                        placeholder="Email*" required />
                     <i class="bi bi-person-fill"></i>
                     <span asp-validation-for="Email" class="text-danger ms-4"></span>
 
                 </div>
 
                 <div class="form-group pass-div mb-4 ">
-                    @* <label asp-for="Password" class="control-label"></label> *@
-                    <input asp-for="Password" type="password" class="form-control pass-inp" placeholder="Password*"
-                        required />
+                    <input asp-for="Password" type="password" class="form-control d-inline " id="pass-inp"
+                        placeholder="Password*" required />
                     <i class="bi bi-eye-slash-fill" id="togglePassword"></i>
                     <span asp-validation-for="Password" class="text-danger ms-4"></span>
                 </div>
@@ -56,11 +54,9 @@
                         <input class="form-check-input" asp-for="Remember_me" type="checkbox" id="flexCheckDefault">
                         <label class="mt-1">Remember Me</label>
                     </div>
-                    <a id="forgot-password" class="text-decoration-none user-btn ms-3 "
-                        onclick="redirectForgotPassword()">Forgot Password?</a>
+                    <a id="forgot-password" class="text-decoration-none user-btn ms-3 ">Forgot Password?</a>
                 </div>
                 <div class=" d-grid">
-                    <span class="text-danger ms-1">@ViewBag.message</span>
                     <input value="Login" class="login-btn solid-btn btn btn-primary" type="submit" />
                 </div>
 
@@ -72,59 +68,72 @@
 <!-- Bootstrap JS -->
 @* <script src="/js/custom.js"></script> *@
 
-@* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
 
 
 
 @section Scripts {
 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
-            $(document).ready(function () {
-            var successMessage = '@TempData["SuccessMessage"]';
-            var errorMessage = '@TempData["ErrorMessage"]';
-            console.log("successMessage",successMessage);
-            if (successMessage) 
-            {
-              toastr.success(successMessage);
-            }
-            if (errorMessage && errorMessage == "") 
-            {
-              toastr.error(errorMessage);
-            }
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#pass-inp');
+
+        if (togglePassword) {
+            togglePassword.addEventListener('click', () => {
+
+                const type = password
+                    .getAttribute('type') === 'password' ?
+                    'text' : 'password';
+                password.setAttribute('type', type);
+                togglePassword.classList.toggle('bi-eye-fill');
+                togglePassword.classList.toggle('bi-eye-slash-fill');
             });
+        }
+
+
     </script>
 
-    @* <script>
-    function redirectForgotPassword() {
-        var email = document.getElementById('Email').value;
-        window.location.href = '/UserLogin/ForgotPassword?email=' + encodeURIComponent(email);
-    }
-
-    @* // write the above logic for forgotpassword in ajax *@
-
-    @* $(document).ready( function() {
-    $('#forgot-password').click(function() {
-        var email = document.getElementById('Email').value;
-        $.ajax({
-            url: '/UserLogin/ForgotPassword',
-            type: 'GET',
-            data: { email: email },
-            success: function(response) {
-        // Handle success response
-                window.location.href = "@Url.Action("ForgotPassword","UserLogin")";
-        console.log('Password reset link sent successfully.');
-        },
-            error: function(xhr, status, error) {
-        // Handle error response
-        console.error('Error sending password reset link:', error);
-        }
+    <script>
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            var errorMessage = '@TempData["ErrorMessage"]';
+            console.log("successMessage", successMessage);
+            if (successMessage) {
+                toastr.success(successMessage);
+            }
+            if (errorMessage) {
+                toastr.error(errorMessage);
+            }
         });
-        });
-        });    *@
-@* </script>  *@
+    </script>
+
+    <script>
+        @* function redirectForgotPassword() {
+        var email = document.getElementById('Email').value;
+            window.location.href = '/UserLogin/ForgotPassword?email=' + encodeURIComponent(email);
+        } *@
+
+            $(document).ready(function () {
+                $("#forgot-password").click(function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetEmail", "UserLogin")",
+                        data: { "Email": $("#Email").val() },
+                        success: function (response) {
+                            window.location.href = "@Url.Action("ForgotPassword", "UserLogin")";
+                            console.log("response");
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+                });
+            });
+    </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

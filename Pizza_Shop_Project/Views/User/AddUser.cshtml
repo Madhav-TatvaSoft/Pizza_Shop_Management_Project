@@ -25,12 +25,12 @@
 
 <!-- form -->
 <form asp-action="AddUser" asp-controller="User" class="form-main-div mt-3 mx-auto bg-white shadow-lg"
-    style="width: 96%;">
+    style="width: 96%;" enctype="multipart/form-data">
     <div class="form-main-div mt-3 mx-auto bg-white " style="width: 98%;">
         <div class="row">
             <!-- two cols -->
             <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
-                <div class="form-floating d-flex flex-column ">
+                <div class="form-floating  ">
                     <input type="text" asp-for="FirstName" class="form-control" id="floatingInput"
                         placeholder="First Name">
                     <label for="floatingInput" asp-for="FirstName" class="fs-6 text-secondary">First Name</label>
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
-                <div class="form-floating d-flex flex-column">
+                <div class="form-floating ">
                     <input type="text" asp-for="LastName" class="form-control" id="floatingInput"
                         placeholder="Last Name">
                     <label for="floatingInput" asp-for="LastName" class="fs-6 text-secondary">Last Name</label>
@@ -47,7 +47,7 @@
             </div>
 
             <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
-                <div class="form-floating d-flex flex-column ">
+                <div class="form-floating  ">
                     <input type="text" asp-for="Username" class="form-control" id="floatingInput"
                         placeholder="John Deo">
                     <label for="floatingInput" asp-for="Username" class="fs-6 text-secondary">Username</label>
@@ -55,20 +55,16 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
-                <div class="form-floating d-flex flex-column">
+                <div class="form-floating ">
                     <select class="form-select" asp-for="RoleId" asp-items="@ViewBag.Roles" id="Roles"
                         aria-label="Floating label select example">
-                        @* <option selected>Select Role</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option> *@
                     </select>
                     <label for="floatingSelect text-secondary">Role</label>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
-                <div class="form-floating d-flex flex-column">
+                <div class="form-floating ">
                     <input type="email" asp-for="Email" class="form-control" id="floatingInput"
                         placeholder="abc2gmail.com">
                     <label for="floatingInput" asp-for="Email" class="fs-6 text-secondary">Email</label>
@@ -76,13 +72,11 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3 ">
-                <div class="form-floating text-secondary d-flex flex-column">
-                    <input type="password" asp-for="Password" class="pass-inp form-control " id="pass-inp"
+                <div class="form-floating text-secondary ">
+                    <input type="password" asp-for="Password" class="form-control d-inline" id="pass-inp"
                         placeholder="Password" />
+                    <i class="bi bi-eye-slash-fill pass-icon" id="togglePassword"></i>
                     <label for="password" asp-for="Password">Password</label>
-                    <span><i class="bi bi-eye-slash-fill password-icon" id="togglepassword"
-                            onclick="toggle_fnction('togglepassword','password')"></i></span>
-                    <span class="" id=""></span>
                     <span asp-validation-for="Password" class="text-danger ms-1 mt-2 validate"></span>
                 </div>
             </div>
@@ -90,15 +84,15 @@
             <div class="col-12 mt-3 d-flex justify-content-center align-content-center ">
                 <div class="browswe-file d-flex justify-content-center align-items-center  text-secondary browse-file-div bg-white"
                     style="height: 90px; width: 100%;  ">
-                    <input type="file" asp-for="Image" class=" d-none " id="choose-file" />
-                    <label for="choose-file" asp-for="Image">
-                        <i class="fa-solid fa-cloud-arrow-up d-flex justify-content-center ms-1 mb-1"></i> Browse
-                        files</label>
+                    <input type="file" asp-for="ProfileImage" class="d-none" id="choose-file" />
+                    <label for="choose-file">
+                        <i class="fa-solid fa-cloud-arrow-up d-flex justify-content-center ms-1 mb-1"></i><span
+                            class="browseFileText">Browse File</span> </label>
                 </div>
             </div>
 
             <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
-                <div class="form-floating d-flex flex-column">
+                <div class="form-floating">
                     <select asp-for="CountryId" class="form-select" id="Countries"
                         aria-label="Floating label select example" asp-items="@ViewBag.Countries">
                         <option value="-1">Select Country</option>
@@ -108,7 +102,7 @@
                 </div>
             </div>
             <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
-                <div class="form-floating d-flex flex-column">
+                <div class="form-floating ">
                     <select class="form-select" asp-for="StateId" asp-items="@ViewBag.States" id="States"
                         aria-label="Floating label select example"> </select>
                     <label for="floatingSelect text-secondary">State</label>
@@ -116,7 +110,7 @@
                 </div>
             </div>
             <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
-                <div class="form-floating d-flex flex-column">
+                <div class="form-floating ">
                     <select class="form-select" asp-for="CityId" asp-items="@ViewBag.Cities" id="Cities"
                         aria-label="Floating label select example"></select>
                     <label for="floatingSelect text-secondary">City</label>
@@ -125,21 +119,21 @@
             </div>
 
             <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
-                <div class="form-floating d-flex flex-column">
+                <div class="form-floating">
                     <input asp-for="Zipcode" type="text" class="form-control" id="floatingInput" placeholder="John Deo">
                     <label asp-for="Zipcode" for="floatingInput" class="fs-6 text-secondary">Zipcode</label>
                     <span asp-validation-for="Zipcode" class="text-danger ms-1 mt-2 validate"></span>
                 </div>
             </div>
             <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
-                <div class="form-floating d-flex flex-column">
+                <div class="form-floating ">
                     <input asp-for="Address" type="text" class="form-control" id="floatingInput" placeholder="John Deo">
                     <label asp-for="Address" for="floatingInput" class="fs-6 text-secondary">Address</label>
                     <span asp-validation-for="Address" class="text-danger ms-1 mt-2 validate"></span>
                 </div>
             </div>
             <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
-                <div class="form-floating d-flex flex-column">
+                <div class="form-floating">
                     <input asp-for="Phone" type="number" class="form-control" id="floatingInput" placeholder="John Deo">
                     <label asp-for="Phone" for="floatingInput" class="fs-6 text-secondary">Phone</label>
                     <span asp-validation-for="Phone" class="text-danger ms-1 mt-2 validate"></span>
@@ -162,6 +156,25 @@
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#pass-inp');
+
+        if (togglePassword) {
+            togglePassword.addEventListener('click', () => {
+
+                const type = password
+                    .getAttribute('type') === 'password' ?
+                    'text' : 'password';
+                password.setAttribute('type', type);
+                togglePassword.classList.toggle('bi-eye-fill');
+                togglePassword.classList.toggle('bi-eye-slash-fill');
+            });
+        }
+
+
+    </script>
 
     <script>
 
@@ -199,6 +212,27 @@
                     });
                 });
             });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            var errorMessage = '@TempData["ErrorMessage"]';
+            console.log("successMessage", successMessage);
+            if (successMessage) {
+                toastr.success(successMessage);
+            }
+            if (errorMessage) {
+                toastr.error(errorMessage);
+            }
+        });
+    </script>
+
+    <script>
+        $("#choose-file").change(function () {
+            const file = this.files[0];
+            $("#browseFileText").text(file.name);
         });
     </script>
 

@@ -41,89 +41,85 @@
         </tr>
       </thead>
       <tbody>
-       @* @foreach (var item in Model)
+        @* @foreach (var item in Model)
         {
-          if (!item.Isdelete)
-          {
-<<<<<<< HEAD
-            <tr class="border border-top-0 border-end-0 border-start-0 border-teritory">
-              <td class="text-start text-nowrap"><img src="images/Default_pfp.svg.png" class="img-fluid me-1" width="25px"
-                  alt="">
-=======
-            <tr>
-              x<td>
->>>>>>> 7ab8b43029a957c249444e9977747c5be2dba754
-                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-              </td>
-              <td class="text-start">
-                @Html.DisplayFor(modelItem => item.Userlogin.Email)
-              </td>
-              <td class="text-start">
-                @Html.DisplayFor(modelItem => item.Phone)
-              </td>
-              <td class="text-start">
-                @Html.DisplayFor(modelItem => item.Userlogin.Role.RoleName)
-              </td>
-              <td class="text-start">
-                @if (item.Status == true)
-                {
-                  <div class="text-center text-white bg-success rounded-pill w-75 fs-6 p-md-1 p-2">
-                    Active</div>
-                }
-                else
-                {
-                  <div class="text-center text-white bg-danger rounded-pill w-75 fs-6 p-md-1 p-2">
-                    Inactive</div>
-                }
+        if (!item.Isdelete)
+        {
+        <tr class="border border-top-0 border-end-0 border-start-0 border-teritory">
+        <td class="text-start text-nowrap"><img src="@item.ProfileImage" class="img-fluid me-1 " width="25px"
+        alt="" />
+        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td class="text-start">
+        @Html.DisplayFor(modelItem => item.Userlogin.Email)
+        </td>
+        <td class="text-start">
+        @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td class="text-start">
+        @Html.DisplayFor(modelItem => item.Userlogin.Role.RoleName)
+        </td>
+        <td class="text-start">
+        @if (item.Status == true)
+        {
+        <div class="text-center text-white bg-success rounded-pill w-75 fs-6 p-md-1 p-2">
+        Active</div>
+        }
+        else
+        {
+        <div class="text-center text-white bg-danger rounded-pill w-75 fs-6 p-md-1 p-2">
+        Inactive</div>
+        }
 
-              </td>
-              <td class="text-start">
-                <a asp-action="EditUser" asp-controller="User" asp-route-Email="@item.Userlogin.Email" class="text-dark"><i
-                    class="fa-solid fa-pen w-25 me-sm-2 me-xs-2 me-lg-0 "></i></a>
-                <i class="fa-solid fa-trash-can" data-bs-toggle="modal" data-bs-target="#delete-user"
-                  data-email="@item.Userlogin.Email"></i>
-              </td>
-            </tr>
-          }
+        </td>
+        <td class="text-start">
+        <a asp-action="EditUser" asp-controller="User" asp-route-Email="@item.Userlogin.Email" class="text-dark"><i
+        class="fa-solid fa-pen w-25 me-sm-2 me-xs-2 me-lg-0 "></i></a>
+        <i class="fa-solid fa-trash-can" data-bs-toggle="modal" data-bs-target="#delete-user"
+        data-email="@item.Userlogin.Email"></i>
+        </td>
+        </tr>
+        }
 
         } *@
-
-
       </tbody>
     </table>
-
   </div>
 
-<<<<<<< HEAD
+
+
+
   <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-2">
 
-    <span class="mt-2">Items Per page:</span>
-    <select name="" id="" class="itemselect">
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
+    <span class="mt-2 fw-bold text-secondary">Items Per page:</span>
+    @* <select id="PageSize" onchange="pageSizeChange(1)">
+    <option value="5" selected=@(ViewBag.PageSize == 5)>5</option>
+    <option value="10" selected=@(ViewBag.PageSize == 10)>10</option>
+    <option value="15" selected=@(ViewBag.PageSize == 15)>15</option>
+    <option value="20" selected=@(ViewBag.PageSize == 20)>20</option>
+    </select> *@
+
+    <select id="itemselect" class="itemselect">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
     </select>
-    <span class="mt-2"></span>
-    <i class="fa-solid fa-angle-left btn border border-dark bg-light ms-2 d-flex align-content-center"></i>
-    <i class="fa-solid fa-angle-right btn border border-dark bg-light ms-2 "></i>
+
+    @* <span class="mt-2 fw-bold text-secondary">Showing @(((ViewBag.PageNo - 1) * ViewBag.PageSize) + 1) -
+    @((ViewBag.PageNo * ViewBag.PageSize > ViewBag.TotalRecord ? ViewBag.TotalRecord : ViewBag.PageNo *
+    ViewBag.PageSize))
+    of @ViewBag.TotalRecord </span>
+    <i class="fa-solid fa-angle-left btn border border-dark bg-light ms-2 d-flex align-content-center"
+    onclick="changePage(@(ViewBag.PageNo - 1))" @(ViewBag.PageNo == 1 ? "disabled" : "")></i>
+    <i class="fa-solid fa-angle-right btn border border-dark bg-light ms-2 " onclick="changePage(@(ViewBag.PageNo + 1))"
+    @(ViewBag.PageNo * ViewBag.PageSize >= ViewBag.TotalRecord ? "disabled" : "")></i> *@
+    <span class="pagination-info mt-2"></span>
+    <button id="left-arrow" class="btn border border-dark bg-light ms-2" disabled>&lt;</button>
+    <button id="right-arrow" class="btn border border-dark bg-light ms-2">&gt;</button>
   </div>
-
-=======
->>>>>>> 7ab8b43029a957c249444e9977747c5be2dba754
 </div>
 
-<div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-3">
 
-  <span>Items Per page:</span>
-  <select name="" id="">
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-  </select>
-  <span>Showing 1-5 of 13</span>
-  <i class="fa-solid fa-angle-left btn border border-dark bg-light ms-2 d-flex align-content-center"></i>
-  <i class="fa-solid fa-angle-right btn border border-dark bg-light ms-2 "></i>
-</div>
 
 <!-- delete item modal-->
 <div id="delete-user" class="modal" tabindex="-1">
@@ -154,87 +150,8 @@
 @section Scripts {
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  @* <script>
-$(document).ready(function () {
-let currentPage = 1;
-let pageSize = 5;
-let searchQuery = "";
 
-function fetchUsers() {
-$.ajax({
-url: `/User/UserListData?page=${currentPage}&pageSize=${pageSize}&search=${searchQuery}`,
-type: "GET",
-success: function (data) {
-let tbody = $('#table tbody');
-tbody.empty();
-
-$.each(data.users, function (index, user) {
-console.log(user);
-let statusClass = user.Status === "Active" ? "bg-success" : "bg-danger";
-let row = `
-<tr>
-<td>${user.Name}</td>
-<td>${user.Email}</td>
-<td>${user.Phone}</td>
-<td>${user.Role}</td>
-<td>
-<div class="text-center text-white ${statusClass} rounded-pill w-75 p-lg-0 ps-1 pe-4">
-${user.Status}
-</div>
-</td>
-<td>
-<a href="/User/Edit/${user.UserId}">
-<i class="fa-solid fa-pen w-25 me-sm-2 me-xs-2 me-lg-0 text-dark"></i>
-</a>
-<a data-userid="${user.UserId}" class="delete-user">
-<i class="fa-solid fa-trash-can"></i>
-</a>
-</td>
-</tr>
-`;
-tbody.append(row);
-});
-
-$('.pagination-main-div span:nth-child(2)').text(
-`Showing ${data.start}-${data.end} of ${data.totalRecords}`
-);
-}
-});
-}
-
-// Search functionality
-$('#searchbtn').on('keyup', function () {
-searchQuery = $(this).val();
-currentPage = 1;
-fetchUsers();
-});
-
-// Items per page dropdown
-$('.itemselect select').on('change', function () {
-pageSize = $(this).val();
-currentPage = 1;
-fetchUsers();
-});
-
-// Pagination buttons
-$('.fa-angle-left').on('click', function () {
-if (currentPage > 1) {
-currentPage--;
-fetchUsers();
-}
-});
-
-$('.fa-angle-right').on('click', function () {
-currentPage++;
-fetchUsers();
-});
-
-// Initial fetch
-fetchUsers();
-});
-</script> *@
-
-<<<<<<< HEAD
+  @* Modal Script *@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var deleteModal = document.getElementById('delete-user');
@@ -247,154 +164,132 @@ fetchUsers();
     });
   </script>
 
-   <script>
-        $(document).ready(function () {
-            var successMessage = '@TempData["SuccessMessage"]';
-            var errorMessage = '@TempData["ErrorMessage"]';
-            console.log("successMessage",successMessage);
-            if (successMessage) 
-            {
-              toastr.success(successMessage);
-            }
-            if (errorMessage && errorMessage == "") 
-            {
-              toastr.error(errorMessage);
-            }
-            });
-    </script>
-
-}
-=======
-@* <script>
-  $(document).ready(function () {
-    let currentPage = 1;
-    let pageSize = 5;
-    let searchQuery = "";
-
-    function fetchUsers() {
-        $.ajax({
-            url: `/User/GetUsers?page=${currentPage}&pageSize=${pageSize}&search=${searchQuery}`,
-            type: "GET",
-            success: function (data) {
-                $('#example tbody').html(data.html);
-                $('.pagination-main-div span:nth-child(3)').text(
-                    `Showing ${data.start}-${data.end} of ${data.totalRecords}`
-                );
-            }
-        });
-    }
-
-    // Search functionality
-    $('.search-button input').on('keyup', function () {
-        searchQuery = $(this).val();
-        currentPage = 1; // Reset to first page when searching
-        fetchUsers();
+  @* Toaster script *@
+  <script>
+    $(document).ready(function () {
+      var successMessage = '@TempData["SuccessMessage"]';
+      var errorMessage = '@TempData["ErrorMessage"]';
+      console.log("successMessage", successMessage);
+      if (successMessage) {
+        toastr.success(successMessage);
+      }
+      if (errorMessage) {
+        toastr.error(errorMessage);
+      }
     });
+  </script>
 
-    // Items per page dropdown
-    $('.pagination-main-div select').on('change', function () {
-        pageSize = $(this).val();
+  @* Pagination Main script *@
+
+  <script>
+    $(document).ready(function () {
+      let currentPage = 1;
+      let itemsPerPage = 5;
+      let searchTerm = "";
+
+      // Fetch users from the backend
+      function fetchUsers() {
+        $.ajax({
+          url: "/User/UserListData",
+          type: "GET",
+          data: { searchTerm: searchTerm, pageNumber: currentPage, pageSize: itemsPerPage },
+          success: function (response) {
+            renderTable(response.Users);
+            updatePagination(response.TotalRecords);
+          }
+        });
+      }
+
+      // Render the table
+      function renderTable(users) {
+        let tbody = $("#table tbody");
+        tbody.empty();
+
+        $.each(users, function (index, user) {
+          let statusBadge = user.status
+            ? '<div class="text-center text-white bg-success rounded-pill w-75 fs-6 p-md-1 p-2">Active</div>'
+            : '<div class="text-center text-white bg-danger rounded-pill w-75 fs-6 p-md-1 p-2">Inactive</div>';
+
+          tbody.append(`
+            <tr>
+              <td class="text-start">${user.firstName} ${user.lastName}</td>
+              <td class="text-start">${user.email}</td>
+              <td class="text-start">${user.phone}</td>
+              <td class="text-start">${user.roleName}</td>
+              <td class="text-start">${statusBadge}</td>
+              <td class="text-start">
+                <a href="/User/EditUser?Email=${user.email}" class="text-dark"><i class="fa-solid fa-pen"></i></a>
+                <i class="fa-solid fa-trash-can" data-bs-toggle="modal" data-bs-target="#delete-user" data-email="${user.email}"></i>
+              </td>
+            </tr>
+          `);
+        });
+      }
+
+      // Update pagination text
+      function updatePagination(totalRecords) {
+        let startItem = (currentPage - 1) * itemsPerPage + 1;
+        let endItem = Math.min(startItem + itemsPerPage - 1, totalRecords);
+
+        // Update the pagination text dynamically
+        $(".pagination-info").text(`Showing ${startItem}-${endItem} of ${totalRecords}`);
+
+        // Disable buttons conditionally
+        $("#left-arrow").prop("disabled", currentPage === 1);
+        $("#right-arrow").prop("disabled", endItem >= totalRecords);
+      }
+
+
+      // Search function (on keyup)
+      $("#search-btn").on("keyup", function () {
+        searchTerm = $(this).val();
         currentPage = 1;
         fetchUsers();
-    });
+      });
 
-    // Pagination buttons
-    $('.fa-angle-left').on('click', function () {
-        if (currentPage > 1) {
-            currentPage--;
-            fetchUsers();
-        }
-    });
+      // Change items per page
+      $("#itemselect").on("change", function () {
+        itemsPerPage = parseInt($(this).val());
+        currentPage = 1; // Reset to first page when changing items per page
+        fetchUsers();
+      });
 
-    $('.fa-angle-right').on('click', function () {
+      // Next page
+      $("#right-arrow").on("click", function () {
         currentPage++;
         fetchUsers();
-    });
+      });
 
-    // Initial fetch
-    fetchUsers();
-});
+      // Previous page
+      $("#left-arrow").on("click", function () {
+        if (currentPage > 1) {
+          currentPage--;
+          fetchUsers();
+        }
+      });
+
+      // Fetch users on page load
+      fetchUsers();
+    });
+  </script>
+
+
+
+
+
+  @* Pagination script *@
+  @* <script>
+function changePage(page) {
+const PageSize = document.getElementById("PageSize").value;
+window.location.href = `?PageNo=${page}&PageSize=${PageSize}`;
+}
+
+function pageSizeChange(page) {
+const PageSize = document.getElementById("PageSize").value;
+window.location.href = `?PageNo=${page}&PageSize=${PageSize}`;
+}
 
 </script> *@
 
-<script>
-  $(document).ready(function () {
-    let currentPage = 1;
-    let pageSize = 5;
-    let searchQuery = "";
-
-    function fetchUsers() {
-        $.ajax({
-            url: `/User/GetUsers?page=${currentPage}&pageSize=${pageSize}&search=${searchQuery}`,
-            type: "GET",
-            success: function (data) {
-                let tbody = $('#example tbody');
-                tbody.empty();
-
-                $.each(data.users, function (index, user) {
-                    let statusClass = user.Status === "Active" ? "bg-success" : "bg-danger";
-                    let row = `
-                        <tr>
-                            <td>${user.Name}</td>
-                            <td>${user.Email}</td>
-                            <td>${user.Phone}</td>
-                            <td>${user.Role}</td>
-                            <td>
-                                <div class="text-center text-white ${statusClass} rounded-pill w-75 p-lg-0 ps-1 pe-4">
-                                    ${user.Status}
-                                </div>
-                            </td>
-                            <td>
-                                <a href="/User/Edit/${user.UserId}">
-                                    <i class="fa-solid fa-pen w-25 me-sm-2 me-xs-2 me-lg-0 text-dark"></i>
-                                </a>
-                                <a data-userid="${user.UserId}" class="delete-user">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    `;
-                    tbody.append(row);
-                });
-
-                $('.pagination-main-div span:nth-child(3)').text(
-                    `Showing ${data.start}-${data.end} of ${data.totalRecords}`
-                );
-            }
-        });
-    }
-
-    // Search functionality
-    $('.search-button input').on('keyup', function () {
-        searchQuery = $(this).val();
-        currentPage = 1;
-        fetchUsers();
-    });
-
-    // Items per page dropdown
-    $('.pagination-main-div select').on('change', function () {
-        pageSize = $(this).val();
-        currentPage = 1;
-        fetchUsers();
-    });
-
-    // Pagination buttons
-    $('.fa-angle-left').on('click', function () {
-        if (currentPage > 1) {
-            currentPage--;
-            fetchUsers();
-        }
-    });
-
-    $('.fa-angle-right').on('click', function () {
-        currentPage++;
-        fetchUsers();
-    });
-
-    // Initial fetch
-    fetchUsers();
-});
-</script>
 
 }
->>>>>>> 7ab8b43029a957c249444e9977747c5be2dba754

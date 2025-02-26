@@ -47,7 +47,7 @@ public class UserLoginService : IUserLoginService
         // var user = _context.UserLogins.FirstOrDefault(e => e.Email == userLogin.Email && e.Password == EncryptPassword(userLogin.Password));
         var user = _context.UserLogins.Where(e => e.Email == userLogin.Email).FirstOrDefault();
 
-        if (user != null)
+        if (user != null && user.Isdelete==false)
         {
             if (user.Password == EncryptPassword(userLogin.Password))
             {

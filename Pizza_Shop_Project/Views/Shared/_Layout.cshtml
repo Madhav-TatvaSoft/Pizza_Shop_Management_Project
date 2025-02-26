@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     var username = Context.Session.GetString("email");
 }
 <!DOCTYPE html>
@@ -13,6 +12,11 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Pizza_Shop_Project.styles.css" asp-append-version="true" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -39,7 +43,8 @@
                         </div>
 
                         <!-- dashboard -->
-                        <a asp-action="Dashboard" asp-Controller="User" class="text-decoration-none dashboard-text-inactive text-dark">
+                        <a asp-action="Dashboard" asp-Controller="User"
+                            class="text-decoration-none dashboard-text-inactive text-dark">
                             <div class="dashboard-inactive-div d-flex p-3">
                                 <img src="../images/dashboard-default.svg" width="20px" class=" " alt>
                                 <p class="mt-1 ms-3 fw-bold ">Dashboard</p>
@@ -47,7 +52,8 @@
                         </a>
 
                         <!-- users -->
-                        <a asp-action="AddUser" asp-Controller="User" class="text-decoration-none dashboard-text-active ">
+                        <a asp-action="AddUser" asp-Controller="User"
+                            class="text-decoration-none dashboard-text-active ">
                             <div class="dashboard-active-div d-flex align-items-center p-3 ">
                                 <i class="fa-solid fa-users "></i>
                                 <p class="m-0 ms-3 fw-bold">Users</p>
@@ -144,7 +150,8 @@
                                     </a>
 
                                     <!-- users -->
-                                    <a asp-action="AddUser" asp-Controller="User" class="text-decoration-none dashboard-text-active ">
+                                    <a asp-action="AddUser" asp-Controller="User"
+                                        class="text-decoration-none dashboard-text-active ">
                                         <div class="dashboard-active-div d-flex align-items-center p-3 ">
                                             <i class="fa-solid fa-users "></i>
                                             <p class="m-0 ms-3 fw-bold">Users</p>
@@ -222,12 +229,15 @@
                                             <span class="fs-6 fw-bold ms-3 mt-3">@username</span>
                                         </div>
                                     </li>
-                                    <li><a class="dropdown-item fw-bold mt-1" asp-action="UserProfile" asp-controller="User"><i
-                                                class="bi bi-person-circle me-2"></i>My Profile</a></li>
-                                    <li><a class="dropdown-item fw-bold" asp-action="ChangePassword" asp-controller="User" ><i
-                                                class="fa-solid fa-rotate-right me-2"></i>Change Password</a></li>
-                                    <li data-bs-toggle="modal" data-bs-target="#exampleModal"><a class="dropdown-item fw-bold" ><i
-                                                class="fa-solid fa-right-from-bracket me-2" ></i>Logout</a></li>
+                                    <li><a class="dropdown-item fw-bold mt-1" asp-action="UserProfile"
+                                            asp-controller="User"><i class="bi bi-person-circle me-2"></i>My Profile</a>
+                                    </li>
+                                    <li><a class="dropdown-item fw-bold" asp-action="ChangePassword"
+                                            asp-controller="User"><i class="fa-solid fa-rotate-right me-2"></i>Change
+                                            Password</a></li>
+                                    <li data-bs-toggle="modal" data-bs-target="#exampleModal"><a
+                                            class="dropdown-item fw-bold"><i
+                                                class="fa-solid fa-right-from-bracket me-2"></i>Logout</a></li>
 
                                 </ul>
 
@@ -250,26 +260,27 @@
 
 
 
-    @* Model   *@
+    @* Model *@
 
-  <div class="modal" tabindex="-1" id="exampleModal" >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title fw-bold text-secondary">Logout Confirmation</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal" tabindex="-1" id="exampleModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold text-secondary">Logout Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-center"><img src="/images/toppng.com-warning-icon-2400x2400.png"
+                            style="width: 30px;" alt=""></div>
+                    <p class="fw-bold text-secondary text-center">Are you sure you want Logout ?</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <a asp-action="UserLogout" asp-controller="User" type="button" class="btn solid-btn fw-bold">Yes</a>
+                    <a type="button" class="btn btn-light fw-bold hollow-btn" data-bs-dismiss="modal">No</a>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-        <div class="d-flex justify-content-center"><img src="/images/toppng.com-warning-icon-2400x2400.png" style="width: 30px;" alt="" ></div>
-        <p class="fw-bold text-secondary text-center">Are you sure you want Logout ?</p>
-        </div>
-        <div class="modal-footer d-flex justify-content-center">
-          <a asp-action="UserLogout" asp-controller="User" type="button" class="btn solid-btn fw-bold">Yes</a>
-          <a  type="button" class="btn btn-light fw-bold hollow-btn" data-bs-dismiss="modal">No</a>
-        </div>
-      </div>
     </div>
-  </div>
 
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

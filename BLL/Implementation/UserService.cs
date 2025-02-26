@@ -35,15 +35,33 @@ public class UserService : IUserService
         return _context.Cities.Where(x => x.StateId == stateId).ToList();
     }
 
-    public List<User> GetUserProfileDetails(string cookieSavedToken)
+    public List<AddUserViewModel> GetUserProfileDetails(string cookieSavedToken)
     {
         var Email = _JWTService.GetClaimValue(cookieSavedToken, "email");
-        var data = _context.Users.Include(x => x.Userlogin).Where(x => x.Userlogin.Email == Email).ToList();
+        var data = _context.Users.Include(x => x.Userlogin).Where(x => x.Userlogin.Email == Email)
+        .Select(
+            x => new AddUserViewModel
+            {
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Username = x.Username,
+                Phone = x.Phone,
+                RoleId = x.Userlogin.RoleId,
+                Email = x.Userlogin.Email,
+                Image = x.ProfileImage,
+                StateId = x.StateId,
+                CityId = x.CityId,
+                Status = x.Status,
+                Address = x.Address,
+                Zipcode = x.Zipcode,
+                CountryId = x.CountryId
+            }
+        ).ToList();
 
         return data;
     }
 
-    public bool UpdateUser(User user, string Email)
+    public bool UpdateUser(AddUserViewModel user, string Email)
     {
 
         User userdetails = _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email);
@@ -51,6 +69,10 @@ public class UserService : IUserService
         userdetails.LastName = user.LastName;
         userdetails.Username = user.Username;
         userdetails.Address = user.Address;
+        if (user.Image != null)
+        {
+            userdetails.ProfileImage = user.Image;
+        }
         userdetails.Phone = user.Phone;
         userdetails.Zipcode = user.Zipcode;
         userdetails.CountryId = user.CountryId;
@@ -75,77 +97,65 @@ public class UserService : IUserService
         return false;
     }
 
-    // public List<User> GetUserList(string Email)
+    // public async Task<(List<User>, int)> GetUserList(string search, int PageNo, int PageSize)
     // {
-    //     return _context.Users.Include(x => x.Userlogin).Include(x => x.Userlogin.Role).ToList();
+    //     var query = _context.Users.Include(x => x.Userlogin).ThenInclude(u => u.Role).Where(u => u.Isdelete == false);
+
+    //     // Apply search filter
+    //     if (!string.IsNullOrEmpty(search))
+    //     {
+    //         string lowerSearchTerm = search.ToLower();
+    //         query = query.Where(u =>
+    //             u.FirstName.ToLower().Contains(lowerSearchTerm) ||
+    //             u.Userlogin.Email.ToLower().Contains(lowerSearchTerm) ||
+    //             u.Userlogin.Role.RoleName.ToLower().Contains(lowerSearchTerm)
+    //         );
+    //     }
+
+    //     int TotalRecord = await query.CountAsync();
+    //     var users = await query
+    //                            .OrderBy(u => u.FirstName)
+    //                            .Skip((PageNo - 1) * PageSize)
+    //                            .Take(PageSize)
+    //                            .ToListAsync();
+
+    //     // return _context.Users.Include(x => x.Userlogin).Include(x => x.Userlogin.Role).ToList();
+    //     return (users, TotalRecord);
     // }
 
-
-    public class PaginatedList<T>
+    public List<User> GetUserList(string searchTerm, int pageNumber, int pageSize, out int totalRecords)
 {
-    public List<T> Items { get; set; }
-    public int TotalRecords { get; set; }
-    public int Page { get; set; }
-    public int PageSize { get; set; }
+    var query = _context.Users
+        .Include(u => u.Userlogin)
+        .ThenInclude(l => l.Role)
+       .Where(u => u.Isdelete == false);// Exclude deleted users
 
-    public PaginatedList(List<T> items, int totalRecords, int page, int pageSize)
+    // Apply search filter
+    if (!string.IsNullOrEmpty(searchTerm))
     {
-        Items = items;
-        TotalRecords = totalRecords;
-        Page = page;
-        PageSize = pageSize;
+        string lowerSearchTerm = searchTerm.ToLower();
+        query = query.Where(u => 
+            u.FirstName.ToLower().Contains(lowerSearchTerm) ||
+            u.LastName.ToLower().Contains(lowerSearchTerm) ||
+            u.Userlogin.Email.ToLower().Contains(lowerSearchTerm) ||
+            u.Phone.ToString().Contains(lowerSearchTerm) ||
+            u.Userlogin.Role.RoleName.ToLower().Contains(lowerSearchTerm)
+        );
     }
+
+    // Get total records count (before pagination)
+    totalRecords = query.Count();
+
+    // Apply pagination
+    var users = query
+        .OrderBy(u => u.FirstName) // Sorting by name
+        .Skip((pageNumber - 1) * pageSize)
+        .Take(pageSize)
+        .ToList();
+
+    return users;
 }
-    public async Task<PaginatedList<User>> GetUsersAsync(int page, int pageSize, string search)
-    {
-        var query = _context.Users.Include(u => u.Userlogin.Role)
-                                  .Where(u => !u.Isdelete);
 
-        if (!string.IsNullOrEmpty(search))
-        {
-            query = query.Where(u => u.FirstName.Contains(search) || 
-                                     u.Userlogin.Role.RoleName.Contains(search) || 
-                                     u.Userlogin.Email.Contains(search));
-        }
-
-        int totalRecords = await query.CountAsync();
-        var users = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-
-        return new PaginatedList<User>(users, totalRecords, page, pageSize);
-    }
-
-    //     public class PaginatedList<User>
-    // {
-    //     public List<User> Items { get; set; }
-    //     public int TotalRecords { get; set; }
-    //     public int Page { get; set; }
-    //     public int PageSize { get; set; }
-
-    //     public PaginatedList(List<User> items, int totalRecords, int page, int pageSize)
-    //     {
-    //         Items = items;
-    //         TotalRecords = totalRecords;
-    //         Page = page;
-    //         PageSize = pageSize;
-    //     }
-    // }
-    //     public async Task<PaginatedList<User>> GetUsersAsync(int page, int pageSize, string search)
-    //     {
-    //         var query = _context.Users.Include(u => u.Userlogin.Role)
-    //                                   .Where(u => !u.Isdelete);
-
-    //         if (!string.IsNullOrEmpty(search))
-    //         {
-    //             query = query.Where(u => u.FirstName.Contains(search) || 
-    //                                      u.Userlogin.Role.RoleName.Contains(search) || 
-    //                                      u.Userlogin.Email.Contains(search));
-    //         }
-
-    //         int totalRecords = await query.CountAsync();
-    //         var users = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-
-    //         return new PaginatedList<User>(users, totalRecords, page, pageSize);
-    //     }
 
     public List<Role> GetRole()
     {
@@ -217,6 +227,7 @@ public class UserService : IUserService
         userdetails.FirstName = user.FirstName;
         userdetails.LastName = user.LastName;
         userdetails.Username = user.Username;
+        userdetails.ProfileImage = user.Image;
         userdetails.Address = user.Address;
         userdetails.Phone = user.Phone;
         userdetails.Zipcode = user.Zipcode;

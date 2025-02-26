@@ -12,40 +12,44 @@ public class AddUserViewModel
 
     public long RoleId { get; set; }
 
+    [StringLength(50, ErrorMessage = "First Name cannot exceed 50 characters.")]
     public string FirstName { get; set; } = null!;
-
+    
+    [StringLength(50, ErrorMessage = "Last Name cannot exceed 50 characters.")]
     public string LastName { get; set; } = null!;
 
+    [StringLength(50, ErrorMessage = "Username cannot exceed 50 characters.")]
     public string Username { get; set; } = null!;
 
     public string Email { get; set; }
 
+    [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
+    [MaxLength(20, ErrorMessage = "Password cannot exceed 20 characters.")]
+    [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$", 
+        ErrorMessage = "Password must contain at least one uppercase letter, one number, and one special character.")]
     public string Password { get; set; }
 
-    public string Image { get; set; }
+    public string? Image { get; set; }
 
-    public IFormFile ProfileImage { get; set; }
+    public IFormFile? ProfileImage { get; set; }
 
-
-    [Required(ErrorMessage = "Please select a Country")]
+    [Required(ErrorMessage = "Please select a Country.")]
     public long? CountryId { get; set; }
 
-
-    [Required(ErrorMessage = "Please select a State")]
+    [Required(ErrorMessage = "Please select a State.")]
     public long? StateId { get; set; }
 
-
-    [Required(ErrorMessage = "Please select a City")]
+    [Required(ErrorMessage = "Please select a City.")]
     public long? CityId { get; set; }
-
-
-    [Required(ErrorMessage = "Please select  Address")]
 
     public string? Address { get; set; }
 
-    [Required(ErrorMessage = "Please select Zipcode")]
+    [Required(ErrorMessage = "Zipcode is required.")]
+    [Range(100000, 999999, ErrorMessage = "Invalid Zipcode format.")]
     public long? Zipcode { get; set; }
 
+    [Required(ErrorMessage = "Phone number is required.")]
+    [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
     public long Phone { get; set; }
 
     public bool? Status { get; set; }

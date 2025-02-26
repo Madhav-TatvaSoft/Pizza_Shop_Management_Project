@@ -25,20 +25,13 @@ namespace Pizza_Shop_Project.Controllers
             this._userLoginService = userLoginService;
         }
 
-        // GET: UserLogin
-
-        // public async Task<IActionResult> Index()
-        // {
-        //     var userlogindata = await _userLoginService.GetUserLogins();
-        //     return View(userlogindata);
-        // }
-
-        // GET: UserLogin/Verify
+        #region VerifyUserLogin
         public IActionResult VerifyUserLogin()
         {
 
             if (Request.Cookies.ContainsKey("email"))
             {
+                TempData["SuccessMessage"] = "Login Successfully";
                 return RedirectToAction("UserListData", "User");
             }
             // ViewData["RoleId"] = new SelectList(_userLoginService.Roles, "RoleId", "RoleId");
@@ -74,37 +67,29 @@ namespace Pizza_Shop_Project.Controllers
                 TempData["SuccessMessage"] = "Login Successfully";
                 return RedirectToAction("UserListData", "User");
             }
-            ViewBag.message = "Please enter valid credentials";
-            return View("VerifyUserLogin");
+            TempData["ErrorMessage"] = "Please enter valid credentials";
+            return RedirectToAction("VerifyUserLogin","UserLogin");
         }
+        #endregion
 
-        public IActionResult ForgotPassword(string Email)
+        #region GetEmail
+        public string GetEmail(string Email)
         {
-            ViewBag.Email = Email;
-            return View();
+            ForgotPasswordViewModel forgotPasswordViewModel = new ForgotPasswordViewModel();
+            forgotPasswordViewModel.Email = Email;
+            TempData["Email"] = Email;
+            return Email;
         }
+        #endregion
 
-        // public IActionResult ForgotPassword(string email)
-        // {
-        //     // Your logic to handle the forgot password request
-        //     if (email == null)
-        //     {
-        //         return BadRequest("Email is required.");
-        //     }
-
-        //     // Process the email (e.g., send a password reset link)
-        //     // ...
-
-        //     return View();
-        // }
-
-        public IActionResult SendEmail()
+        #region ForgotPassword
+        public IActionResult ForgotPassword()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendEmail(ForgotPasswordViewModel forgotpassword)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgotpassword)
         {
             var userLogin = new UserLoginViewModel();
             userLogin.Email = forgotpassword.Email;
@@ -115,21 +100,24 @@ namespace Pizza_Shop_Project.Controllers
                 var sendEmail = await _userLoginService.SendEmail(forgotpassword, resetLink);
                 if (sendEmail)
                 {
+                    TempData["SuccessMessage"] = "Reset password link sent successfully";
                     return View("VerifyUserLogin");
                 }
                 else
                 {
-                    ViewBag.message = "Please try again!!!";
+                    TempData["ErrorMessage"] = "Please try again!!!";
                     return View("ForgotPassword");
                 }
             }
             else
             {
-                ViewBag.message = "Please enter valid email";
+                TempData["ErrorMessage"] = "Email does not exists";
                 return View("ForgotPassword");
             }
         }
+        #endregion
 
+        #region ResetPassword
         public IActionResult ResetPassword(string Email)
         {
             var resetPassword = new ResetPasswordViewModel();
@@ -147,22 +135,24 @@ namespace Pizza_Shop_Project.Controllers
                     var checkresetpassword = await _userLoginService.ResetPassword(resetPassword);
                     if (checkresetpassword)
                     {
+                        TempData["SuccessMessage"] = "Password Reset Successfully";
                         return RedirectToAction("VerifyUserLogin");
                     }
                     else
                     {
-                        ViewBag.message = "Please try again!!!";
+                        TempData["ErrorMessage"] = "Please try again!!!";
                         return View("ResetPassword");
                     }
                 }
                 else
                 {
-                    ViewBag.message = "Password and Confirm Password should be same";
+                    ViewBag.reset = "Password and Confirm Password should be same";
                     return View("ResetPassword");
                 }
             }
             return View("ResetPassword");
-
         }
+    #endregion
+
     }
 }

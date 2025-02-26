@@ -1,7 +1,8 @@
-@model DAL.Models.User;
+@model DAL.ViewModels.AddUserViewModel
 @{
     ViewData["Title"] = "UserProfile Page";
     Layout = "_Layout";
+    @* var Image = Model.Image; *@
 }
 
 <!-- user list -->
@@ -12,7 +13,7 @@
 
 </div>
 
-<form asp-action="UserProfile" method="post" class="form-main-div mt-3 mx-auto bg-white shadow-lg" style="width: 96%; ">
+<form asp-action="UserProfile" method="post" class="form-main-div mt-3 mx-auto bg-white shadow-lg" style="width: 96%; " enctype="multipart/form-data">
 
     <!-- bg div  -->
     <div class="row">
@@ -24,12 +25,12 @@
         <!-- <div class=""> -->
         <div class="position-relative">
 
-            <img src="../images/Default_pfp.svg.png" id="user-profile" class="user-profile position-absolute ms-3 " />
+            <img src="@Model.Image" id="user-profile" class="user-profile position-absolute ms-3 " />
 
             <label for="profile-img">
                 <img src="../images/camera.svg" class="camera-img ms-3 position-absolute bg-white" alt="" />
             </label>
-            <input type="file" class="form-control d-none" id="profile-img">
+            <input asp-for="@Model.ProfileImage" type="file" class="form-control d-none" id="profile-img">
 
         </div>
 
@@ -37,7 +38,7 @@
 
             <div class="d-flex justify-content-md-between flex-md-row flex-column mt-4 mt-md-0 ms-md-5 mt-1">
                 <span class="fs-3 fw-bold ms-md-4">@Model.FirstName @Model.LastName</span>
-                <span class="me-md-5 mt-sm-3 ">@Model.Userlogin.Email</span>
+                <span class="me-md-5 mt-sm-3 ">@Model.Email</span>
             </div>
 
             <div class="fs-6 ms-md-5 me-md-5 "><span class="ms-md-4">@Model.Username</span></div>
@@ -47,7 +48,6 @@
     </div>
 
     <div class="row ">
-
 
         <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
             <div class="form-floating d-flex flex-column ">
@@ -149,47 +149,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        @* $(document).ready(function () {
-            $("#country").change(function () {
-        var countryId = $(this).val();
-
-        console.log(countryId);
-
-        $("#state").empty().append('<option value="">Select State</option>');
-        $("#city").empty().append('<option value="">Select City</option>');
-
-        if (countryId) {
-                    $.getJSON('/User/GetStates', { countryId: countryId }, function (states) {
-                  console.log(states);
-                        $.each(states, function (i, states) {
-
-                            $("#state").append('<option value="' + states.StateId + '">' + states.StateName + '</option>');
-        });
-        });
-        }
-        });
-
-            $("#state").change(function () {
-
-        var stateId = $(this).val();
-
-        console.log(stateId);
-
-        $("#city").empty().append('<option value="">Select City</option>');
-
-        if (stateId) {
-                    $.getJSON('/User/GetCities', { stateId: stateId }, function (cities) {
-
-                        $.each(cities, function (i, cities) {
-                            $("#city").append('<option value="' + cities.CityId + '">' + cities.CityName + '</option>');
-        });
-        });
-        }
-        });
-        }); *@
-    </script>
-
-    <script>
 
             $(document).ready(function () {
                 $('#country').change(function () {
@@ -228,7 +187,8 @@
             });
     </script>
 
-    <script>$("#profile-img").change(function () {
+    <script>
+        $("#profile-img").change(function () {
             const file = this.files[0];
             if (file) {
                 const fileReader = new FileReader();
@@ -236,6 +196,20 @@
                     $("#user-profile").attr("src", event.target.result);
                 };
                 fileReader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            var errorMessage = '@TempData["ErrorMessage"]';
+            console.log("successMessage", successMessage);
+            if (successMessage) {
+                toastr.success(successMessage);
+            }
+            if (errorMessage) {
+                toastr.error(errorMessage);
             }
         });
     </script>

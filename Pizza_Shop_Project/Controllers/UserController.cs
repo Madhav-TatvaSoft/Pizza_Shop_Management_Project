@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.Mail;
 using System.Net;
 
-
 public class UserController : Controller
 {
     private readonly UserService _userService;
@@ -31,6 +30,8 @@ public class UserController : Controller
         return View();
     }
 
+    #region State,City
+
     public JsonResult GetStates(long? countryId)
     {
         var states = _userService.GetState(countryId);
@@ -42,7 +43,9 @@ public class UserController : Controller
         var cities = _userService.GetCity(stateId);
         return Json(new SelectList(cities, "CityId", "CityName"));
     }
+    #endregion
 
+    #region UserProfile
     // [Authorize(Roles = "Admin")]
     public IActionResult UserProfile()
     {
@@ -58,7 +61,7 @@ public class UserController : Controller
     }
 
     [HttpPost]
-    public IActionResult UserProfile(User user)
+    public IActionResult UserProfile(AddUserViewModel user)
     {
         var token = Request.Cookies["AuthToken"];
         var userEmail = _JWTService.GetClaimValue(token, "email");
@@ -76,9 +79,30 @@ public class UserController : Controller
             TempData["CityError"] = "Please select a city";
         }
 
+
+        if (user.ProfileImage != null)
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            string fileName = $"{Guid.NewGuid()}_{user.ProfileImage.FileName}";
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                user.ProfileImage.CopyTo(stream);
+            }
+            user.Image = $"/uploads/{fileName}";
+        }
+
         _userService.UpdateUser(user, userEmail);
+        TempData["SuccessMessage"] = "Profile Updated successfully";
         return RedirectToAction("UserListData", "User");
     }
+    #endregion
 
     #region ChangePassword
     public IActionResult ChangePassword()
@@ -111,7 +135,7 @@ public class UserController : Controller
             var password_verify = _userService.UserChangePassword(changepassword, userEmail);
             if (password_verify)
             {
-                ViewBag.Message = "Password Changed Successfully";
+                TempData["SuccessMessage"] = "Password Changed Successfully";
                 return RedirectToAction("UserProfile", "User");
             }
             else
@@ -123,42 +147,60 @@ public class UserController : Controller
     }
     #endregion
 
+    #region Logout
     public IActionResult UserLogout()
     {
         Response.Cookies.Delete("AuthToken");
         Response.Cookies.Delete("email");
+        TempData["SuccessMessage"] = "Logged out successfully";
         return RedirectToAction("VerifyUserLogin", "UserLogin");
     }
+    #endregion
 
+    #region UserListData
     // [Authorize(Roles = "Admin")]
-    public IActionResult UserListData()
-    {
-        var token = Request.Cookies["AuthToken"];
-        var Email = _JWTService.GetClaimValue(token, "email");
-        var users = _userService.GetUserList(Email);
-        return View(users);
-    }
-
-    // public async Task<IActionResult> UserListData(int page = 1, int pageSize = 5, string search = "")
+    // public async Task<IActionResult> UserListData(string search = "", int PageNo = 1, int PageSize = 5)
     // {
-    //     var result = await _userService.GetUsersAsync(page, pageSize, search);
-
-    //     return Json(new
+    //     // var token = Request.Cookies["AuthToken"];
+    //     // var Email = _JWTService.GetClaimValue(token, "email");
+    //     // var users = _userService.GetUserList(PageNo,PageSize);
+    //     var (users, TotalRecord) = await _userService.GetUserList(search, PageNo, PageSize);
+    //     int totalPages = (int)Math.Ceiling((double)TotalRecord / PageSize);
+    //     var userList = users.Select(user => new
     //     {
-    //         users = result.Items.Select(u => new
-    //         {
-    //             u.UserId,
-    //             Name = $"{u.FirstName} {u.LastName}",
-    //             Email = u.Userlogin.Email,
-    //             Phone = u.Phone,
-    //             Role = u.Userlogin.Role.RoleName,
-    //             Status = (bool)u.Status ? "Active" : "Inactive"
-    //         }),
-    //         start = ((page - 1) * pageSize) + 1,
-    //         end = Math.Min(page * pageSize, result.TotalRecords),
-    //         totalRecords = result.TotalRecords
-    //     });
+    //         user.FirstName,
+    //         Email = user.Userlogin.Email,
+    //         RoleName = user.Userlogin.Role.RoleName,
+    //         user.Status
+    //     }).ToList();
+
+    //     ViewBag.PageNo = PageNo;
+    //     ViewBag.PageSize = PageSize;
+    //     ViewBag.TotalPages = totalPages;
+    //     ViewBag.TotalRecord = TotalRecord;
+    //     return View(users);
     // }
+
+
+public IActionResult FilterList(string searchTerm = "", int pageNumber = 1, int pageSize = 5)
+{
+    int totalRecords;
+    var users = _userService.GetUserList(searchTerm, pageNumber, pageSize, out totalRecords);
+
+    var userList = users.Select(user => new
+    {
+        user.FirstName,
+        user.LastName,
+        Email = user.Userlogin.Email,
+        user.Phone,
+        RoleName = user.Userlogin.Role.RoleName,
+        user.Status
+    }).ToList();
+
+    return Json(new { Users = userList, TotalRecords = totalRecords });
+}
+
+    #endregion
 
     #region AddUser
     public IActionResult AddUser()
@@ -194,11 +236,7 @@ public class UserController : Controller
         var token = Request.Cookies["AuthToken"];
         var Email = _JWTService.GetClaimValue(token, "email");
 
-        if (!await _userService.AddUser(user, Email))
-        {
-            ViewBag.Message = "Account with this email already exists";
-            return View();
-        }
+
 
         if (user.ProfileImage != null)
         {
@@ -218,11 +256,17 @@ public class UserController : Controller
             user.Image = $"/uploads/{fileName}";
         }
 
+        if (!await _userService.AddUser(user, Email))
+        {
+            //change
+            TempData["ErrorMessage"] = "Account with this email already exists";
+            return View();
+        }
+
         var senderEmail = new MailAddress("tatva.pca42@outlook.com", "tatva.pca42@outlook.com");
         var receiverEmail = new MailAddress(user.Email, user.Email);
         var password = "P}N^{z-]7Ilp";
         var sub = "Add user";
-        var resetLink = Url.Action("ResetPassword", "UserLogin", new { Email = user.Email }, Request.Scheme);
         var body = $@"<div style='max-width: 500px; font-family: Arial, sans-serif; border: 1px solid #ddd;'>
                 <div style='background: #006CAC; padding: 10px; text-align: center; height:90px; max-width:100%; display: flex; justify-content: center; align-items: center;'>
                     <img class='mt-2' src='https://images.vexels.com/media/users/3/128437/isolated/preview/2dd809b7c15968cb7cc577b2cb49c84f-pizza-food-restaurant-logo.png' style='max-width: 50px;' />
@@ -257,6 +301,7 @@ public class UserController : Controller
 
 
         // _userService.AddUser(user, Email);
+        TempData["SuccessMessage"] = "User added successfully. Check your email for login details";
         return RedirectToAction("UserListData", "User");
         // return View();
     }
@@ -296,7 +341,26 @@ public class UserController : Controller
             TempData["CityError"] = "Please select a city";
         }
 
+        if (adduser.ProfileImage != null)
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            string fileName = $"{Guid.NewGuid()}_{adduser.ProfileImage.FileName}";
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                adduser.ProfileImage.CopyTo(stream);
+            }
+            adduser.Image = $"/uploads/{fileName}";
+        }
         _userService.EditUser(adduser, Email);
+
+        TempData["SuccessMessage"] = "User Updated successfully";
         return RedirectToAction("UserListData", "User");
 
     }
@@ -312,9 +376,9 @@ public class UserController : Controller
             ViewBag.Message = "User cannot be deleted";
             return RedirectToAction("UserListData", "User");
         }
+        TempData["SuccessMessage"] = "User deleted successfully";
         return RedirectToAction("UserListData", "User");
     }
     #endregion
-
 
 }
