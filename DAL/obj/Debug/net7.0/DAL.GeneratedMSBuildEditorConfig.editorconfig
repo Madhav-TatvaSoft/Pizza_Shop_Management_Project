@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = DAL_Data_Access_Layer_
-build_property.ProjectDir = D:\Pizzashop_Management\Pizza_Shop_Management_Project\DAL\
+build_property.ProjectDir = D:\T30_Pizza_Shop_Project\DAL\
