@@ -10,7 +10,6 @@
 
     <div class="user-text fs-3 fw-bold ms-3 mt-3">Edit User</div>
 
-
     <!-- search add user -->
     <div class="search-adduser-div d-flex justify-content-end  align-items-center">
         <div class="add-user-button ">
@@ -18,7 +17,6 @@
                 class="add-user-button btn hollow-btn  p-sm-2 mt-2 ms-3 me-4 ">
                 <i class="bi bi-caret-left-fill"></i>Back</a>
         </div>
-
     </div>
 
 </div>
@@ -88,7 +86,7 @@
                     style="height: 90px; width: 100%;  ">
                     <input type="file" asp-for="ProfileImage" class=" d-none " id="choose-file" />
                     <label for="choose-file" >
-                        <i class="fa-solid fa-cloud-arrow-up d-flex justify-content-center ms-1 mb-1"></i> <span class="browseFileText">Browse files</span></label>
+                        <i class="fa-solid fa-cloud-arrow-up d-flex justify-content-center ms-1 mb-1"></i> <span id="browseFileText">Browse files</span></label>
                 </div>
             </div>
 

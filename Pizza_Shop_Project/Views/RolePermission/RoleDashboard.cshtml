@@ -1,0 +1,24 @@
+<div class="permission-table-main-div table-responsive fs-5 p-5 ms-5 mt-5 mb-0 bg-white" style="width: 85%;">
+    <table class="table" id="demo">
+        <thead>
+            <tr>
+                <th scope="col" class="fw-bold fs-4 text-start">Role</th>
+                <th scope="col" class="fw-bold fs-4 d-flex justify-content-end">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold text-secondary fs-6 text-start">
+                        @Html.DisplayFor(modelItem => item.RoleName)
+                    </td>
+                    <td class="d-flex justify-content-end">
+                        <a asp-action="Permission" asp-controller="RolePermission" asp-route-id="@item.RoleId"><i
+                                class="fa-solid fa-pen ms-4 text-secondary"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

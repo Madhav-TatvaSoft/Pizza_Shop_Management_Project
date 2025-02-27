@@ -12,14 +12,11 @@ using System.Net;
 using BLL.Implementation;
 using Microsoft.AspNetCore.Authorization;
 
-
 namespace Pizza_Shop_Project.Controllers
 {
     public class UserLoginController : Controller
     {
         private readonly UserLoginService _userLoginService;
-
-
         public UserLoginController(UserLoginService userLoginService)
         {
             this._userLoginService = userLoginService;
@@ -38,8 +35,6 @@ namespace Pizza_Shop_Project.Controllers
             return View();
         }
 
-        // POST: UserLogin/Create
-
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -55,17 +50,18 @@ namespace Pizza_Shop_Project.Controllers
             {
                 //JWT token
                 Response.Cookies.Append("AuthToken", verification_token, option);
+                Response.Cookies.Append("profileImage", _userLoginService.GetProfileImage(userLogin.Email), option);
+                Response.Cookies.Append("username", _userLoginService.GetUsername(userLogin.Email), option);
 
                 if (userLogin.Remember_me)
                 {
                     Response.Cookies.Append("email", userLogin.Email, option);
                     TempData["SuccessMessage"] = "Login Successfully";
-                    return RedirectToAction("UserListData", "User");
+                    return RedirectToAction("Dashboard", "User");
 
                 }
-                HttpContext.Session.SetString("email", userLogin.Email);
                 TempData["SuccessMessage"] = "Login Successfully";
-                return RedirectToAction("UserListData", "User");
+                return RedirectToAction("Dashboard", "User");
             }
             TempData["ErrorMessage"] = "Please enter valid credentials";
             return RedirectToAction("VerifyUserLogin","UserLogin");

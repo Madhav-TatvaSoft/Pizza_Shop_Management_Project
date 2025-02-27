@@ -1,6 +1,4 @@
-﻿@{
-    var username = Context.Session.GetString("email");
-}
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 <!DOCTYPE html>
 <html lang="en">
 
@@ -217,16 +215,19 @@
 
                                 <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
-                                    <img src="../images/Default_pfp.svg.png" width="40px" alt="">
-
+                                    <img src="@(HttpContextAccessor.HttpContext.Request.Cookies["ProfileImage"])" width="40px" alt="">
                                 </button>
 
                                 <ul class="dropdown-menu">
 
                                     <li>
                                         <div class="d-flex border border-bottom-black border-top-0 pb-2">
-                                            <img src="../images/Default_pfp.svg.png" class="ms-3 w-25 h-25" />
-                                            <span class="fs-6 fw-bold ms-3 mt-3">@username</span>
+
+
+                                            <img src="@(HttpContextAccessor.HttpContext.Request.Cookies["ProfileImage"])"
+                                                class="ms-3 w-25 h-25" />
+                                            <div
+                                                class="fs-6 fw-bold ms-3 align-content-center">@(HttpContextAccessor.HttpContext.Request.Cookies["username"])</div>
                                         </div>
                                     </li>
                                     <li><a class="dropdown-item fw-bold mt-1" asp-action="UserProfile"

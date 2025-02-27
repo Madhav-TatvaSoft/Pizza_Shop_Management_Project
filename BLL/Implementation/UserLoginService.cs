@@ -47,7 +47,7 @@ public class UserLoginService : IUserLoginService
         // var user = _context.UserLogins.FirstOrDefault(e => e.Email == userLogin.Email && e.Password == EncryptPassword(userLogin.Password));
         var user = _context.UserLogins.Where(e => e.Email == userLogin.Email).FirstOrDefault();
 
-        if (user != null && user.Isdelete==false)
+        if (user != null && user.Isdelete == false)
         {
             if (user.Password == EncryptPassword(userLogin.Password))
             {
@@ -131,4 +131,14 @@ public class UserLoginService : IUserLoginService
         }
         return false;
     }
+
+    public string GetProfileImage(string Email)
+    {
+        return _context.Users.FirstOrDefault(x=>x.Userlogin.Email == Email).ProfileImage;
+    }
+
+    public string GetUsername(string Email){
+        return _context.Users.FirstOrDefault(x=>x.Userlogin.Email == Email).Username;
+    }
+
 }

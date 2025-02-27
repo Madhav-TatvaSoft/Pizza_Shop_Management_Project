@@ -23,8 +23,6 @@ public class UserController : Controller
         this._JWTService = JWTService;
         this._userLoginService = userLoginService;
     }
-
-    // [Authorize(Roles = "Admin")]
     public IActionResult Dashboard()
     {
         return View();
@@ -99,6 +97,15 @@ public class UserController : Controller
         }
 
         _userService.UpdateUser(user, userEmail);
+
+        CookieOptions options = new CookieOptions();
+        options.Expires = DateTime.Now.AddMinutes(60);
+        if (user.Image != null)
+        {
+            Response.Cookies.Append("profileImage", user.Image, options);
+        }
+        Response.Cookies.Append("username", user.Username, options);
+
         TempData["SuccessMessage"] = "Profile Updated successfully";
         return RedirectToAction("UserListData", "User");
     }
@@ -140,7 +147,7 @@ public class UserController : Controller
             }
             else
             {
-                ViewBag.Message = "Current Password is incorrect";
+                TempData["ErrorMessage"] = "Current Password is incorrect";
                 return View();
             }
         }
@@ -158,48 +165,17 @@ public class UserController : Controller
     #endregion
 
     #region UserListData
-    // [Authorize(Roles = "Admin")]
-    // public async Task<IActionResult> UserListData(string search = "", int PageNo = 1, int PageSize = 5)
-    // {
-    //     // var token = Request.Cookies["AuthToken"];
-    //     // var Email = _JWTService.GetClaimValue(token, "email");
-    //     // var users = _userService.GetUserList(PageNo,PageSize);
-    //     var (users, TotalRecord) = await _userService.GetUserList(search, PageNo, PageSize);
-    //     int totalPages = (int)Math.Ceiling((double)TotalRecord / PageSize);
-    //     var userList = users.Select(user => new
-    //     {
-    //         user.FirstName,
-    //         Email = user.Userlogin.Email,
-    //         RoleName = user.Userlogin.Role.RoleName,
-    //         user.Status
-    //     }).ToList();
-
-    //     ViewBag.PageNo = PageNo;
-    //     ViewBag.PageSize = PageSize;
-    //     ViewBag.TotalPages = totalPages;
-    //     ViewBag.TotalRecord = TotalRecord;
-    //     return View(users);
-    // }
-
-
-public IActionResult FilterList(string searchTerm = "", int pageNumber = 1, int pageSize = 5)
-{
-    int totalRecords;
-    var users = _userService.GetUserList(searchTerm, pageNumber, pageSize, out totalRecords);
-
-    var userList = users.Select(user => new
+    public IActionResult UserListData()
     {
-        user.FirstName,
-        user.LastName,
-        Email = user.Userlogin.Email,
-        user.Phone,
-        RoleName = user.Userlogin.Role.RoleName,
-        user.Status
-    }).ToList();
+        var users = _userService.GetUserList();
+        return View(users);
+    }
 
-    return Json(new { Users = userList, TotalRecords = totalRecords });
-}
-
+    public IActionResult PaginatedData(string search = "", string sortColumn = "Name", string sortDirection = "asc", int pageNumber = 1, int pageSize = 5)
+    {
+        var users = _userService.GetUserList(search, sortColumn, sortDirection, pageNumber, pageSize);
+        return PartialView("_UserListDataPartial", users);
+    }
     #endregion
 
     #region AddUser
@@ -301,7 +277,7 @@ public IActionResult FilterList(string searchTerm = "", int pageNumber = 1, int 
 
 
         // _userService.AddUser(user, Email);
-        TempData["SuccessMessage"] = "User added successfully. Check your email for login details";
+        TempData["SuccessMessage"] = "User added successfully.";
         return RedirectToAction("UserListData", "User");
         // return View();
     }

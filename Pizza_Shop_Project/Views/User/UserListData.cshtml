@@ -1,4 +1,5 @@
-@model IEnumerable<DAL.Models.User>
+@using BLL.Helpers
+@model PaginationHelper<User>
 @{
   ViewData["Title"] = "UserListData Page";
   Layout = "_Layout";
@@ -32,15 +33,18 @@
     <table id="table" class="table">
       <thead>
         <tr class="border border-top-0 border-end-0 border-start-0 border-dark">
-          <th scope="col" class="fw-bold text-start text-nowrap">Name <i class="bi bi-arrow-down-up"></i></th>
+          <th scope="col" class="fw-bold text-start text-nowrap">Name <i class="bi bi-arrow-down-up " id="sortable-name"
+              data-column="Name" data-direction="asc"></i></th>
           <th scope="col" class="fw-bold text-start">Email</th>
           <th scope="col" class="fw-bold text-start">Phone</th>
-          <th scope="col" class="fw-bold text-start text-nowrap">Role<i class="bi bi-arrow-down-up"></i></th>
+          <th scope="col" class="fw-bold text-start text-nowrap">Role<i class="bi bi-arrow-down-up " id="sortable-role"
+              data-column="Role" data-direction="asc"></i></th>
           <th scope="col" class="fw-bold text-start">Status</th>
           <th scope="col" class="fw-bold text-start">Action </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="userTableBody">
+        @await Html.PartialAsync("_UserListDataPartial", Model)
         @* @foreach (var item in Model)
         {
         if (!item.Isdelete)
@@ -86,40 +90,22 @@
     </table>
   </div>
 
-
-
-
+  @* Pagination div *@
   <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-2">
 
     <span class="mt-2 fw-bold text-secondary">Items Per page:</span>
-    @* <select id="PageSize" onchange="pageSizeChange(1)">
-    <option value="5" selected=@(ViewBag.PageSize == 5)>5</option>
-    <option value="10" selected=@(ViewBag.PageSize == 10)>10</option>
-    <option value="15" selected=@(ViewBag.PageSize == 15)>15</option>
-    <option value="20" selected=@(ViewBag.PageSize == 20)>20</option>
-    </select> *@
 
-    <select id="itemselect" class="itemselect">
+    <select id="itemselect">
       <option value="5">5</option>
       <option value="10">10</option>
       <option value="15">15</option>
     </select>
 
-    @* <span class="mt-2 fw-bold text-secondary">Showing @(((ViewBag.PageNo - 1) * ViewBag.PageSize) + 1) -
-    @((ViewBag.PageNo * ViewBag.PageSize > ViewBag.TotalRecord ? ViewBag.TotalRecord : ViewBag.PageNo *
-    ViewBag.PageSize))
-    of @ViewBag.TotalRecord </span>
-    <i class="fa-solid fa-angle-left btn border border-dark bg-light ms-2 d-flex align-content-center"
-    onclick="changePage(@(ViewBag.PageNo - 1))" @(ViewBag.PageNo == 1 ? "disabled" : "")></i>
-    <i class="fa-solid fa-angle-right btn border border-dark bg-light ms-2 " onclick="changePage(@(ViewBag.PageNo + 1))"
-    @(ViewBag.PageNo * ViewBag.PageSize >= ViewBag.TotalRecord ? "disabled" : "")></i> *@
-    <span class="pagination-info mt-2"></span>
-    <button id="left-arrow" class="btn border border-dark bg-light ms-2" disabled>&lt;</button>
-    <button id="right-arrow" class="btn border border-dark bg-light ms-2">&gt;</button>
+    <span class=" mt-2" id="pagination-info"></span>
+    <a id="left-arrow" class="btn border border-dark bg-light ms-2">&lt;</a>
+    <a id="right-arrow" class="btn border border-dark bg-light ms-2">&gt;</a>
   </div>
 </div>
-
-
 
 <!-- delete item modal-->
 <div id="delete-user" class="modal" tabindex="-1">
@@ -150,7 +136,6 @@
 @section Scripts {
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
   @* Modal Script *@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -179,117 +164,82 @@
     });
   </script>
 
-  @* Pagination Main script *@
-
+  @* PaginatedData *@
   <script>
     $(document).ready(function () {
       let currentPage = 1;
-      let itemsPerPage = 5;
-      let searchTerm = "";
+      let pageSize = $("#itemselect").val();
 
-      // Fetch users from the backend
-      function fetchUsers() {
+      function loadTable(page = 1, search = "", sortColumn = "Name", sortDirection = "asc", pageSize = 5) {
         $.ajax({
-          url: "/User/UserListData",
+          url: "/User/PaginatedData",
           type: "GET",
-          data: { searchTerm: searchTerm, pageNumber: currentPage, pageSize: itemsPerPage },
-          success: function (response) {
-            renderTable(response.Users);
-            updatePagination(response.TotalRecords);
+          data: { search, sortColumn, sortDirection, pageNumber: page, pageSize },
+          success: function (data) {
+            $("#userTableBody").html(data);
+            currentPage = page;
+
+            let startItem = (page - 1) * pageSize + 1;
+            let totalRecords = @Model.TotalCount;
+            let endItem = Math.min(page * pageSize, totalRecords);
+
+            $("#pagination-info").text("Showing "+ startItem +"- " + endItem +" of " + totalRecords);
+            $("#left-arrow").prop("disabled",page === 1);
+            $("#right-arrow").prop("disabled",page*pageSize >= totalRecords);
           }
         });
       }
 
-      // Render the table
-      function renderTable(users) {
-        let tbody = $("#table tbody");
-        tbody.empty();
-
-        $.each(users, function (index, user) {
-          let statusBadge = user.status
-            ? '<div class="text-center text-white bg-success rounded-pill w-75 fs-6 p-md-1 p-2">Active</div>'
-            : '<div class="text-center text-white bg-danger rounded-pill w-75 fs-6 p-md-1 p-2">Inactive</div>';
-
-          tbody.append(`
-            <tr>
-              <td class="text-start">${user.firstName} ${user.lastName}</td>
-              <td class="text-start">${user.email}</td>
-              <td class="text-start">${user.phone}</td>
-              <td class="text-start">${user.roleName}</td>
-              <td class="text-start">${statusBadge}</td>
-              <td class="text-start">
-                <a href="/User/EditUser?Email=${user.email}" class="text-dark"><i class="fa-solid fa-pen"></i></a>
-                <i class="fa-solid fa-trash-can" data-bs-toggle="modal" data-bs-target="#delete-user" data-email="${user.email}"></i>
-              </td>
-            </tr>
-          `);
-        });
-      }
-
-      // Update pagination text
-      function updatePagination(totalRecords) {
-        let startItem = (currentPage - 1) * itemsPerPage + 1;
-        let endItem = Math.min(startItem + itemsPerPage - 1, totalRecords);
-
-        // Update the pagination text dynamically
-        $(".pagination-info").text(`Showing ${startItem}-${endItem} of ${totalRecords}`);
-
-        // Disable buttons conditionally
-        $("#left-arrow").prop("disabled", currentPage === 1);
-        $("#right-arrow").prop("disabled", endItem >= totalRecords);
-      }
-
-
-      // Search function (on keyup)
-      $("#search-btn").on("keyup", function () {
-        searchTerm = $(this).val();
-        currentPage = 1;
-        fetchUsers();
+      // Search on keyup
+      $("#searchbtn").on("keyup", function () {
+        let searchText = $(this).val().trim();
+        loadTable(1, searchText, "Name", "asc", pageSize);
       });
 
-      // Change items per page
-      $("#itemselect").on("change", function () {
-        itemsPerPage = parseInt($(this).val());
-        currentPage = 1; // Reset to first page when changing items per page
-        fetchUsers();
+      // Sorting functionality
+      $("#sortable-name").on("click", function () {
+        let sortColumn = $(this).data("column");
+        console.log(sortColumn);
+        let sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
+        $(this).attr("data-direction", sortDirection);
+        loadTable(1, $("#searchbtn").val(), sortColumn, sortDirection, pageSize);
       });
 
-      // Next page
+      $("#sortable-role").on("click", function () {
+        let sortColumn = $(this).data("column");
+        console.log(sortColumn);
+        let sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
+        $(this).attr("data-direction", sortDirection);
+        loadTable(1, $("#searchbtn").val(), sortColumn, sortDirection, pageSize);
+      });
+
+      // Pagination buttons
       $("#right-arrow").on("click", function () {
-        currentPage++;
-        fetchUsers();
-      });
-
-      // Previous page
-      $("#left-arrow").on("click", function () {
-        if (currentPage > 1) {
-          currentPage--;
-          fetchUsers();
+        let rightarrow = !$(this).prop("disabled");
+        console.log(rightarrow);
+        if (rightarrow) {
+          loadTable(currentPage + 1, "", "Name", "asc", pageSize);
         }
       });
 
-      // Fetch users on page load
-      fetchUsers();
+      $("#left-arrow").on("click", function () {
+        let leftarrow = !$(this).prop("disabled");
+        console.log(leftarrow);
+        if (leftarrow) {
+          loadTable(currentPage - 1, "", "Name", "asc", pageSize);
+        }
+      });
+
+      // Items per page dropdown
+      $("#itemselect").on("change", function () {
+        pageSize = $(this).val();
+        console.log(pageSize);
+        loadTable(1, "", "Name", "asc", pageSize);
+      });
+
+      // Initial table load
+      loadTable();
     });
   </script>
-
-
-
-
-
-  @* Pagination script *@
-  @* <script>
-function changePage(page) {
-const PageSize = document.getElementById("PageSize").value;
-window.location.href = `?PageNo=${page}&PageSize=${PageSize}`;
-}
-
-function pageSizeChange(page) {
-const PageSize = document.getElementById("PageSize").value;
-window.location.href = `?PageNo=${page}&PageSize=${PageSize}`;
-}
-
-</script> *@
-
 
 }

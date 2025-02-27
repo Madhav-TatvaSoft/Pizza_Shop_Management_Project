@@ -12,21 +12,23 @@ public class AddUserViewModel
 
     public long RoleId { get; set; }
 
+    [Required(AllowEmptyStrings = false, ErrorMessage ="FirstName should not include whitespace")]
+    [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "FirstName must contain only alphabets")]
     [StringLength(50, ErrorMessage = "First Name cannot exceed 50 characters.")]
     public string FirstName { get; set; } = null!;
-    
+
     [StringLength(50, ErrorMessage = "Last Name cannot exceed 50 characters.")]
     public string LastName { get; set; } = null!;
 
+    [Required(ErrorMessage = "UserName is required.")]
     [StringLength(50, ErrorMessage = "Username cannot exceed 50 characters.")]
     public string Username { get; set; } = null!;
-
+    
     public string Email { get; set; }
 
     [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
     [MaxLength(20, ErrorMessage = "Password cannot exceed 20 characters.")]
-    [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$", 
-        ErrorMessage = "Password must contain at least one uppercase letter, one number, and one special character.")]
+    [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$", ErrorMessage = "Password must contain at least one uppercase letter, one number, and one special character.")]
     public string Password { get; set; }
 
     public string? Image { get; set; }
@@ -45,7 +47,7 @@ public class AddUserViewModel
     public string? Address { get; set; }
 
     [Required(ErrorMessage = "Zipcode is required.")]
-    [Range(100000, 999999, ErrorMessage = "Invalid Zipcode format.")]
+    [Range(100000, 999999, ErrorMessage = "Zipcode format is Invalid.")]
     public long? Zipcode { get; set; }
 
     [Required(ErrorMessage = "Phone number is required.")]

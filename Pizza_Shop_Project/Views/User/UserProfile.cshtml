@@ -132,12 +132,13 @@
             <div class="form-floating ">
                 <input asp-for="Zipcode" type="text" class="form-control" id="floatingInput" placeholder="Zipcode">
                 <label asp-for="Zipcode" for="floatingInput" class="fs-6 text-secondary">Zipcode</label>
+                <span asp-validation-for="Zipcode" class="text-danger ms-1 mt-2"></span>
             </div>
         </div>
 
         <div class="create-user-cancel-div mt-4 mb-4 text-end">
             <button type="submit" class="btn solid-btn">Update</button>
-            <a type="" class="btn btn-light hollow-btn ">Cancel</a>
+            <a asp-action="Dashboard" asp-controller="User" type="button" class="btn btn-light hollow-btn ">Cancel</a>
         </div>
 
     </div>

@@ -1,3 +1,4 @@
+using BLL.Helpers;
 using BLL.Interface;
 // using BLL.Helpers;
 using DAL.Models;
@@ -10,31 +11,40 @@ public class UserService : IUserService
 {
     private readonly PizzaShopDbContext _context;
     private readonly JWTService _JWTService;
-
     private readonly UserLoginService _userLoginService;
+
+    #region Constructor
     public UserService(PizzaShopDbContext context, JWTService jwtService, UserLoginService userLoginService)
     {
         _context = context;
         _JWTService = jwtService;
         _userLoginService = userLoginService;
     }
+    #endregion
 
+    #region GetCountry
     public List<Country> GetCountry()
     {
 
         return _context.Countries.ToList();
     }
+    #endregion
 
+    #region GetState
     public List<State> GetState(long? countryId)
     {
         return _context.States.Where(x => x.CountryId == countryId).ToList();
     }
+    #endregion
 
+    #region GetCity
     public List<City> GetCity(long? stateId)
     {
         return _context.Cities.Where(x => x.StateId == stateId).ToList();
     }
+    #endregion
 
+    #region GetProfileDetails
     public List<AddUserViewModel> GetUserProfileDetails(string cookieSavedToken)
     {
         var Email = _JWTService.GetClaimValue(cookieSavedToken, "email");
@@ -60,7 +70,9 @@ public class UserService : IUserService
 
         return data;
     }
+    #endregion
 
+    #region UpdateUser
     public bool UpdateUser(AddUserViewModel user, string Email)
     {
 
@@ -83,7 +95,9 @@ public class UserService : IUserService
         _context.SaveChanges();
         return true;
     }
+    #endregion
 
+    #region ChangePassword
     public bool UserChangePassword(ChangePasswordViewModel changepassword, string Email)
     {
         var userdetails = _context.UserLogins.FirstOrDefault(x => x.Email == Email);
@@ -96,72 +110,60 @@ public class UserService : IUserService
         }
         return false;
     }
+    #endregion
 
-    // public async Task<(List<User>, int)> GetUserList(string search, int PageNo, int PageSize)
-    // {
-    //     var query = _context.Users.Include(x => x.Userlogin).ThenInclude(u => u.Role).Where(u => u.Isdelete == false);
-
-    //     // Apply search filter
-    //     if (!string.IsNullOrEmpty(search))
-    //     {
-    //         string lowerSearchTerm = search.ToLower();
-    //         query = query.Where(u =>
-    //             u.FirstName.ToLower().Contains(lowerSearchTerm) ||
-    //             u.Userlogin.Email.ToLower().Contains(lowerSearchTerm) ||
-    //             u.Userlogin.Role.RoleName.ToLower().Contains(lowerSearchTerm)
-    //         );
-    //     }
-
-    //     int TotalRecord = await query.CountAsync();
-    //     var users = await query
-    //                            .OrderBy(u => u.FirstName)
-    //                            .Skip((PageNo - 1) * PageSize)
-    //                            .Take(PageSize)
-    //                            .ToListAsync();
-
-    //     // return _context.Users.Include(x => x.Userlogin).Include(x => x.Userlogin.Role).ToList();
-    //     return (users, TotalRecord);
-    // }
-
-    public List<User> GetUserList(string searchTerm, int pageNumber, int pageSize, out int totalRecords)
-{
-    var query = _context.Users
-        .Include(u => u.Userlogin)
-        .ThenInclude(l => l.Role)
-       .Where(u => u.Isdelete == false);// Exclude deleted users
-
-    // Apply search filter
-    if (!string.IsNullOrEmpty(searchTerm))
+    #region GetUserList
+    public PaginationHelper<User> GetUserList(string search = "", string sortColumn = "Name", string sortDirection = "asc", int pageNumber = 1, int pageSize = 5)
     {
-        string lowerSearchTerm = searchTerm.ToLower();
-        query = query.Where(u => 
-            u.FirstName.ToLower().Contains(lowerSearchTerm) ||
-            u.LastName.ToLower().Contains(lowerSearchTerm) ||
-            u.Userlogin.Email.ToLower().Contains(lowerSearchTerm) ||
-            u.Phone.ToString().Contains(lowerSearchTerm) ||
-            u.Userlogin.Role.RoleName.ToLower().Contains(lowerSearchTerm)
-        );
+
+        var query = _context.Users
+            .Include(u => u.Userlogin)
+            .ThenInclude(u => u.Role)
+            .Where(u => u.Isdelete == false)
+            .AsQueryable();
+        //sorting
+        switch (sortColumn)
+        {
+            case "Name":
+                query = sortDirection == "asc" ? query.OrderBy(u => u.FirstName) : query.OrderByDescending(u => u.FirstName);
+                break;
+
+            case "Role":
+                query = sortDirection == "asc" ? query.OrderBy(u => u.Userlogin.Role.RoleName) : query.OrderByDescending(u => u.Userlogin.Role.RoleName);
+                break;
+        }
+
+        // Apply search 
+        if (!string.IsNullOrEmpty(search))
+        {
+            string lowerSearchTerm = search.ToLower();
+            query = query.Where(u =>
+                u.FirstName.ToLower().Contains(lowerSearchTerm) ||
+                u.LastName.ToLower().Contains(lowerSearchTerm) ||
+                u.Userlogin.Email.ToLower().Contains(lowerSearchTerm) ||
+                u.Userlogin.Role.RoleName.ToLower().Contains(lowerSearchTerm)
+            );
+        }
+
+
+        // Get total records count (before pagination)
+        int totalCount = query.Count();
+
+        // Apply pagination
+        var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+        return new PaginationHelper<User>(items, totalCount, pageNumber, pageSize);
     }
+    #endregion
 
-    // Get total records count (before pagination)
-    totalRecords = query.Count();
-
-    // Apply pagination
-    var users = query
-        .OrderBy(u => u.FirstName) // Sorting by name
-        .Skip((pageNumber - 1) * pageSize)
-        .Take(pageSize)
-        .ToList();
-
-    return users;
-}
-
-
+    #region GetRole
     public List<Role> GetRole()
     {
         return _context.Roles.ToList();
     }
+    #endregion
 
+    #region AddUser
     public async Task<bool> AddUser(AddUserViewModel adduser, String Email)
     {
         if (_context.UserLogins.Any(x => x.Email == adduser.Email))
@@ -196,7 +198,9 @@ public class UserService : IUserService
 
         return true;
     }
+    #endregion
 
+    #region UserByEmail
     public List<AddUserViewModel> GetUserByEmail(string email)
     {
         var data = _context.Users.Include(x => x.Userlogin).Where(x => x.Userlogin.Email == email).Select(
@@ -219,8 +223,9 @@ public class UserService : IUserService
         ).ToList();
         return data;
     }
+    #endregion
 
-
+    #region EditUser
     public bool EditUser(AddUserViewModel user, string Email)
     {
         var userdetails = _context.Users.Include(x => x.Userlogin).FirstOrDefault(x => x.Userlogin.Email == Email);
@@ -241,6 +246,9 @@ public class UserService : IUserService
         _context.SaveChanges();
         return true;
     }
+    #endregion
+
+    #region DeleteUser
     public async Task<bool> DeleteUser(string Email)
     {
         var userlogin = _context.UserLogins.FirstOrDefault(x => x.Email == Email);
@@ -255,5 +263,5 @@ public class UserService : IUserService
         await _context.SaveChangesAsync();
         return true;
     }
-
+    #endregion
 }

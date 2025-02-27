@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
 using BLL.Interface;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +16,12 @@ builder.Services.AddDbContext<PizzaShopDbContext>(q => q.UseNpgsql(conn));
 builder.Services.AddScoped<UserLoginService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<JWTService>();
-
+builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddAuthentication(x=>{
+builder.Services.AddAuthentication(x =>
+{
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -34,9 +36,9 @@ builder.Services.AddAuthentication(x=>{
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["JwtConfig:Issuer"],  // The issuer of the token (e.g., your app's URL)
             ValidAudience = builder.Configuration["JwtConfig:Audience"], // The audience for the token (e.g., your API)
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:Key"]?? "")), // The key to validate the JWT's signature
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:Key"] ?? "")), // The key to validate the JWT's signature
             RoleClaimType = ClaimTypes.Role,
-            NameClaimType = ClaimTypes.Name 
+            NameClaimType = ClaimTypes.Name
         };
 
         options.Events = new JwtBearerEvents
@@ -49,6 +51,12 @@ builder.Services.AddAuthentication(x=>{
                 {
                     context.Request.Headers["Authorization"] = "Bearer " + token;
                 }
+                return Task.CompletedTask;
+            },
+            OnChallenge = context =>
+            {
+                context.HandleResponse();
+                context.Response.Redirect("/UserLogin/VerifyUserLogin");
                 return Task.CompletedTask;
             }
         };

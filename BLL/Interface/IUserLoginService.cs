@@ -11,5 +11,7 @@ public interface IUserLoginService
     public Task<bool> IsSendEmail(UserLoginViewModel userLogin);
     public Task<bool> SendEmail(ForgotPasswordViewModel forgotpassword, string resetLink);
     public Task<bool> ResetPassword(ResetPasswordViewModel resetPassword);
+    public string GetProfileImage(string Email);
+    public string GetUsername(string Email);
 
 }
