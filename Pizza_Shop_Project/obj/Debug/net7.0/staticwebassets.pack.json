@@ -345,6 +345,10 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\0c0f4e81-54c8-4a11-ae1b-01b9a2e4c184_dominos_background.jpg",
+      "PackagePath": "staticwebassets\\uploads\\0c0f4e81-54c8-4a11-ae1b-01b9a2e4c184_dominos_background.jpg"
+    },
+    {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\100df916-ee16-4568-9a81-fa7bedda08b0_dominos_background.jpg",
       "PackagePath": "staticwebassets\\uploads\\100df916-ee16-4568-9a81-fa7bedda08b0_dominos_background.jpg"
     },
@@ -359,6 +363,30 @@
     {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\2f048519-cc23-4b08-8d26-314919f98f28_transperent-pizza.png",
       "PackagePath": "staticwebassets\\uploads\\2f048519-cc23-4b08-8d26-314919f98f28_transperent-pizza.png"
+    },
+    {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\345828be-d3dd-429b-9b67-732acb92ec0a_Screenshot 2025-02-19 222730.png",
+      "PackagePath": "staticwebassets\\uploads\\345828be-d3dd-429b-9b67-732acb92ec0a_Screenshot 2025-02-19 222730.png"
+    },
+    {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\474ee79a-c1d0-4a75-8fa3-e66c0232e84d_toppng.com-warning-icon-2400x2400.png",
+      "PackagePath": "staticwebassets\\uploads\\474ee79a-c1d0-4a75-8fa3-e66c0232e84d_toppng.com-warning-icon-2400x2400.png"
+    },
+    {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\4a2a4d39-733a-4a3b-9c34-b73c78b37f61_transperent-pizza.png",
+      "PackagePath": "staticwebassets\\uploads\\4a2a4d39-733a-4a3b-9c34-b73c78b37f61_transperent-pizza.png"
+    },
+    {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\6ec51810-b7a5-4a36-aa7f-ce131d7adc83_dining-menu.png",
+      "PackagePath": "staticwebassets\\uploads\\6ec51810-b7a5-4a36-aa7f-ce131d7adc83_dining-menu.png"
+    },
+    {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\77a1469b-bdd3-4a28-87db-c9142acad039_dining-menu.png",
+      "PackagePath": "staticwebassets\\uploads\\77a1469b-bdd3-4a28-87db-c9142acad039_dining-menu.png"
+    },
+    {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\81139bd2-f059-4892-aa7b-97fce66db367_profile_div_bg.jpg",
+      "PackagePath": "staticwebassets\\uploads\\81139bd2-f059-4892-aa7b-97fce66db367_profile_div_bg.jpg"
     },
     {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\869e7fd0-c37c-4b99-9426-9a302eef8702_dining-menu.png",
@@ -381,6 +409,10 @@
       "PackagePath": "staticwebassets\\uploads\\9d980ef3-6758-4871-a6c8-71a97d88bd31_transperent-pizza.png"
     },
     {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\b019c033-012e-4670-94f4-c17b5124b08b_transperent-pizza.png",
+      "PackagePath": "staticwebassets\\uploads\\b019c033-012e-4670-94f4-c17b5124b08b_transperent-pizza.png"
+    },
+    {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\b0b2c639-c9d0-4158-8bc3-705eccdde8c1_toppng.com-warning-icon-2400x2400.png",
       "PackagePath": "staticwebassets\\uploads\\b0b2c639-c9d0-4158-8bc3-705eccdde8c1_toppng.com-warning-icon-2400x2400.png"
     },
@@ -395,6 +427,18 @@
     {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e07d5218-707c-45bf-9ebe-0e99ee87652e_dominos_background.jpg",
       "PackagePath": "staticwebassets\\uploads\\e07d5218-707c-45bf-9ebe-0e99ee87652e_dominos_background.jpg"
+    },
+    {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e172a00e-75db-4a07-9b50-f09d4fed1305_Screenshot 2025-02-19 222730.png",
+      "PackagePath": "staticwebassets\\uploads\\e172a00e-75db-4a07-9b50-f09d4fed1305_Screenshot 2025-02-19 222730.png"
+    },
+    {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\eb4447f2-6d1f-4ee5-9d4b-1ca25ab62790_dominos_background.jpg",
+      "PackagePath": "staticwebassets\\uploads\\eb4447f2-6d1f-4ee5-9d4b-1ca25ab62790_dominos_background.jpg"
+    },
+    {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\f25f0fce-39a5-409e-8c1a-2c712e2d4dfd_profile_div_bg.jpg",
+      "PackagePath": "staticwebassets\\uploads\\f25f0fce-39a5-409e-8c1a-2c712e2d4dfd_profile_div_bg.jpg"
     },
     {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.Pizza_Shop_Project.Microsoft.AspNetCore.StaticWebAssets.props",

@@ -16,6 +16,14 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\T30_Pizza_Shop_Project\Pizza_Shop_Project
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/RolePermission/Permission.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZVBlcm1pc3Npb25cUGVybWlzc2lvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/RolePermission/RoleDashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZVBlcm1pc3Npb25cUm9sZURhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -26,6 +34,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/Shared/_Notification.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ob3RpZmljYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/Shared/_UserListDataPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Vc2VyTGlzdERhdGFQYXJ0aWFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/Shared/_ValidationScriptsPartial.cshtml]
