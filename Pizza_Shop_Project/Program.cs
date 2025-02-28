@@ -16,6 +16,7 @@ builder.Services.AddDbContext<PizzaShopDbContext>(q => q.UseNpgsql(conn));
 builder.Services.AddScoped<UserLoginService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<JWTService>();
+builder.Services.AddScoped<RolePermissionService>();
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddControllersWithViews();
@@ -51,12 +52,6 @@ builder.Services.AddAuthentication(x =>
                 {
                     context.Request.Headers["Authorization"] = "Bearer " + token;
                 }
-                return Task.CompletedTask;
-            },
-            OnChallenge = context =>
-            {
-                context.HandleResponse();
-                context.Response.Redirect("/UserLogin/VerifyUserLogin");
                 return Task.CompletedTask;
             }
         };

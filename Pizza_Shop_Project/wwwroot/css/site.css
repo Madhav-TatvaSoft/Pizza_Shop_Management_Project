@@ -1,21 +1,21 @@
-html {
+/* html {
   font-size: 14px;
-}
+}  */
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+/* .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
+} */
 
-html {
+/* html {
   position: relative;
   min-height: 100%;
-}
+} */
 
 
 
@@ -24,8 +24,6 @@ html {
 
 body {
     font-family: 'Poppins', sans-serif !important;
-  margin-bottom: 60px;
-
 }
 
 /* login page css  */
@@ -215,7 +213,6 @@ form i {
 
 .user-text{
     color: #0084c3;
-
 }
 
 @media (min-device-width:570px) {
@@ -244,13 +241,13 @@ form i {
 }
 
 .dashboard-active-div {
-    background-color: #cdcdcd;
-    color: #0084c3;
+    /* background-color: #cdcdcd; */
+    /* color: #0084c3; */
     /* margin-top: 10px; */
 }
 
 .dashboard-text-active {
-    color: #0084c3;
+    /* color: #0084c3; */
 }
 
 .dashboard-text-inactive {

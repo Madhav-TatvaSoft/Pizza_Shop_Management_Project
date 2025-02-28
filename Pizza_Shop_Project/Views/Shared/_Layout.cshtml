@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         <div class="row">
 
             <!-- Left-sidebar -->
@@ -37,21 +37,21 @@
                             <div class="logo-image  me-2">
                                 <img src="../images/logos/pizzashop_logo.png" width="60px" alt="">
                             </div>
-                            <div class="logo-text fs-5 mt-2 fw-bold">PIZZASHOP</div>
+                            <div class="logo-text fs-5 mt-3 ms-2 fw-bold">PIZZASHOP</div>
                         </div>
 
                         <!-- dashboard -->
                         <a asp-action="Dashboard" asp-Controller="User"
-                            class="text-decoration-none dashboard-text-inactive text-dark">
-                            <div class="dashboard-inactive-div d-flex p-3">
-                                <img src="../images/dashboard-default.svg" width="20px" class=" " alt>
+                            class="text-decoration-none dashboard-text-inactive ">
+                            <div class="dashboard-active-div d-flex align-items-center p-3">
+                                <i class="fa-solid fa-table-cells-large"></i>
                                 <p class="mt-1 ms-3 fw-bold ">Dashboard</p>
                             </div>
                         </a>
 
                         <!-- users -->
-                        <a asp-action="AddUser" asp-Controller="User"
-                            class="text-decoration-none dashboard-text-active ">
+                        <a asp-action="UserListData" asp-Controller="User"
+                            class="text-decoration-none dashboard-text-inactive ">
                             <div class="dashboard-active-div d-flex align-items-center p-3 ">
                                 <i class="fa-solid fa-users "></i>
                                 <p class="m-0 ms-3 fw-bold">Users</p>
@@ -59,48 +59,48 @@
                         </a>
 
                         <!--Role and Permission  -->
-                        <a href="permission.html" class="text-decoration-none dashboard-text-inactive ">
-                            <div class="dashboard-inactive-div d-flex align-items-center p-3">
+                        <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                            <div class="dashboard-active-div d-flex align-items-center p-3">
                                 <i class="fa-solid fa-user-clock "></i>
                                 <p class="  m-0 ms-3 fw-bold text-nowrap">Role and Permission</p>
                             </div>
                         </a>
 
                         <!-- menu -->
-                        <a href="menu.html" class="text-decoration-none dashboard-text-inactive ">
-                            <div class="dashboard-inactive-div d-flex align-items-center  p-3">
+                        <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                            <div class="dashboard-active-div d-flex align-items-center  p-3">
                                 <i class="fa-solid fa-calendar-minus "></i>
                                 <p class="  m-0 ms-4 fw-bold">Menu</p>
                             </div>
                         </a>
 
                         <!-- Table and Section -->
-                        <a href="table-section.html" class="text-decoration-none dashboard-text-inactive ">
-                            <div class="dashboard-inactive-div d-flex p-3">
+                        <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                            <div class="dashboard-active-div d-flex p-3">
                                 <i class="fa-solid fa-table-cells-large mt-1 "></i>
                                 <p class="mt-1 m-0 ms-3 fw-bold text-nowrap">Table and Section</p>
                             </div>
                         </a>
 
                         <!-- taxes and fees -->
-                        <a href="taxes-fees.html" class="text-decoration-none dashboard-text-inactive ">
-                            <div class="dashboard-inactive-div d-flex p-3">
+                        <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                            <div class="dashboard-active-div d-flex p-3">
                                 <i class="fa-solid fa-money-check-dollar mt-1 "></i>
                                 <p class=" mt-1 m-0 ms-3 fw-bold text-nowrap">Taxes and Fees</p>
                             </div>
                         </a>
 
                         <!-- orders -->
-                        <a href="orders.html" class="text-decoration-none dashboard-text-inactive ">
-                            <div class="dashboard-inactive-div d-flex p-3">
+                        <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                            <div class="dashboard-active-div d-flex p-3">
                                 <i class="fa-solid fa-clipboard-check mt-1"></i>
                                 <p class="mt-1 m-0 ms-4 fw-bold">Orders</p>
                             </div>
                         </a>
 
                         <!-- customer -->
-                        <a href="customer.html" class="text-decoration-none dashboard-text-inactive ">
-                            <div class="dashboard-inactive-div d-flex p-3">
+                        <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                            <div class="dashboard-active-div d-flex p-3">
                                 <i class="fa-regular fa-id-card mt-1"></i>
                                 <p class="mt-1 m-0 ms-3 fw-bold">Cutomers</p>
                             </div>
@@ -141,15 +141,15 @@
                                     <!-- dashboard -->
                                     <a asp-action="Dashboard" asp-Controller="User"
                                         class="text-decoration-none dashboard-text-inactive text-dark">
-                                        <div class="dashboard-inactive-div d-flex p-3">
-                                            <img src="../images/dashboard-default.svg" width="20px" class=" " alt>
+                                        <div class="dashboard-active-div d-flex align-items-center p-3">
+                                            <i class="fa-solid fa-table-cells-large"></i>
                                             <p class=" mt-1 ms-3 fw-bold ">Dashboard</p>
                                         </div>
                                     </a>
 
                                     <!-- users -->
-                                    <a asp-action="AddUser" asp-Controller="User"
-                                        class="text-decoration-none dashboard-text-active ">
+                                    <a asp-action="UserListData" asp-Controller="User"
+                                        class="text-decoration-none dashboard-text-inactive ">
                                         <div class="dashboard-active-div d-flex align-items-center p-3 ">
                                             <i class="fa-solid fa-users "></i>
                                             <p class="m-0 ms-3 fw-bold">Users</p>
@@ -157,48 +157,48 @@
                                     </a>
 
                                     <!--Role and Permission  -->
-                                    <a href="permission.html" class="text-decoration-none dashboard-text-inactive ">
-                                        <div class="dashboard-inactive-div d-flex align-items-center p-3">
+                                    <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                                        <div class="dashboard-active-div d-flex align-items-center p-3">
                                             <i class="fa-solid fa-user-clock "></i>
                                             <p class="  m-0 ms-3 fw-bold">Role and Permission</p>
                                         </div>
                                     </a>
 
                                     <!-- menu -->
-                                    <a href="menu.html" class="text-decoration-none dashboard-text-inactive ">
-                                        <div class="dashboard-inactive-div d-flex align-items-center  p-3">
+                                    <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                                        <div class="dashboard-active-div d-flex align-items-center  p-3">
                                             <i class="fa-solid fa-calendar-minus "></i>
                                             <p class="  m-0 ms-4 fw-bold">Menu</p>
                                         </div>
                                     </a>
 
                                     <!-- Table and Section -->
-                                    <a href="table-section.html" class="text-decoration-none dashboard-text-inactive ">
-                                        <div class="dashboard-inactive-div d-flex p-3 ">
+                                    <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                                        <div class="dashboard-active-div d-flex p-3 ">
                                             <i class="fa-solid fa-table-cells-large mt-1"></i>
                                             <p class="  mt-1 m-0 ms-3 fw-bold">Table and Section</p>
                                         </div>
                                     </a>
 
                                     <!-- taxes and fees -->
-                                    <a href="taxes-fees.html" class="text-decoration-none dashboard-text-inactive ">
-                                        <div class="dashboard-inactive-div d-flex p-3">
+                                    <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                                        <div class="dashboard-active-div d-flex p-3">
                                             <i class="fa-solid fa-money-check-dollar mt-1 "></i>
                                             <p class="mt-1  m-0 ms-3 fw-bold">Taxes and Fees</p>
                                         </div>
                                     </a>
 
                                     <!-- orders -->
-                                    <a href="orders.html" class="text-decoration-none dashboard-text-inactive ">
-                                        <div class="dashboard-inactive-div d-flex p-3">
+                                    <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                                        <div class="dashboard-active-div d-flex p-3">
                                             <i class="fa-solid fa-clipboard-check  mt-1"></i>
                                             <p class="mt-1 m-0 ms-4 fw-bold">Orders</p>
                                         </div>
                                     </a>
 
                                     <!-- customer -->
-                                    <a href="customer.html" class="text-decoration-none dashboard-text-inactive ">
-                                        <div class="dashboard-inactive-div d-flex p-3">
+                                    <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                                        <div class="dashboard-active-div d-flex p-3">
                                             <i class="fa-regular fa-id-card mt-1"></i>
                                             <p class="mt-1 m-0 ms-3 fw-bold">Cutomers</p>
                                         </div>

@@ -1,0 +1,235 @@
+@model List<DAL.Models.Rolepermissionmapping>
+@{
+    ViewData["Title"] = "Permission";
+    Layout = "_Layout";
+}
+
+<div class="row ms-1">
+    <div class="permissions-main-div  d-flex justify-content-between mt-2">
+        <!-- user txt -->
+        <div class="permissions-div d-flex col-md-3">
+            <div class="permissions-text fs-2 fw-bold text-primary">Permissions</div>
+        </div>
+
+        <!-- back -->
+        <div class="back-adduser-div d-flex align-items-center justify-content-between mt-2">
+            <div class="back-button">
+                <!-- <i class="fa-solid fa-angle-left left-icon-tag"></i> -->
+                <a asp-action="Roles" asp-controller="RolesPermission"
+                    class="btn btn-outline-primary  border-primary p-2  ms-3 border text">
+                    < Back</a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="table-main-div mt-3  pb-3 ps-3 pe-3 bg-white text-secondary">
+        <div class="role-input-div pt-4 ms-2">
+            <div class="form-floating col-md-4 col-11 col-sm-6 ">
+                <input type="text" asp-for="@Model[0].Role.RoleName" class="form-control bg-light" id="floatingInput"
+                    placeholder="Role" disabled>
+                <label for="floatingInput" class="fs-6 text-secondary">Role</label>
+            </div>
+        </div>
+        <form asp-action="Permission" asp-Controller="RolePermission" method="post">
+            <table class="table" id="demo">
+                <thead>
+                    <tr>
+                        <th scope="col"><i class="fa-regular fa-square-minus"></i></th>
+                        <th scope="col">Permissions</th>
+                        <th scope="col">Can View</th>
+                        <th scope="col">Can Edit/Add</th>
+                        <th scope="col">Can Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <input type="hidden" asp-for="@Model[0].RolepermissionmappingId">
+                        <td><input type="checkbox" asp-for="@Model[0].Permissioncheck"></td>
+                        <td>Users</td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[0].Canview">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[0].Canaddedit">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[0].Candelete">
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <input type="hidden" asp-for="@Model[1].RolepermissionmappingId">
+                        <td><input type="checkbox" asp-for="@Model[1].Permissioncheck"></td>
+                        <td>RoleAndPermissions</td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[1].Canview">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[1].Canaddedit">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[1].Candelete">
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <input type="hidden" asp-for="@Model[2].RolepermissionmappingId">
+                        <td><input type="checkbox" asp-for="@Model[2].Permissioncheck"></td>
+                        <td>Menu</td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[2].Canview">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[2].Canaddedit">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[2].Candelete">
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <input type="hidden" asp-for="@Model[3].RolepermissionmappingId">
+                        <td><input type="checkbox" asp-for="@Model[3].Permissioncheck"></td>
+                        <td>TableAndSection</td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[3].Canview">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[3].Canaddedit">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[3].Candelete">
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <input type="hidden" asp-for="@Model[4].RolepermissionmappingId">
+                        <td><input type="checkbox" asp-for="@Model[4].Permissioncheck"></td>
+                        <td>TaxAndFee</td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[4].Canview">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[4].Canaddedit">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[4].Candelete">
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <input type="hidden" asp-for="@Model[5].RolepermissionmappingId">
+                        <td><input type="checkbox" asp-for="@Model[5].Permissioncheck"></td>
+                        <td>Order</td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[5].Canview">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[5].Canaddedit">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[5].Candelete">
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <input type="hidden" asp-for="@Model[6].RolepermissionmappingId">
+                        <td><input type="checkbox" asp-for="@Model[6].Permissioncheck"></td>
+                        <td>Customer</td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[6].Canview">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[6].Canaddedit">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" asp-for="@Model[6].Candelete">
+                            </div>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+            <div class="buttons-save-cancel d-flex justify-content-end">
+                <div class="save-button">
+                    <button type="submit" class="btn btn-primary  border-primary p-1 ps-3 pe-3  ms-3 border text">
+                        Save</button>
+                </div>
+                <div class="cancel-button">
+                    <a asp-action="RoleDashboard" asp-controller="RolesPermission" asp-route-id="@Model[0].RoleId"
+                        class="btn btn-outline-primary  border-primary p-1 ps-3 pe-3  ms-3 border text">
+                        Cancel</a>
+                </div>
+            </div>
+        </form>
+
+        <!-- save cancel button -->
+
+
+    </div>
+</div>

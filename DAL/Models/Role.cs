@@ -9,13 +9,11 @@ public partial class Role
 
     public string RoleName { get; set; } = null!;
 
-    public long ActionId { get; set; }
-
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? ModifiedAt { get; set; }
 
-    public virtual Action Action { get; set; } = null!;
+    public virtual ICollection<Rolepermissionmapping> Rolepermissionmappings { get; } = new List<Rolepermissionmapping>();
 
     public virtual ICollection<UserLogin> UserLogins { get; } = new List<UserLogin>();
 }

@@ -29,18 +29,18 @@
 
 <!-- table -->
 <div class="container">
-  <div class="table-main-div table-responsive p-3 m-3 mb-0 bg-white mt-3 shadow-lg">
+  <div class="table-main-div table-responsive p-3 m-3 mb-0 bg-white mt-3 ">
     <table id="table" class="table">
       <thead>
         <tr class="border border-top-0 border-end-0 border-start-0 border-dark">
-          <th scope="col" class="fw-bold text-start text-nowrap">Name <i class="bi bi-arrow-down-up " id="sortable-name"
+          <th class="fw-bold text-start text-nowrap">Name <i class="bi bi-arrow-down-up " id="sortable-name"
               data-column="Name" data-direction="asc"></i></th>
-          <th scope="col" class="fw-bold text-start">Email</th>
-          <th scope="col" class="fw-bold text-start">Phone</th>
-          <th scope="col" class="fw-bold text-start text-nowrap">Role<i class="bi bi-arrow-down-up " id="sortable-role"
+          <th class="fw-bold text-start">Email</th>
+          <th class="fw-bold text-start">Phone</th>
+          <th class="fw-bold text-start text-nowrap">Role<i class="bi bi-arrow-down-up " id="sortable-role"
               data-column="Role" data-direction="asc"></i></th>
-          <th scope="col" class="fw-bold text-start">Status</th>
-          <th scope="col" class="fw-bold text-start">Action </th>
+          <th class="fw-bold text-start">Status</th>
+          <th class="fw-bold text-start">Action </th>
         </tr>
       </thead>
       <tbody id="userTableBody">
@@ -93,7 +93,7 @@
   @* Pagination div *@
   <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-2">
 
-    <span class="mt-2 fw-bold text-secondary">Items Per page:</span>
+    <span class="mt-2">Items Per page:</span>
 
     <select id="itemselect">
       <option value="5">5</option>
@@ -101,7 +101,7 @@
       <option value="15">15</option>
     </select>
 
-    <span class=" mt-2" id="pagination-info"></span>
+    <span class=" mt-2 ms-1" id="pagination-info"></span>
     <a id="left-arrow" class="btn border border-dark bg-light ms-2">&lt;</a>
     <a id="right-arrow" class="btn border border-dark bg-light ms-2">&gt;</a>
   </div>
@@ -169,76 +169,81 @@
     $(document).ready(function () {
       let currentPage = 1;
       let pageSize = $("#itemselect").val();
+      let searchText = $("#searchbtn").val().trim();
+      let sortColumn = "";
+      let sortDirection = "asc"
 
-      function loadTable(page = 1, search = "", sortColumn = "Name", sortDirection = "asc", pageSize = 5) {
+      function loadTable(page = 1, search = "", sortColumn = "", sortDirection = "asc", pageSize = 5) {
         $.ajax({
           url: "/User/PaginatedData",
           type: "GET",
           data: { search, sortColumn, sortDirection, pageNumber: page, pageSize },
           success: function (data) {
+
             $("#userTableBody").html(data);
             currentPage = page;
 
-            let startItem = (page - 1) * pageSize + 1;
-            let totalRecords = @Model.TotalCount;
-            let endItem = Math.min(page * pageSize, totalRecords);
+            var startItem = (page - 1) * pageSize + 1;
+            var totalRecords = @Model.TotalCount;
+            var endItem = Math.min(page * pageSize, totalRecords);
 
-            $("#pagination-info").text("Showing "+ startItem +"- " + endItem +" of " + totalRecords);
-            $("#left-arrow").prop("disabled",page === 1);
-            $("#right-arrow").prop("disabled",page*pageSize >= totalRecords);
+            $("#pagination-info").text("Showing " + startItem + " - " + endItem + " of " + totalRecords);
+            $("#left-arrow").prop("disabled", page === 1);
+            $("#right-arrow").prop("disabled", page * pageSize >= totalRecords);
           }
         });
       }
 
       // Search on keyup
       $("#searchbtn").on("keyup", function () {
-        let searchText = $(this).val().trim();
-        loadTable(1, searchText, "Name", "asc", pageSize);
+        searchText = $(this).val().trim();
+        loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize);
       });
 
       // Sorting functionality
       $("#sortable-name").on("click", function () {
-        let sortColumn = $(this).data("column");
+        sortColumn = $(this).data("column");
         console.log(sortColumn);
-        let sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
+        sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
         $(this).attr("data-direction", sortDirection);
-        loadTable(1, $("#searchbtn").val(), sortColumn, sortDirection, pageSize);
+        loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize);
       });
 
       $("#sortable-role").on("click", function () {
-        let sortColumn = $(this).data("column");
+        sortColumn = $(this).data("column");
         console.log(sortColumn);
-        let sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
+        sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
         $(this).attr("data-direction", sortDirection);
-        loadTable(1, $("#searchbtn").val(), sortColumn, sortDirection, pageSize);
+        loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize);
       });
 
       // Pagination buttons
       $("#right-arrow").on("click", function () {
         let rightarrow = !$(this).prop("disabled");
-        console.log(rightarrow);
         if (rightarrow) {
-          loadTable(currentPage + 1, "", "Name", "asc", pageSize);
+          currentPage++;
+          loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize);
         }
       });
 
       $("#left-arrow").on("click", function () {
         let leftarrow = !$(this).prop("disabled");
-        console.log(leftarrow);
         if (leftarrow) {
-          loadTable(currentPage - 1, "", "Name", "asc", pageSize);
+          currentPage--;
+          loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize);
         }
       });
 
       // Items per page dropdown
       $("#itemselect").on("change", function () {
         pageSize = $(this).val();
-        console.log(pageSize);
-        loadTable(1, "", "Name", "asc", pageSize);
+        console.log("items-" + pageSize);
+        loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize);
       });
 
       // Initial table load
       loadTable();
+
     });
   </script>
 

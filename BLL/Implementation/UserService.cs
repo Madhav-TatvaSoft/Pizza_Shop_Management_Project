@@ -1,6 +1,5 @@
 using BLL.Helpers;
 using BLL.Interface;
-// using BLL.Helpers;
 using DAL.Models;
 using DAL.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -113,7 +112,7 @@ public class UserService : IUserService
     #endregion
 
     #region GetUserList
-    public PaginationHelper<User> GetUserList(string search = "", string sortColumn = "Name", string sortDirection = "asc", int pageNumber = 1, int pageSize = 5)
+    public PaginationHelper<User> GetUserList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5)
     {
 
         var query = _context.Users
@@ -121,6 +120,18 @@ public class UserService : IUserService
             .ThenInclude(u => u.Role)
             .Where(u => u.Isdelete == false)
             .AsQueryable();
+
+        // Apply search 
+        if (!string.IsNullOrEmpty(search))
+        {
+            string lowerSearchTerm = search.ToLower();
+            query = query.Where(u =>
+                u.FirstName.ToLower().Contains(lowerSearchTerm) ||
+                u.Userlogin.Email.ToLower().Contains(lowerSearchTerm) ||
+                u.Userlogin.Role.RoleName.ToLower().Contains(lowerSearchTerm)
+            );
+        }
+
         //sorting
         switch (sortColumn)
         {
@@ -132,19 +143,6 @@ public class UserService : IUserService
                 query = sortDirection == "asc" ? query.OrderBy(u => u.Userlogin.Role.RoleName) : query.OrderByDescending(u => u.Userlogin.Role.RoleName);
                 break;
         }
-
-        // Apply search 
-        if (!string.IsNullOrEmpty(search))
-        {
-            string lowerSearchTerm = search.ToLower();
-            query = query.Where(u =>
-                u.FirstName.ToLower().Contains(lowerSearchTerm) ||
-                u.LastName.ToLower().Contains(lowerSearchTerm) ||
-                u.Userlogin.Email.ToLower().Contains(lowerSearchTerm) ||
-                u.Userlogin.Role.RoleName.ToLower().Contains(lowerSearchTerm)
-            );
-        }
-
 
         // Get total records count (before pagination)
         int totalCount = query.Count();

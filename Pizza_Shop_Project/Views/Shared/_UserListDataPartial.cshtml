@@ -12,8 +12,9 @@ else
 {
     @foreach (var item in Model.Items)
     {
-        <tr>
-            <td><img src="@item.ProfileImage" class="img-fluid me-1 " width="25px" alt="" /><span class="">@item.FirstName @item.LastName</span></td>
+        <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
+            <td class="text-nowrap align-content-center d-flex"><img src="@item.ProfileImage" class="   rounded-circle " width="25px" height="25px" alt="" /><p class="ms-2 mt-1">@item.FirstName
+                    @item.LastName</p></td>
             <td>@item.Userlogin.Email</td>
             <td>@item.Phone</td>
             <td>@item.Userlogin.Role.RoleName</td>
@@ -30,11 +31,19 @@ else
                 }
             </td>
             <td>
-                <a asp-action="EditUser" asp-route-Email="@item.Userlogin.Email" class="text-dark">
-                    <i class="fa-solid fa-pen"></i>
-                </a>
-                <i class="fa-solid fa-trash-can" data-bs-toggle="modal" data-bs-target="#delete-user"
-                    data-email="@item.Userlogin.Email"></i>
+                @if (item.Userlogin.Email == ViewBag.emailid)
+                {
+                    <i class="fa-solid fa-pen text-black-50 me-3"></i>
+                    <i class="fa-solid fa-trash-can text-black-50"></i>
+                }
+                else
+                {
+                    <a asp-action="EditUser" asp-route-Email="@item.Userlogin.Email" class="text-dark me-3 text-decoration-none">
+                        <i class="fa-solid fa-pen"></i>
+                    </a>
+                    <i class="fa-solid fa-trash-can" data-bs-toggle="modal" data-bs-target="#delete-user"
+                        data-email="@item.Userlogin.Email"></i>
+                }
             </td>
         </tr>
     }
