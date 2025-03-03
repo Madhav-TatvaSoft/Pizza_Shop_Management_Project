@@ -7,9 +7,8 @@ public interface IRolePermission
 {
     public List<Role> GetAllRoles();
 
-    public List<Rolepermissionmapping> GetPermissionsByRole(int id);
+    public bool EditPermissionMapping(RolesPermissionViewModel rolepermissionmapping);
 
-    public bool EditPermissionManage(RolesPermissionViewModel rolepermissionmapping);
-
+    public List<RolesPermissionViewModel> GetPermissionByRole(string name);
 
 }

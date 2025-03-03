@@ -67,7 +67,7 @@
                         </a>
 
                         <!-- menu -->
-                        <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                        <a asp-action="Menu" asp-Controller="Menu" class="text-decoration-none dashboard-text-inactive ">
                             <div class="dashboard-active-div d-flex align-items-center  p-3">
                                 <i class="fa-solid fa-calendar-minus "></i>
                                 <p class="  m-0 ms-4 fw-bold">Menu</p>
@@ -165,7 +165,7 @@
                                     </a>
 
                                     <!-- menu -->
-                                    <a asp-action="RoleDashboard" asp-Controller="RolePermission" class="text-decoration-none dashboard-text-inactive ">
+                                    <a asp-action="Menu" asp-Controller="Menu" class="text-decoration-none dashboard-text-inactive ">
                                         <div class="dashboard-active-div d-flex align-items-center  p-3">
                                             <i class="fa-solid fa-calendar-minus "></i>
                                             <p class="  m-0 ms-4 fw-bold">Menu</p>
@@ -213,9 +213,9 @@
                             <!-- dropdown div  -->
                             <div class="dropdown ">
 
-                                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                <button class="btn  dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
-                                    <img src="@(HttpContextAccessor.HttpContext.Request.Cookies["ProfileImage"])" width="40px" alt="">
+                                    <img src="@(HttpContextAccessor.HttpContext.Request.Cookies["ProfileImage"])" width="40px" >
                                 </button>
 
                                 <ul class="dropdown-menu">

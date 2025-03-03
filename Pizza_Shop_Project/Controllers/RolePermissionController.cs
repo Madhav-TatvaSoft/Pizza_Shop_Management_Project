@@ -20,10 +20,10 @@ namespace Pizza_Shop_Project.Controllers
             return View(Roles);
         }
 
-        public IActionResult Permission(int id)
+        public IActionResult Permission(string name)
         {
-            var role = _rolePermission.GetPermissionsByRole(id);
-            return View(role);
+            List<RolesPermissionViewModel> permissions = _rolePermission.GetPermissionByRole(name);
+            return View(permissions);
         }
 
         [HttpPost]
@@ -31,15 +31,17 @@ namespace Pizza_Shop_Project.Controllers
         {
             for (int i = 0; i < rolesPermissionViewModel.Count; i++)
             {
-                RolesPermissionViewModel rolesPermissionVM = new RolesPermissionViewModel();
-                rolesPermissionVM.RolepermissionmappingId = rolesPermissionViewModel[i].RolepermissionmappingId;
-                rolesPermissionVM.Canview = rolesPermissionViewModel[i].Canview;
-                rolesPermissionVM.Canaddedit = rolesPermissionViewModel[i].Canaddedit;
-                rolesPermissionVM.Candelete = rolesPermissionViewModel[i].Candelete;
-                rolesPermissionVM.Permissioncheck = rolesPermissionViewModel[i].Permissioncheck;
-                _rolePermission.EditPermissionManage(rolesPermissionVM);
+                RolesPermissionViewModel rolesPermissionvm = new RolesPermissionViewModel();
+                rolesPermissionvm.RolepermissionmappingId = rolesPermissionViewModel[i].RolepermissionmappingId;
+                rolesPermissionvm.Canview = rolesPermissionViewModel[i].Canview;
+                rolesPermissionvm.Canaddedit = rolesPermissionViewModel[i].Canaddedit;
+                rolesPermissionvm.Candelete = rolesPermissionViewModel[i].Candelete;
+                rolesPermissionvm.Permissioncheck = rolesPermissionViewModel[i].Permissioncheck;
+                _rolePermission.EditPermissionMapping(rolesPermissionvm);
             }
-            return RedirectToAction("Permission");
+            TempData["SuccessMessage"] = "Permissions Updated Successfully";
+            return RedirectToAction("Permission", "RolePermission", new { name = rolesPermissionViewModel[0].RoleName });// 3rd para ma obj create krvopade bcoz
+                                                                                                                         //  redirectToAction ma 3rd para obj accept kre string nai..nd get method ma name pass krva mate ahiyathi name no ob banavvi moklvu
         }
     }
 }

@@ -17,6 +17,7 @@ builder.Services.AddScoped<UserLoginService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<RolePermissionService>();
+builder.Services.AddScoped<MenuService>();
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddControllersWithViews();

@@ -7,24 +7,41 @@
 <div class="permission-table-main-div table-responsive fs-5 p-5 ms-5 mt-5 mb-0 bg-white" style="width: 85%;">
     <table class="table" id="demo">
         <thead>
-            <tr>
+            <tr class="border border-bottom-2 border-end-0 border-top-0 border-start-0">
                 <th scope="col" class="fw-bold fs-4 text-start">Role</th>
-                <th scope="col" class="fw-bold fs-4 d-flex justify-content-end">Action</th>
+                <th scope="col" class="fw-bold fs-4 d-flex justify-content-end text-start">Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td class="fw-bold text-secondary fs-6 text-start">
+                <tr class="border border-bottom-2 border-end-0 border-top-0 border-start-0">
+                    <td class="fw-semibold text-secondary fs-6 text-start">
                         @Html.DisplayFor(modelItem => item.RoleName)
                     </td>
-                    <td class="d-flex justify-content-end">
-                        <a asp-action="Permission" asp-controller="RolePermission" asp-route-id="@item.RoleId"><i
-                                class="fa-solid fa-pen ms-4 text-secondary"></i></a>
+                    <td class="d-flex justify-content-end ">
+                        <a asp-action="Permission" asp-controller="RolePermission" asp-route-name="@item.RoleName"><i
+                                class="fa-solid fa-pen ms-4 text-secondary text-start"></i></a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            var errorMessage = '@TempData["ErrorMessage"]';
+            console.log("successMessage", successMessage);
+            if (successMessage) {
+                toastr.success(successMessage);
+            }
+            if (errorMessage) {
+                toastr.error(errorMessage);
+            }
+        });
+    </script>
+}

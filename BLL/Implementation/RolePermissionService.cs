@@ -19,12 +19,7 @@ public class RolePermissionService : IRolePermission
         return _context.Roles.ToList();
     }
 
-    public List<Rolepermissionmapping> GetPermissionsByRole(int id)
-    {
-        return _context.Rolepermissionmappings.Include(x => x.Role).Where(x => x.RoleId == id).OrderBy(x => x.PermissionId).ToList();
-    }
-
-    public bool EditPermissionManage(RolesPermissionViewModel rolepermissionmapping)
+    public bool EditPermissionMapping(RolesPermissionViewModel rolepermissionmapping)
     {
         var data = _context.Rolepermissionmappings.FirstOrDefault(x => x.RolepermissionmappingId == rolepermissionmapping.RolepermissionmappingId);
         if (data == null)
@@ -40,4 +35,24 @@ public class RolePermissionService : IRolePermission
         return true;
     }
 
+    public List<RolesPermissionViewModel> GetPermissionByRole(string name)
+    {
+        List<Rolepermissionmapping> data = _context.Rolepermissionmappings.Include(x => x.Role).Include(x => x.Permission).Where(x => x.Role.RoleName == name).OrderBy(x => x.PermissionId).ToList();
+        
+        List<RolesPermissionViewModel> permissions = new();
+        for (int i = 0; i < data.Count; i++)
+        {
+            RolesPermissionViewModel obj = new();
+
+            obj.RolepermissionmappingId = data[i].RolepermissionmappingId;
+            obj.RoleName = data[i].Role.RoleName;
+            obj.Name = data[i].Permission.PermissionsName;
+            obj.Canview = data[i].Canview;
+            obj.Canaddedit = data[i].Canaddedit;
+            obj.Candelete = data[i].Candelete;
+            obj.Permissioncheck = data[i].Permissioncheck;
+            permissions.Add(obj);
+        }
+        return permissions;
+    }
 }
