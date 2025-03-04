@@ -1,0 +1,21 @@
+@using DAL.ViewModels
+@model PaginationViewModel<ItemsViewModel>
+
+@foreach (var item in Model.Items)
+{
+    <tr>
+        <td class="text-start"><input class="form-check-input me-3" type="checkbox" id="flexCheckDefault"><img src="@item.ItemImage" width="30px" alt="" class="me-2">@item.ItemName</td>
+        <td class="text-center"><img src="@item.TypeImage" style="width: 25px;" ></td>
+        <td class="text-center">@item.Rate</td>
+        <td class="text-center">@item.Quantity</td>
+        <td class="text-center">
+            <div class="form-check form-switch d-flex justify-content-center">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" disabled>
+            </div>
+        </td>
+        <td class="text-center">
+            <a data-bs-toggle="modal" data-bs-target="#edit-item-modal"><i class="fa-solid fa-pen w-25"></i></a>
+            <i class="fa-solid fa-trash-can ms-2 " data-bs-toggle="modal" data-bs-target="#delete-item-modal"></i>
+        </td>
+    </tr>
+}

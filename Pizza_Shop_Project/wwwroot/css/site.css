@@ -289,6 +289,12 @@ form i {
     margin-top: 7px;
 }
 
+.search-icon-item {
+    position: absolute;
+    margin-left: -25px;
+    margin-top: 18px;
+}
+
 .offcanvas-class {
     margin-top: 0px;
 }

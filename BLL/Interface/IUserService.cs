@@ -1,4 +1,3 @@
-using BLL.Helpers;
 using DAL.Models;
 using DAL.ViewModels;
 
@@ -16,5 +15,5 @@ public interface IUserService
     public bool EditUser(AddUserViewModel user, string Email);
     public Task<bool> DeleteUser(string Email);
     public Task<bool> AddUser(AddUserViewModel userVM, String Email);
-    PaginationHelper<User> GetUserList(string search,string sortColumn, string sortDirection, int pageNumber, int pageSize);
+    PaginationViewModel<User> GetUserList(string search,string sortColumn, string sortDirection, int pageNumber, int pageSize);
 }

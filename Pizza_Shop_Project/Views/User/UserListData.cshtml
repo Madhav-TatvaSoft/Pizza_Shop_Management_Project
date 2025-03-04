@@ -1,10 +1,9 @@
-@using BLL.Helpers
-@model PaginationHelper<User>
+@using DAL.ViewModels
+@model PaginationViewModel<User>
 @{
   ViewData["Title"] = "UserListData Page";
   Layout = "_Layout";
 }
-
 
 <!-- user list -->
 <div class="user-list-main-div  d-flex justify-content-between mt-2">

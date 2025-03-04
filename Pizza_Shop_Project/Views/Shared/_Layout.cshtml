@@ -213,7 +213,7 @@
                             <!-- dropdown div  -->
                             <div class="dropdown ">
 
-                                <button class="btn  dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                <button class="btn  dropdown" type="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <img src="@(HttpContextAccessor.HttpContext.Request.Cookies["ProfileImage"])" width="40px" >
                                 </button>
@@ -230,14 +230,14 @@
                                                 class="fs-6 fw-bold ms-3 align-content-center">@(HttpContextAccessor.HttpContext.Request.Cookies["username"])</div>
                                         </div>
                                     </li>
-                                    <li><a class="dropdown-item fw-bold mt-1" asp-action="UserProfile"
+                                    <li><a class="dropdown-item fw-semibold mt-1 " asp-action="UserProfile"
                                             asp-controller="User"><i class="bi bi-person-circle me-2"></i>My Profile</a>
                                     </li>
-                                    <li><a class="dropdown-item fw-bold" asp-action="ChangePassword"
+                                    <li><a class="dropdown-item fw-semibold" asp-action="ChangePassword"
                                             asp-controller="User"><i class="fa-solid fa-rotate-right me-2"></i>Change
                                             Password</a></li>
                                     <li data-bs-toggle="modal" data-bs-target="#exampleModal"><a
-                                            class="dropdown-item fw-bold"><i
+                                            class="dropdown-item fw-semibold"><i
                                                 class="fa-solid fa-right-from-bracket me-2"></i>Logout</a></li>
 
                                 </ul>

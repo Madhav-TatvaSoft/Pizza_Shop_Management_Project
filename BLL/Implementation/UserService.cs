@@ -1,4 +1,3 @@
-using BLL.Helpers;
 using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
@@ -112,7 +111,7 @@ public class UserService : IUserService
     #endregion
 
     #region GetUserList
-    public PaginationHelper<User> GetUserList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5)
+    public PaginationViewModel<User> GetUserList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5)
     {
 
         var query = _context.Users
@@ -150,7 +149,7 @@ public class UserService : IUserService
         // Apply pagination
         var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
-        return new PaginationHelper<User>(items, totalCount, pageNumber, pageSize);
+        return new PaginationViewModel<User>(items, totalCount, pageNumber, pageSize);
     }
     #endregion
 
