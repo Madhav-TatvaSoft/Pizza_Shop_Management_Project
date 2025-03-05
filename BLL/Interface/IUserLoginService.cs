@@ -13,5 +13,5 @@ public interface IUserLoginService
     public Task<bool> ResetPassword(ResetPasswordViewModel resetPassword);
     public string GetProfileImage(string Email);
     public string GetUsername(string Email);
-
+    public long GetUserId(string Email);
 }

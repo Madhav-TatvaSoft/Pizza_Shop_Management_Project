@@ -9,24 +9,55 @@ namespace Pizza_Shop_Project.Controllers
     {
         private readonly MenuService _menuService;
 
-        public MenuController(MenuService menuService)
+        private readonly UserLoginService _userLoginService;
+
+        public MenuController(MenuService menuService, UserLoginService userLoginService)
         {
             _menuService = menuService;
+            _userLoginService = userLoginService;
         }
 
         #region Full-Menu
-        public IActionResult Menu()
+        public IActionResult Menu(long? catid, string search = "", int pageNumber = 1, int pageSize = 3)
         {
             MenuViewModel MenuVM = new();
-            MenuVM.categories = _menuService.GetAllCategories();
+            MenuVM.categoryList = _menuService.GetAllCategories();
+
+            if (catid == null)
+            {
+                MenuVM.PaginationForItemByCategory = _menuService.GetMenuItemsByCategory(MenuVM.categoryList[0].CategoryId, search, pageNumber, pageSize);
+            }
+
+            if (catid != null)
+            {
+                MenuVM.PaginationForItemByCategory = _menuService.GetMenuItemsByCategory(catid, search, pageNumber, pageSize);
+            }
             return View(MenuVM);
+        }
+        #endregion
+
+        #region Pagination-Menu-Item
+
+        public IActionResult PaginationMenuItemsByCategory(long? catid, string search = "", int pageNumber = 1, int pageSize = 3)
+        {
+            MenuViewModel menuData = new MenuViewModel();
+            menuData.categoryList = _menuService.GetAllCategories();
+
+            if (catid != null)
+            {
+                menuData.PaginationForItemByCategory = _menuService.GetMenuItemsByCategory(catid, search, pageNumber, pageSize);
+            }
+            return PartialView("_ItemPartialView", menuData.PaginationForItemByCategory);
         }
         #endregion
 
         #region Add-Category
         public async Task<IActionResult> AddCategory(Category category)
         {
-            if (await _menuService.AddCategory(category))
+            string Email = Request.Cookies["Email"];
+            long userId = _userLoginService.GetUserId(Email);
+
+            if (await _menuService.AddCategory(category, userId))
             {
                 TempData["SuccessMessage"] = "Category added successfully";
                 return RedirectToAction("Menu");
@@ -39,9 +70,12 @@ namespace Pizza_Shop_Project.Controllers
         #region Edit-Category
         public async Task<IActionResult> EditCategoryById(Category category)
         {
+            string Email = Request.Cookies["Email"];
+            long userId = _userLoginService.GetUserId(Email);
 
             var Cat_Id = category.CategoryId;
-            if (await _menuService.EditCategoryById(category, Cat_Id))
+
+            if (await _menuService.EditCategoryById(category, Cat_Id,userId))
             {
                 //change
                 TempData["SuccessMessage"] = "Category Updated successfully";
@@ -69,9 +103,10 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Get-Items
-        
+
 
 
         #endregion
+
     }
 }

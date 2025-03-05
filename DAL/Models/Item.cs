@@ -21,8 +21,6 @@ public partial class Item
 
     public string? ItemImage { get; set; }
 
-    public int? ShortCode { get; set; }
-
     public bool? Isavailable { get; set; }
 
     public string Unit { get; set; } = null!;
@@ -40,6 +38,8 @@ public partial class Item
     public long? CreatedBy { get; set; }
 
     public long? ModifiedBy { get; set; }
+
+    public string? ShortCode { get; set; }
 
     public virtual Category Category { get; set; } = null!;
 

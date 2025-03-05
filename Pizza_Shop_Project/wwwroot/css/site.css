@@ -395,3 +395,29 @@ form i {
     font-size: 14px;
 }
 
+ /* Ensure the text color changes when hovered  */
+.CategoryGet:hover {
+    /* color: #0084c3 !important; */
+    cursor: pointer;
+}
+
+ /* Initially hide edit & delete icons  */
+.CategoryGet i.fa-pen,
+.CategoryGet i.fa-trash-can {
+    opacity: 0;
+    transition: 1 0.3s ease;
+}
+
+ /* Show icons when hovering  */
+.CategoryGet:hover i.fa-pen,
+.CategoryGet:hover i.fa-trash-can {
+    opacity: 1;
+}
+
+.active-category {
+    background-color: white !important; 
+    color: #0084c3 !important;
+    font-weight: bold;
+}
+  
+  

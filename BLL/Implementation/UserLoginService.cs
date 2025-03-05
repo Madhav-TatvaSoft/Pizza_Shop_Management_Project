@@ -141,4 +141,8 @@ public class UserLoginService : IUserLoginService
         return _context.Users.FirstOrDefault(x=>x.Userlogin.Email == Email).Username;
     }
 
+    public long GetUserId(string Email){
+        return _context.Users.FirstOrDefault(x=>x.Userlogin.Email == Email).UserId;
+    }
+
 }
