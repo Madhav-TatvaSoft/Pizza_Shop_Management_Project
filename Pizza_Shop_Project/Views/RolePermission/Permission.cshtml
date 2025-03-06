@@ -56,19 +56,19 @@
                             <td>
                                 <div class="form-check form-switch ms-lg-4">
                                     <input class="form-check-input can-View" type="checkbox" role="switch"
-                                        id="canView_@Model[i].Name" asp-for="@Model[i].Canview">
+                                        id="canView_@Model[i].Name" asp-for="@Model[i].Canview" disabled>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-check form-switch ms-lg-5">
                                     <input class="form-check-input can-Edit" type="checkbox" role="switch"
-                                        id="canEdit_@Model[i].Name" asp-for="@Model[i].Canaddedit">
+                                        id="canEdit_@Model[i].Name" asp-for="@Model[i].Canaddedit" disabled>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-check form-switch ms-lg-4">
                                     <input class="form-check-input can-Delete" type="checkbox" role="switch"
-                                        id="canDelete_@Model[i].Name" asp-for="@Model[i].Candelete">
+                                        id="canDelete_@Model[i].Name" asp-for="@Model[i].Candelete" disabled>
                                 </div>
                             </td>
 
@@ -97,7 +97,7 @@
         document.addEventListener('DOMContentLoaded', (event) => {
 
         @* main-checkbox *@
-        @* document.querySelectorAll('.main-checkbox').forEach((checkbox) => {
+                document.querySelectorAll('.main-checkbox').forEach((checkbox) => {
                     checkbox.addEventListener('change', function () {
                         const row = this.closest('tr');
 
@@ -105,17 +105,17 @@
                         const canEdit = row.querySelector('.can-Edit');
                         const canDelete = row.querySelector('.can-Delete');
 
-            if (this.checked) {
-            canView.removeAttribute('disabled');
-            canEdit.removeAttribute('disabled');
-            canDelete.removeAttribute('disabled');
-            } else {
-            canView.setAttribute('disabled', true);
-            canEdit.setAttribute('disabled', true);
-            canDelete.setAttribute('disabled', true);
-            }
-            })
-            }) *@
+                        if (this.checked) {
+                            canView.removeAttribute('disabled');
+                            canEdit.removeAttribute('disabled');
+                            canDelete.removeAttribute('disabled');
+                        } else {
+                            canView.setAttribute('disabled', true);
+                            canEdit.setAttribute('disabled', true);
+                            canDelete.setAttribute('disabled', true);
+                        }
+                    })
+                })
 
         @* Canview *@
                 document.querySelectorAll('.can-View').forEach((CanView) => {

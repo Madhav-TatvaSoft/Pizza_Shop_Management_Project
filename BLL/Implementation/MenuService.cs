@@ -58,7 +58,7 @@ public class MenuService : IMenuService
     }
 
 
-    public async Task<bool> AddCategory(Category category,long userId)
+    public async Task<bool> AddCategory(Category category, long userId)
     {
         var isCategoryExistsAdd = _context.Categories.FirstOrDefault(x => x.CategoryName == category.CategoryName);
         if (category != null && isCategoryExistsAdd == null)
@@ -77,7 +77,7 @@ public class MenuService : IMenuService
         }
     }
 
-    public async Task<bool> EditCategoryById(Category category, long Cat_Id,long userId)
+    public async Task<bool> EditCategoryById(Category category, long Cat_Id, long userId)
     {
         if (category == null || Cat_Id == null)
         {
@@ -117,5 +117,35 @@ public class MenuService : IMenuService
         _context.Update(category);
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<bool> AddItem(AddItemViewModel addItemVM, long userId)
+    {
+        if (addItemVM.CategoryId == null)
+        {
+            return false;
+        }
+        else
+        {
+            Item item = new Item();
+            item.CategoryId = addItemVM.CategoryId;
+            item.ItemName = addItemVM.ItemName;
+            item.ItemTypeId = addItemVM.ItemTypeId;
+            item.Rate = addItemVM.Rate;
+            item.Quantity = addItemVM.Quantity;
+            item.Unit = addItemVM.Unit;
+            item.Isavailable = addItemVM.Isavailable;
+            item.Isdefaulttax = addItemVM.Isdefaulttax;
+            item.TaxValue = addItemVM.TaxValue;
+            item.Description = addItemVM.Description;
+            item.ItemImage = addItemVM.ItemImage;
+            item.ShortCode = addItemVM.ShortCode;
+            item.CreatedBy = userId;
+
+            await _context.Items.AddAsync(item);
+            await _context.SaveChangesAsync();
+            return true;
+
+        }
     }
 }

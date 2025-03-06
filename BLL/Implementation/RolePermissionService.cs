@@ -50,7 +50,7 @@ public class RolePermissionService : IRolePermission
             obj.Canview = data[i].Canview;
             obj.Canaddedit = data[i].Canaddedit;
             obj.Candelete = data[i].Candelete;
-            obj.Permissioncheck = data[i].Permissioncheck;
+            // obj.Permissioncheck = data[i].Permissioncheck;
             permissions.Add(obj);
         }
         return permissions;

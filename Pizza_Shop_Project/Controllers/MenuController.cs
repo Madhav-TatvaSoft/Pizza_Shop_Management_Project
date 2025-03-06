@@ -17,7 +17,7 @@ namespace Pizza_Shop_Project.Controllers
             _userLoginService = userLoginService;
         }
 
-        #region Full-Menu
+        #region Main-Menu-View
         public IActionResult Menu(long? catid, string search = "", int pageNumber = 1, int pageSize = 3)
         {
             MenuViewModel MenuVM = new();
@@ -75,7 +75,7 @@ namespace Pizza_Shop_Project.Controllers
 
             var Cat_Id = category.CategoryId;
 
-            if (await _menuService.EditCategoryById(category, Cat_Id,userId))
+            if (await _menuService.EditCategoryById(category, Cat_Id, userId))
             {
                 //change
                 TempData["SuccessMessage"] = "Category Updated successfully";
@@ -102,10 +102,40 @@ namespace Pizza_Shop_Project.Controllers
         }
         #endregion
 
-        #region Get-Items
+        #region Add-Items-From-Modal
+        public async Task<IActionResult> AddItem(MenuViewModel MenuVm)
+        {
+            string Email = Request.Cookies["Email"];
+            long userId = _userLoginService.GetUserId(Email);
 
+            if (MenuVm.addItems.ItemFormImage != null)
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
 
+                //create folder if not exist
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
 
+                string fileName = $"{Guid.NewGuid()}_{MenuVm.addItems.ItemFormImage.FileName}";
+                string fileNameWithPath = Path.Combine(path, fileName);
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    MenuVm.addItems.ItemFormImage.CopyTo(stream);
+                }
+                MenuVm.addItems.ItemImage = $"/uploads/{fileName}";
+            }
+
+            var addItemStatus = await _menuService.AddItem(MenuVm.addItems, userId);
+
+            if (addItemStatus)
+            {
+                TempData["SuccessMessage"] = "Item added successfully";
+                return RedirectToAction("Menu");
+            }
+            TempData["ErrorMessage"] = "Failed to add Item";
+            return RedirectToAction("Menu");
+        }
         #endregion
 
     }

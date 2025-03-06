@@ -28,60 +28,66 @@
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab">
 
                 <div class="row d-flex m-1 ms-0 me-0">
-                    <div class="left-sidebar-category-main-div bg-opacity-10 col-xl-2 col-lg-3 col-md-4 col-sm-12 ps-0 pe-0"
+
+                    @* Left-SideBar-Item *@
+                    <div class="left-sidebar-category-main-div bg-opacity-10 col-xl-2 col-lg-3 col-md-4 col-sm-12 ps-0 pe-0 pb-3"
                         style="overflow-y:scroll;">
 
                         <div class="user-text p-3 d-flex justify-content-between">
                             <span class="fw-bold fs-5">Category</span>
                             <i class="fa-regular fa-square-plus fs-4 user-text" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"></i>
+                                data-bs-target="#exampleModal-addCategory"></i>
                         </div>
+
                         <!-- Categories -->
                         @{
                             int index = 0;
-
-                            @foreach (var item in Model.categoryList)
-                            {
-                                <a class="CategoryGet d-flex align-items-center justify-content-between col-md-12 col-6 p-2 ps-3 text-decoration-none text-secondary"
-                                    data-id="@item.CategoryId">
-
-                                    <div class="d-flex justify-content-start ">
-                                        <i class="fa-solid fa-grip-vertical me-2 mt-1"></i>
-                                        <p class="mt-1">@item.CategoryName</p>
-                                    </div>
-
-                                    <div class="d-flex text-secondary justify-content-end">
-                                        <input type="hidden" value="@item.Description">
-                                        <i class="fa-solid fa-pen me-2 text-secondary"
-                                            onclick="GetDetailsForCategoryUpdate(this)" data-id="@item.CategoryId"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal-editCategory"></i>
-                                        <i class="fa-solid fa-trash-can text-secondary" onclick="GetIdForDeleteCategory(this)"
-                                            data-id="@item.CategoryId" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal-deleteCategory"></i>
-                                    </div>
-
-                                </a>
-                            }
                         }
+                        @foreach (var item in Model.categoryList)
+                        {
+                            <a class="CategoryGet @(index==0 ? "active-category" : "") d-flex align-items-center justify-content-between col-12 p-2 ps-3 text-decoration-none text-secondary"
+                                data-id="@item.CategoryId">
+
+                                <div class="d-flex justify-content-start">
+                                    <i class="fa-solid fa-grip-vertical me-2 mt-1"></i>
+                                    <p class="mt-1">@item.CategoryName</p>
+                                </div>
+
+                                <div class="d-flex text-secondary justify-content-end">
+                                    <input type="hidden" value="@item.Description">
+                                    <i class="fa-solid fa-pen me-2 text-secondary"
+                                        onclick="GetDetailsForCategoryUpdate(this)" data-id="@item.CategoryId"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal-editCategory"></i>
+                                    <i class="fa-solid fa-trash-can text-secondary" onclick="GetIdForDeleteCategory(this)"
+                                        data-id="@item.CategoryId" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal-deleteCategory"></i>
+                                </div>
+
+                            </a>
+                            index++;
+                        }
+
                     </div>
+
+                    @* Right-SideBar-Item *@
                     <div class="right-side-table-div bg-white mt-2 pt-2 com-sm-12 col-md-8 col-lg-9 col-xl-10 col-12 ">
                         <div class="menu-text fs-3 fw-bold user-text">Items</div>
                         <div class="search-adduser-div d-flex justify-content-end pb-2 align-items-center">
                             <div class="search-button">
-                                <input type="text" id="searchbtn" placeholder="Search" class=" p-sm-1 mt-2 border ">
+                                <input type="text" id="searchbtn-item" placeholder="Search"
+                                    class=" p-sm-1 mt-2 border ">
                                 <i class="fa-solid fa-magnifying-glass search-icon-item "></i>
                             </div>
 
-                            <div class="trash-button">
+                            <div class="trash-button-item">
                                 <a class="btn mt-2 p-1 ps-2 pe-2 ms-2 border"><i class="fa-solid fa-trash-can "></i></a>
                             </div>
                             <div class="add-user-button">
-                                <button type="button" class="btn solid-btn text-light p-2 mt-2 ms-2 me-2"
+                                <button type="button"
+                                    class="addItemBtn btn solid-btn text-light p-1 mt-2 ms-2 me-sm-2 me-0"
                                     data-bs-toggle="modal" data-bs-target="#addItemModal">
                                     + New Item
                                 </button>
-                                @* <input type="hidden" value="@Model.PaginationForItemByCategory.Items[0].CategoryId"
-                                id="category-id-items"> *@
                             </div>
                         </div>
 
@@ -108,20 +114,21 @@
                             </table>
                         </div>
 
-                        @* Pagination div *@
-                        <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-2 mt-3">
+                        @* Pagination Item div *@
+                        <div
+                            class="pagination-main-div-item d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-2 mt-3">
 
                             <span class="mt-2">Items Per page:</span>
 
-                            <select id="itemselect">
+                            <select id="itemselect-item">
                                 <option value="3">3</option>
                                 <option value="5">5</option>
                                 <option value="10">10</option>
                             </select>
 
-                            <span class=" mt-2 ms-1" id="pagination-info"></span>
-                            <a id="left-arrow" class="btn border border-dark bg-light ms-2">&lt;</a>
-                            <a id="right-arrow" class="btn border border-dark bg-light ms-2">&gt;</a>
+                            <span class=" mt-2 ms-1" id="pagination-info-item"></span>
+                            <a id="left-arrow-item" class="btn border border-dark bg-light ms-2">&lt;</a>
+                            <a id="right-arrow-item" class="btn border border-dark bg-light ms-2">&gt;</a>
                         </div>
 
                     </div>
@@ -133,200 +140,111 @@
             <div class="tab-pane fade " id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
                 tabindex="1">
 
-                <div class="row d-flex m-1">
-                    <div class="bg-light-subtle col-xl-2 col-lg-3 col-md-4 col-sm-12">
-                        <div class="pt-4 pb-4 d-flex justify-content-between">
-                            <span class="fw-bold fs-5" style="color: #00567a;">Modifier Group</span>
+                <div class="row d-flex m-1 ms-0 me-0">
 
-                            <i class="fa-regular fa-square-plus pt-1 pe-3 fs-3" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" data-bs-whatever="" style="color: #00567a;"></i>
+                    @* Left-SideBar-Modifier *@
+                    <div class="left-sidebar-modifier-main-div bg-opacity-10 col-xl-2 col-lg-3 col-md-4 col-sm-12 ps-0 pe-0"
+                        style="overflow-y:scroll;">
 
+                        <div class="user-text p-3 d-flex justify-content-between">
+                            <span class="fw-bold fs-5">Modifier</span>
+                            <i class="fa-regular fa-square-plus fs-4 user-text" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal-addModifier"></i>
                         </div>
-                        <!-- Sandwich -->
-                        
+                        <!-- Tomato -->
+                        @foreach (var item in Model.categoryList)
+                        {
+                            <a class="ModifierGet d-flex align-items-center justify-content-between col-12 p-2 ps-3 text-decoration-none text-secondary"
+                                data-id="@item.CategoryId">
+
+                                <div class="d-flex justify-content-start ">
+                                    <i class="fa-solid fa-grip-vertical me-2 mt-1"></i>
+                                    <p class="mt-1">@item.CategoryName</p>
+                                </div>
+
+                                <div class="d-flex text-secondary justify-content-end">
+                                    <input type="hidden" value="@item.Description">
+                                    <i class="fa-solid fa-pen me-2 text-secondary"
+                                        onclick="GetDetailsForCategoryUpdate(this)" data-id="@item.CategoryId"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal-editCategory"></i>
+                                    <i class="fa-solid fa-trash-can text-secondary" onclick="GetIdForDeleteCategory(this)"
+                                        data-id="@item.CategoryId" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal-deleteCategory"></i>
+                                </div>
+
+                            </a>
+                        }
+
                     </div>
 
-                    <div class="right-side-table-div bg-white mt-2 bg-white p-4 col-xl-10 col-lg-9 col-md-8 col-sm-12 ">
-                        <div class="item-list-main-div  d-lg-flex justify-content-between mt-2">
-                            <div class="menu-text fs-3 fw-bold text-primary">Modifiers</div>
-                            <div class="search-adduser-div d-flex justify-content-end  align-items-center">
-                                <div class="search-button">
-                                    <input type="text" name="" id="" placeholder="Search" class=" p-sm-1 mt-2 border ">
-                                    <i class="fa-solid fa-magnifying-glass search-icon-style "></i>
-                                </div>
+                    @* Right-SideBar-Modifier *@
+                    <div class="right-side-table-div bg-white mt-2 pt-2 com-sm-12 col-md-8 col-lg-9 col-xl-10 col-12 ">
 
-                                <div class="discard-button mt-1">
-                                    <a href="#" class="btn  p-1 ps-2 pe-2 ms-3 border"><i
-                                            class="fa-solid fa-trash-can "></i></a>
+                        <div class="menu-text fs-3 fw-bold user-text">Modifiers</div>
+                        <div class="search-adduser-div d-flex justify-content-end pb-2 align-items-center">
+                            <div class="search-button">
+                                <input type="text" id="searchbtn-modifier" placeholder="Search"
+                                    class=" p-sm-1 mt-2 border ">
+                                <i class="fa-solid fa-magnifying-glass search-icon-item "></i>
+                            </div>
 
-                                </div>
-                                <div class="add-user-button">
-                                    <a href="#"
-                                        class="add-user-button btn btn-primary text-light p-sm-1 mt-2 ms-3 me-3 border text">+
-                                        New
-                                        Modifier</a>
-                                </div>
-
+                            <div class="trash-button-modifier">
+                                <a class="btn mt-2 p-1 ps-2 pe-2 ms-2 border"><i class="fa-solid fa-trash-can "></i></a>
+                            </div>
+                            <div class="add-user-button">
+                                <button type="button"
+                                    class="addModifierBtn btn solid-btn text-light p-1 mt-2 ms-2 me-sm-2 me-0"
+                                    data-bs-toggle="modal" data-bs-target="#addModifierModal">
+                                    + New Modifier
+                                </button>
                             </div>
                         </div>
+
                         <div class="table-responsive">
                             <table class="table mb-0" id="demo">
                                 <thead>
-                                    <tr>
+                                    <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
                                         <th scope="col" class="text-start"><i
-                                                class="fa-regular fa-square-minus me-3"></i>Name
-                                        </th>
+                                                class="fa-regular fa-square-minus me-3"></i>Name</th>
                                         <th scope="col" class="text-center">Unit</th>
                                         <th scope="col" class="text-center">Rate</th>
                                         <th scope="col" class="text-center">Quantity</th>
                                         <th scope="col" class="text-center">Action</th>
-
                                     </tr>
                                 </thead>
-                                <tbody style="white-space: nowrap;">
-                                    <tr>
-
-                                        <td class="text-start"><input class="form-check-input me-3" type="checkbox"
-                                                value="" id="flexCheckDefault">Capsicum</td>
-                                        <td class="text-center">
-                                            pcs
-                                        </td>
-                                        <td class="text-center">
-                                            30
-                                        </td>
-                                        <td class="text-center">
-                                            5
-                                        </td>
-
-                                        <td class="text-center">
-                                            <a href="edit-menu-item.html"><i class="fa-solid fa-pen w-25"></i></a>
-                                            <i class="fa-solid fa-trash-can ms-2 " data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal"></i>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-
-                                        <td class="text-start"><input class="form-check-input me-3" type="checkbox"
-                                                value="" id="flexCheckDefault">Capsicum</td>
-                                        <td class="text-center">
-                                            pcs
-                                        </td>
-                                        <td class="text-center">
-                                            30
-                                        </td>
-                                        <td class="text-center">
-                                            5
-                                        </td>
-
-                                        <td class="text-center">
-                                            <a href="edit-menu-item.html"><i class="fa-solid fa-pen w-25"></i></a>
-                                            <i class="fa-solid fa-trash-can ms-2 " data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal"></i>
-                                        </td>
-
-                                    </tr>
-
-
-                                    <tr>
-
-                                        <td class="text-start"><input class="form-check-input me-3" type="checkbox"
-                                                value="" id="flexCheckDefault">Capsicum</td>
-                                        <td class="text-center">
-                                            pcs
-                                        </td>
-                                        <td class="text-center">
-                                            30
-                                        </td>
-                                        <td class="text-center">
-                                            5
-                                        </td>
-
-                                        <td class="text-center">
-                                            <a href="edit-menu-item.html"><i class="fa-solid fa-pen w-25"></i></a>
-                                            <i class="fa-solid fa-trash-can ms-2 " data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal"></i>
-                                        </td>
-
-                                    </tr>
-
-
-                                    <tr>
-
-                                        <td class="text-start"><input class="form-check-input me-3" type="checkbox"
-                                                value="" id="flexCheckDefault">Capsicum</td>
-                                        <td class="text-center">
-                                            pcs
-                                        </td>
-                                        <td class="text-center">
-                                            30
-                                        </td>
-                                        <td class="text-center">
-                                            5
-                                        </td>
-
-                                        <td class="text-center">
-                                            <a href="edit-menu-item.html"><i class="fa-solid fa-pen w-25"></i></a>
-                                            <i class="fa-solid fa-trash-can ms-2 " data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal"></i>
-                                        </td>
-
-                                    </tr>
-
-
-                                    <tr>
-
-                                        <td class="text-start"><input class="form-check-input me-3" type="checkbox"
-                                                value="" id="flexCheckDefault">Capsicum</td>
-                                        <td class="text-center">
-                                            pcs
-                                        </td>
-                                        <td class="text-center">
-                                            30
-                                        </td>
-                                        <td class="text-center">
-                                            5
-                                        </td>
-
-                                        <td class="text-center">
-                                            <a href="edit-menu-item.html"><i class="fa-solid fa-pen w-25"></i></a>
-                                            <i class="fa-solid fa-trash-can ms-2 " data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal"></i>
-                                        </td>
-
-                                    </tr>
+                                <tbody style="white-space: nowrap;" id="modifier-list-body">
 
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    @* Pagination div *@
-                    <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-2">
+                        @* Pagination Modifier div *@
+                        <div
+                            class="pagination-main-div-modifier d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-2 mt-3">
 
-                        <span class="mt-2">Items Per page:</span>
+                            <span class="mt-2">Items Per page:</span>
 
-                        <select id="itemselect">
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                        </select>
+                            <select id="itemselect-modifier">
+                                <option value="3">3</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                            </select>
 
-                        <span class=" mt-2 ms-1" id="pagination-info"></span>
-                        <a id="left-arrow" class="btn border border-dark bg-light ms-2">&lt;</a>
-                        <a id="right-arrow" class="btn border border-dark bg-light ms-2">&gt;</a>
+                            <span class=" mt-2 ms-1" id="pagination-info-modifier"></span>
+                            <a id="left-arrow-modifier" class="btn border border-dark bg-light ms-2">&lt;</a>
+                            <a id="right-arrow-modifier" class="btn border border-dark bg-light ms-2">&gt;</a>
+                        </div>
                     </div>
                 </div>
 
             </div>
-
         </div>
     </div>
 </div>
 
 
 <!-- Add categorty modal  -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal-addCategory" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -416,6 +334,178 @@
 </div>
 
 <!-- Add Items modal-->
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Menu Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="AddItem" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <!-- Left Section (Form) -->
+                            <div class="col-lg-7 col-md-12">
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="floatingSelect" asp-for="@Model.addItems.CategoryId">
+                                                @foreach (var cat in Model.categoryList)
+                                                {
+                                                    <option value="@cat.CategoryId">@cat.CategoryName</option>
+                                                }
+                                            </select>
+                                            <label for="floatingSelect">Categories*</label>
+                                            <span class="text-danger" asp-validation-for="@Model.addItems.CategoryId"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingInput"
+                                                asp-for="@Model.addItems.ItemName" placeholder="Name*">
+                                            <label for="floatingInput">Name*</label>
+                                            <span class="text-danger" asp-validation-for="@Model.addItems.ItemName"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="floatingSelect"
+                                                asp-for="@Model.addItems.ItemTypeId">
+                                                <option value="1" selected>veg</option>
+                                                <option value="2">Non-veg</option>
+                                                <option value="3">Vegan</option>
+                                            </select>
+                                            <label for="floatingSelect">Item Type*</label>
+                                            <span class="text-danger" asp-validation-for="@Model.addItems.ItemTypeId"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="floatingInput"
+                                                placeholder="Rate*" asp-for="@Model.addItems.Rate">
+                                            <label for="floatingInput">Rate*</label>
+                                            <span class="text-danger" asp-validation-for="@Model.addItems.Rate"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="floatingInput"
+                                                asp-for="@Model.addItems.Quantity" placeholder="Quantity*">
+                                            <label for="floatingInput">Quantity*</label>
+                                            <span class="text-danger"
+                                                asp-validation-for="@Model.addItems.Quantity"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="floatingSelect"
+                                                asp-for="@Model.addItems.Unit">
+                                                <option value="pieces">Pieces</option>
+                                                <option value="cm">cm</option>
+                                            </select>
+                                            <label for="floatingSelect">Unit*</label>
+                                            <span class="text-danger" asp-validation-for="@Model.addItems.Unit"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="available" asp-for="@Model.addItems.Isavailable">
+                                            <label class="form-check-label" for="available">Available</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="defaultTax"
+                                                asp-for="@Model.addItems.Isdefaulttax">
+                                            <label class="form-check-label" for="defaultTax">Default Tax</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="taxPercentage"
+                                                asp-for="@Model.addItems.TaxValue" placeholder="Tax-Percentage">
+                                            <label for="taxPercentage" class="text-nowrap" style="font-size: 13px !important;">Tax Percentage</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="shortCode"
+                                                asp-for="@Model.addItems.ShortCode" placeholder="Short Code">
+                                            <label for="shortCode">Short Code</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" placeholder="Description" id="description"
+                                                asp-for="@Model.addItems.Description" style="height: 80px"></textarea>
+                                            <label for="description">Description</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <label for="uploadFile"
+                                            class="border border-dashed rounded p-3 text-center w-100">
+                                            <span class="d-flex flex-column justify-content-center align-items-center">
+                                                <i class="fa-solid fa-cloud-arrow-up fs-2"></i>
+                                                <span id="browseFileText-item" >Drag & Drop or Browse files</span>
+                                            </span>
+                                        </label>
+                                        <input type="file" class="d-none" id="uploadFile"
+                                            asp-for="@Model.addItems.ItemFormImage">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Section (Modifiers) -->
+                            <div class="col-lg-5 col-md-12 bg-black p-3 rounded">
+                                <h6>Select Modifier Groups</h6>
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input" type="checkbox" id="extraCheese">
+                                    <label class="form-check-label" for="extraCheese">Extra Cheese</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="spicy">
+                                    <label class="form-check-label" for="spicy">Spicy</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="Onions">
+                                    <label class="form-check-label" for="Onions">Onions</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="glutenFree">
+                                    <label class="form-check-label" for="glutenFree">Gluten-Free</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Buttons -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn solid-btn">Save</button>
+                    <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @* <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog modal-xl">
 <div class="modal-content">
@@ -423,7 +513,6 @@
 <h5 class="modal-title" id="exampleModalLabel">Add New Menu Item</h5>
 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-<form asp-action="AddItem" enctype="multipart/form-data">
 <div class="modal-body">
 <div class="container">
 <div class="row">
@@ -432,21 +521,18 @@
 <div class="row mt-2">
 <div class="col-md-6">
 <div class="form-floating">
-<select class="form-select" id="floatingSelect" asp-for="@Model.additem.CategoryId" >
-@foreach(var cat in Model.categories){
-<option value="@cat.CategoryId">@cat.CategoryName</option>
-}
+<select class="form-select" id="floatingSelect">
+<option selected>Sandwich</option>
+<option value="1">One</option>
+<option value="2">Two</option>
 </select>
 <label for="floatingSelect">Categories*</label>
-<span class="text-danger" asp-validation-for="@Model.additem.CategoryId"></span>
 </div>
 </div>
 <div class="col-md-6">
 <div class="form-floating mb-3">
-<input type="text" class="form-control" id="floatingInput" asp-for="@Model.additem.ItemName" placeholder="Name*">
+<input type="text" class="form-control" id="floatingInput" placeholder="Name*">
 <label for="floatingInput">Name*</label>
-<span class="text-danger" asp-validation-for="@Model.additem.ItemName"></span>
-
 </div>
 </div>
 </div>
@@ -454,41 +540,34 @@
 <div class="row">
 <div class="col-md-6 col-lg-3">
 <div class="form-floating">
-<select class="form-select" id="floatingSelect" asp-for="@Model.additem.ItemTypeId">
-<option value="1" selected>veg</option>
-<option value="2">Non-veg</option>
-<option value="3">Vegan</option>
+<select class="form-select" id="floatingSelect">
+<option selected>Select a type</option>
+<option value="1">One</option>
 </select>
 <label for="floatingSelect">Item Type*</label>
-<span class="text-danger" asp-validation-for="@Model.additem.ItemTypeId"></span>
-
 </div>
 </div>
 <div class="col-md-6 col-lg-3">
 <div class="form-floating mb-3">
-<input type="number" class="form-control" id="floatingInput" placeholder="Rate*" asp-for="@Model.additem.Rate"
->
+<input type="number" class="form-control" id="floatingInput" placeholder="Rate*"
+value="0">
 <label for="floatingInput">Rate*</label>
-<span class="text-danger" asp-validation-for="@Model.additem.Rate"></span>
 </div>
 </div>
-
 <div class="col-md-6 col-lg-3">
 <div class="form-floating mb-3">
-<input type="number" class="form-control" id="floatingInput" asp-for="@Model.additem.Quantity"
-placeholder="Quantity*" >
+<input type="number" class="form-control" id="floatingInput"
+placeholder="Quantity*" value="0">
 <label for="floatingInput">Quantity*</label>
-<span class="text-danger" asp-validation-for="@Model.additem.Quantity"></span>
 </div>
 </div>
 <div class="col-md-6 col-lg-3">
 <div class="form-floating">
-<select class="form-select" id="floatingSelect" asp-for="@Model.additem.Unit">
-<option value="pieces">Pieces</option>
-<option value="cm">cm</option>
+<select class="form-select" id="floatingSelect">
+<option selected>Select a unit</option>
+<option value="1">One</option>
 </select>
 <label for="floatingSelect">Unit*</label>
-<span class="text-danger" asp-validation-for="@Model.additem.Unit"></span>
 </div>
 </div>
 </div>
@@ -496,29 +575,26 @@ placeholder="Quantity*" >
 <div class="row">
 <div class="col-md-6 col-lg-3">
 <div class="form-check form-switch">
-<input class="form-check-input" type="checkbox" id="available" asp-for="@Model.additem.Isavailable">
+<input class="form-check-input" type="checkbox" id="available">
 <label class="form-check-label" for="available">Available</label>
-
 </div>
 </div>
 <div class="col-md-6 col-lg-3">
 <div class="form-check form-switch">
-<input class="form-check-input" type="checkbox" id="defaultTax" asp-for="@Model.additem.Isdefaulttax" >
+<input class="form-check-input" type="checkbox" id="defaultTax">
 <label class="form-check-label" for="defaultTax">Default Tax</label>
-
 </div>
 </div>
 <div class="col-md-6 col-lg-3">
 <div class="form-floating mb-3">
-<input type="text" class="form-control" id="taxPercentage" asp-for="@Model.additem.TaxValue"
+<input type="text" class="form-control" id="taxPercentage"
 placeholder="Tax-Percentage*">
-<label for="taxPercentage" style="text-wrap: noWrap;">Tax Percentage*</label>
-
+<label for="taxPercentage">Tax Percentage*</label>
 </div>
 </div>
 <div class="col-md-6 col-lg-3">
 <div class="form-floating mb-3">
-<input type="text" class="form-control" id="shortCode" asp-for="@Model.additem.ShortCode"
+<input type="text" class="form-control" id="shortCode"
 placeholder="Short Code*">
 <label for="shortCode">Short Code*</label>
 </div>
@@ -528,7 +604,7 @@ placeholder="Short Code*">
 <div class="row">
 <div class="col-12">
 <div class="form-floating">
-<textarea class="form-control" placeholder="Description" id="description" asp-for="@Model.additem.Description"
+<textarea class="form-control" placeholder="Description" id="description"
 style="height: 80px"></textarea>
 <label for="description">Description</label>
 </div>
@@ -543,7 +619,7 @@ style="height: 80px"></textarea>
 <span>Drag & Drop or Browse files</span>
 </span>
 </label>
-<input type="file" class="d-none" id="uploadFile" asp-for="@Model.additem.ItemFormImage">
+<input type="file" class="d-none" id="uploadFile">
 </div>
 </div>
 </div>
@@ -574,169 +650,25 @@ style="height: 80px"></textarea>
 
 <!-- Footer Buttons -->
 <div class="modal-footer">
-<button type="submit" class="btn btn-primary">Save</button>
+<button type="button" class="btn btn-primary">Save</button>
 <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
 </div>
-</form>
 </div>
 </div>
 </div> *@
-
-<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add New Menu Item</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="row">
-                        <!-- Left Section (Form) -->
-                        <div class="col-lg-7 col-md-12">
-                            <div class="row mt-2">
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <select class="form-select" id="floatingSelect">
-                                            <option selected>Sandwich</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                        </select>
-                                        <label for="floatingSelect">Categories*</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="floatingInput" placeholder="Name*">
-                                        <label for="floatingInput">Name*</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 col-lg-3">
-                                    <div class="form-floating">
-                                        <select class="form-select" id="floatingSelect">
-                                            <option selected>Select a type</option>
-                                            <option value="1">One</option>
-                                        </select>
-                                        <label for="floatingSelect">Item Type*</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="number" class="form-control" id="floatingInput" placeholder="Rate*"
-                                            value="0">
-                                        <label for="floatingInput">Rate*</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="number" class="form-control" id="floatingInput"
-                                            placeholder="Quantity*" value="0">
-                                        <label for="floatingInput">Quantity*</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-3">
-                                    <div class="form-floating">
-                                        <select class="form-select" id="floatingSelect">
-                                            <option selected>Select a unit</option>
-                                            <option value="1">One</option>
-                                        </select>
-                                        <label for="floatingSelect">Unit*</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 col-lg-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="available">
-                                        <label class="form-check-label" for="available">Available</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="defaultTax">
-                                        <label class="form-check-label" for="defaultTax">Default Tax</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="taxPercentage"
-                                            placeholder="Tax-Percentage*">
-                                        <label for="taxPercentage">Tax Percentage*</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-3">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="shortCode"
-                                            placeholder="Short Code*">
-                                        <label for="shortCode">Short Code*</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Description" id="description"
-                                            style="height: 80px"></textarea>
-                                        <label for="description">Description</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mt-2">
-                                <div class="col-12">
-                                    <label for="uploadFile" class="border border-dashed rounded p-3 text-center w-100">
-                                        <span class="d-flex flex-column justify-content-center align-items-center">
-                                            <i class="fa-solid fa-cloud-arrow-up fs-2"></i>
-                                            <span>Drag & Drop or Browse files</span>
-                                        </span>
-                                    </label>
-                                    <input type="file" class="d-none" id="uploadFile">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Right Section (Modifiers) -->
-                        <div class="col-lg-5 col-md-12 bg-light p-3 rounded">
-                            <h6>Select Modifier Groups</h6>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="extraCheese">
-                                <label class="form-check-label" for="extraCheese">Extra Cheese</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="spicy">
-                                <label class="form-check-label" for="spicy">Spicy</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="noOnions">
-                                <label class="form-check-label" for="noOnions">No Onions</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="glutenFree">
-                                <label class="form-check-label" for="glutenFree">Gluten-Free</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer Buttons -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 @section Scripts {
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $("#uploadFile").change(function () {
+            const file = this.files[0];
+            $("#browseFileText-item").text(file.name);
+        });
+    </script>
+
 
     @* Toaster Message *@
     <script>
@@ -775,8 +707,8 @@ style="height: 80px"></textarea>
         $(document).ready(function () {
             console.log("hii");
             let currentPage = 1;
-            let pageSize = $("#itemselect").val();
-            let searchText = $("#searchbtn").val().trim();
+            let pageSize = $("#itemselect-item").val();
+            let searchText = $("#searchbtn-item").val().trim();
         @*  let catid = $("#category-id-items").val(); *@
                 let catid;
 
@@ -793,9 +725,9 @@ style="height: 80px"></textarea>
                         let totalRecords = @Model.PaginationForItemByCategory.TotalCount;
                         let endItem = Math.min(page * pageSize, totalRecords);
 
-                        $("#pagination-info").text("Showing " + startItem + " - " + endItem + " of " + totalRecords);
-                        $("#left-arrow").prop("disabled", page === 1);
-                        $("#right-arrow").prop("disabled", page * pageSize >= totalRecords);
+                        $("#pagination-info-item").text("Showing " + startItem + " - " + endItem + " of " + totalRecords);
+                        $("#left-arrow-item").prop("disabled", page === 1);
+                        $("#right-arrow-item").prop("disabled", page * pageSize >= totalRecords);
                     }
                 });
             }
@@ -810,13 +742,13 @@ style="height: 80px"></textarea>
             });
 
             //# search-button
-            $("#searchbtn").on("keyup", function () {
+            $("#searchbtn-item").on("keyup", function () {
                 searchText = $(this).val().trim();
                 PaginatedItemTable(catid, searchText, currentPage, pageSize);
             });
 
             // Pagination buttons
-            $("#right-arrow").on("click", function () {
+            $("#right-arrow-item").on("click", function () {
                 let rightarrow = !$(this).prop("disabled");
                 if (rightarrow) {
                     currentPage++;
@@ -824,7 +756,7 @@ style="height: 80px"></textarea>
                 }
             });
 
-            $("#left-arrow").on("click", function () {
+            $("#left-arrow-item").on("click", function () {
                 let leftarrow = !$(this).prop("disabled");
                 if (leftarrow) {
                     currentPage--;
@@ -833,7 +765,7 @@ style="height: 80px"></textarea>
             });
 
             // Items per page dropdown
-            $("#itemselect").on("change", function () {
+            $("#itemselect-item").on("change", function () {
                 pageSize = $(this).val();
                 console.log("items-" + pageSize);
                 PaginatedItemTable(catid, searchText, currentPage, pageSize);
