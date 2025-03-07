@@ -261,4 +261,24 @@ public class UserService : IUserService
         return true;
     }
     #endregion
+
+    public bool IsUserNameExists(string Username)
+    {
+        if (_context.Users.FirstOrDefaultAsync(x => x.Username == Username) != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsUserNameExistsForEdit(string Username, string Email)
+    {
+        List<User> duplicateUsername = _context.Users.Where(x => x.Username == Username && x.Userlogin.Email != Email).ToList();
+        if (duplicateUsername.Count >= 1)
+        {
+            return true;
+        }
+        return false;
+    }
+
 }

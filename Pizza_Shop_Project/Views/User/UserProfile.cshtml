@@ -54,7 +54,7 @@
                 <input asp-for="FirstName" type="text" class="form-control " id="floatingInput"
                     placeholder="First Name">
                 <label asp-for="FirstName" for="floatingInput" class="fs-6 text-secondary">First Name</label>
-                <span asp-validation-for="FirstName" class="text-danger ms-1 mt-2"></span>
+                <span asp-validation-for="FirstName" class="validate text-danger ms-1 mt-2"></span>
             </div>
         </div>
 
@@ -62,7 +62,7 @@
             <div class="form-floating d-flex flex-column ">
                 <input asp-for="LastName" type="text" class="form-control" id="floatingInput" placeholder="Last Name">
                 <label asp-for="LastName" for="floatingInput" class="fs-6 text-secondary">Last Name</label>
-                <span asp-validation-for="LastName" class="text-danger ms-1 mt-2"></span>
+                <span asp-validation-for="LastName" class="validate text-danger ms-1 mt-2"></span>
             </div>
         </div>
 
@@ -70,7 +70,7 @@
             <div class="form-floating  d-flex flex-column">
                 <input asp-for="Username" type="text" class="form-control" id="floatingInput" placeholder="John Deo">
                 <label asp-for="Username" for="floatingInput" class="fs-6 text-secondary">User Name</label>
-                <span asp-validation-for="Username" class="text-danger ms-1 mt-2"></span>
+                <span asp-validation-for="Username" class="validate text-danger ms-1 mt-2"></span>
 
             </div>
         </div>
@@ -80,7 +80,7 @@
                 <input asp-for="Phone" type="number" class="form-control" id="floatingInput" placeholder="Phone"
                     pattern="0-9">
                 <label asp-for="Phone" for="floatingInput" class="fs-6 text-secondary">Phone</label>
-                <span asp-validation-for="Phone" class="text-danger ms-1 mt-2"></span>
+                <span asp-validation-for="Phone" class=" validate text-danger ms-1 mt-2"></span>
 
             </div>
         </div>
@@ -92,7 +92,7 @@
                     <option value="">Select Country</option>
                 </select>
                 <label for="floatingSelect text-secondary">Country</label>
-                <span class="text-danger ms-1 mt-2">@TempData["CountryError"]</span>
+                <span class="text-danger validate ms-1 mt-2">@TempData["CountryError"]</span>
 
             </div>
         </div>
@@ -104,7 +104,7 @@
                     <option value="">Select State</option>
                 </select>
                 <label for="floatingSelect text-secondary">State</label>
-                <span class="text-danger ms-1 mt-2">@TempData["StateError"]</span>
+                <span class="text-danger validate ms-1 mt-2">@TempData["StateError"]</span>
 
             </div>
         </div>
@@ -116,7 +116,7 @@
                     <option value="">Select City</option>
                 </select>
                 <label for="floatingSelect text-secondary">City</label>
-                <span class="text-danger ms-1 mt-2">@TempData["CityError"]</span>
+                <span class="text-danger validate ms-1 mt-2">@TempData["CityError"]</span>
 
             </div>
         </div>
@@ -132,7 +132,7 @@
             <div class="form-floating ">
                 <input asp-for="Zipcode" type="text" class="form-control" id="floatingInput" placeholder="Zipcode">
                 <label asp-for="Zipcode" for="floatingInput" class="fs-6 text-secondary">Zipcode</label>
-                <span asp-validation-for="Zipcode" class="text-danger ms-1 mt-2"></span>
+                <span asp-validation-for="Zipcode" class="validate text-danger ms-1 mt-2"></span>
             </div>
         </div>
 
@@ -149,8 +149,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+@* Country,State,City *@
     <script>
-
             $(document).ready(function () {
                 $('#country').change(function () {
                     var countryId = $(this).val();
@@ -188,6 +188,7 @@
             });
     </script>
 
+@* Profile Image show  *@
     <script>
         $("#profile-img").change(function () {
             const file = this.files[0];
@@ -201,11 +202,17 @@
         });
     </script>
 
+@* Toaster Script  *@
     <script>
         $(document).ready(function () {
             var successMessage = '@TempData["SuccessMessage"]';
             var errorMessage = '@TempData["ErrorMessage"]';
             console.log("successMessage", successMessage);
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "2000"
+            };
             if (successMessage) {
                 toastr.success(successMessage);
             }

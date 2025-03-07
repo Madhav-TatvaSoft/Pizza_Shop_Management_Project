@@ -4,7 +4,7 @@
     Layout = "_Layout";
 }
 
-<div class="permission-table-main-div table-responsive fs-5 p-5 ms-5 mt-5 mb-0 bg-white" style="width: 85%;">
+<div class="permission-table-main-div table-responsive fs-5 p-5 ms-5 mt-5 mb-0 bg-white shadow-lg" style="width: 85%;">
     <table class="table" id="demo">
         <thead>
             <tr class="border border-bottom-2 border-end-0 border-top-0 border-start-0">
@@ -29,13 +29,19 @@
     </table>
 </div>
 
-@section Scripts{
+@section Scripts {
 
+    @* Toaster Script *@
     <script>
         $(document).ready(function () {
             var successMessage = '@TempData["SuccessMessage"]';
             var errorMessage = '@TempData["ErrorMessage"]';
             console.log("successMessage", successMessage);
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "2000"
+            };
             if (successMessage) {
                 toastr.success(successMessage);
             }

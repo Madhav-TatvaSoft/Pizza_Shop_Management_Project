@@ -16,12 +16,14 @@ namespace Pizza_Shop_Project.Controllers
         //Fetching roles
         public IActionResult RoleDashboard()
         {
+            ViewData["sidebar-active"] = "Role";
             var Roles = _rolePermission.GetAllRoles();
             return View(Roles);
         }
 
         public IActionResult Permission(string name)
         {
+            ViewData["sidebar-active"] = "Role";
             List<RolesPermissionViewModel> permissions = _rolePermission.GetPermissionByRole(name);
             return View(permissions);
         }

@@ -350,14 +350,16 @@
                                 <div class="row mt-2">
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <select class="form-select" id="floatingSelect" asp-for="@Model.addItems.CategoryId">
+                                            <select class="form-select" id="floatingSelect"
+                                                asp-for="@Model.addItems.CategoryId">
                                                 @foreach (var cat in Model.categoryList)
                                                 {
                                                     <option value="@cat.CategoryId">@cat.CategoryName</option>
                                                 }
                                             </select>
                                             <label for="floatingSelect">Categories*</label>
-                                            <span class="text-danger" asp-validation-for="@Model.addItems.CategoryId"></span>
+                                            <span class="text-danger"
+                                                asp-validation-for="@Model.addItems.CategoryId"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -365,7 +367,8 @@
                                             <input type="text" class="form-control" id="floatingInput"
                                                 asp-for="@Model.addItems.ItemName" placeholder="Name*">
                                             <label for="floatingInput">Name*</label>
-                                            <span class="text-danger" asp-validation-for="@Model.addItems.ItemName"></span>
+                                            <span class="text-danger"
+                                                asp-validation-for="@Model.addItems.ItemName"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -380,7 +383,8 @@
                                                 <option value="3">Vegan</option>
                                             </select>
                                             <label for="floatingSelect">Item Type*</label>
-                                            <span class="text-danger" asp-validation-for="@Model.addItems.ItemTypeId"></span>
+                                            <span class="text-danger"
+                                                asp-validation-for="@Model.addItems.ItemTypeId"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-3">
@@ -417,7 +421,8 @@
                                 <div class="row">
                                     <div class="col-md-6 col-lg-3">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="available" asp-for="@Model.addItems.Isavailable">
+                                            <input class="form-check-input" type="checkbox" id="available"
+                                                asp-for="@Model.addItems.Isavailable">
                                             <label class="form-check-label" for="available">Available</label>
 
                                         </div>
@@ -434,7 +439,8 @@
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="taxPercentage"
                                                 asp-for="@Model.addItems.TaxValue" placeholder="Tax-Percentage">
-                                            <label for="taxPercentage" class="text-nowrap" style="font-size: 13px !important;">Tax Percentage</label>
+                                            <label for="taxPercentage" class="text-nowrap"
+                                                style="font-size: 13px !important;">Tax Percentage</label>
 
                                         </div>
                                     </div>
@@ -463,7 +469,7 @@
                                             class="border border-dashed rounded p-3 text-center w-100">
                                             <span class="d-flex flex-column justify-content-center align-items-center">
                                                 <i class="fa-solid fa-cloud-arrow-up fs-2"></i>
-                                                <span id="browseFileText-item" >Drag & Drop or Browse files</span>
+                                                <span id="browseFileText-item">Drag & Drop or Browse files</span>
                                             </span>
                                         </label>
                                         <input type="file" class="d-none" id="uploadFile"
@@ -662,6 +668,7 @@ style="height: 80px"></textarea>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    @* Display FileName *@
     <script>
         $("#uploadFile").change(function () {
             const file = this.files[0];
@@ -669,13 +676,17 @@ style="height: 80px"></textarea>
         });
     </script>
 
-
     @* Toaster Message *@
     <script>
         $(document).ready(function () {
             var successMessage = '@TempData["SuccessMessage"]';
             var errorMessage = '@TempData["ErrorMessage"]';
             console.log("successMessage", successMessage);
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "2000"
+            };
             if (successMessage) {
                 toastr.success(successMessage);
             }

@@ -88,7 +88,8 @@ body {
 }
 
 .pizza-img-div {
-    padding: 0px 0px !important;
+    padding: 0px 0px 0px 0px !important;
+    /* height: 10px !important; */
 }
 
 .pizza-img-tag {
@@ -97,6 +98,10 @@ body {
 
 .login-main-div {
     background-color: rgb(207 233 243);
+}
+
+.sub-login-div{
+    max-width: 550px;
 }
 
 .logo-name {
@@ -136,12 +141,13 @@ form i {
 
     .rememberme-div {
         font-weight: 500;
-
+        font-size: 10px;
     }
 
     .rememberme-div a {
         color: #002130;
-
+        font-size: 14px;
+        margin-top: 2px;
     }
 
     .logo-name {
@@ -177,7 +183,6 @@ form i {
 .text {
     display: flex;
     padding-left: 13%;
-    /* font-size: 13px; */
 }
 
 
@@ -240,34 +245,13 @@ form i {
     margin: 0px 20px
 }
 
-.dashboard-active-div {
-    /* background-color: #cdcdcd; */
-    /* color: #0084c3; */
-    /* margin-top: 10px; */
-}
-
-.dashboard-text-active {
-    /* color: #0084c3; */
-}
-
 .dashboard-text-inactive {
     color: #000000;
 }
 
-.selected-content {
-    font-size: 15px;
-    color: #C8242F;
-    opacity: 1;
-    float: left;
-    font-weight: 400;
-}
-
-.unselected-content {
-    font-size: 15px;
-    color: #3E3E3E;
-    opacity: 1;
-    float: left;
-    font-weight: 400;
+.dashboard-text-inactive:hover {
+    background-color: #def0ff;
+    color: #0084c3;
 }
 
 .sidebar-list {
@@ -395,13 +379,10 @@ form i {
     font-size: 14px;
 }
 
- /* Ensure the text color changes when hovered  */
 .CategoryGet:hover {
-    /* color: #0084c3 !important; */
     cursor: pointer;
 }
 
- /* Initially hide edit & delete icons  */
 .CategoryGet i.fa-pen,
 .CategoryGet i.fa-trash-can {
     opacity: 0;
@@ -419,5 +400,12 @@ form i {
     color: #0084c3 !important;
     font-weight: bold;
 }
-  
-  
+
+.active-div{
+    background-color: #def0ff;
+    color: #0084c3;
+}
+
+.change-pass-icon-1{
+    top: 100px;
+}

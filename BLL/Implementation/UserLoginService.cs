@@ -24,7 +24,7 @@ public class UserLoginService : IUserLoginService
         _jwtService = jwtService;
     }
 
-    public  string EncryptPassword(string password)
+    public string EncryptPassword(string password)
     {
         string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
             password: password,
@@ -75,11 +75,13 @@ public class UserLoginService : IUserLoginService
         var user = forgotpassword.Email;
         if (user != null)
         {
-            var senderEmail = new MailAddress("tatva.pca42@outlook.com", "sender");
-            var receiverEmail = new MailAddress(forgotpassword.Email, "reciever");
-            var password = "P}N^{z-]7Ilp";
-            var sub = "Forgot Password";
-            var body = $@"
+            try
+            {
+                var senderEmail = new MailAddress("tatva.pca42@outlook.com", "sender");
+                var receiverEmail = new MailAddress(forgotpassword.Email, "reciever");
+                var password = "P}N^{z-]7Ilp";
+                var sub = "Forgot Password";
+                var body = $@"
                 <div style='max-width: 500px; font-family: Arial, sans-serif; border: 1px solid #ddd;'>
                 <div style='background: #006CAC; padding: 10px; text-align: center; height:90px; max-width:100%; display: flex; justify-content: center; align-items: center;'>
                     <img src='https://images.vexels.com/media/users/3/128437/isolated/preview/2dd809b7c15968cb7cc577b2cb49c84f-pizza-food-restaurant-logo.png' style='max-width: 50px;' />
@@ -95,27 +97,30 @@ public class UserLoginService : IUserLoginService
                     </p>
                 </div>
                 </div>";
-            var smtp = new SmtpClient
+                var smtp = new SmtpClient
+                {
+                    Host = "mail.etatvasoft.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(senderEmail.Address, password)
+                };
+                using (var mess = new MailMessage(senderEmail, receiverEmail))
+                {
+                    mess.Subject = sub;
+                    mess.Body = body;
+                    mess.IsBodyHtml = true;
+                    await smtp.SendMailAsync(mess);
+                }
+            }
+            catch (Exception e)
             {
-                Host = "mail.etatvasoft.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(senderEmail.Address, password)
-            };
-            using (var mess = new MailMessage(senderEmail, receiverEmail))
-            {
-                mess.Subject = sub;
-                mess.Body = body;
-                mess.IsBodyHtml = true;
-                await smtp.SendMailAsync(mess);
+                return false;
             }
 
             return true;
         }
-
-
         return false;
     }
 
@@ -134,15 +139,30 @@ public class UserLoginService : IUserLoginService
 
     public string GetProfileImage(string Email)
     {
-        return _context.Users.FirstOrDefault(x=>x.Userlogin.Email == Email).ProfileImage;
+        return _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email).ProfileImage;
     }
 
-    public string GetUsername(string Email){
-        return _context.Users.FirstOrDefault(x=>x.Userlogin.Email == Email).Username;
+    public string GetUsername(string Email)
+    {
+        return _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email).Username;
     }
 
-    public long GetUserId(string Email){
-        return _context.Users.FirstOrDefault(x=>x.Userlogin.Email == Email).UserId;
+    public long GetUserId(string Email)
+    {
+        return _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email).UserId;
     }
+
+    public string Base64Encode(string plainText)
+    {
+        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+        return System.Convert.ToBase64String(plainTextBytes);
+    }
+
+    public string Base64Decode(string base64EncodedData)
+    {
+        var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+        return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+    }
+
 
 }

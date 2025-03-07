@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<!-- table -->
+<!-- Table -->
 <div class="container">
   <div class="table-main-div table-responsive p-3 m-3 mb-0 bg-white mt-3 ">
     <table id="table" class="table">
@@ -44,47 +44,6 @@
       </thead>
       <tbody id="userTableBody">
         @await Html.PartialAsync("_UserListDataPartial", Model)
-        @* @foreach (var item in Model)
-        {
-        if (!item.Isdelete)
-        {
-        <tr class="border border-top-0 border-end-0 border-start-0 border-teritory">
-        <td class="text-start text-nowrap"><img src="@item.ProfileImage" class="img-fluid me-1 " width="25px"
-        alt="" />
-        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td class="text-start">
-        @Html.DisplayFor(modelItem => item.Userlogin.Email)
-        </td>
-        <td class="text-start">
-        @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td class="text-start">
-        @Html.DisplayFor(modelItem => item.Userlogin.Role.RoleName)
-        </td>
-        <td class="text-start">
-        @if (item.Status == true)
-        {
-        <div class="text-center text-white bg-success rounded-pill w-75 fs-6 p-md-1 p-2">
-        Active</div>
-        }
-        else
-        {
-        <div class="text-center text-white bg-danger rounded-pill w-75 fs-6 p-md-1 p-2">
-        Inactive</div>
-        }
-
-        </td>
-        <td class="text-start">
-        <a asp-action="EditUser" asp-controller="User" asp-route-Email="@item.Userlogin.Email" class="text-dark"><i
-        class="fa-solid fa-pen w-25 me-sm-2 me-xs-2 me-lg-0 "></i></a>
-        <i class="fa-solid fa-trash-can" data-bs-toggle="modal" data-bs-target="#delete-user"
-        data-email="@item.Userlogin.Email"></i>
-        </td>
-        </tr>
-        }
-
-        } *@
       </tbody>
     </table>
   </div>
@@ -106,7 +65,7 @@
   </div>
 </div>
 
-<!-- delete item modal-->
+<!-- Delete item modal-->
 <div id="delete-user" class="modal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -135,7 +94,7 @@
 @section Scripts {
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  @* Modal Script *@
+  @* Delete Modal Script *@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var deleteModal = document.getElementById('delete-user');
@@ -154,6 +113,11 @@
       var successMessage = '@TempData["SuccessMessage"]';
       var errorMessage = '@TempData["ErrorMessage"]';
       console.log("successMessage", successMessage);
+      toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "timeOut": "2000"
+      };
       if (successMessage) {
         toastr.success(successMessage);
       }

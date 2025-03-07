@@ -32,6 +32,7 @@ namespace Pizza_Shop_Project.Controllers
             {
                 MenuVM.PaginationForItemByCategory = _menuService.GetMenuItemsByCategory(catid, search, pageNumber, pageSize);
             }
+            ViewData["sidebar-active"] = "Menu";
             return View(MenuVM);
         }
         #endregion

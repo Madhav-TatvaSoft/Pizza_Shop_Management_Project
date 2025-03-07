@@ -64,7 +64,7 @@ namespace Pizza_Shop_Project.Controllers
                 return RedirectToAction("Dashboard", "User");
             }
             TempData["ErrorMessage"] = "Please enter valid credentials";
-            return RedirectToAction("VerifyUserLogin","UserLogin");
+            return RedirectToAction("VerifyUserLogin", "UserLogin");
         }
         #endregion
 
@@ -90,26 +90,30 @@ namespace Pizza_Shop_Project.Controllers
             var userLogin = new UserLoginViewModel();
             userLogin.Email = forgotpassword.Email;
             var isSendEmail = await _userLoginService.IsSendEmail(userLogin);
-            if (isSendEmail)
+            if (ModelState.IsValid)
             {
-                var resetLink = Url.Action("ResetPassword", "UserLogin", new { email = forgotpassword.Email }, Request.Scheme);
-                var sendEmail = await _userLoginService.SendEmail(forgotpassword, resetLink);
-                if (sendEmail)
+                if (isSendEmail)
                 {
-                    TempData["SuccessMessage"] = "Reset password link sent successfully";
-                    return View("VerifyUserLogin");
+                    var resetLink = Url.Action("ResetPassword", "UserLogin", new { Email =_userLoginService.Base64Encode(forgotpassword.Email) }, Request.Scheme);
+                    var sendEmail = await _userLoginService.SendEmail(forgotpassword, resetLink);
+                    if (sendEmail)
+                    {
+                        TempData["SuccessMessage"] = "Reset password link sent successfully";
+                        return View("VerifyUserLogin");
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Email Server Error.Please try again!";
+                        return View("ForgotPassword");
+                    }
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "Please try again!!!";
+                    TempData["ErrorMessage"] = "Email does not exists";
                     return View("ForgotPassword");
                 }
             }
-            else
-            {
-                TempData["ErrorMessage"] = "Email does not exists";
-                return View("ForgotPassword");
-            }
+            return View();
         }
         #endregion
 
@@ -117,7 +121,7 @@ namespace Pizza_Shop_Project.Controllers
         public IActionResult ResetPassword(string Email)
         {
             var resetPassword = new ResetPasswordViewModel();
-            resetPassword.Email = Email;
+            resetPassword.Email = _userLoginService.Base64Decode(Email);
             return View("ResetPassword");
         }
 
@@ -142,13 +146,13 @@ namespace Pizza_Shop_Project.Controllers
                 }
                 else
                 {
-                    ViewBag.reset = "Password and Confirm Password should be same";
+                    TempData["ErrorMessage"] = "Password and Confirm Password should be same";
                     return View("ResetPassword");
                 }
             }
             return View("ResetPassword");
         }
-    #endregion
+        #endregion
 
     }
 }

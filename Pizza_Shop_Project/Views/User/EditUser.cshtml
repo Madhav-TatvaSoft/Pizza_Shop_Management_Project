@@ -26,7 +26,6 @@
     style="width: 96%;" enctype="multipart/form-data">
     <div class="form-main-div mt-3 mx-auto bg-white " style="width: 98%;">
         <div class="row">
-            <!-- two cols -->
             <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
                 <div class="form-floating d-flex flex-column ">
                     <input type="text" asp-for="FirstName" class="form-control" id="floatingInput"
@@ -47,7 +46,7 @@
             <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
                 <div class="form-floating d-flex flex-column ">
                     <input type="text" asp-for="Username" class="form-control" id="floatingInput"
-                        placeholder="John Deo">
+                        placeholder="Username">
                     <label for="floatingInput" asp-for="Username" class="fs-6 text-secondary">Username</label>
                     <span asp-validation-for="Username" class="text-danger ms-1 mt-2 validate"></span>
                 </div>
@@ -85,8 +84,9 @@
                 <div class="browswe-file d-flex justify-content-center align-items-center  text-secondary browse-file-div bg-white"
                     style="height: 90px; width: 100%;  ">
                     <input type="file" asp-for="ProfileImage" class=" d-none " id="choose-file" />
-                    <label for="choose-file" >
-                        <i class="fa-solid fa-cloud-arrow-up d-flex justify-content-center ms-1 mb-1"></i> <span id="browseFileText">Browse files</span></label>
+                    <label for="choose-file">
+                        <i class="fa-solid fa-cloud-arrow-up d-flex justify-content-center ms-1 mb-1"></i> <span
+                            id="browseFileText">Browse files</span></label>
                 </div>
             </div>
 
@@ -150,6 +150,7 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    @* Country,State,City *@
     <script>
         $(document).ready(function () {
             $('#Countries').change(function () {
@@ -188,11 +189,17 @@
         });
     </script>
 
+    @* Toaster Script *@
     <script>
         $(document).ready(function () {
             var successMessage = '@TempData["SuccessMessage"]';
             var errorMessage = '@TempData["ErrorMessage"]';
             console.log("successMessage", successMessage);
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "2000"
+            };
             if (successMessage) {
                 toastr.success(successMessage);
             }
@@ -202,7 +209,8 @@
         });
     </script>
 
-      <script>
+    @* Display File Name *@
+    <script>
         $("#choose-file").change(function () {
             const file = this.files[0];
             $("#browseFileText").text(file.name);

@@ -26,12 +26,16 @@ namespace Pizza_Shop_Project.Controllers
             this._JWTService = JWTService;
             this._userLoginService = userLoginService;
         }
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Dashboard()
         {
+            ViewData["sidebar-active"] = "Dashboard";
             return View();
         }
 
         #region State,City
+
 
         public JsonResult GetStates(long? countryId)
         {
@@ -47,7 +51,8 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region UserProfile
-        // [Authorize(Roles = "Admin")]
+
+        [Authorize(Roles = "Admin")]
         public IActionResult UserProfile()
         {
             var cookieSavedToken = Request.Cookies["AuthToken"];
@@ -115,6 +120,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region ChangePassword
+
         public IActionResult ChangePassword()
         {
             return View();
@@ -168,8 +174,10 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region UserListData
+        [Authorize(Roles = "Admin")]
         public IActionResult UserListData()
         {
+            ViewData["sidebar-active"] = "User";
             var users = _userService.GetUserList();
             return View(users);
         }
@@ -236,6 +244,11 @@ namespace Pizza_Shop_Project.Controllers
                 user.Image = $"/uploads/{fileName}";
             }
 
+            if (_userService.IsUserNameExists(user.Username))
+            {
+                TempData["addUserErrorMessage"] = "Username already exists";
+                return RedirectToAction("AddUser", "User");
+            }
             if (!await _userService.AddUser(user, Email))
             {
                 //change
@@ -337,6 +350,12 @@ namespace Pizza_Shop_Project.Controllers
                     adduser.ProfileImage.CopyTo(stream);
                 }
                 adduser.Image = $"/uploads/{fileName}";
+            }
+
+            if (_userService.IsUserNameExistsForEdit(adduser.Username, Email))
+            {
+                TempData["ErrorMessage"] = "UserName Already Exists. Try Another Username";
+                return RedirectToAction("EditUser", "User", new { Email = adduser.Email });
             }
             _userService.EditUser(adduser, Email);
 

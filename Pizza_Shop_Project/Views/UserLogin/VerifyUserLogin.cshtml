@@ -8,7 +8,7 @@
     <div class="login-container row   ">
 
         <!-- Image Section -->
-        <div class="pizza-img-div col-md-6 d-none d-md-block">
+        <div class="pizza-img-div col-md-6 max-vh-100 d-none d-md-block">
 
             <img src="~/images/dominos_background.jpg" alt="Logo" class="pizza-img-tag img-fluid min-vh-100" />
 
@@ -34,39 +34,36 @@
 
                 <div class="form-group pass-div mb-4 ">
 
-                    <input asp-for="Email" type="email" id="Email" class="form-control d-inline email-inp"
+                    <input asp-for="Email" type="email" id="Email" class="form-control d-inline border border-secondary email-inp"
                         placeholder="Email*" required />
                     <i class="bi bi-person-fill"></i>
-                    <span asp-validation-for="Email" class="text-danger ms-4"></span>
+                    <span asp-validation-for="Email" class="validate text-danger ms-1"></span>
 
                 </div>
 
                 <div class="form-group pass-div mb-4 ">
-                    <input asp-for="Password" type="password" class="form-control d-inline " id="pass-inp"
+                    <input asp-for="Password" type="password" class="form-control d-inline border border-secondary " id="pass-inp"
                         placeholder="Password*" required />
                     <i class="bi bi-eye-slash-fill" id="togglePassword"></i>
-                    <span asp-validation-for="Password" class="text-danger ms-4"></span>
+                    <span asp-validation-for="Password" class="validate text-danger ms-1"></span>
                 </div>
 
                 <!-- Remember me and frgt pass section -->
-                <div class="rememberme-div d-flex justify-content-between mb-4">
+                <div class="rememberme-div d-flex justify-content-between mb-4 p-0">
                     <div class="form-check">
                         <input class="form-check-input" asp-for="Remember_me" type="checkbox" id="flexCheckDefault">
-                        <label class="mt-1">Remember Me</label>
+                        <label class="mt-1" for="flexCheckDefault">Remember Me</label>
                     </div>
-                    <a id="forgot-password" class="text-decoration-none user-btn ms-3 ">Forgot Password?</a>
+                    <a id="forgot-password" class="user-text text-decoration-none user-btn ms-3 ">Forgot Password?</a>
                 </div>
                 <div class=" d-grid">
-                    <input value="Login" class="login-btn solid-btn btn btn-primary" type="submit" />
+                    <input value="Login" class="login-btn solid-btn btn btn-primary ms-0" type="submit" />
                 </div>
 
             </form>
         </div>
     </div>
 </div>
-
-<!-- Bootstrap JS -->
-@* <script src="/js/custom.js"></script> *@
 
 @section Scripts {
 
@@ -75,6 +72,7 @@
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+@* Toggle Password Script  *@
     <script>
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#pass-inp');
@@ -94,11 +92,17 @@
 
     </script>
 
+@* Toaster Script  *@
     <script>
         $(document).ready(function () {
             var successMessage = '@TempData["SuccessMessage"]';
             var errorMessage = '@TempData["ErrorMessage"]';
             console.log("successMessage", successMessage);
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "2000"
+            };
             if (successMessage) {
                 toastr.success(successMessage);
             }
@@ -108,12 +112,8 @@
         });
     </script>
 
+@* ForgotPassword script  *@
     <script>
-        @* function redirectForgotPassword() {
-        var email = document.getElementById('Email').value;
-            window.location.href = '/UserLogin/ForgotPassword?email=' + encodeURIComponent(email);
-        } *@
-
             $(document).ready(function () {
                 $("#forgot-password").click(function () {
                     $.ajax({
@@ -131,6 +131,7 @@
                 });
             });
     </script>
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

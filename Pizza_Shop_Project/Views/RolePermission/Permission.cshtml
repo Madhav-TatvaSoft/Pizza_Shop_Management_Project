@@ -6,7 +6,6 @@
 
 <!-- user list -->
 <div class="user-list-main-div bg-light d-md-flex justify-content-between">
-    <!-- user txt -->
 
     <div class="user-text fs-3 fw-bold ms-3 mt-3">Permissions</div>
 
@@ -37,7 +36,7 @@
             <table class="table" id="demo">
                 <thead>
                     <tr class="">
-                        <th scope="col" class="fw-bold"><i class="fa-regular fa-square-minus ps-2"></i></th>
+                        <th scope="col" class="fw-bold"><i class="fa-regular fa-square-minus ps-2 fs-4"></i></th>
                         <th scope="col" class="fw-bold text-start">Permissions</th>
                         <th scope="col" class="fw-bold text-start">Can View</th>
                         <th scope="col" class="fw-bold text-start">Can Edit/Add</th>
@@ -56,19 +55,19 @@
                             <td>
                                 <div class="form-check form-switch ms-lg-4">
                                     <input class="form-check-input can-View" type="checkbox" role="switch"
-                                        id="canView_@Model[i].Name" asp-for="@Model[i].Canview" disabled>
+                                        id="canView_@Model[i].Name" asp-for="@Model[i].Canview">
                                 </div>
                             </td>
                             <td>
                                 <div class="form-check form-switch ms-lg-5">
                                     <input class="form-check-input can-Edit" type="checkbox" role="switch"
-                                        id="canEdit_@Model[i].Name" asp-for="@Model[i].Canaddedit" disabled>
+                                        id="canEdit_@Model[i].Name" asp-for="@Model[i].Canaddedit">
                                 </div>
                             </td>
                             <td>
                                 <div class="form-check form-switch ms-lg-4">
                                     <input class="form-check-input can-Delete" type="checkbox" role="switch"
-                                        id="canDelete_@Model[i].Name" asp-for="@Model[i].Candelete" disabled>
+                                        id="canDelete_@Model[i].Name" asp-for="@Model[i].Candelete">
                                 </div>
                             </td>
 
@@ -85,19 +84,15 @@
     </form>
 </div>
 
-<!-- save cancel button -->
-
-
-</div>
-
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    @* Switch script *@
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
 
         @* main-checkbox *@
-                document.querySelectorAll('.main-checkbox').forEach((checkbox) => {
+        @* document.querySelectorAll('.main-checkbox').forEach((checkbox) => {
                     checkbox.addEventListener('change', function () {
                         const row = this.closest('tr');
 
@@ -105,17 +100,17 @@
                         const canEdit = row.querySelector('.can-Edit');
                         const canDelete = row.querySelector('.can-Delete');
 
-                        if (this.checked) {
-                            canView.removeAttribute('disabled');
-                            canEdit.removeAttribute('disabled');
-                            canDelete.removeAttribute('disabled');
-                        } else {
-                            canView.setAttribute('disabled', true);
-                            canEdit.setAttribute('disabled', true);
-                            canDelete.setAttribute('disabled', true);
-                        }
-                    })
-                })
+            if (this.checked) {
+            canView.removeAttribute('disabled');
+            canEdit.removeAttribute('disabled');
+            canDelete.removeAttribute('disabled');
+            } else {
+            canView.setAttribute('disabled', true);
+            canEdit.setAttribute('disabled', true);
+            canDelete.setAttribute('disabled', true);
+            }
+            })
+            }) *@
 
         @* Canview *@
                 document.querySelectorAll('.can-View').forEach((CanView) => {
@@ -168,11 +163,17 @@
         })  
     </script>
 
+    @* Toaster script *@
     <script>
         $(document).ready(function () {
             var successMessage = '@TempData["SuccessMessage"]';
             var errorMessage = '@TempData["ErrorMessage"]';
             console.log("successMessage", successMessage);
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "2000"
+            };
             if (successMessage) {
                 toastr.success(successMessage);
             }
@@ -181,4 +182,5 @@
             }
         });
     </script>
+
 }
