@@ -23,7 +23,7 @@ public class MenuService : IMenuService
     {
         var query = _context.Items
            .Include(x => x.Category).Include(x => x.ItemType)
-           .Where(x => x.CategoryId == catid)
+           .Where(x => x.CategoryId == catid).Where(x => x.Isdelete == false)
            .Select(x => new ItemsViewModel
            {
                ItemId = x.ItemId,
@@ -57,10 +57,11 @@ public class MenuService : IMenuService
         return new PaginationViewModel<ItemsViewModel>(items, totalCount, pageNumber, pageSize);
     }
 
-
     public async Task<bool> AddCategory(Category category, long userId)
     {
         var isCategoryExistsAdd = _context.Categories.FirstOrDefault(x => x.CategoryName == category.CategoryName);
+        // var isCategoryExistsAdd = _context.Categories.FirstOrDefault(x => x.Isdelete == false && x.CategoryName == category.CategoryName);
+
         if (category != null && isCategoryExistsAdd == null)
         {
             Category cat = new Category();
@@ -85,7 +86,7 @@ public class MenuService : IMenuService
         }
         else
         {
-            var isCategoryExistsEdit = _context.Categories.FirstOrDefault(x => x.CategoryName == category.CategoryName);
+            var isCategoryExistsEdit = _context.Categories.FirstOrDefault(x => x.CategoryName.ToLower() == category.CategoryName.ToLower());
             if (isCategoryExistsEdit == null)
             {
                 Category cat = _context.Categories.FirstOrDefault(x => x.CategoryId == Cat_Id);
@@ -147,5 +148,46 @@ public class MenuService : IMenuService
             return true;
 
         }
+    }
+
+    // public async Task<bool> EditItem(AddItemViewModel addItemVM, long userId)
+    // {
+    //     if (addItemVM.CategoryId == null)
+    //     {
+    //         return false;
+    //     }
+    //     else
+    //     {
+    //         Item item = new Item();
+    //         item.CategoryId = addItemVM.CategoryId;
+    //         item.ItemName = addItemVM.ItemName;
+    //         item.ItemTypeId = addItemVM.ItemTypeId;
+    //         item.Rate = addItemVM.Rate;
+    //         item.Quantity = addItemVM.Quantity;
+    //         item.Unit = addItemVM.Unit;
+    //         item.Isavailable = addItemVM.Isavailable;
+    //         item.Isdefaulttax = addItemVM.Isdefaulttax;
+    //         item.TaxValue = addItemVM.TaxValue;
+    //         item.Description = addItemVM.Description;
+    //         item.ItemImage = addItemVM.ItemImage;
+    //         item.ShortCode = addItemVM.ShortCode;
+    //         item.ModifiedAt = DateTime.Now;
+    //         item.ModifiedBy = userId;
+
+    //         _context.Items.Update(item);
+    //         await _context.SaveChangesAsync();
+    //         return true;
+    //     }
+    // }
+
+    public async Task<bool> DeleteItem(long itemid)
+    {
+        var itemToDelete = _context.Items.FirstOrDefault(x => x.ItemId == itemid);
+
+        itemToDelete.ItemName = itemToDelete.ItemName + DateTime.Now;
+        itemToDelete.Isdelete = true;
+        _context.Update(itemToDelete);
+        await _context.SaveChangesAsync();
+        return true;
     }
 }

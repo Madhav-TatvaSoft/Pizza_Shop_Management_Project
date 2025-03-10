@@ -15,10 +15,10 @@ namespace BLL.Implementation;
 public class UserLoginService : IUserLoginService
 {
     private readonly PizzaShopDbContext _context;
-    private readonly JWTService _jwtService;
+    private readonly IJWTService _jwtService;
 
 
-    public UserLoginService(PizzaShopDbContext context, JWTService jwtService)
+    public UserLoginService(PizzaShopDbContext context, IJWTService jwtService)
     {
         _context = context;
         _jwtService = jwtService;
@@ -164,5 +164,7 @@ public class UserLoginService : IUserLoginService
         return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
     }
 
-
+    public string GetPassword(string Email){
+        return _context.UserLogins.FirstOrDefault(x => x.Email == Email).Password;
+    }
 }

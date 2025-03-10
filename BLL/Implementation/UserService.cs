@@ -8,11 +8,11 @@ namespace BLL.Implementation;
 public class UserService : IUserService
 {
     private readonly PizzaShopDbContext _context;
-    private readonly JWTService _JWTService;
-    private readonly UserLoginService _userLoginService;
+    private readonly IJWTService _JWTService;
+    private readonly IUserLoginService _userLoginService;
 
     #region Constructor
-    public UserService(PizzaShopDbContext context, JWTService jwtService, UserLoginService userLoginService)
+    public UserService(PizzaShopDbContext context, IJWTService jwtService, IUserLoginService userLoginService)
     {
         _context = context;
         _JWTService = jwtService;
@@ -131,6 +131,9 @@ public class UserService : IUserService
             );
         }
 
+        // Get total records count (before pagination)
+        int totalCount = query.Count();
+
         //sorting
         switch (sortColumn)
         {
@@ -142,9 +145,6 @@ public class UserService : IUserService
                 query = sortDirection == "asc" ? query.OrderBy(u => u.Userlogin.Role.RoleName) : query.OrderByDescending(u => u.Userlogin.Role.RoleName);
                 break;
         }
-
-        // Get total records count (before pagination)
-        int totalCount = query.Count();
 
         // Apply pagination
         var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
@@ -197,7 +197,7 @@ public class UserService : IUserService
     }
     #endregion
 
-    #region UserByEmail
+    #region GetUserByEmail
     public List<AddUserViewModel> GetUserByEmail(string email)
     {
         var data = _context.Users.Include(x => x.Userlogin).Where(x => x.Userlogin.Email == email).Select(
@@ -262,23 +262,28 @@ public class UserService : IUserService
     }
     #endregion
 
-    public bool IsUserNameExists(string Username)
+    #region UserNameExists in Adding
+    public async Task<bool> IsUserNameExists(string Username)
     {
-        if (_context.Users.FirstOrDefaultAsync(x => x.Username == Username) != null)
+        var IsUserNameExists = await _context.Users.FirstOrDefaultAsync(x => x.Username == Username && x.Isdelete == false);
+        if (IsUserNameExists == null)
         {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
+    #endregion
 
+    #region UserNameExists in Editing
     public bool IsUserNameExistsForEdit(string Username, string Email)
     {
-        List<User> duplicateUsername = _context.Users.Where(x => x.Username == Username && x.Userlogin.Email != Email).ToList();
+        List<User> duplicateUsername = _context.Users.Where(x => x.Username == Username && x.Userlogin.Email != Email && x.Isdelete == false).ToList();
         if (duplicateUsername.Count >= 1)
         {
             return true;
         }
         return false;
     }
+    #endregion
 
 }

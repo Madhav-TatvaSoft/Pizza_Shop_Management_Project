@@ -14,4 +14,7 @@ public interface IUserLoginService
     public string GetProfileImage(string Email);
     public string GetUsername(string Email);
     public long GetUserId(string Email);
+    public string Base64Encode(string plainText);
+    public string Base64Decode(string base64EncodedData);
+    public string GetPassword(string Email);
 }

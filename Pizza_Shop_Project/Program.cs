@@ -13,21 +13,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var conn = builder.Configuration.GetConnectionString("PizzaShopConnection");
 builder.Services.AddDbContext<PizzaShopDbContext>(q => q.UseNpgsql(conn));
-builder.Services.AddScoped<UserLoginService>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<JWTService>();
-builder.Services.AddScoped<RolePermissionService>();
-builder.Services.AddScoped<MenuService>();
+builder.Services.AddScoped<IUserLoginService,UserLoginService>();
+builder.Services.AddScoped<IUserService,UserService>();
+builder.Services.AddScoped<IJWTService,JWTService>();
+builder.Services.AddScoped<IRolePermission,RolePermissionService>();
+builder.Services.AddScoped<IMenuService,MenuService>();
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddAuthentication(x =>
-{
+builder.Services.AddAuthentication(x=>{
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
+    }).AddJwtBearer(options =>
     {
         options.RequireHttpsMetadata = false;
         options.SaveToken = true;
@@ -38,9 +37,9 @@ builder.Services.AddAuthentication(x =>
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["JwtConfig:Issuer"],  // The issuer of the token (e.g., your app's URL)
             ValidAudience = builder.Configuration["JwtConfig:Audience"], // The audience for the token (e.g., your API)
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:Key"] ?? "")), // The key to validate the JWT's signature
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:Key"]?? "")), // The key to validate the JWT's signature
             RoleClaimType = ClaimTypes.Role,
-            NameClaimType = ClaimTypes.Name
+            NameClaimType = ClaimTypes.Name 
         };
 
         options.Events = new JwtBearerEvents
@@ -49,10 +48,27 @@ builder.Services.AddAuthentication(x =>
             {
                 // Check for the token in cookies
                 var token = context.Request.Cookies["AuthToken"]; // Change "AuthToken" to your cookie name if it's different
+                // if (!string.IsNullOrEmpty(token))
+                // {
+                //     context.Request.Headers["Authorization"] = "Bearer " + token;
+                // }
                 if (!string.IsNullOrEmpty(token))
                 {
-                    context.Request.Headers["Authorization"] = "Bearer " + token;
+                    context.Token = token;
                 }
+                return Task.CompletedTask;
+            },
+            OnChallenge = context =>
+            {
+                // Redirect to login page when unauthorized 
+                context.HandleResponse();
+                context.Response.Redirect("/UserLogin/VerifyUserLogin");
+                return Task.CompletedTask;
+            },
+            OnForbidden = context =>
+            {
+                // Redirect to login when access is forbidden (403)
+                context.Response.Redirect("/UserLogin/VerifyUserLogin");
                 return Task.CompletedTask;
             }
         };
@@ -60,12 +76,25 @@ builder.Services.AddAuthentication(x =>
 );
 
 
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(60); // Set session timeout
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
+builder.Services.AddAuthorization();
+
+
+// app.Use(async (context, next) =>
+// {
+//     context.Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+//     context.Response.Headers.Add("Pragma", "no-cache");
+//     context.Response.Headers.Add("Expires", "0");
+
+//     await next();
+// });
+
+
+builder.Services.AddSession(
+    options => {
+        options.IdleTimeout = TimeSpan.FromSeconds(10);
+    }
+);
+builder.Services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
 
 var app = builder.Build();
 

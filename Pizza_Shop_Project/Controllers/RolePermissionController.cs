@@ -1,4 +1,4 @@
-using BLL.Implementation;
+using BLL.Interface;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,9 +6,9 @@ namespace Pizza_Shop_Project.Controllers
 {
     public class RolePermissionController : Controller
     {
-        private readonly RolePermissionService _rolePermission;
+        private readonly IRolePermission _rolePermission;
 
-        public RolePermissionController(RolePermissionService rolePermission)
+        public RolePermissionController(IRolePermission rolePermission)
         {
             _rolePermission = rolePermission;
         }

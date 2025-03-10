@@ -60,8 +60,8 @@
     </select>
 
     <span class=" mt-2 ms-1" id="pagination-info"></span>
-    <a id="left-arrow" class="btn border border-dark bg-light ms-2">&lt;</a>
-    <a id="right-arrow" class="btn border border-dark bg-light ms-2">&gt;</a>
+    <button id="left-arrow" class="btn border border-dark bg-light ms-2">&lt;</button>
+    <button id="right-arrow" class="btn border border-dark bg-light ms-2">&gt;</button>
   </div>
 </div>
 
@@ -132,7 +132,7 @@
     $(document).ready(function () {
       let currentPage = 1;
       let pageSize = $("#itemselect").val();
-      let searchText = $("#searchbtn").val().trim();
+      let searchText = "";
       let sortColumn = "";
       let sortDirection = "asc"
 
@@ -145,14 +145,17 @@
 
             $("#userTableBody").html(data);
             currentPage = page;
+            pageSize = parseInt(pageSize);
 
-            var startItem = (page - 1) * pageSize + 1;
-            var totalRecords = @Model.TotalCount;
-            var endItem = Math.min(page * pageSize, totalRecords);
+            var totalRecords = parseInt($("#totalRecordsHidden").val()) || 0;
+
+            var startItem = totalRecords === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+
+            var endItem = Math.min(currentPage * pageSize, totalRecords);
 
             $("#pagination-info").text("Showing " + startItem + " - " + endItem + " of " + totalRecords);
-            $("#left-arrow").prop("disabled", page === 1);
-            $("#right-arrow").prop("disabled", page * pageSize >= totalRecords);
+            $("#left-arrow").prop("disabled", currentPage === 1);
+            $("#right-arrow").prop("disabled", currentPage * pageSize >= totalRecords);
           }
         });
       }
@@ -160,6 +163,7 @@
       // Search on keyup
       $("#searchbtn").on("keyup", function () {
         searchText = $(this).val().trim();
+        currentPage = 1;
         loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize);
       });
 
@@ -201,6 +205,7 @@
       $("#itemselect").on("change", function () {
         pageSize = $(this).val();
         console.log("items-" + pageSize);
+        currentPage = 1;
         loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize);
       });
 

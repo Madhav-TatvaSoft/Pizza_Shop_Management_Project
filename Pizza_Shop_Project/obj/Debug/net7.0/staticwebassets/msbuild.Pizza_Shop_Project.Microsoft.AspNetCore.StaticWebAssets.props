@@ -1376,6 +1376,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\Pizza_Shop_Project.bundle.scp.css))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\06fcb45a-bc63-41f2-9b8d-46b59e964d69_Screenshot 2025-02-19 222730.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/06fcb45a-bc63-41f2-9b8d-46b59e964d69_Screenshot 2025-02-19 222730.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\06fcb45a-bc63-41f2-9b8d-46b59e964d69_Screenshot 2025-02-19 222730.png))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\0c0f4e81-54c8-4a11-ae1b-01b9a2e4c184_dominos_background.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>Pizza_Shop_Project</SourceId>
@@ -1423,6 +1439,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\252e8402-b691-43b3-82a2-fb2aa0f65b58_toppng.com-warning-icon-2400x2400.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\2b676e20-44ca-4023-b19f-3e38cfb8aa30_transperent-pizza.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/2b676e20-44ca-4023-b19f-3e38cfb8aa30_transperent-pizza.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\2b676e20-44ca-4023-b19f-3e38cfb8aa30_transperent-pizza.png))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\2c455239-bf69-4955-96f2-ac875b802c3a_toppng.com-warning-icon-2400x2400.png))">
       <SourceType>Package</SourceType>
@@ -1472,6 +1504,38 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\345828be-d3dd-429b-9b67-732acb92ec0a_Screenshot 2025-02-19 222730.png))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\375ec3fc-fd4f-4d5a-a325-45ee26b32c0e_transperent-pizza.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/375ec3fc-fd4f-4d5a-a325-45ee26b32c0e_transperent-pizza.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\375ec3fc-fd4f-4d5a-a325-45ee26b32c0e_transperent-pizza.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\3f0425d6-b1e9-42b6-adf1-05a988da59e8_transperent-pizza.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/3f0425d6-b1e9-42b6-adf1-05a988da59e8_transperent-pizza.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\3f0425d6-b1e9-42b6-adf1-05a988da59e8_transperent-pizza.png))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\474ee79a-c1d0-4a75-8fa3-e66c0232e84d_toppng.com-warning-icon-2400x2400.png))">
       <SourceType>Package</SourceType>
       <SourceId>Pizza_Shop_Project</SourceId>
@@ -1504,6 +1568,86 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\4a2a4d39-733a-4a3b-9c34-b73c78b37f61_transperent-pizza.png))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\4ad68243-81df-484a-b866-9904b7c1b7ed_Screenshot 2025-02-19 222730.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/4ad68243-81df-484a-b866-9904b7c1b7ed_Screenshot 2025-02-19 222730.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\4ad68243-81df-484a-b866-9904b7c1b7ed_Screenshot 2025-02-19 222730.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\5d824fa1-bc25-4773-9027-fc281ccb632b_transperent-pizza.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/5d824fa1-bc25-4773-9027-fc281ccb632b_transperent-pizza.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\5d824fa1-bc25-4773-9027-fc281ccb632b_transperent-pizza.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\5ed3ebdb-55db-458b-9c15-50a1fc2f9fed_toppng.com-warning-icon-2400x2400.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/5ed3ebdb-55db-458b-9c15-50a1fc2f9fed_toppng.com-warning-icon-2400x2400.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\5ed3ebdb-55db-458b-9c15-50a1fc2f9fed_toppng.com-warning-icon-2400x2400.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\616bc5a4-4140-4c92-af70-3eed631de53b_transperent-pizza.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/616bc5a4-4140-4c92-af70-3eed631de53b_transperent-pizza.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\616bc5a4-4140-4c92-af70-3eed631de53b_transperent-pizza.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\69ef1da2-eb4f-4451-8ee6-82cab953154c_transperent-pizza.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/69ef1da2-eb4f-4451-8ee6-82cab953154c_transperent-pizza.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\69ef1da2-eb4f-4451-8ee6-82cab953154c_transperent-pizza.png))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\6ec51810-b7a5-4a36-aa7f-ce131d7adc83_dining-menu.png))">
       <SourceType>Package</SourceType>
       <SourceId>Pizza_Shop_Project</SourceId>
@@ -1519,6 +1663,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\6ec51810-b7a5-4a36-aa7f-ce131d7adc83_dining-menu.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\743e8c8a-0a21-4a7c-aeea-79051b68d939_transperent-pizza.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/743e8c8a-0a21-4a7c-aeea-79051b68d939_transperent-pizza.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\743e8c8a-0a21-4a7c-aeea-79051b68d939_transperent-pizza.png))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\77a1469b-bdd3-4a28-87db-c9142acad039_dining-menu.png))">
       <SourceType>Package</SourceType>
@@ -1664,6 +1824,38 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\9d980ef3-6758-4871-a6c8-71a97d88bd31_transperent-pizza.png))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\a7b8b706-58a1-409d-b987-5292143931d6_transperent-pizza.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/a7b8b706-58a1-409d-b987-5292143931d6_transperent-pizza.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\a7b8b706-58a1-409d-b987-5292143931d6_transperent-pizza.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\aef2564f-84a2-4da4-b964-9b0d89146596_dining-menu.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/aef2564f-84a2-4da4-b964-9b0d89146596_dining-menu.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\aef2564f-84a2-4da4-b964-9b0d89146596_dining-menu.png))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\b019c033-012e-4670-94f4-c17b5124b08b_transperent-pizza.png))">
       <SourceType>Package</SourceType>
       <SourceId>Pizza_Shop_Project</SourceId>
@@ -1696,6 +1888,38 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\b0b2c639-c9d0-4158-8bc3-705eccdde8c1_toppng.com-warning-icon-2400x2400.png))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\b2c0980e-3557-4324-a664-b42e2d32e7b1_dining-menu.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/b2c0980e-3557-4324-a664-b42e2d32e7b1_dining-menu.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\b2c0980e-3557-4324-a664-b42e2d32e7b1_dining-menu.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\bfaaf926-b552-4c73-81eb-9f94ff8f2c7a_dining-menu.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/bfaaf926-b552-4c73-81eb-9f94ff8f2c7a_dining-menu.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\bfaaf926-b552-4c73-81eb-9f94ff8f2c7a_dining-menu.png))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\c4f25758-82a4-4a9e-a558-e4fc0d696eb8_dominos_background.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>Pizza_Shop_Project</SourceId>
@@ -1711,6 +1935,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\c4f25758-82a4-4a9e-a558-e4fc0d696eb8_dominos_background.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\d1687451-e9f3-4df6-ad0a-ebd438b26e65_dining-menu.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/d1687451-e9f3-4df6-ad0a-ebd438b26e65_dining-menu.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\d1687451-e9f3-4df6-ad0a-ebd438b26e65_dining-menu.png))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\dc110572-d3eb-48af-9172-2f60964de9ff_dining-menu.png))">
       <SourceType>Package</SourceType>
@@ -1792,6 +2032,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\e172a00e-75db-4a07-9b50-f09d4fed1305_Screenshot 2025-02-19 222730.png))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\e21f5340-e09a-47ea-b2b9-f408abf13c50_dining-menu.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/e21f5340-e09a-47ea-b2b9-f408abf13c50_dining-menu.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\e21f5340-e09a-47ea-b2b9-f408abf13c50_dining-menu.png))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\e8b86686-7481-4a55-a223-50682d608d78_dining-menu.png))">
       <SourceType>Package</SourceType>
       <SourceId>Pizza_Shop_Project</SourceId>
@@ -1807,6 +2063,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\e8b86686-7481-4a55-a223-50682d608d78_dining-menu.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\eaf048db-3a62-4b99-bf61-adfd1fefc577_dominos_background.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/eaf048db-3a62-4b99-bf61-adfd1fefc577_dominos_background.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\eaf048db-3a62-4b99-bf61-adfd1fefc577_dominos_background.jpg))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\eb4447f2-6d1f-4ee5-9d4b-1ca25ab62790_dominos_background.jpg))">
       <SourceType>Package</SourceType>
@@ -1824,6 +2096,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\eb4447f2-6d1f-4ee5-9d4b-1ca25ab62790_dominos_background.jpg))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\ee518ee8-13ae-486c-ab42-1598c42a422c_dominos_background.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/ee518ee8-13ae-486c-ab42-1598c42a422c_dominos_background.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\ee518ee8-13ae-486c-ab42-1598c42a422c_dominos_background.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\f25f0fce-39a5-409e-8c1a-2c712e2d4dfd_profile_div_bg.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>Pizza_Shop_Project</SourceId>
@@ -1839,6 +2127,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\f25f0fce-39a5-409e-8c1a-2c712e2d4dfd_profile_div_bg.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\f4b37451-cf81-4085-ab33-c27248244009_transperent-pizza.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Pizza_Shop_Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Pizza_Shop_Project</BasePath>
+      <RelativePath>uploads/f4b37451-cf81-4085-ab33-c27248244009_transperent-pizza.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\f4b37451-cf81-4085-ab33-c27248244009_transperent-pizza.png))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>
 </Project>

@@ -18,8 +18,6 @@ public class AddItemViewModel
     public IFormFile ItemFormImage { get; set; }
 
     public string ItemImage { get; set; }
-
-    [RegularExpression(@"^\d$", ErrorMessage = "Rate cannot be negative")]
     public decimal Rate { get; set; }
 
     public string? ShortCode { get; set; }

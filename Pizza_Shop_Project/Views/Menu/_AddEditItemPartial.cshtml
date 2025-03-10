@@ -1,0 +1,189 @@
+@model DAL.ViewModels.MenuViewModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        @if (@Model.items.ItemId != 0)
+        {
+            <h5 class="modal-title" id="exampleModalLabel">Edit Menu Item</h5>
+        }
+        else
+        {
+            <h5 class="modal-title" id="exampleModalLabel">Add New Menu Item</h5>
+        }
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+
+    <form asp-action="@(Model.items.ItemId != null ? "EditItem" : "AddItem")" enctype="multipart/form-data">
+
+        <div class="modal-body">
+            <div class="row p-2">
+                <!-- Left Section (Form) -->
+                <div class="col-xl-9">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select dropdown" id="floatingSelect"
+                                        asp-for="@Model.addItems.CategoryId">
+                                        @foreach (var cat in Model.categoryList)
+                                        {
+                                            <option value=" @cat.CategoryId">@cat.CategoryName</option>
+                                        }
+                                    </select>
+                                    <label asp-for="@Model.addItems.CategoryId">Categories*</label>
+                                    <span class="text-danger validate"
+                                        asp-validation-for="@Model.addItems.CategoryId"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingInput"
+                                        asp-for="@Model.addItems.ItemName" placeholder="Name*">
+                                    <label asp-for="@Model.addItems.ItemName">Name*</label>
+                                    <span class="text-danger validate"
+                                        asp-validation-for="@Model.addItems.ItemName"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg">
+                                <div class="row">
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select dropdown" id="floatingSelect"
+                                                asp-for="@Model.addItems.ItemTypeId">
+                                                <option value="1" selected>veg</option>
+                                                <option value="2">Non-veg</option>
+                                                <option value="3">Vegan</option>
+                                            </select>
+                                            <label asp-for="@Model.addItems.ItemTypeId">Item Type*</label>
+                                            <span class="text-danger validate"
+                                                asp-validation-for="@Model.addItems.ItemTypeId"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="floatingInput"
+                                                placeholder="Rate*" asp-for="@Model.addItems.Rate">
+                                            <label asp-for="@Model.addItems.Rate">Rate*</label>
+                                            <span class="text-danger validate"
+                                                asp-validation-for="@Model.addItems.Rate"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div class="row">
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="floatingInput"
+                                                asp-for="@Model.addItems.Quantity" placeholder="Quantity*">
+                                            <label asp-for="@Model.addItems.Quantity">Quantity*</label>
+                                            <span class="text-danger validate"
+                                                asp-validation-for="@Model.addItems.Quantity"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select dropdown" asp-for="@Model.addItems.Unit">
+                                                <option value="pieces">Pieces</option>
+                                                <option value="cm">cm</option>
+                                            </select>
+                                            <label asp-for="@Model.addItems.Unit">Unit*</label>
+                                            <span class="text-danger validate"
+                                                asp-validation-for="@Model.addItems.Unit"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg">
+                                <div class="row">
+                                    <div class="col-md align-self-center mb-3">
+                                        <div
+                                            class="form-check form-switch d-flex justify-content-center align-items-center gap-2">
+                                            <input class="form-check-input fs-3" type="checkbox" role="switch"
+                                                id="available" asp-for="@Model.addItems.Isavailable">
+                                            <span class="pt-1">Available</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md align-self-center mb-3">
+                                        <div
+                                            class="form-check form-switch d-flex justify-content-center align-items-center gap-2 my-lg-0">
+                                            <input class="form-check-input fs-3" type="checkbox" role="switch"
+                                                id="defaultTax" asp-for="@Model.addItems.Isdefaulttax">
+                                            <span class="pt-1">DefaultTax</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div class="row">
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="taxPercentage"
+                                                asp-for="@Model.addItems.TaxValue" placeholder="Tax-Percentage">
+                                            <label>Tax Percentage</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="shortCode"
+                                                asp-for="@Model.addItems.ShortCode" placeholder="Short Code">
+                                            <label for="shortCode">Short Code</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" placeholder="Description" id="description"
+                                        asp-for="@Model.addItems.Description" style="height: 6rem"></textarea>
+                                    <label asp-for="@Model.addItems.Description">Description</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col mt-3 rounded-1">
+                            <div class="col-auto border-1 py-2 d-flex justify-content-center">
+                                <label for="uploadFile" class="border border-dashed rounded p-3 text-center w-100">
+                                    <span class="d-flex flex-column justify-content-center align-items-center">
+                                        <i class="fa-solid fa-cloud-arrow-up fs-2 text-secondary"></i>
+                                        <span id="browseFileText-item">Drag & Drop or Browse
+                                            files</span>
+                                    </span>
+                                </label>
+                                <input type="file" class="d-none" id="uploadFile"
+                                    asp-for="@Model.addItems.ItemFormImage">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section (Modifiers) -->
+                <div class="col-xl-3 g-xl-0 g-2 rounded-2 border border-1">
+                    <div class="h-100 p-2 " style="background-color: #fdf5e6;">
+                        <select class="form-select " id="Modifer">
+                            <option selected disabled>Select Modifier Group(s)</option>
+                        </select>
+                        <span class="text-danger"></span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="modal-footer">
+            <button type="submit" class="btn solid-btn">Save</button>
+            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Cancel</button>
+        </div>
+    </form>
+</div>

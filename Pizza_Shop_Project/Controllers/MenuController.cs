@@ -1,4 +1,4 @@
-using BLL.Implementation;
+using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -7,11 +7,11 @@ namespace Pizza_Shop_Project.Controllers
 {
     public class MenuController : Controller
     {
-        private readonly MenuService _menuService;
+        private readonly IMenuService _menuService;
 
-        private readonly UserLoginService _userLoginService;
+        private readonly IUserLoginService _userLoginService;
 
-        public MenuController(MenuService menuService, UserLoginService userLoginService)
+        public MenuController(IMenuService menuService, IUserLoginService userLoginService)
         {
             _menuService = menuService;
             _userLoginService = userLoginService;
@@ -82,7 +82,7 @@ namespace Pizza_Shop_Project.Controllers
                 TempData["SuccessMessage"] = "Category Updated successfully";
                 return RedirectToAction("Menu");
             }
-            TempData["ErrorMessage"] = "Failed to Update category";
+            TempData["ErrorMessage"] = "Failed to Update category, Check if Category already exists?";
             return RedirectToAction("Menu");
         }
         #endregion
@@ -138,6 +138,56 @@ namespace Pizza_Shop_Project.Controllers
             return RedirectToAction("Menu");
         }
         #endregion
+
+        #region Delete-Items-From-Modal
+        public async Task<IActionResult> DeleteItem(long itemid)
+        {
+            var isDeleted = await _menuService.DeleteItem(itemid);
+
+            if (!isDeleted)
+            {
+                TempData["ErrorMessage"] = "Item cannot be deleted";
+                return RedirectToAction("Menu", "Menu");
+            }
+            TempData["SuccessMessage"] = "Item deleted successfully";
+            return RedirectToAction("Menu", "Menu");
+        }
+        #endregion
+
+        // #region Edit-Items-From-Modal
+        // public async Task<IActionResult> EditItem(MenuViewModel MenuVm)
+        // {
+        //     string Email = Request.Cookies["Email"];
+        //     long userId = _userLoginService.GetUserId(Email);
+
+        //     if (MenuVm.addItems.ItemFormImage != null)
+        //     {
+        //         string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+
+        //         if (!Directory.Exists(path))
+        //             Directory.CreateDirectory(path);
+
+        //         string fileName = $"{Guid.NewGuid()}_{MenuVm.addItems.ItemFormImage.FileName}";
+        //         string fileNameWithPath = Path.Combine(path, fileName);
+
+        //         using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+        //         {
+        //             MenuVm.addItems.ItemFormImage.CopyTo(stream);
+        //         }
+        //         MenuVm.addItems.ItemImage = $"/uploads/{fileName}";
+        //     }
+
+        //     var editItemStatus = await _menuService.EditItem(MenuVm.addItems, userId);
+
+        //     if (editItemStatus)
+        //     {
+        //         TempData["SuccessMessage"] = "Item Updated successfully";
+        //         return RedirectToAction("Menu");
+        //     }
+        //     TempData["ErrorMessage"] = "Failed to Update Item";
+        //     return RedirectToAction("Menu");
+        // }
+        // #endregion
 
     }
 }

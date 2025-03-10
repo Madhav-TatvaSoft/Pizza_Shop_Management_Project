@@ -18,3 +18,170 @@
     </td>
 
 </tr>
+
+
+@* <div class="modal-content">
+    <div class="modal-header">
+
+        <h1 class="modal-title fs-5" id="add-menu-item-modal-label">Add New Menu Item</h1>
+
+        <button type="reset" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+
+    <form id="add-menu-item-form" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+        <div class="modal-body">
+            <div class="row p-2">
+                <div class="col-xl-9">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="form-floating mb-3">
+                                    <select asp-for="CategoryId" asp-items=@ViewBag.Categories class="form-select dropdown " id="category-id">
+                                    </select>
+                                    <label for="floatingInput" asp-for="CategoryId">Categories*</label>
+                                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" asp-for="Name" placeholder="Name" />
+                                    <label asp-for="Name">Name*</label>
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg">
+                                <div class="row">
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select dropdown" id="Type" asp-for="Type">
+                                                <option selected value="veg">Veg</option>
+                                                <option value="non-veg">Non-veg</option>
+                                                <option value="vegan">Vegan</option>
+
+                                            </select>
+                                            <label asp-for="Type">Item Type*</label>
+                                            <span asp-validation-for="Type" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="Rate" asp-for="Cost"
+                                                placeholder="Rate" />
+                                            <label asp-for="Cost">Rate</label>
+                                            <span asp-validation-for="Cost" class="text-danger"></span>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div class="row">
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="floatingInputLN"
+                                                placeholder="Quantity" asp-for="Quantity" />
+                                            <label asp-for="Quantity">Quantity*</label>
+                                            <span asp-validation-for="Quantity" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <select asp-for="UnitId" class="form-select dropdown " asp-items=@ViewBag.Units>
+                                            </select>
+                                            <label asp-for="UnitId">Unit*</label>
+                                            <span asp-validation-for="UnitId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg">
+                                <div class="row">
+                                    <div class="col-md align-self-center mb-3">
+                                        <div
+                                            class="form-check form-switch d-flex justify-content-center align-items-center gap-2">
+                                            <input class="form-check-input fs-3" type="checkbox" role="switch"> 
+                                            <span>Available</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md align-self-center mb-3">
+                                        <div
+                                            class="form-check form-switch d-flex justify-content-center align-items-center gap-2 my-lg-0">
+                                            <input class="form-check-input fs-3" type="checkbox" role="switch"> 
+                                            <span>DefaultTax</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div class="row">
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control " id="floatingInputLN"
+                                                placeholder="0" value="5" disabled />
+                                            <label>TaxPercentage</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md" 
+                                        <div class="form-floating mb-3">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingInputLN" placeholder="0"
+                                                asp-for="ShortCode" />
+                                            <label asp-for="ShortCode">@Html.DisplayNameFor(x =>
+                                                x.ShortCode)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <textarea type="text" class="form-control" id="floatingInputLN" placeholder="0"
+                                    asp-for="Description" style="height: 6rem;"></textarea>
+                                <label asp-for="Description">Description</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col mt-3 rounded-1">
+                        <div class="col-auto border-1 py-2 d-flex justify-content-center"
+                            style="border: 1px dashed gray;">
+                            <input type="file" asp-for="ImageFile" id="menu-item-image-file" hidden
+                                accept="image/png,image/jpeg" />
+                            <label for="menu-item-image-file" asp-for="ImageFile"
+                                class="btn fs-6 fw-semibold d-flex flex-column align-items-center">
+                                <img src="/images/cloud-arrow-up.svg" class="uploadImage me-2" alt="" width="30px"
+                                    height="30px">
+
+                                <span class="text-secondary" id="file-choosen-menu-item">Browse file</span>
+                                
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 g-xl-0 g-2">
+                    <div class="h-100 p-2" style="background-color: #fdf5e6;">
+                        <select class="form-select dropdown " id="Modifer">
+                            <option selected disabled>Select Modifier Group(s)</option>
+                        </select>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary px-4">Save</button>
+            <button type="reset" class="btn btn-outline-primary px-3" data-bs-dismiss="modal">Cancel</button>
+        </div>
+    </form>
+</div> *@

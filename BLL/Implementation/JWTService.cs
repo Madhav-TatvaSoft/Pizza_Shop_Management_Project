@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using BLL.Interface;
 
 namespace BLL.Implementation;
+
 public class JWTService :IJWTService
 {
     private readonly string _secretKey;
@@ -32,7 +33,29 @@ public class JWTService :IJWTService
             issuer: "localhost",
             audience: "localhost",
             claims: claims,
-            expires: DateTime.Now.AddHours(_tokenDuration),
+            expires: DateTime.Now.AddMinutes(_tokenDuration),
+            signingCredentials: credentials
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public string GenerateResetToken(string email, string password)
+    {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
+        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var claims = new[]
+        {
+                new Claim("email", email),
+                new Claim("password", password)
+            };
+
+        var token = new JwtSecurityToken(
+            issuer: "localhost",
+            audience: "localhost",
+            claims: claims,
+            expires: DateTime.Now.AddMinutes(_tokenDuration),
             signingCredentials: credentials
         );
 
@@ -55,4 +78,5 @@ public class JWTService :IJWTService
         var value = claimsPrincipal?.FindFirst(claimType)?.Value;
         return value;
     }
+
 }
