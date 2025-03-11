@@ -80,12 +80,13 @@
                             </div>
 
                             <div class="trash-button-item">
-                                <a class="btn mt-2 p-1 ps-2 pe-2 ms-2 border"><i class="fa-solid fa-trash-can "></i></a>
+                                <button class="btn mt-2 p-1 ps-2 pe-2 ms-2 border"><i
+                                        class="fa-solid fa-trash-can "></i></button>
                             </div>
                             <div class="add-user-button">
                                 <button type="button"
                                     class="addItemBtn btn solid-btn text-light p-1 mt-2 ms-2 me-sm-2 me-0"
-                                    data-bs-toggle="modal" data-bs-target="#addEditItemModal">
+                                    data-bs-toggle="modal" data-bs-target="#addItemModal">
                                     + New Item
                                 </button>
                             </div>
@@ -342,12 +343,20 @@ Here----------------------------------------------------------------------------
     </div>
 </div>
 
-<!-- Add Edit Items modal-->
-<div class="modal fade" id="addEditItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Add Items modal-->
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
-        @await Html.PartialAsync("_AddEditItemPartial", Model)
+        @await Html.PartialAsync("_AddItemPartial", Model)
     </div>
 </div>
+
+<!-- Edit Items modal-->
+<div class="modal fade" id="EditItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" id="EditModal">
+        @* @await Html.PartialAsync("_EditItemPartial", Model) *@
+    </div>
+</div>
+
 
 <!-- Delete Item Modal-->
 <div id="delete-item-modal" class="modal" tabindex="-1">
@@ -380,11 +389,13 @@ Here----------------------------------------------------------------------------
 
     @* Display FileName *@
     <script>
-        $("#uploadFile").change(function () {
+        $("#uploadFile-item").change(function () {
             const file = this.files[0];
             $("#browseFileText-item").text(file.name);
         });
     </script>
+
+
 
     @* Toaster Message *@
     <script>
@@ -406,9 +417,9 @@ Here----------------------------------------------------------------------------
         });
     </script>
 
-    @* Edit Categories, Delete Categories *@
     <script>
 
+        // Get details for Edit Categories
         function GetDetailsForCategoryUpdate(tag) {
             event.stopPropagation();
             document.getElementById("category-id").value = tag.getAttribute("data-id");
@@ -416,11 +427,13 @@ Here----------------------------------------------------------------------------
             document.getElementById("category-description").value = tag.parentElement.children[0].value;
         }
 
+        //  Get details for Delete Categories  
         function GetIdForDeleteCategory(tag) {
             console.log(tag);
             document.getElementById("category-id-for-delete").value = tag.getAttribute("data-id");
         }
 
+        // Items Main checkbox tick  
         function Item_Main_Checkbox_Select() {
             console.log("HELLO");
             var main_checkbox = document.getElementById("item-main-checkbox");
@@ -438,6 +451,7 @@ Here----------------------------------------------------------------------------
             }
         }
 
+        // Checkbox tick Manage  
         function CheckBoxTickManage() {
             console.log("hello");
             var sub_checkboxes = document.getElementsByClassName("item-sub-checkbox");
@@ -451,6 +465,7 @@ Here----------------------------------------------------------------------------
             main_checkbox.checked = flag
         }
 
+        // Delete any particular item 
         document.addEventListener('DOMContentLoaded', function () {
             var deleteModalItem = document.getElementById('delete-item-modal');
             deleteModalItem.addEventListener('show.bs.modal', function (event) {
@@ -461,41 +476,44 @@ Here----------------------------------------------------------------------------
             });
         });
 
+
     </script>
 
     <script>
+
+        let currentPage = 1;
+        let searchText = "";
+        let pageSize = $("#itemselect-item").val();
+        let catid = $("#Cat_id").data("id");
+
+        function PaginatedItemTable(catid, search = "", page = 1, pageSize = 3) {
+            $.ajax({
+                url: "/Menu/PaginationMenuItemsByCategory",
+                type: "GET",
+                data: { catid, search, pageNumber: page, pageSize },
+                success: function (data) {
+
+                    $("#item-list-body").html(data);
+
+                    currentPage = page;
+                    pageSize = parseInt(pageSize);
+
+                    var totalRecords = parseInt($("#totalRecordsHidden-item").val()) || 0;
+
+                    var startItem = totalRecords === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+
+                    var endItem = Math.min(currentPage * pageSize, totalRecords);
+
+                    $("#pagination-info-item").text("Showing " + startItem + " - " + endItem + " of " + totalRecords);
+                    $("#left-arrow-item").prop("disabled", currentPage === 1);
+                    $("#right-arrow-item").prop("disabled", currentPage * pageSize >= totalRecords);
+
+                    $("#item-main-checkbox").prop("checked", false);
+                }
+            });
+        }
+
         $(document).ready(function () {
-            let currentPage = 1;
-            let searchText = "";
-            let pageSize = $("#itemselect-item").val();
-            let catid = $("#Cat_id").data("id");
-
-            function PaginatedItemTable(catid, search = "", page = 1, pageSize = 3) {
-                $.ajax({
-                    url: "/Menu/PaginationMenuItemsByCategory",
-                    type: "GET",
-                    data: { catid, search, pageNumber: page, pageSize },
-                    success: function (data) {
-
-                        $("#item-list-body").html(data);
-
-                        currentPage = page;
-                        pageSize = parseInt(pageSize);
-
-                        var totalRecords = parseInt($("#totalRecordsHidden-item").val()) || 0;
-
-                        var startItem = totalRecords === 0 ? 0 : (currentPage - 1) * pageSize + 1;
-
-                        var endItem = Math.min(currentPage * pageSize, totalRecords);
-
-                        $("#pagination-info-item").text("Showing " + startItem + " - " + endItem + " of " + totalRecords);
-                        $("#left-arrow-item").prop("disabled", currentPage === 1);
-                        $("#right-arrow-item").prop("disabled", currentPage * pageSize >= totalRecords);
-
-                        $("#item-main-checkbox").prop("checked", false);
-                    }
-                });
-            }
 
             PaginatedItemTable(catid, searchText, currentPage, pageSize);
 
@@ -507,14 +525,16 @@ Here----------------------------------------------------------------------------
                 Item_Main_Checkbox_Select();
             });
 
+            // Category click
             $(".CategoryGet").on("click", function () {
                 $(".CategoryGet").removeClass("active-category");
                 $(this).addClass("active-category");
                 catid = $(this).data("id");
+                currentPage = 1;
                 PaginatedItemTable(catid, searchText, currentPage, pageSize);
             });
 
-            // Pagination buttons
+            // Pagination right arrow buttons
             $("#right-arrow-item").on("click", function () {
                 let rightarrow = !$(this).prop("disabled");
                 if (rightarrow) {
@@ -524,6 +544,7 @@ Here----------------------------------------------------------------------------
                 }
             });
 
+            // Pagination left arrow buttons
             $("#left-arrow-item").on("click", function () {
                 let leftarrow = !$(this).prop("disabled");
                 if (leftarrow) {
@@ -536,10 +557,48 @@ Here----------------------------------------------------------------------------
             // Items per page dropdown
             $("#itemselect-item").on("change", function () {
                 pageSize = $(this).val();
-                console.log("items-" + pageSize);
                 currentPage = 1;
                 PaginatedItemTable(catid, searchText, currentPage, pageSize);
                 Item_Main_Checkbox_Select();
+            });
+
+            $("#AddItemForm").on("submit", function (e) {
+                e.preventDefault();
+                let form = $("#AddItemForm");
+                if (form.valid()) {
+                    let formData = new FormData(this);
+                    $.ajax({
+                        url: "/Menu/AddItem",
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function (res) {
+                            $(".btn-close").click();
+                            PaginatedItemTable(catid, searchText, currentPage, pageSize);
+                            Item_Main_Checkbox_Select();
+                        }
+                    });
+                }
+            })
+
+            $("#EditItemModal").on('show.bs.modal', function (event) {
+        @* console.log("Edit Item"); *@
+                                        var button = $(event.relatedTarget);
+        @* console.log(button) *@
+                                        var itemid = button.data("id");
+        @* console.log(item_id) *@
+                                        if (itemid != null) {
+                    $.ajax({
+                        url: "/Menu/GetItemsByItemId",
+                        type: "GET",
+                        data: { itemid },
+                        success: function (data) {
+                            console.log("Edit Item");
+                            $("#EditModal").html(data);
+                        }
+                    });
+                }
             });
 
         @* $("#deleteAllItemsModalYesButton").on("click",function(){
@@ -549,11 +608,11 @@ Here----------------------------------------------------------------------------
             if(classess[i].checked){
 
             let itemID = classess[i].getAttribute("data-checkid");
-                        console.log(itemID)
-                        $.ajax({
-                             url: `/Menu/DeleteItem?itemID=${itemID}`,
-                            type: "GET",
-                            success: function (data) {
+console.log(itemID)
+$.ajax({
+url: `/Menu/DeleteItem?itemID=${itemID}`,
+type: "GET",
+success: function (data) {
 
             loadTable(catID, searchText, currentPage, pageSize);
             }
@@ -561,7 +620,7 @@ Here----------------------------------------------------------------------------
             }
             }
             }) *@
-                                                                                                                                                                            });
+                    });
     </script>
 
     @{

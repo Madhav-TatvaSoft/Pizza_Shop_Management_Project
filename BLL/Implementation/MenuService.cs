@@ -19,6 +19,10 @@ public class MenuService : IMenuService
         return _context.Categories.Where(x => x.Isdelete == false).ToList();
     }
 
+    public List<Modifiergroup> GetAllModifierGroupList(){
+         return _context.Modifiergroups.Where(x => x.Isdelete == false).ToList();
+    }
+    
     public PaginationViewModel<ItemsViewModel> GetMenuItemsByCategory(long? catid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
         var query = _context.Items
@@ -150,35 +154,57 @@ public class MenuService : IMenuService
         }
     }
 
-    // public async Task<bool> EditItem(AddItemViewModel addItemVM, long userId)
-    // {
-    //     if (addItemVM.CategoryId == null)
-    //     {
-    //         return false;
-    //     }
-    //     else
-    //     {
-    //         Item item = new Item();
-    //         item.CategoryId = addItemVM.CategoryId;
-    //         item.ItemName = addItemVM.ItemName;
-    //         item.ItemTypeId = addItemVM.ItemTypeId;
-    //         item.Rate = addItemVM.Rate;
-    //         item.Quantity = addItemVM.Quantity;
-    //         item.Unit = addItemVM.Unit;
-    //         item.Isavailable = addItemVM.Isavailable;
-    //         item.Isdefaulttax = addItemVM.Isdefaulttax;
-    //         item.TaxValue = addItemVM.TaxValue;
-    //         item.Description = addItemVM.Description;
-    //         item.ItemImage = addItemVM.ItemImage;
-    //         item.ShortCode = addItemVM.ShortCode;
-    //         item.ModifiedAt = DateTime.Now;
-    //         item.ModifiedBy = userId;
+    public AddItemViewModel GetItemsByItemId(long itemid)
+    {
+        var item = _context.Items.FirstOrDefault(x => x.ItemId == itemid && x.Isdelete == false);
+        AddItemViewModel additemVM = new();
+        {
+            additemVM.CategoryId = item.CategoryId;
+            additemVM.ItemId = item.ItemId;
+            additemVM.ItemName = item.ItemName;
+            additemVM.Description = item.Description;
+            additemVM.Isavailable = (bool)item.Isavailable;
+            additemVM.Isdefaulttax = (bool)item.Isdefaulttax;
+            additemVM.ItemImage = item.ItemImage;
+            additemVM.ItemTypeId = item.ItemTypeId;
+            additemVM.Quantity = (int)item.Quantity;
+            additemVM.Rate = item.Rate;
+            additemVM.ShortCode = item.ShortCode;
+            additemVM.TaxValue = (decimal)item.TaxValue;
+            additemVM.Unit = item.Unit;
+        }
+        return additemVM;
+    }
 
-    //         _context.Items.Update(item);
-    //         await _context.SaveChangesAsync();
-    //         return true;
-    //     }
-    // }
+    public async Task<bool> EditItem(AddItemViewModel editItemVM, long userId)
+    {
+        if (editItemVM.CategoryId == null)
+        {
+            return false;
+        }
+        else
+        {
+            var item = _context.Items.FirstOrDefault(x => x.ItemId == editItemVM.ItemId && x.Isdelete == false);
+            item.CategoryId = editItemVM.CategoryId;
+            item.ItemName = editItemVM.ItemName;
+            item.ItemTypeId = editItemVM.ItemTypeId;
+            item.Rate = editItemVM.Rate;
+            item.Quantity = editItemVM.Quantity;
+            item.Unit = editItemVM.Unit;
+            item.Isavailable = editItemVM.Isavailable;
+            item.Isdefaulttax = editItemVM.Isdefaulttax;
+            item.TaxValue = editItemVM.TaxValue;
+            item.Description = editItemVM.Description;
+            item.ItemImage = editItemVM.ItemImage;
+            item.ShortCode = editItemVM.ShortCode;
+            item.ModifiedAt = DateTime.Now;
+            item.ModifiedBy = userId;
+
+            _context.Items.Update(item);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+    }
 
     public async Task<bool> DeleteItem(long itemid)
     {

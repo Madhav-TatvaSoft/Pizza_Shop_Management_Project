@@ -2,19 +2,22 @@ using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Pizza_Shop_Project.Controllers
 {
     public class MenuController : Controller
     {
         private readonly IMenuService _menuService;
+        private readonly IUserService _userService;
 
         private readonly IUserLoginService _userLoginService;
 
-        public MenuController(IMenuService menuService, IUserLoginService userLoginService)
+        public MenuController(IMenuService menuService, IUserLoginService userLoginService, IUserService userService)
         {
             _menuService = menuService;
             _userLoginService = userLoginService;
+            _userService = userService;
         }
 
         #region Main-Menu-View
@@ -22,7 +25,7 @@ namespace Pizza_Shop_Project.Controllers
         {
             MenuViewModel MenuVM = new();
             MenuVM.categoryList = _menuService.GetAllCategories();
-
+            ViewBag.modifierGroupList = new SelectList(_menuService.GetAllModifierGroupList(),"ModifierGrpId","ModifierGrpName");
             if (catid == null)
             {
                 MenuVM.PaginationForItemByCategory = _menuService.GetMenuItemsByCategory(MenuVM.categoryList[0].CategoryId, search, pageNumber, pageSize);
@@ -32,6 +35,7 @@ namespace Pizza_Shop_Project.Controllers
             {
                 MenuVM.PaginationForItemByCategory = _menuService.GetMenuItemsByCategory(catid, search, pageNumber, pageSize);
             }
+
             ViewData["sidebar-active"] = "Menu";
             return View(MenuVM);
         }
@@ -55,8 +59,9 @@ namespace Pizza_Shop_Project.Controllers
         #region Add-Category
         public async Task<IActionResult> AddCategory(Category category)
         {
-            string Email = Request.Cookies["Email"];
-            long userId = _userLoginService.GetUserId(Email);
+            string token = Request.Cookies["AuthToken"];
+            var userData = _userService.getUserFromEmail(token);
+            long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
             if (await _menuService.AddCategory(category, userId))
             {
@@ -71,8 +76,9 @@ namespace Pizza_Shop_Project.Controllers
         #region Edit-Category
         public async Task<IActionResult> EditCategoryById(Category category)
         {
-            string Email = Request.Cookies["Email"];
-            long userId = _userLoginService.GetUserId(Email);
+            string token = Request.Cookies["AuthToken"];
+            var userData = _userService.getUserFromEmail(token);
+            long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
             var Cat_Id = category.CategoryId;
 
@@ -92,7 +98,6 @@ namespace Pizza_Shop_Project.Controllers
         {
             var categoryDeleteStatus = await _menuService.DeleteCategory(Cat_Id);
 
-
             if (categoryDeleteStatus)
             {
                 TempData["SuccessMessage"] = "Category deleted successfully";
@@ -104,27 +109,39 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Add-Items-From-Modal
-        public async Task<IActionResult> AddItem(MenuViewModel MenuVm)
+
+        [HttpPost]
+        public async Task<IActionResult> AddItem([FromForm] MenuViewModel MenuVm)
         {
-            string Email = Request.Cookies["Email"];
-            long userId = _userLoginService.GetUserId(Email);
+            string token = Request.Cookies["AuthToken"];
+            var userData = _userService.getUserFromEmail(token);
+            long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
             if (MenuVm.addItems.ItemFormImage != null)
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-
-                //create folder if not exist
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-
-                string fileName = $"{Guid.NewGuid()}_{MenuVm.addItems.ItemFormImage.FileName}";
-                string fileNameWithPath = Path.Combine(path, fileName);
-
-                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                var extension = MenuVm.addItems.ItemFormImage.FileName.Split(".");
+                if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
                 {
-                    MenuVm.addItems.ItemFormImage.CopyTo(stream);
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+
+                    //create folder if not exist
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+
+                    string fileName = $"{Guid.NewGuid()}_{MenuVm.addItems.ItemFormImage.FileName}";
+                    string fileNameWithPath = Path.Combine(path, fileName);
+
+                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    {
+                        MenuVm.addItems.ItemFormImage.CopyTo(stream);
+                    }
+                    MenuVm.addItems.ItemImage = $"/uploads/{fileName}";
                 }
-                MenuVm.addItems.ItemImage = $"/uploads/{fileName}";
+                else
+                {
+                    TempData["ErrorMessage"] = "The Image format is not supported. Fill the form again !";
+                    return RedirectToAction("Menu", "Menu");
+                }
             }
 
             var addItemStatus = await _menuService.AddItem(MenuVm.addItems, userId);
@@ -132,7 +149,7 @@ namespace Pizza_Shop_Project.Controllers
             if (addItemStatus)
             {
                 TempData["SuccessMessage"] = "Item added successfully";
-                return RedirectToAction("Menu");
+                return Json(new { });
             }
             TempData["ErrorMessage"] = "Failed to add Item";
             return RedirectToAction("Menu");
@@ -154,40 +171,61 @@ namespace Pizza_Shop_Project.Controllers
         }
         #endregion
 
-        // #region Edit-Items-From-Modal
-        // public async Task<IActionResult> EditItem(MenuViewModel MenuVm)
-        // {
-        //     string Email = Request.Cookies["Email"];
-        //     long userId = _userLoginService.GetUserId(Email);
+        #region Edit-Items-From-Modal
 
-        //     if (MenuVm.addItems.ItemFormImage != null)
-        //     {
-        //         string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+        public IActionResult GetItemsByItemId(long itemid)
+        {
+            MenuViewModel MenuVM = new MenuViewModel();
+            MenuVM.categoryList =  _menuService.GetAllCategories();
+            MenuVM.addItems = _menuService.GetItemsByItemId(itemid);
+            return PartialView("_EditItemPartial", MenuVM);
+        }
 
-        //         if (!Directory.Exists(path))
-        //             Directory.CreateDirectory(path);
+        [HttpPost]
+        public async Task<IActionResult> EditItem([FromForm] MenuViewModel MenuVm)
+        {
+            string token = Request.Cookies["AuthToken"];
+            var userData = _userService.getUserFromEmail(token);
+            long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-        //         string fileName = $"{Guid.NewGuid()}_{MenuVm.addItems.ItemFormImage.FileName}";
-        //         string fileNameWithPath = Path.Combine(path, fileName);
+            if (MenuVm.addItems.ItemFormImage != null)
+            {
+                var extension = MenuVm.addItems.ItemFormImage.FileName.Split(".");
+                if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
+                {
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
 
-        //         using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-        //         {
-        //             MenuVm.addItems.ItemFormImage.CopyTo(stream);
-        //         }
-        //         MenuVm.addItems.ItemImage = $"/uploads/{fileName}";
-        //     }
+                    //create folder if not exist
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
 
-        //     var editItemStatus = await _menuService.EditItem(MenuVm.addItems, userId);
+                    string fileName = $"{Guid.NewGuid()}_{MenuVm.addItems.ItemFormImage.FileName}";
+                    string fileNameWithPath = Path.Combine(path, fileName);
 
-        //     if (editItemStatus)
-        //     {
-        //         TempData["SuccessMessage"] = "Item Updated successfully";
-        //         return RedirectToAction("Menu");
-        //     }
-        //     TempData["ErrorMessage"] = "Failed to Update Item";
-        //     return RedirectToAction("Menu");
-        // }
-        // #endregion
+                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    {
+                        MenuVm.addItems.ItemFormImage.CopyTo(stream);
+                    }
+                    MenuVm.addItems.ItemImage = $"/uploads/{fileName}";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "The Image format is not supported. Fill the form again !";
+                    return RedirectToAction("Menu", "Menu");
+                }
+            }
+
+            var editItemStatus = await _menuService.EditItem(MenuVm.addItems, userId);
+
+            if (editItemStatus)
+            {
+                // TempData["SuccessMessage"] = "Item Updated successfully";
+                return Json(new { });
+            }
+            TempData["ErrorMessage"] = "Failed to Update Item";
+            return RedirectToAction("Menu");
+        }
+        #endregion
 
     }
 }

@@ -17,4 +17,5 @@ public interface IUserLoginService
     public string Base64Encode(string plainText);
     public string Base64Decode(string base64EncodedData);
     public string GetPassword(string Email);
+    public bool CheckEmailExist(string email);
 }

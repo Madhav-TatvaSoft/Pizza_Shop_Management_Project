@@ -9,4 +9,6 @@ public class MenuViewModel
     public ItemsViewModel items { get; set; }
     public PaginationViewModel<ItemsViewModel> PaginationForItemByCategory { get; set; }
     public AddItemViewModel addItems { get; set; }
+
+    public List<Modifiergroup> modifierGroupList { get; set; }
 }

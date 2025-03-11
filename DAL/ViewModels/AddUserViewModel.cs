@@ -12,7 +12,7 @@ public class AddUserViewModel
 
     public long RoleId { get; set; }
 
-    [Required(AllowEmptyStrings = false, ErrorMessage ="FirstName should not include whitespace")]
+    [Required(AllowEmptyStrings = false, ErrorMessage ="FirstName must contain only alphabets and should not include whitespace")]
     [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "FirstName must contain only alphabets")]
     [StringLength(50, ErrorMessage = "First Name cannot exceed 50 characters.")]
     public string FirstName { get; set; } = null!;

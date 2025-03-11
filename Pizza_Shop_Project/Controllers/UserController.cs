@@ -331,7 +331,7 @@ namespace Pizza_Shop_Project.Controllers
 
         [HttpPost]
 
-        public IActionResult EditUser(AddUserViewModel adduser)
+        public async Task<IActionResult> EditUser(AddUserViewModel adduser)
         {
             var Email = adduser.Email;
 
@@ -380,7 +380,7 @@ namespace Pizza_Shop_Project.Controllers
                 TempData["ErrorMessage"] = "UserName Already Exists. Try Another Username";
                 return RedirectToAction("EditUser", "User", new { Email = adduser.Email });
             }
-            _userService.EditUser(adduser, Email);
+            await _userService.EditUser(adduser, Email);
 
             TempData["SuccessMessage"] = "User Updated successfully";
             return RedirectToAction("UserListData", "User");

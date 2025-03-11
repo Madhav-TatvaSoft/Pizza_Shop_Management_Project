@@ -223,7 +223,7 @@ public class UserService : IUserService
     #endregion
 
     #region EditUser
-    public bool EditUser(AddUserViewModel user, string Email)
+    public async Task<bool> EditUser(AddUserViewModel user, string Email)
     {
         var userdetails = _context.Users.Include(x => x.Userlogin).FirstOrDefault(x => x.Userlogin.Email == Email);
         userdetails.FirstName = user.FirstName;
@@ -240,7 +240,7 @@ public class UserService : IUserService
         userdetails.Status = user.Status;
 
         _context.Update(userdetails);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return true;
     }
     #endregion
@@ -285,5 +285,12 @@ public class UserService : IUserService
         return false;
     }
     #endregion
+
+    public List<User> getUserFromEmail(string token)
+    {
+        var claims = _JWTService.GetClaimsFromToken(token);
+        var Email = _JWTService.GetClaimValue(token, "email");
+        return _context.Users.Include(x => x.Userlogin).Where(x => x.Userlogin.Email == Email).ToList();
+    }
 
 }

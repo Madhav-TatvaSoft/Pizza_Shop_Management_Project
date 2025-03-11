@@ -15,9 +15,10 @@ public interface IUserService
     public List<Role> GetRole();
     public Task<bool> AddUser(AddUserViewModel userVM, String Email);
     public List<AddUserViewModel> GetUserByEmail(string email);
-    public bool EditUser(AddUserViewModel user, string Email);
+    public Task<bool> EditUser(AddUserViewModel user, string Email);
     public Task<bool> DeleteUser(string Email);
     public Task<bool> IsUserNameExists(string Username);
     public bool IsUserNameExistsForEdit(string Username, string Email);
+    public List<User> getUserFromEmail(string token);
 
 }

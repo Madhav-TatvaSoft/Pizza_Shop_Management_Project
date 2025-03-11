@@ -184,7 +184,6 @@
         loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize);
       });
 
-      // Pagination buttons
       $("#right-arrow").on("click", function () {
         let rightarrow = !$(this).prop("disabled");
         if (rightarrow) {
@@ -201,7 +200,6 @@
         }
       });
 
-      // Items per page dropdown
       $("#itemselect").on("change", function () {
         pageSize = $(this).val();
         console.log("items-" + pageSize);
@@ -211,7 +209,6 @@
 
       // Initial table load
       loadTable();
-
     });
   </script>
 

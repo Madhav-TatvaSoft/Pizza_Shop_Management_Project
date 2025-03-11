@@ -3,10 +3,6 @@ using System.Net.Mail;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using DAL.Models;
 using DAL.ViewModels;
-using BLL.Implementation;
-using Microsoft.AspNetCore.Http;
-using Azure;
-using System.Net.Http;
 using Microsoft.EntityFrameworkCore;
 using BLL.Interface;
 
@@ -63,7 +59,7 @@ public class UserLoginService : IUserLoginService
     public async Task<bool> IsSendEmail(UserLoginViewModel userLogin)
     {
         var user = _context.UserLogins.FirstOrDefault(e => e.Email == userLogin.Email);
-        if (user != null)
+        if (user != null && user.Isdelete == false)
         {
             return true;
         }
@@ -126,8 +122,8 @@ public class UserLoginService : IUserLoginService
 
     public async Task<bool> ResetPassword(ResetPasswordViewModel resetPassword)
     {
-        var data = _context.UserLogins.FirstOrDefault(e => e.Email == resetPassword.Email);
-        if (data != null)
+        var data = _context.UserLogins.FirstOrDefault(e => e.Email == resetPassword.Email && e.Isdelete == false);
+        if (data != null && data.Isdelete == false)
         {
             data.Password = EncryptPassword(resetPassword.Password);
             _context.Update(data);
@@ -164,7 +160,17 @@ public class UserLoginService : IUserLoginService
         return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
     }
 
-    public string GetPassword(string Email){
+    public string GetPassword(string Email)
+    {
         return _context.UserLogins.FirstOrDefault(x => x.Email == Email).Password;
+    }
+
+    public bool CheckEmailExist(string email)
+    {
+        if (_context.UserLogins.FirstOrDefault(e => e.Email == email && e.Isdelete == false) != null)
+        {
+            return true;
+        }
+        return false;
     }
 }
