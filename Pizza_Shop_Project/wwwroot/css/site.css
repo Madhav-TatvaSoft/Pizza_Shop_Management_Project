@@ -406,6 +406,22 @@ form i {
     color: #0084c3;
 }
 
+.ModifierGet:hover {
+    cursor: pointer;
+}
+
+.ModifierGet i.fa-pen,
+.ModifierGet i.fa-trash-can {
+    opacity: 0;
+    transition: 1 0.3s ease;
+}
+
+ /* Show icons when hovering  */
+.ModifierGet:hover i.fa-pen,
+.ModifierGet:hover i.fa-trash-can {
+    opacity: 1;
+}
+
 /* .change-pass-icon-1{
     top: 1px !important;
     left: 20px !important;

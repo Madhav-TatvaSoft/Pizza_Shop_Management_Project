@@ -80,7 +80,8 @@
                             </div>
 
                             <div class="trash-button-item">
-                                <button class="btn mt-2 p-1 ps-2 pe-2 ms-2 border"><i
+                                <button disabled id="MassDeleteItemsBtn" class="btn mt-2 p-1 ps-2 pe-2 ms-2 border"
+                                    data-bs-toggle="modal" data-bs-target="#MassDeleteItemsModal"><i
                                         class="fa-solid fa-trash-can "></i></button>
                             </div>
                             <div class="add-user-button">
@@ -153,30 +154,36 @@
                             <i class="fa-regular fa-square-plus fs-4 user-text" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal-addModifier"></i>
                         </div>
-                        <!-- Tomato -->
-                        @foreach (var item in Model.categoryList)
-                        {
-                            <a class="ModifierGet d-flex align-items-center justify-content-between col-12 p-2 ps-3 text-decoration-none text-secondary"
-                                data-id="@item.CategoryId">
+                        @* for loop *@
 
-                                <div class="d-flex justify-content-start ">
+                        <!-- Modifiers -->
+                        @{
+                            int index_mod = 0;
+                        }
+                        @foreach (var mod in Model.modifierGroupList)
+                        {
+                            <a class="ModifierGet @(index_mod==0 ? "active-category" : "") d-flex align-items-center justify-content-between col-12 p-2 ps-3 text-decoration-none text-secondary"
+                                data-id="@mod.ModifierGrpId" id="Mod_id">
+
+                                <div class="d-flex justify-content-start">
                                     <i class="fa-solid fa-grip-vertical me-2 mt-1"></i>
-                                    <p class="mt-1">@item.CategoryName</p>
+                                    <p class="mt-1">@mod.ModifierGrpName</p>
                                 </div>
 
                                 <div class="d-flex text-secondary justify-content-end">
-                                    <input type="hidden" value="@item.Description">
-                                    <i class="fa-solid fa-pen me-2 text-secondary"
-                                        onclick="GetDetailsForCategoryUpdate(this)" data-id="@item.CategoryId"
-                                        data-bs-toggle="modal" data-bs-target="#exampleModal-editCategory"></i>
-                                    <i class="fa-solid fa-trash-can text-secondary" onclick="GetIdForDeleteCategory(this)"
-                                        data-id="@item.CategoryId" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal-deleteCategory"></i>
+                                    <input type="hidden" value="@mod.Desciption">
+                                    <i class="fa-solid fa-pen me-2 text-secondary" data-id="@mod.ModifierGrpId"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal-editModifierGroup"></i>
+                                    <i class="fa-solid fa-trash-can text-secondary" data-id="@mod.ModifierGrpId"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal-deleteModifierGroup"></i>
                                 </div>
 
                             </a>
+                            index_mod++;
                         }
 
+                        @* <div id="ModifierGroupList">
+                        </div> *@
                     </div>
 
                     @* Right-SideBar-Modifier *@
@@ -191,7 +198,9 @@
                             </div>
 
                             <div class="trash-button-modifier">
-                                <a class="btn mt-2 p-1 ps-2 pe-2 ms-2 border"><i class="fa-solid fa-trash-can "></i></a>
+                                <button disabled id="MassDeleteModifiersBtn" class="btn mt-2 p-1 ps-2 pe-2 ms-2 border"
+                                    data-bs-toggle="modal" data-bs-target="#MassDeleteModifiersModal"><i
+                                        class="fa-solid fa-trash-can "></i></button>
                             </div>
                             <div class="add-user-button">
                                 <button type="button"
@@ -206,8 +215,9 @@
                             <table class="table mb-0" id="demo">
                                 <thead>
                                     <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
-                                        <th scope="col" class="text-start"><i
-                                                class="fa-regular fa-square-minus me-3"></i>Name</th>
+                                        <th scope="col" class="text-start"><input id="modifier-main-checkbox"
+                                                class="form-check-input me-3 " type="checkbox"
+                                                onclick="Modifier_Main_Checkbox_Select()">Name</th>
                                         <th scope="col" class="text-center">Unit</th>
                                         <th scope="col" class="text-center">Rate</th>
                                         <th scope="col" class="text-center">Quantity</th>
@@ -215,7 +225,8 @@
                                     </tr>
                                 </thead>
                                 <tbody style="white-space: nowrap;" id="modifier-list-body">
-
+                                    @await Html.PartialAsync("_ModifierPartial",
+                                             Model.PaginationForModifiersByModGroups)
                                 </tbody>
                             </table>
                         </div>
@@ -232,8 +243,8 @@
                             </select>
 
                             <span class=" mt-2 ms-1" id="pagination-info-modifier"></span>
-                            <a id="left-arrow-modifier" class="btn border border-dark bg-light ms-2">&lt;</a>
-                            <a id="right-arrow-modifier" class="btn border border-dark bg-light ms-2">&gt;</a>
+                            <button id="left-arrow-modifier" class="btn border border-dark bg-light ms-2">&lt;</button>
+                            <button id="right-arrow-modifier" class="btn border border-dark bg-light ms-2">&gt;</button>
                         </div>
                     </div>
                 </div>
@@ -243,14 +254,9 @@
     </div>
 </div>
 
-@*
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-*@
-@* --------------------------------------------------------------------All Modals Are
-Here----------------------------------------------------------------------------------- *@
-@*
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-*@
+@*----------------------------------------------------------------------*@
+@*--------------------------All Modals Are Here-------------------------*@
+@*----------------------------------------------------------------------*@
 
 <!-- Add categorty modal  -->
 <div class="modal fade" id="exampleModal-addCategory" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -353,10 +359,9 @@ Here----------------------------------------------------------------------------
 <!-- Edit Items modal-->
 <div class="modal fade" id="EditItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" id="EditModal">
-        @* @await Html.PartialAsync("_EditItemPartial", Model) *@
+        <!-- Adding the Data through Ajax Call -->
     </div>
 </div>
-
 
 <!-- Delete Item Modal-->
 <div id="delete-item-modal" class="modal" tabindex="-1">
@@ -383,6 +388,71 @@ Here----------------------------------------------------------------------------
     </div>
 </div>
 
+<!-- Mass Delete Item Modal-->
+<div id="MassDeleteItemsModal" class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold text-secondary">Delete Conformation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="d-flex justify-content-center"><img src="../images/toppng.com-warning-icon-2400x2400.png"
+                    style="width: 30px;" alt=""></div>
+            <p class="fw-bold text-secondary text-center">Are you sure you want to delete all this Item ?</p>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn solid-btn" id="MassDeleteItemsModal_YesButton"
+                    data-bs-dismiss="modal">Yes</button>
+                <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Delete Modifier Modal-->
+<div id="delete-modifier-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold text-secondary">Delete Conformation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div class="d-flex justify-content-center"><img src="../images/toppng.com-warning-icon-2400x2400.png"
+                        style="width: 30px;" alt=""></div>
+                <p class="fw-bold text-secondary text-center">Are you sure you want to delete this Modifier ?</p>
+                <form id="deleteModifierForm">
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="submit" class="btn solid-btn">Yes</button>
+                        <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">No</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mass Delete Modifier Modal-->
+<div id="MassDeleteModifiersModal" class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold text-secondary">Delete Conformation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="d-flex justify-content-center"><img src="../images/toppng.com-warning-icon-2400x2400.png"
+                    style="width: 30px;" alt=""></div>
+            <p class="fw-bold text-secondary text-center">Are you sure you want to delete all this Modifiers ?</p>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn solid-btn" id="MassDeleteModifiersModal_YesButton"
+                    data-bs-dismiss="modal">Yes</button>
+                <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section Scripts {
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -394,8 +464,6 @@ Here----------------------------------------------------------------------------
             $("#browseFileText-item").text(file.name);
         });
     </script>
-
-
 
     @* Toaster Message *@
     <script>
@@ -435,10 +503,9 @@ Here----------------------------------------------------------------------------
 
         // Items Main checkbox tick  
         function Item_Main_Checkbox_Select() {
-            console.log("HELLO");
             var main_checkbox = document.getElementById("item-main-checkbox");
             var sub_checkboxes = document.getElementsByClassName("item-sub-checkbox");
-            console.log(sub_checkboxes);
+            var MassDeleteItemsBtn = document.getElementById("#MassDeleteItemsBtn");
             if (main_checkbox.checked) {
                 for (i = 0; i < sub_checkboxes.length; i++) {
                     sub_checkboxes[i].checked = true;
@@ -449,13 +516,37 @@ Here----------------------------------------------------------------------------
                     sub_checkboxes[i].checked = false;
                 }
             }
+            toggleMassDeleteBtn();
         }
+
+        // Toggle Mass Delete Button for Items
+        function toggleMassDeleteBtn() {
+            var sub_checkboxes = document.getElementsByClassName("item-sub-checkbox");
+            var MassDeleteItemsBtn = document.getElementById("MassDeleteItemsBtn");
+            var anyChecked = false;
+
+            for (i = 0; i < sub_checkboxes.length; i++) {
+                if (sub_checkboxes[i].checked) {
+                    anyChecked = true;
+                    break;
+                }
+            }
+
+            MassDeleteItemsBtn.disabled = !anyChecked;
+        }
+
+        // Apply Toggle on sub_checkboxes of Items
+        document.addEventListener('DOMContentLoaded', (event) => {
+            var sub_checkboxes = document.getElementsByClassName("item-sub-checkbox");
+            for (i = 0; i < sub_checkboxes.length; i++) {
+                sub_checkboxes[i].addEventListener('change', toggleMassDeleteBtn);
+            }
+        });
 
         // Checkbox tick Manage  
         function CheckBoxTickManage() {
-            console.log("hello");
-            var sub_checkboxes = document.getElementsByClassName("item-sub-checkbox");
             var main_checkbox = document.getElementById("item-main-checkbox");
+            var sub_checkboxes = document.getElementsByClassName("item-sub-checkbox");
             flag = true;
             for (i = 0; i < sub_checkboxes.length; i++) {
                 if (!sub_checkboxes[i].checked) {
@@ -463,6 +554,7 @@ Here----------------------------------------------------------------------------
                 }
             }
             main_checkbox.checked = flag
+            toggleMassDeleteBtn();
         }
 
         // Delete any particular item 
@@ -476,16 +568,87 @@ Here----------------------------------------------------------------------------
             });
         });
 
+        // --------------------------------------------------------Modifiers-----------------------------------------------
+
+        //  Get details for Delete Categories  
+        function GetIdForDeleteModifierGroup(tag) {
+            console.log(tag);
+            document.getElementById("category-id-for-delete").value = tag.getAttribute("data-id");
+        }
+
+        // Modifier Main checkbox tick  
+        function Modifier_Main_Checkbox_Select() {
+            var main_checkbox = document.getElementById("modifier-main-checkbox");
+            var sub_checkboxes = document.getElementsByClassName("modifier-sub-checkbox");
+            var MassDeleteModifiersBtn = document.getElementById("#MassDeleteModifiersBtn");
+            if (main_checkbox.checked) {
+                for (i = 0; i < sub_checkboxes.length; i++) {
+                    sub_checkboxes[i].checked = true;
+                }
+            }
+            if (!main_checkbox.checked) {
+                for (i = 0; i < sub_checkboxes.length; i++) {
+                    sub_checkboxes[i].checked = false;
+                }
+            }
+            toggleMassDeleteBtnMod();
+        }
+
+        // Modifier Mass Delete Button for Items
+        function toggleMassDeleteBtnMod() {
+            var sub_checkboxes = document.getElementsByClassName("modifier-sub-checkbox");
+            var MassDeleteModifiersBtn = document.getElementById("MassDeleteModifiersBtn");
+            var anyChecked = false;
+
+            for (i = 0; i < sub_checkboxes.length; i++) {
+                if (sub_checkboxes[i].checked) {
+                    anyChecked = true;
+                    break;
+                }
+            }
+
+            MassDeleteModifiersBtn.disabled = !anyChecked;
+        }
+
+        // Modifier Toggle on sub_checkboxes of Items
+        document.addEventListener('DOMContentLoaded', (event) => {
+            var sub_checkboxes = document.getElementsByClassName("modifier-sub-checkbox");
+            for (i = 0; i < sub_checkboxes.length; i++) {
+                sub_checkboxes[i].addEventListener('change', toggleMassDeleteBtnMod);
+            }
+        });
+
+        // Modifier Checkbox tick Manage  
+        function CheckBoxTickManageMod() {
+            var main_checkbox = document.getElementById("modifier-main-checkbox");
+            var sub_checkboxes = document.getElementsByClassName("modifier-sub-checkbox");
+            flag = true;
+            for (i = 0; i < sub_checkboxes.length; i++) {
+                if (!sub_checkboxes[i].checked) {
+                    flag = false;
+                }
+            }
+            main_checkbox.checked = flag
+            toggleMassDeleteBtnMod();
+        }
 
     </script>
 
     <script>
 
+        // All Data for Items
         let currentPage = 1;
         let searchText = "";
         let pageSize = $("#itemselect-item").val();
         let catid = $("#Cat_id").data("id");
 
+        // All Data for Modifiers
+        let currentPage_mod = 1;
+        let searchText_mod = "";
+        let pageSize_mod = $("#itemselect-modifier").val();
+        let modgrpid = $("#Mod_id").data("id");
+
+        // Items Pagination function
         function PaginatedItemTable(catid, search = "", page = 1, pageSize = 3) {
             $.ajax({
                 url: "/Menu/PaginationMenuItemsByCategory",
@@ -513,11 +676,41 @@ Here----------------------------------------------------------------------------
             });
         }
 
+        // Modifiers Pagination function
+        function PaginatedModifierTable(modgrpid, searchText_mod = "", page = 1, pageSize_mod = 3) {
+            $.ajax({
+                url: "/Menu/PaginationMenuModifiersByModGroups",
+                type: "GET",
+                data: { modgrpid, searchText_mod, pageNumber: page, pageSize: pageSize_mod },
+                success: function (data) {
+
+                    $("#modifier-list-body").html(data);
+
+                    currentPage_mod = page;
+                    pageSize_mod = parseInt(pageSize_mod);
+                    console.log(pageSize_mod, "saa");
+                    var totalRecords_mod = parseInt($("#totalRecordsHidden-modifier").val()) || 0;
+
+                    var startItem_mod = totalRecords_mod === 0 ? 0 : (currentPage_mod - 1) * pageSize_mod + 1;
+
+                    var endItem_mod = Math.min(currentPage_mod * pageSize_mod, totalRecords_mod);
+
+                    $("#pagination-info-modifier").text("Showing " + startItem_mod + " - " + endItem_mod + " of " + totalRecords_mod);
+                    $("#left-arrow-modifier").prop("disabled", currentPage_mod === 1);
+                    $("#right-arrow-modifier").prop("disabled", currentPage_mod * pageSize_mod >= totalRecords_mod);
+
+                    $("#modifier-main-checkbox").prop("checked", false);
+                }
+            });
+        }
+
         $(document).ready(function () {
 
             PaginatedItemTable(catid, searchText, currentPage, pageSize);
 
-            // search-button
+            PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
+
+            // Items search-button
             $("#searchbtn-item").on("keyup", function () {
                 searchText = $(this).val().trim();
                 currentPage = 1;
@@ -534,7 +727,7 @@ Here----------------------------------------------------------------------------
                 PaginatedItemTable(catid, searchText, currentPage, pageSize);
             });
 
-            // Pagination right arrow buttons
+            // Items Pagination right arrow buttons
             $("#right-arrow-item").on("click", function () {
                 let rightarrow = !$(this).prop("disabled");
                 if (rightarrow) {
@@ -544,7 +737,7 @@ Here----------------------------------------------------------------------------
                 }
             });
 
-            // Pagination left arrow buttons
+            // Items Pagination left arrow buttons
             $("#left-arrow-item").on("click", function () {
                 let leftarrow = !$(this).prop("disabled");
                 if (leftarrow) {
@@ -562,6 +755,7 @@ Here----------------------------------------------------------------------------
                 Item_Main_Checkbox_Select();
             });
 
+            // Items To Fill data in the Add modal 
             $("#AddItemForm").on("submit", function (e) {
                 e.preventDefault();
                 let form = $("#AddItemForm");
@@ -582,13 +776,11 @@ Here----------------------------------------------------------------------------
                 }
             })
 
+            // Items To Show data in the edit modal
             $("#EditItemModal").on('show.bs.modal', function (event) {
-        @* console.log("Edit Item"); *@
-                                        var button = $(event.relatedTarget);
-        @* console.log(button) *@
-                                        var itemid = button.data("id");
-        @* console.log(item_id) *@
-                                        if (itemid != null) {
+                var button = $(event.relatedTarget);
+                var itemid = button.data("id");
+                if (itemid != null) {
                     $.ajax({
                         url: "/Menu/GetItemsByItemId",
                         type: "GET",
@@ -601,26 +793,102 @@ Here----------------------------------------------------------------------------
                 }
             });
 
-        @* $("#deleteAllItemsModalYesButton").on("click",function(){
-            var classess=document.getElementsByClassName("massDeleteClass");
-            console.log("delete all")
-            for(i=0; i<classess.length;i++){
-            if(classess[i].checked){
+            // Items Mass Delete Item Modal Yes Button 
+            $("#MassDeleteItemsModal_YesButton").on("click", function () {
+                var sub_checkboxes = document.getElementsByClassName("item-sub-checkbox");
+                console.log("delete all")
+                for (i = 0; i < sub_checkboxes.length; i++) {
+                    if (sub_checkboxes[i].checked) {
 
-            let itemID = classess[i].getAttribute("data-checkid");
-console.log(itemID)
-$.ajax({
-url: `/Menu/DeleteItem?itemID=${itemID}`,
-type: "GET",
-success: function (data) {
-
-            loadTable(catID, searchText, currentPage, pageSize);
-            }
+                        let itemID = sub_checkboxes[i].getAttribute("data-checkid");
+                        console.log(itemID)
+                        $.ajax({
+                            url: `/Menu/DeleteItem?itemID=${itemID}`,
+                            type: "GET",
+                            success: function (data) {
+                                $("#MassDeleteItemsBtn").prop("disabled", true);
+                                PaginatedItemTable(catid, searchText, currentPage, pageSize);
+                            }
+                        })
+                    }
+                }
             })
-            }
-            }
-            }) *@
-                    });
+
+            // -------------------------------------Modifier--------------------------------------
+
+            // Modifier search-button
+            $("#searchbtn-modifier").on("keyup", function () {
+                searchText_mod = $(this).val().trim();
+                currentPage_mod = 1;
+                PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
+                Modifier_Main_Checkbox_Select();
+            });
+
+            // ModifierGroup click
+            $(".ModifierGet").on("click", function () {
+                $(".ModifierGet").removeClass("active-category");
+                $(this).addClass("active-category");
+                modgrpid = $(this).data("id");
+                currentPage_mod = 1;
+                PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
+            });
+
+            // Modifier Pagination right arrow buttons
+            $("#right-arrow-modifier").on("click", function () {
+                let rightarrow_mod = !$(this).prop("disabled");
+                if (rightarrow_mod) {
+                    currentPage_mod++;
+                    PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
+                    Modifier_Main_Checkbox_Select();
+                }
+            });
+
+            // Modifier Pagination left arrow buttons
+            $("#left-arrow-modifier").on("click", function () {
+                let leftarrow_mod = !$(this).prop("disabled");
+                if (leftarrow_mod) {
+                    currentPage_mod--;
+                    PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
+                    Modifier_Main_Checkbox_Select();
+                }
+            });
+
+            // Modifier per page dropdown
+            $("#itemselect-modifier").on("change", function () {
+                pageSize_mod = $(this).val();
+                currentPage_mod = 1;
+                console.log(pageSize_mod);
+                PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
+                Modifier_Main_Checkbox_Select();
+            });
+
+            // 
+            $("#deleteModifierForm").on("submit", function(){
+
+            })
+
+            // Modifier Mass Delete Item Modal Yes Button 
+            $("#MassDeleteModifiersModal_YesButton").on("click", function () {
+                var sub_checkboxes = document.getElementsByClassName("modifier-sub-checkbox");
+                for (i = 0; i < sub_checkboxes.length; i++) {
+                    if (sub_checkboxes[i].checked) {
+
+                        let modID = sub_checkboxes[i].getAttribute("data-checkid");
+                        console.log("modifier-id", modID);
+                        $.ajax({
+                            url: `/Menu/DeleteModifier?modifierID=${modID}`,
+                            type: "GET",
+                            success: function (data) {
+                                $("#MassDeleteModifiersBtn").prop("disabled", true);
+                                PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
+                            }
+                        })
+                    }
+                }
+            })
+
+        });
+
     </script>
 
     @{

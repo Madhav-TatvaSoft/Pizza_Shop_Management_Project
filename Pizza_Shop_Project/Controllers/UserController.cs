@@ -8,6 +8,7 @@ using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.Mail;
 using System.Net;
+using Pizza_Shop_Project.Authorization;
 
 
 namespace Pizza_Shop_Project.Controllers
@@ -182,6 +183,7 @@ namespace Pizza_Shop_Project.Controllers
 
         #region UserListData
         [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Users.View")]
         public IActionResult UserListData()
         {
             ViewData["sidebar-active"] = "User";
@@ -189,6 +191,7 @@ namespace Pizza_Shop_Project.Controllers
             return View(users);
         }
 
+        [PermissionAuthorize("Users.View")]
         public IActionResult PaginatedData(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5)
         {
             ViewBag.emailid = Request.Cookies["email"];
@@ -198,6 +201,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region AddUser
+        [PermissionAuthorize("Users.AddEdit")]
         public IActionResult AddUser()
         {
             var Roles = _userService.GetRole();
@@ -213,6 +217,7 @@ namespace Pizza_Shop_Project.Controllers
             return View();
         }
 
+        [PermissionAuthorize("Users.AddEdit")]
         [HttpPost]
         public async Task<IActionResult> AddUser(AddUserViewModel user)
         {
@@ -313,6 +318,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region EditUser
+        [PermissionAuthorize("Users.AddEdit")]
         public IActionResult EditUser(string Email)
         {
             var user = _userService.GetUserByEmail(Email);
@@ -329,6 +335,7 @@ namespace Pizza_Shop_Project.Controllers
             return View(user[0]);
         }
 
+        [PermissionAuthorize("Users.AddEdit")]
         [HttpPost]
 
         public async Task<IActionResult> EditUser(AddUserViewModel adduser)
@@ -389,6 +396,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region DeleteUser
+        [PermissionAuthorize("Users.Delete")]
         public async Task<IActionResult> DeleteUser(string Email)
         {
             var isDeleted = await _userService.DeleteUser(Email);

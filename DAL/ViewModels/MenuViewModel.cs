@@ -10,5 +10,13 @@ public class MenuViewModel
     public PaginationViewModel<ItemsViewModel> PaginationForItemByCategory { get; set; }
     public AddItemViewModel addItems { get; set; }
 
+    // Modifiers Starts
     public List<Modifiergroup> modifierGroupList { get; set; }
+
+    public Modifiergroup modifiergroup { get; set; }
+
+    public ModifiersViewModel modifiers { get; set; }
+
+    public PaginationViewModel<ModifiersViewModel> PaginationForModifiersByModGroups { get; set; }
+
 }

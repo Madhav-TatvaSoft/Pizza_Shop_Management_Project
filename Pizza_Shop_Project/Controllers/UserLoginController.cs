@@ -21,12 +21,13 @@ namespace Pizza_Shop_Project.Controllers
 
             if (Request.Cookies.ContainsKey("email"))
             {
-                TempData["SuccessMessage"] = "Login Successfully";
+                // TempData["SuccessMessage"] = "Login Successfully";
                 return RedirectToAction("Dashboard", "User");
             }
             // ViewData["RoleId"] = new SelectList(_userLoginService.Roles, "RoleId", "RoleId");
             return View();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

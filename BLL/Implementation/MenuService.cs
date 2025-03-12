@@ -19,10 +19,11 @@ public class MenuService : IMenuService
         return _context.Categories.Where(x => x.Isdelete == false).ToList();
     }
 
-    public List<Modifiergroup> GetAllModifierGroupList(){
-         return _context.Modifiergroups.Where(x => x.Isdelete == false).ToList();
+    public List<Modifiergroup> GetAllModifierGroupList()
+    {
+        return _context.Modifiergroups.Where(x => x.Isdelete == false).ToList();
     }
-    
+
     public PaginationViewModel<ItemsViewModel> GetMenuItemsByCategory(long? catid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
         var query = _context.Items
@@ -216,4 +217,49 @@ public class MenuService : IMenuService
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public PaginationViewModel<ModifiersViewModel> GetMenuModifiersByModGroups(long? modgrpid, string search = "", int pageNumber = 1, int pageSize = 3)
+    {
+        var query = _context.Modifiers.Include(x => x.ModifierGrp).Where(x => x.ModifierGrpId == modgrpid).Where(x => x.Isdelete == false)
+           .Select(x => new ModifiersViewModel
+           {
+               ModifierId = x.ModifierId,
+               ModifierName = x.ModifierName,
+               ModifierGrpId = x.ModifierGrpId,
+               Unit = x.Unit,
+               Rate = x.Rate,
+               Quantity = x.Quantity,
+               Isdelete = x.Isdelete
+           })
+           .AsQueryable();
+
+        //search 
+        if (!string.IsNullOrEmpty(search))
+        {
+            string lowerSearchTerm = search.ToLower();
+            query = query.Where(x => x.ModifierName.ToLower().Contains(lowerSearchTerm)
+            );
+        }
+
+        // Get total records count (before pagination)
+        int totalCount = query.Count();
+
+        // Apply pagination
+        var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+        return new PaginationViewModel<ModifiersViewModel>(items, totalCount, pageNumber, pageSize);
+    }
+
+    public async Task<bool> DeleteModifier(long modid)
+    {
+        var modofierToDelete = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid);
+
+        modofierToDelete.ModifierName = modofierToDelete.ModifierName + DateTime.Now;
+        modofierToDelete.Isdelete = true;
+        _context.Update(modofierToDelete);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+
 }

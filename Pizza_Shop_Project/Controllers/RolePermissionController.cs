@@ -1,6 +1,7 @@
 using BLL.Interface;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Pizza_Shop_Project.Authorization;
 
 namespace Pizza_Shop_Project.Controllers
 {
@@ -14,6 +15,7 @@ namespace Pizza_Shop_Project.Controllers
         }
 
         //Fetching roles
+        [PermissionAuthorize("Role.View")]
         public IActionResult RoleDashboard()
         {
             ViewData["sidebar-active"] = "Role";
@@ -21,6 +23,7 @@ namespace Pizza_Shop_Project.Controllers
             return View(Roles);
         }
 
+        [PermissionAuthorize("Role.AddEdit")]
         public IActionResult Permission(string name)
         {
             ViewData["sidebar-active"] = "Role";
@@ -28,6 +31,7 @@ namespace Pizza_Shop_Project.Controllers
             return View(permissions);
         }
 
+        [PermissionAuthorize("Role.AddEdit")]
         [HttpPost]
         public IActionResult Permission(List<RolesPermissionViewModel> rolesPermissionViewModel)
         {

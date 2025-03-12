@@ -3,6 +3,7 @@ using DAL.Models;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Pizza_Shop_Project.Authorization;
 
 namespace Pizza_Shop_Project.Controllers
 {
@@ -21,11 +22,14 @@ namespace Pizza_Shop_Project.Controllers
         }
 
         #region Main-Menu-View
-        public IActionResult Menu(long? catid, string search = "", int pageNumber = 1, int pageSize = 3)
+        [PermissionAuthorize("Menu.View")]
+        public IActionResult Menu(long? catid, long? modgrpid, string search = "", int pageNumber = 1, int pageSize = 3)
         {
             MenuViewModel MenuVM = new();
             MenuVM.categoryList = _menuService.GetAllCategories();
-            ViewBag.modifierGroupList = new SelectList(_menuService.GetAllModifierGroupList(),"ModifierGrpId","ModifierGrpName");
+            MenuVM.modifierGroupList = _menuService.GetAllModifierGroupList();
+
+            ViewBag.modifierGroupList = new SelectList(_menuService.GetAllModifierGroupList(), "ModifierGrpId", "ModifierGrpName");
             if (catid == null)
             {
                 MenuVM.PaginationForItemByCategory = _menuService.GetMenuItemsByCategory(MenuVM.categoryList[0].CategoryId, search, pageNumber, pageSize);
@@ -35,6 +39,14 @@ namespace Pizza_Shop_Project.Controllers
             {
                 MenuVM.PaginationForItemByCategory = _menuService.GetMenuItemsByCategory(catid, search, pageNumber, pageSize);
             }
+            if (modgrpid == null)
+            {
+                MenuVM.PaginationForModifiersByModGroups = _menuService.GetMenuModifiersByModGroups(MenuVM.modifierGroupList[0].ModifierGrpId, search, pageNumber, pageSize);
+            }
+            if (modgrpid != null)
+            {
+                MenuVM.PaginationForModifiersByModGroups = _menuService.GetMenuModifiersByModGroups(modgrpid, search, pageNumber, pageSize);
+            }
 
             ViewData["sidebar-active"] = "Menu";
             return View(MenuVM);
@@ -42,7 +54,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Pagination-Menu-Item
-
+        [PermissionAuthorize("Menu.View")]
         public IActionResult PaginationMenuItemsByCategory(long? catid, string search = "", int pageNumber = 1, int pageSize = 3)
         {
             MenuViewModel menuData = new MenuViewModel();
@@ -57,6 +69,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Add-Category
+        [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> AddCategory(Category category)
         {
             string token = Request.Cookies["AuthToken"];
@@ -74,6 +87,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Edit-Category
+        [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> EditCategoryById(Category category)
         {
             string token = Request.Cookies["AuthToken"];
@@ -94,6 +108,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Delete-Category
+        [PermissionAuthorize("Menu.Delete")]
         public async Task<IActionResult> DeleteCategory(long Cat_Id)
         {
             var categoryDeleteStatus = await _menuService.DeleteCategory(Cat_Id);
@@ -109,7 +124,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Add-Items-From-Modal
-
+        [PermissionAuthorize("Menu.AddEdit")]
         [HttpPost]
         public async Task<IActionResult> AddItem([FromForm] MenuViewModel MenuVm)
         {
@@ -157,6 +172,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Delete-Items-From-Modal
+        [PermissionAuthorize("Menu.Delete")]
         public async Task<IActionResult> DeleteItem(long itemid)
         {
             var isDeleted = await _menuService.DeleteItem(itemid);
@@ -172,11 +188,11 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Edit-Items-From-Modal
-
+        [PermissionAuthorize("Menu.AddEdit")]
         public IActionResult GetItemsByItemId(long itemid)
         {
             MenuViewModel MenuVM = new MenuViewModel();
-            MenuVM.categoryList =  _menuService.GetAllCategories();
+            MenuVM.categoryList = _menuService.GetAllCategories();
             MenuVM.addItems = _menuService.GetItemsByItemId(itemid);
             return PartialView("_EditItemPartial", MenuVM);
         }
@@ -227,5 +243,37 @@ namespace Pizza_Shop_Project.Controllers
         }
         #endregion
 
+        #region Pagination-Menu-Modifier
+        [PermissionAuthorize("Menu.View")]
+
+        public IActionResult PaginationMenuModifiersByModGroups(long? modgrpid, string search = "", int pageNumber = 1, int pageSize = 3)
+        {
+            MenuViewModel menuData = new MenuViewModel();
+            menuData.modifierGroupList = _menuService.GetAllModifierGroupList();
+
+            if (modgrpid != null)
+            {
+                menuData.PaginationForModifiersByModGroups = _menuService.GetMenuModifiersByModGroups(modgrpid, search, pageNumber, pageSize);
+            }
+            return PartialView("_ModifierPartial", menuData.PaginationForModifiersByModGroups);
+        }
+        #endregion
+    
+        #region Delete-Modifiers-From-Modal
+        [PermissionAuthorize("Menu.Delete")]
+        public async Task<IActionResult> DeleteModifier(long modid)
+        {
+            var isDeleted = await _menuService.DeleteModifier(modid);
+
+            if (!isDeleted)
+            {
+                TempData["ErrorMessage"] = "Modifier cannot be deleted";
+                return RedirectToAction("Menu", "Menu");
+            }
+            TempData["SuccessMessage"] = "Modifier deleted successfully";
+            return RedirectToAction("Menu", "Menu");
+        }
+        #endregion
+        
     }
 }

@@ -1,4 +1,6 @@
-﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+﻿@using Microsoft.AspNetCore.Authorization
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +25,7 @@
 
 <body>
     <div class="container-fluid p-0">
-        <div class="row">
+        <div class="row p-0">
 
             <!-- Left-sidebar -->
             <div
@@ -42,8 +44,7 @@
 
                         <!-- dashboard -->
                         <a asp-action="Dashboard" asp-Controller="User"
-                            class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Dashboard" ? "active-div" : "")"
-                           >
+                            class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Dashboard" ? "active-div" : "")">
                             <div class="dashboard-active-div d-flex align-items-center p-3">
                                 <i class="fa-solid fa-table-cells-large"></i>
                                 <p class="mt-1 ms-3 fw-bold ">Dashboard</p>
@@ -51,67 +52,84 @@
                         </a>
 
                         <!-- users -->
-                        <a asp-action="UserListData" asp-Controller="User"
-                            class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "User" ? "active-div" : "")">
-                            <div class="dashboard-active-div d-flex align-items-center p-3 ">
-                                <i class="fa-solid fa-users "></i>
-                                <p class="m-0 ms-3 fw-bold">Users</p>
-                            </div>
-                        </a>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "Users.View")).Succeeded)
+                        {
+                            <a asp-action="UserListData" asp-Controller="User"
+                                class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "User" ? "active-div" : "")">
+                                <div class="dashboard-active-div d-flex align-items-center p-3 ">
+                                    <i class="fa-solid fa-users "></i>
+                                    <p class="m-0 ms-3 fw-bold">Users</p>
+                                </div>
+                            </a>
+                        }
 
                         <!--Role and Permission  -->
-                        <a asp-action="RoleDashboard" asp-Controller="RolePermission"
-                            class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Role" ? "active-div" : "")">
-                            <div class="dashboard-active-div d-flex align-items-center p-3">
-                                <i class="fa-solid fa-user-clock "></i>
-                                <p class="  m-0 ms-3 fw-bold text-nowrap">Role and Permission</p>
-                            </div>
-                        </a>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "Role.View")).Succeeded)
+                        {
+                            <a asp-action="RoleDashboard" asp-Controller="RolePermission"
+                                class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Role" ? "active-div" : "")">
+                                <div class="dashboard-active-div d-flex align-items-center p-3">
+                                    <i class="fa-solid fa-user-clock "></i>
+                                    <p class="  m-0 ms-3 fw-bold text-nowrap">Role and Permission</p>
+                                </div>
+                            </a>
+                        }
 
                         <!-- menu -->
-                        <a asp-action="Menu" asp-Controller="Menu"
-                            class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Menu" ? "active-div" : "")">
-                            <div class="dashboard-active-div d-flex align-items-center  p-3">
-                                <i class="fa-solid fa-calendar-minus "></i>
-                                <p class="  m-0 ms-4 fw-bold">Menu</p>
-                            </div>
-                        </a>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.View")).Succeeded)
+                        {
+                            <a asp-action="Menu" asp-Controller="Menu"
+                                class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Menu" ? "active-div" : "")">
+                                <div class="dashboard-active-div d-flex align-items-center  p-3">
+                                    <i class="fa-solid fa-calendar-minus "></i>
+                                    <p class="  m-0 ms-4 fw-bold">Menu</p>
+                                </div>
+                            </a>
+                        }
 
                         <!-- Table and Section -->
-                        <a 
-                            class="text-decoration-none dashboard-text-inactive ">
-                            <div class="dashboard-active-div d-flex p-3">
-                                <i class="fa-solid fa-table-cells-large mt-1 "></i>
-                                <p class="mt-1 m-0 ms-3 fw-bold text-nowrap">Table and Section</p>
-                            </div>
-                        </a>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "TableSection.View")).Succeeded)
+                        {
+                            <a class="text-decoration-none dashboard-text-inactive ">
+                                <div class="dashboard-active-div d-flex p-3">
+                                    <i class="fa-solid fa-table-cells-large mt-1 "></i>
+                                    <p class="mt-1 m-0 ms-3 fw-bold text-nowrap">Table and Section</p>
+                                </div>
+                            </a>
+                        }
 
                         <!-- taxes and fees -->
-                        <a 
-                            class="text-decoration-none dashboard-text-inactive ">
-                            <div class="dashboard-active-div d-flex p-3">
-                                <i class="fa-solid fa-money-check-dollar mt-1 "></i>
-                                <p class=" mt-1 m-0 ms-3 fw-bold text-nowrap">Taxes and Fees</p>
-                            </div>
-                        </a>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "TaxFees.View")).Succeeded)
+                        {
+                            <a class="text-decoration-none dashboard-text-inactive ">
+                                <div class="dashboard-active-div d-flex p-3">
+                                    <i class="fa-solid fa-money-check-dollar mt-1 "></i>
+                                    <p class=" mt-1 m-0 ms-3 fw-bold text-nowrap">Taxes and Fees</p>
+                                </div>
+                            </a>
+                        }
 
                         <!-- orders -->
-                        <a 
-                            class="text-decoration-none dashboard-text-inactive ">
-                            <div class="dashboard-active-div d-flex p-3">
-                                <i class="fa-solid fa-clipboard-check mt-1"></i>
-                                <p class="mt-1 m-0 ms-4 fw-bold">Orders</p>
-                            </div>
-                        </a>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "Orders.View")).Succeeded)
+                        {
+                            <a class="text-decoration-none dashboard-text-inactive ">
+                                <div class="dashboard-active-div d-flex p-3">
+                                    <i class="fa-solid fa-clipboard-check mt-1"></i>
+                                    <p class="mt-1 m-0 ms-4 fw-bold">Orders</p>
+                                </div>
+                            </a>
+                        }
 
                         <!-- customer -->
-                        <a 
-                            class="text-decoration-none dashboard-text-inactive ">
-                            <div class="dashboard-active-div d-flex p-3">
-                                <i class="fa-regular fa-id-card mt-1"></i>
-                                <p class="mt-1 m-0 ms-3 fw-bold">Cutomers</p>
-                            </div>
-                        </a>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "Customers.View")).Succeeded)
+                        {
+                            <a class="text-decoration-none dashboard-text-inactive ">
+                                <div class="dashboard-active-div d-flex p-3">
+                                    <i class="fa-regular fa-id-card mt-1"></i>
+                                    <p class="mt-1 m-0 ms-3 fw-bold">Cutomers</p>
+                                </div>
+                            </a>
+                        }
 
                     </div>
                 </div>
@@ -222,24 +240,22 @@
                         </div>
 
                         <!-- profile -->
-                        <div class="profilepic-div m-2">
+                        <div class="profilepic-div p-1">
                             <!-- dropdown div  -->
-                            <div class="dropdown ">
+                            <div class="dropdown">
 
                                 <button class="btn  dropdown" type="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <img src="@(HttpContextAccessor.HttpContext.Request.Cookies["ProfileImage"])"
-                                        width="40px">
+                                        width="45px" height="45px">
                                 </button>
 
                                 <ul class="dropdown-menu">
 
                                     <li>
                                         <div class="d-flex border border-bottom-black border-top-0 pb-2">
-
-
                                             <img src="@(HttpContextAccessor.HttpContext.Request.Cookies["ProfileImage"])"
-                                                class="ms-3 w-25 h-25" />
+                                                class="ms-3" width="35px" height="35px" />
                                             <div class="fs-6 fw-bold ms-3 align-content-center">
                                                 @(HttpContextAccessor.HttpContext.Request.Cookies["username"])</div>
                                         </div>
