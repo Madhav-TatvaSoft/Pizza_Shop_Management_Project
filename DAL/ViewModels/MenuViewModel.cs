@@ -19,4 +19,6 @@ public class MenuViewModel
 
     public PaginationViewModel<ModifiersViewModel> PaginationForModifiersByModGroups { get; set; }
 
+    public AddModifierViewModel addModifier { get; set; }
+
 }

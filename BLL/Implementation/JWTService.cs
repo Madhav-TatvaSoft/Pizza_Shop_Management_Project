@@ -7,17 +7,20 @@ using BLL.Interface;
 
 namespace BLL.Implementation;
 
-public class JWTService :IJWTService
+public class JWTService : IJWTService
 {
     private readonly string _secretKey;
     private readonly int _tokenDuration;
 
+    #region JWT Constructor
     public JWTService(IConfiguration configuration)
     {
         _secretKey = configuration.GetValue<string>("JwtConfig:Key");
         _tokenDuration = configuration.GetValue<int>("JwtConfig:Duration");
     }
+    #endregion
 
+    #region Generate Token (email , role)
     public string GenerateToken(string email, string role)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
@@ -33,13 +36,15 @@ public class JWTService :IJWTService
             issuer: "localhost",
             audience: "localhost",
             claims: claims,
-            expires: DateTime.Now.AddMinutes(_tokenDuration),
+            expires: DateTime.Now.AddHours(_tokenDuration),
             signingCredentials: credentials
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+    #endregion
 
+    #region Generate Reset Token (email, password)
     public string GenerateResetToken(string email, string password)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
@@ -55,13 +60,15 @@ public class JWTService :IJWTService
             issuer: "localhost",
             audience: "localhost",
             claims: claims,
-            expires: DateTime.Now.AddMinutes(_tokenDuration),
+            expires: DateTime.Now.AddHours(_tokenDuration),
             signingCredentials: credentials
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+    #endregion
 
+    #region Get Claim From Token
     public ClaimsPrincipal? GetClaimsFromToken(string token)
     {
         var handler = new JwtSecurityTokenHandler();
@@ -69,7 +76,9 @@ public class JWTService :IJWTService
         var claims = new ClaimsIdentity(jwtToken.Claims);
         return new ClaimsPrincipal(claims);
     }
+    #endregion
 
+    #region Get Claim Value
     // Retrieves a specific claim value from a JWT token.
     public string? GetClaimValue(string token, string claimType)
     {
@@ -78,5 +87,6 @@ public class JWTService :IJWTService
         var value = claimsPrincipal?.FindFirst(claimType)?.Value;
         return value;
     }
+    #endregion
 
 }

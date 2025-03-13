@@ -16,24 +16,26 @@ namespace Pizza_Shop_Project.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
-
         private readonly IUserLoginService _userLoginService;
-
         private readonly IJWTService _JWTService;
 
+        #region User Constructor
         public UserController(IUserService userService, IJWTService JWTService, IUserLoginService userLoginService)
         {
             this._userService = userService;
             this._JWTService = JWTService;
             this._userLoginService = userLoginService;
         }
+        #endregion
 
+        #region Dashboard
         [Authorize(Roles = "Admin")]
         public IActionResult Dashboard()
         {
             ViewData["sidebar-active"] = "Dashboard";
             return View();
         }
+        #endregion
 
         #region State,City
         public JsonResult GetStates(long? countryId)
@@ -201,6 +203,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region AddUser
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Users.AddEdit")]
         public IActionResult AddUser()
         {
@@ -318,6 +321,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region EditUser
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Users.AddEdit")]
         public IActionResult EditUser(string Email)
         {
@@ -396,6 +400,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region DeleteUser
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Users.Delete")]
         public async Task<IActionResult> DeleteUser(string Email)
         {

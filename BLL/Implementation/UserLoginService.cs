@@ -13,13 +13,15 @@ public class UserLoginService : IUserLoginService
     private readonly PizzaShopDbContext _context;
     private readonly IJWTService _jwtService;
 
-
+    #region User Login Constructor
     public UserLoginService(PizzaShopDbContext context, IJWTService jwtService)
     {
         _context = context;
         _jwtService = jwtService;
     }
+    #endregion
 
+    #region Encrypt Password 
     public string EncryptPassword(string password)
     {
         string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -30,13 +32,17 @@ public class UserLoginService : IUserLoginService
             numBytesRequested: 256 / 8));
         return hashed;
     }
+    #endregion
 
+    #region GetUserLogins 
+    // Get List of Loginned User With Role
     public async Task<List<UserLogin>> GetUserLogins()
     {
-        var pizzaShopDbContext = _context.UserLogins.Include(u => u.Role);
-        return await pizzaShopDbContext.ToListAsync();
+        return await _context.UserLogins.Include(u => u.Role).ToListAsync();
     }
+    #endregion
 
+    #region VerifyUserLogin
     //Used to check the credentials of user
     public async Task<string> VerifyUserLogin(UserLoginViewModel userLogin)
     {
@@ -55,17 +61,10 @@ public class UserLoginService : IUserLoginService
         }
         return null;
     }
+    #endregion
 
-    public async Task<bool> IsSendEmail(UserLoginViewModel userLogin)
-    {
-        var user = _context.UserLogins.FirstOrDefault(e => e.Email == userLogin.Email);
-        if (user != null && user.Isdelete == false)
-        {
-            return true;
-        }
-        return false;
-    }
-
+    #region SendEmail
+    //  Used to Send Email
     public async Task<bool> SendEmail(ForgotPasswordViewModel forgotpassword, string resetLink)
     {
         var user = forgotpassword.Email;
@@ -119,7 +118,10 @@ public class UserLoginService : IUserLoginService
         }
         return false;
     }
+    #endregion
 
+    #region Reset Password
+    // Used to If email exists and will update the encrypted password in the DB. 
     public async Task<bool> ResetPassword(ResetPasswordViewModel resetPassword)
     {
         var data = _context.UserLogins.FirstOrDefault(e => e.Email == resetPassword.Email && e.Isdelete == false);
@@ -132,39 +134,37 @@ public class UserLoginService : IUserLoginService
         }
         return false;
     }
+    #endregion
 
+    #region Get Profile Image
     public string GetProfileImage(string Email)
     {
         return _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email).ProfileImage;
     }
+    #endregion
 
+    #region Get Username
     public string GetUsername(string Email)
     {
         return _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email).Username;
     }
+    #endregion
 
+    #region Get UserId
     public long GetUserId(string Email)
     {
         return _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email).UserId;
     }
+    #endregion
 
-    public string Base64Encode(string plainText)
-    {
-        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-        return System.Convert.ToBase64String(plainTextBytes);
-    }
-
-    public string Base64Decode(string base64EncodedData)
-    {
-        var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
-        return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
-    }
-
+    #region Get Password
     public string GetPassword(string Email)
     {
         return _context.UserLogins.FirstOrDefault(x => x.Email == Email).Password;
     }
+    #endregion
 
+    #region Check Email Exists
     public bool CheckEmailExist(string email)
     {
         if (_context.UserLogins.FirstOrDefault(e => e.Email == email && e.Isdelete == false) != null)
@@ -173,4 +173,6 @@ public class UserLoginService : IUserLoginService
         }
         return false;
     }
+    #endregion
+
 }

@@ -205,7 +205,7 @@
                             <div class="add-user-button">
                                 <button type="button"
                                     class="addModifierBtn btn solid-btn text-light p-1 mt-2 ms-2 me-sm-2 me-0"
-                                    data-bs-toggle="modal" data-bs-target="#addModifierModal">
+                                    data-bs-toggle="modal" data-bs-target="#addModifierModal" id="addModifierModalId">
                                     + New Modifier
                                 </button>
                             </div>
@@ -260,7 +260,7 @@
 
 <!-- Add categorty modal  -->
 <div class="modal fade" id="exampleModal-addCategory" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+    data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -292,7 +292,7 @@
 </div>
 
 <!-- Edit category modal -->
-<div id="exampleModal-editCategory" class="modal" tabindex="-1">
+<div id="exampleModal-editCategory" class="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -325,7 +325,7 @@
 </div>
 
 <!-- Delete category Modal-->
-<div id="exampleModal-deleteCategory" class="modal" tabindex="-1">
+<div id="exampleModal-deleteCategory" class="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -350,21 +350,23 @@
 </div>
 
 <!-- Add Items modal-->
-<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         @await Html.PartialAsync("_AddItemPartial", Model)
     </div>
 </div>
 
 <!-- Edit Items modal-->
-<div class="modal fade" id="EditItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-xl modal-dialog-centered" id="EditModal">
         <!-- Adding the Data through Ajax Call -->
     </div>
 </div>
 
 <!-- Delete Item Modal-->
-<div id="delete-item-modal" class="modal" tabindex="-1">
+<div id="delete-item-modal" class="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -389,7 +391,8 @@
 </div>
 
 <!-- Mass Delete Item Modal-->
-<div id="MassDeleteItemsModal" class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="MassDeleteItemsModal" class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -408,9 +411,16 @@
     </div>
 </div>
 
+<!-- Add Modifier Modal -->
+<div id="addModifierModal" class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" id="AddModifierModal-MainDiv">
+
+    </div>
+</div>
 
 <!-- Delete Modifier Modal-->
-<div id="delete-modifier-modal" class="modal" tabindex="-1">
+<div id="delete-modifier-modal" class="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -433,7 +443,8 @@
 </div>
 
 <!-- Mass Delete Modifier Modal-->
-<div id="MassDeleteModifiersModal" class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="MassDeleteModifiersModal" class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -451,7 +462,6 @@
         </div>
     </div>
 </div>
-
 
 @section Scripts {
 
@@ -862,33 +872,37 @@
                 Modifier_Main_Checkbox_Select();
             });
 
-            // 
-            $("#deleteModifierForm").on("submit", function(){
-
-            })
-
-            // Modifier Mass Delete Item Modal Yes Button 
-            $("#MassDeleteModifiersModal_YesButton").on("click", function () {
-                var sub_checkboxes = document.getElementsByClassName("modifier-sub-checkbox");
-                for (i = 0; i < sub_checkboxes.length; i++) {
-                    if (sub_checkboxes[i].checked) {
-
-                        let modID = sub_checkboxes[i].getAttribute("data-checkid");
-                        console.log("modifier-id", modID);
-                        $.ajax({
-                            url: `/Menu/DeleteModifier?modifierID=${modID}`,
-                            type: "GET",
-                            success: function (data) {
-                                $("#MassDeleteModifiersBtn").prop("disabled", true);
-                                PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
-                            }
-                        })
+            // Items To Show data in the edit modal
+            $("#addModifierModalId").on('click', function () {
+                $.ajax({
+                    url: "/Menu/AddModifierItem",
+                    type: "GET",
+                    success: function (data) {
+                        $("#AddModifierModal-MainDiv").html(data);
                     }
+                });
+            });
+        
+             // Modifier To Show data in the edit modal
+            $("#EditItemModal").on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var itemid = button.data("id");
+                if (itemid != null) {
+                    $.ajax({
+                        url: "/Menu/GetModifiersByModifierId",
+                        type: "GET",
+                        data: { itemid },
+                        success: function (data) {
+                            console.log("-----------Edit Modifier------------------");
+                            $("#EditModal").html(data);
+                        }
+                    });
                 }
-            })
-
+            });
+        
+        
+        // end of Ready
         });
-
     </script>
 
     @{

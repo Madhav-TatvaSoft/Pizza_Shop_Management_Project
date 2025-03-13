@@ -1,5 +1,6 @@
 using BLL.Interface;
 using DAL.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pizza_Shop_Project.Authorization;
 
@@ -9,12 +10,16 @@ namespace Pizza_Shop_Project.Controllers
     {
         private readonly IRolePermission _rolePermission;
 
+        #region RolePermission Constructor
         public RolePermissionController(IRolePermission rolePermission)
         {
             _rolePermission = rolePermission;
         }
+        #endregion
 
+        #region RoleDashboard
         //Fetching roles
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Role.View")]
         public IActionResult RoleDashboard()
         {
@@ -22,7 +27,10 @@ namespace Pizza_Shop_Project.Controllers
             var Roles = _rolePermission.GetAllRoles();
             return View(Roles);
         }
+        #endregion
 
+        #region Permission
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Role.AddEdit")]
         public IActionResult Permission(string name)
         {
@@ -31,6 +39,7 @@ namespace Pizza_Shop_Project.Controllers
             return View(permissions);
         }
 
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Role.AddEdit")]
         [HttpPost]
         public IActionResult Permission(List<RolesPermissionViewModel> rolesPermissionViewModel)
@@ -49,5 +58,7 @@ namespace Pizza_Shop_Project.Controllers
             return RedirectToAction("Permission", "RolePermission", new { name = rolesPermissionViewModel[0].RoleName });// 3rd para ma obj create krvopade bcoz
                                                                                                                          //  redirectToAction ma 3rd para obj accept kre string nai..nd get method ma name pass krva mate ahiyathi name no ob banavvi moklvu
         }
+        #endregion
+    
     }
 }

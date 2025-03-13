@@ -11,7 +11,7 @@ public class UserService : IUserService
     private readonly IJWTService _JWTService;
     private readonly IUserLoginService _userLoginService;
 
-    #region Constructor
+    #region User Service Constructor
     public UserService(PizzaShopDbContext context, IJWTService jwtService, IUserLoginService userLoginService)
     {
         _context = context;
@@ -197,7 +197,7 @@ public class UserService : IUserService
     }
     #endregion
 
-    #region GetUserByEmail
+    #region GetUserByEmail In Edit Page
     public List<AddUserViewModel> GetUserByEmail(string email)
     {
         var data = _context.Users.Include(x => x.Userlogin).Where(x => x.Userlogin.Email == email).Select(
@@ -262,7 +262,7 @@ public class UserService : IUserService
     }
     #endregion
 
-    #region UserNameExists in Adding
+    #region UserNameExists? in Adding
     public async Task<bool> IsUserNameExists(string Username)
     {
         var IsUserNameExists = await _context.Users.FirstOrDefaultAsync(x => x.Username == Username && x.Isdelete == false);
@@ -274,7 +274,7 @@ public class UserService : IUserService
     }
     #endregion
 
-    #region UserNameExists in Editing
+    #region UserNameExists? in Editing
     public bool IsUserNameExistsForEdit(string Username, string Email)
     {
         List<User> duplicateUsername = _context.Users.Where(x => x.Username == Username && x.Userlogin.Email != Email && x.Isdelete == false).ToList();
@@ -286,11 +286,13 @@ public class UserService : IUserService
     }
     #endregion
 
+    #region Get User From Email
     public List<User> getUserFromEmail(string token)
     {
         var claims = _JWTService.GetClaimsFromToken(token);
         var Email = _JWTService.GetClaimValue(token, "email");
         return _context.Users.Include(x => x.Userlogin).Where(x => x.Userlogin.Email == Email).ToList();
     }
+    #endregion
 
 }

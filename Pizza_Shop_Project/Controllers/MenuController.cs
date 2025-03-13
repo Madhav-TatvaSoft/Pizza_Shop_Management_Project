@@ -1,6 +1,7 @@
 using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Pizza_Shop_Project.Authorization;
@@ -14,14 +15,17 @@ namespace Pizza_Shop_Project.Controllers
 
         private readonly IUserLoginService _userLoginService;
 
+        #region Menu Constructor
         public MenuController(IMenuService menuService, IUserLoginService userLoginService, IUserService userService)
         {
             _menuService = menuService;
             _userLoginService = userLoginService;
             _userService = userService;
         }
+        #endregion
 
         #region Main-Menu-View
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.View")]
         public IActionResult Menu(long? catid, long? modgrpid, string search = "", int pageNumber = 1, int pageSize = 3)
         {
@@ -54,6 +58,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Pagination-Menu-Item
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.View")]
         public IActionResult PaginationMenuItemsByCategory(long? catid, string search = "", int pageNumber = 1, int pageSize = 3)
         {
@@ -69,6 +74,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Add-Category
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> AddCategory(Category category)
         {
@@ -87,6 +93,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Edit-Category
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> EditCategoryById(Category category)
         {
@@ -108,6 +115,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Delete-Category
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.Delete")]
         public async Task<IActionResult> DeleteCategory(long Cat_Id)
         {
@@ -124,6 +132,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Add-Items-From-Modal
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.AddEdit")]
         [HttpPost]
         public async Task<IActionResult> AddItem([FromForm] MenuViewModel MenuVm)
@@ -172,6 +181,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Delete-Items-From-Modal
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.Delete")]
         public async Task<IActionResult> DeleteItem(long itemid)
         {
@@ -188,6 +198,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Edit-Items-From-Modal
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.AddEdit")]
         public IActionResult GetItemsByItemId(long itemid)
         {
@@ -244,6 +255,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Pagination-Menu-Modifier
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.View")]
 
         public IActionResult PaginationMenuModifiersByModGroups(long? modgrpid, string search = "", int pageNumber = 1, int pageSize = 3)
@@ -258,8 +270,9 @@ namespace Pizza_Shop_Project.Controllers
             return PartialView("_ModifierPartial", menuData.PaginationForModifiersByModGroups);
         }
         #endregion
-    
+
         #region Delete-Modifiers-From-Modal
+        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.Delete")]
         public async Task<IActionResult> DeleteModifier(long modid)
         {
@@ -274,6 +287,70 @@ namespace Pizza_Shop_Project.Controllers
             return RedirectToAction("Menu", "Menu");
         }
         #endregion
-        
+
+        #region Add Modifier Item
+
+        [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Menu.AddEdit")]
+        public IActionResult AddModifierItem()
+        {
+            MenuViewModel MenuVM = new MenuViewModel();
+            MenuVM.modifierGroupList = _menuService.GetAllModifierGroupList();
+            return PartialView("_AddModifierPartial", MenuVM);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Menu.AddEdit")]
+        [HttpPost]
+        public async Task<IActionResult> AddModifierItem([FromForm] MenuViewModel MenuVm)
+        {
+            string token = Request.Cookies["AuthToken"];
+            var userData = _userService.getUserFromEmail(token);
+            long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
+            var addModifierStatus = await _menuService.AddModifierItem(MenuVm.addModifier, userId);
+
+            if (addModifierStatus)
+            {
+                // TempData["SuccessMessage"] = "Modifier added successfully";
+                return Json(new { });
+            }
+            // TempData["ErrorMessage"] = "Failed to add Modifier";
+            return RedirectToAction("Menu");
+        }
+        #endregion
+
+        #region Edit Modifier Item
+        [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Menu.AddEdit")]
+        public IActionResult GetModifiersByModifierId(long modid)
+        {
+            MenuViewModel MenuVM = new MenuViewModel();
+            MenuVM.modifierGroupList = _menuService.GetAllModifierGroupList();
+            MenuVM.addModifier = _menuService.GetModifiersByModifierId(modid);
+            return PartialView("_EditModifierPartial", MenuVM);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Menu.AddEdit")]
+        [HttpPost]
+        public async Task<IActionResult> EditModifierItem([FromForm] MenuViewModel MenuVm)
+        {
+            string token = Request.Cookies["AuthToken"];
+            var userData = _userService.getUserFromEmail(token);
+            long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
+            var editModifierStatus = await _menuService.EditModifierItem(MenuVm.addModifier, userId);
+
+            if (editModifierStatus)
+            {
+                // TempData["SuccessMessage"] = "Modifier Updated successfully";
+                return Json(new { });
+            }
+            // TempData["ErrorMessage"] = "Failed to Update Modifier";
+            return RedirectToAction("Menu");
+        }
+        #endregion
+
     }
 }

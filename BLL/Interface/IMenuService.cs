@@ -18,5 +18,8 @@ public interface IMenuService
     public Task<bool> EditItem(AddItemViewModel editItemVM, long userId);
     public Task<bool> DeleteItem(long itemid);
     public Task<bool> DeleteModifier(long modid);
+    public Task<bool> AddModifierItem(AddModifierViewModel addModifierVM,long userId);
+    public AddModifierViewModel GetModifiersByModifierId(long modid);
+    public Task<bool> EditModifierItem(AddModifierViewModel editModifierVM, long userId);
 
 }

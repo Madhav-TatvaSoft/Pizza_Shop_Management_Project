@@ -9,21 +9,28 @@ public class MenuService : IMenuService
 {
     private readonly PizzaShopDbContext _context;
 
+    #region Menu Service Constructor
     public MenuService(PizzaShopDbContext context)
     {
         _context = context;
     }
+    #endregion
 
+    #region Get All Categories
     public List<Category> GetAllCategories()
     {
         return _context.Categories.Where(x => x.Isdelete == false).ToList();
     }
+    #endregion
 
+    #region Get All Modifier Group List
     public List<Modifiergroup> GetAllModifierGroupList()
     {
         return _context.Modifiergroups.Where(x => x.Isdelete == false).ToList();
     }
+    #endregion
 
+    #region Pagination Model for Items
     public PaginationViewModel<ItemsViewModel> GetMenuItemsByCategory(long? catid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
         var query = _context.Items
@@ -61,7 +68,9 @@ public class MenuService : IMenuService
 
         return new PaginationViewModel<ItemsViewModel>(items, totalCount, pageNumber, pageSize);
     }
+    #endregion
 
+    #region Add Category
     public async Task<bool> AddCategory(Category category, long userId)
     {
         var isCategoryExistsAdd = _context.Categories.FirstOrDefault(x => x.CategoryName == category.CategoryName);
@@ -82,7 +91,9 @@ public class MenuService : IMenuService
             return false;
         }
     }
+    #endregion
 
+    #region Edit Category
     public async Task<bool> EditCategoryById(Category category, long Cat_Id, long userId)
     {
         if (category == null || Cat_Id == null)
@@ -109,7 +120,9 @@ public class MenuService : IMenuService
             }
         }
     }
+    #endregion
 
+    #region Delete Category
     public async Task<bool> DeleteCategory(long Cat_Id)
     {
         if (Cat_Id == null)
@@ -124,7 +137,9 @@ public class MenuService : IMenuService
         await _context.SaveChangesAsync();
         return true;
     }
+    #endregion
 
+    #region Add Item
     public async Task<bool> AddItem(AddItemViewModel addItemVM, long userId)
     {
         if (addItemVM.CategoryId == null)
@@ -154,7 +169,9 @@ public class MenuService : IMenuService
 
         }
     }
+    #endregion
 
+    #region Get Items By ItemId
     public AddItemViewModel GetItemsByItemId(long itemid)
     {
         var item = _context.Items.FirstOrDefault(x => x.ItemId == itemid && x.Isdelete == false);
@@ -176,7 +193,9 @@ public class MenuService : IMenuService
         }
         return additemVM;
     }
+    #endregion
 
+    #region Edit Item
     public async Task<bool> EditItem(AddItemViewModel editItemVM, long userId)
     {
         if (editItemVM.CategoryId == null)
@@ -206,7 +225,9 @@ public class MenuService : IMenuService
             return true;
         }
     }
+    #endregion
 
+    #region Delete Item
     public async Task<bool> DeleteItem(long itemid)
     {
         var itemToDelete = _context.Items.FirstOrDefault(x => x.ItemId == itemid);
@@ -217,7 +238,9 @@ public class MenuService : IMenuService
         await _context.SaveChangesAsync();
         return true;
     }
+    #endregion
 
+    #region Pagination Model for Modifiers
     public PaginationViewModel<ModifiersViewModel> GetMenuModifiersByModGroups(long? modgrpid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
         var query = _context.Modifiers.Include(x => x.ModifierGrp).Where(x => x.ModifierGrpId == modgrpid).Where(x => x.Isdelete == false)
@@ -249,7 +272,77 @@ public class MenuService : IMenuService
 
         return new PaginationViewModel<ModifiersViewModel>(items, totalCount, pageNumber, pageSize);
     }
+    #endregion
 
+    #region Add Modifier
+    public async Task<bool> AddModifierItem(AddModifierViewModel addModifierVM,long userId){
+        if (addModifierVM.ModifierGrpId == null)
+        {
+            return false;
+        }
+        else
+        {
+            Modifier modifier = new Modifier();
+            modifier.ModifierGrpId = addModifierVM.ModifierGrpId;
+            modifier.ModifierName = addModifierVM.ModifierName;
+            modifier.Rate = addModifierVM.Rate;
+            modifier.Quantity = addModifierVM.Quantity;
+            modifier.Unit = addModifierVM.Unit;
+            modifier.Description = addModifierVM.Description;
+            modifier.CreatedBy = userId;
+
+            await _context.Modifiers.AddAsync(modifier);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+    }
+    #endregion
+
+     #region Get Modifiers By ModifierId
+    public AddModifierViewModel GetModifiersByModifierId(long modid)
+    {
+        var modifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.Isdelete == false);
+        AddModifierViewModel addModifierVM = new();
+        {
+            addModifierVM.ModifierGrpId = modifier.ModifierGrpId;
+            addModifierVM.ModifierId = modifier.ModifierId;
+            addModifierVM.ModifierName = modifier.ModifierName;
+            addModifierVM.Description = modifier.Description;
+            addModifierVM.Quantity = (int)modifier.Quantity;
+            addModifierVM.Rate = modifier.Rate;
+            addModifierVM.Unit = modifier.Unit;
+        }
+        return addModifierVM;
+    }
+    #endregion
+
+    #region Edit Item
+    public async Task<bool> EditModifierItem(AddModifierViewModel editModifierVM, long userId)
+    {
+        if (editModifierVM.ModifierGrpId == null)
+        {
+            return false;
+        }
+        else
+        {
+            var modifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == editModifierVM.ModifierId && x.Isdelete == false);
+            modifier.ModifierGrpId = editModifierVM.ModifierGrpId;
+            modifier.ModifierName = editModifierVM.ModifierName;
+            modifier.Rate = editModifierVM.Rate;
+            modifier.Quantity = editModifierVM.Quantity;
+            modifier.Unit = editModifierVM.Unit;
+            modifier.Description = editModifierVM.Description;
+            modifier.ModifiedAt = DateTime.Now;
+            modifier.ModifiedBy = userId;
+
+            _context.Modifiers.Update(modifier);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+    }
+    #endregion
+
+    #region Delete Modifier
     public async Task<bool> DeleteModifier(long modid)
     {
         var modofierToDelete = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid);
@@ -260,6 +353,6 @@ public class MenuService : IMenuService
         await _context.SaveChangesAsync();
         return true;
     }
-
+    #endregion
 
 }

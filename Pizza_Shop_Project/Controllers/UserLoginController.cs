@@ -9,11 +9,14 @@ namespace Pizza_Shop_Project.Controllers
     {
         private readonly IUserLoginService _userLoginService;
         private readonly IJWTService _jwtService;
+
+        #region UserLogin Constructor
         public UserLoginController(IUserLoginService userLoginService, IJWTService jwtService)
         {
             this._userLoginService = userLoginService;
             this._jwtService = jwtService;
         }
+        #endregion
 
         #region VerifyUserLogin
         public IActionResult VerifyUserLogin()
@@ -28,7 +31,6 @@ namespace Pizza_Shop_Project.Controllers
             return View();
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -38,7 +40,7 @@ namespace Pizza_Shop_Project.Controllers
             var verification_token = await _userLoginService.VerifyUserLogin(userLogin);
 
             CookieOptions option = new CookieOptions();
-            option.Expires = DateTime.Now.AddMinutes(10);
+            option.Expires = DateTime.Now.AddHours(30);
 
             if (verification_token != null)
             {
@@ -81,10 +83,10 @@ namespace Pizza_Shop_Project.Controllers
             var userLogin = new UserLoginViewModel();
             userLogin.Email = forgotpassword.Email;
             var getpassword = _userLoginService.GetPassword(userLogin.Email);
-            var isSendEmail = await _userLoginService.IsSendEmail(userLogin);
+            var CheckEmailExists =  _userLoginService.CheckEmailExist(userLogin.Email);
             if (ModelState.IsValid)
             {
-                if (isSendEmail)
+                if (CheckEmailExists)
                 {
                     var resetLink = Url.Action("ResetPassword", "UserLogin", new { reset_token = _jwtService.GenerateResetToken(userLogin.Email, getpassword) }, Request.Scheme);
                     var sendEmail = await _userLoginService.SendEmail(forgotpassword, resetLink);

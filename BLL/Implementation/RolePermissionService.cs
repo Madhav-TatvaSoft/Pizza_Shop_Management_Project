@@ -9,16 +9,21 @@ public class RolePermissionService : IRolePermission
 {
     private readonly PizzaShopDbContext _context;
 
+    #region Role Permission Constructor
     public RolePermissionService(PizzaShopDbContext context)
     {
         _context = context;
     }
+    #endregion
 
+    #region Get All Roles
     public List<Role> GetAllRoles()
     {
         return _context.Roles.ToList();
     }
+    #endregion
 
+    #region Edit Permission Mapping
     public bool EditPermissionMapping(RolesPermissionViewModel rolepermissionmapping)
     {
         var data = _context.Rolepermissionmappings.FirstOrDefault(x => x.RolepermissionmappingId == rolepermissionmapping.RolepermissionmappingId);
@@ -34,11 +39,13 @@ public class RolePermissionService : IRolePermission
         _context.SaveChanges();
         return true;
     }
+    #endregion
 
+    #region Get Permissions By Role
     public List<RolesPermissionViewModel> GetPermissionByRole(string name)
     {
         List<Rolepermissionmapping> data = _context.Rolepermissionmappings.Include(x => x.Role).Include(x => x.Permission).Where(x => x.Role.RoleName == name).OrderBy(x => x.PermissionId).ToList();
-        
+
         List<RolesPermissionViewModel> permissions = new();
         for (int i = 0; i < data.Count; i++)
         {
@@ -55,4 +62,5 @@ public class RolePermissionService : IRolePermission
         }
         return permissions;
     }
+    #endregion
 }
