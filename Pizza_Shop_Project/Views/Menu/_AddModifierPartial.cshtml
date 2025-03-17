@@ -3,7 +3,7 @@
 
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Add New Modifier</h5>
+        <h5 class="modal-title fs-5 fw-bold text-secondary">Add New Modifier</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <form id="AddModifierForm">
@@ -11,11 +11,11 @@
             <div class="row">
                 <div class="form-floating col-6 p-1">
                     <select class="form-select" asp-for="@Model.addModifier.ModifierGrpId" id="selectGrpIdDropDown"
-                        aria-label="Floating label select example">
-                        @foreach (var modifier in Model.modifierGroupList)
+                        aria-label="Floating label select example" asp-items="ViewBag.modifierGroupList">
+                        @* @foreach (var modifier in Model.modifierGroupList)
                         {
                             <option value="@modifier.ModifierGrpId">@modifier.ModifierGrpName</option>
-                        }
+                        } *@
                     </select>
                     <label for="selectGrpIdDropDown">Modifier Group</label>
                 </div>
@@ -23,21 +23,21 @@
                     <input type="text" class="form-control" asp-for="@Model.addModifier.ModifierName" id="floatingInput"
                         placeholder="Name" required>
                     <label for="floatingInput">Name</label>
-                    <span asp-validation-for="@Model.addModifier.ModifierName"></span>
+                    <span asp-validation-for="@Model.addModifier.ModifierName" class="text-danger validate"></span>
                 </div>
 
                 <div class="form-floating col-4 p-1">
                     <input type="text" class="form-control" id="floatingInput" asp-for="@Model.addModifier.Rate"
                         placeholder="0" required>
                     <label for="floatingInput">Rate</label>
-                    <span asp-validation-for="@Model.addModifier.Rate"></span>
+                    <span asp-validation-for="@Model.addModifier.Rate" class="text-danger validate"></span>
 
                 </div>
                 <div class="form-floating col-4 p-1">
                     <input type="text" class="form-control" id="floatingInput" asp-for="@Model.addModifier.Quantity"
                         placeholder="0" required>
                     <label for="floatingInput">Quantity</label>
-                    <span asp-validation-for="@Model.addModifier.Quantity"></span>
+                    <span asp-validation-for="@Model.addModifier.Quantity" class="text-danger validate"></span>
                 </div>
                 <div class="form-floating col-4 p-1">
                     <select class="form-select" asp-for="@Model.addModifier.Unit" id="floatingSelect"
@@ -62,15 +62,13 @@
 </div>
 
 <partial name="_ValidationScriptsPartial" />
+<partial name="_Toaster"/>
 
 <script>
     // Modifier To Fill data in the Add modal 
     $("#AddModifierForm").on("submit", function (e) {
-        @* console.log("pela"); *@
         e.preventDefault();
-        @* console.log("pachi"); *@
         let form = $("#AddModifierForm");
-        @* console.log("form-", form); *@
         if (form.valid()) {
             let formData = new FormData(this);
             $.ajax({
@@ -80,7 +78,11 @@
                 processData: false,
                 data: formData,
                 success: function (data) {
-                    @* console.log("Post"); *@
+                    if(data.success){
+                        callSuccessToaster(data.text);
+                    }else{
+                        callErrorToaster(data.text);
+                    }
                     $(".btn-close").click();
                     PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
                     Modifier_Main_Checkbox_Select();

@@ -1,0 +1,28 @@
+@using DAL.ViewModels;
+@model PaginationViewModel<ModifiersViewModel>
+
+@if (Model.Items.Count == 0)
+{
+    <tr>
+        <td colspan="6" class="text-center text-danger fw-bold">No Data Found</td>
+    </tr>
+}
+else
+{
+    @foreach (var modifier in Model.Items)
+    {
+
+        <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
+            <td class="text-start text-nowrap align-content-center d-flex"><input id="modifier-@modifier.ModifierId"
+                    class="existing-modifier-sub-checkbox form-check-input me-3 mt-2"
+                    onclick="CheckBoxTickManageModExist(); Existing_Modifiers_Selected(this);" type="checkbox"
+                    data-checkid="@modifier.ModifierId">
+                <p class="ms-2 mt-2">@modifier.ModifierName</p>
+            </td>
+            <td class="text-start">@modifier.Unit</td>
+            <td class="text-start">@modifier.Rate</td>
+            <td class="text-start">@modifier.Quantity</td>
+        </tr>
+    }
+}
+<input type="hidden" value="@Model.TotalCount" id="totalRecordsHidden-modifier-exists">

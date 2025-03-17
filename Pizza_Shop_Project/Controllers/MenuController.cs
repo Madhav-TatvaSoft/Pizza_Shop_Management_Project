@@ -12,7 +12,6 @@ namespace Pizza_Shop_Project.Controllers
     {
         private readonly IMenuService _menuService;
         private readonly IUserService _userService;
-
         private readonly IUserLoginService _userLoginService;
 
         #region Menu Constructor
@@ -39,17 +38,9 @@ namespace Pizza_Shop_Project.Controllers
                 MenuVM.PaginationForItemByCategory = _menuService.GetMenuItemsByCategory(MenuVM.categoryList[0].CategoryId, search, pageNumber, pageSize);
             }
 
-            if (catid != null)
-            {
-                MenuVM.PaginationForItemByCategory = _menuService.GetMenuItemsByCategory(catid, search, pageNumber, pageSize);
-            }
             if (modgrpid == null)
             {
                 MenuVM.PaginationForModifiersByModGroups = _menuService.GetMenuModifiersByModGroups(MenuVM.modifierGroupList[0].ModifierGrpId, search, pageNumber, pageSize);
-            }
-            if (modgrpid != null)
-            {
-                MenuVM.PaginationForModifiersByModGroups = _menuService.GetMenuModifiersByModGroups(modgrpid, search, pageNumber, pageSize);
             }
 
             ViewData["sidebar-active"] = "Menu";
@@ -163,8 +154,7 @@ namespace Pizza_Shop_Project.Controllers
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "The Image format is not supported. Fill the form again !";
-                    return RedirectToAction("Menu", "Menu");
+                    return Json(new { success = false, text = "The Image format is not supported. Fill the form again !" });
                 }
             }
 
@@ -172,11 +162,9 @@ namespace Pizza_Shop_Project.Controllers
 
             if (addItemStatus)
             {
-                TempData["SuccessMessage"] = "Item added successfully";
-                return Json(new { });
+                return Json(new { success = true, text = "Item added successfully" });
             }
-            TempData["ErrorMessage"] = "Failed to add Item";
-            return RedirectToAction("Menu");
+            return Json(new { success = false, text = "Failed to add Item" });
         }
         #endregion
 
@@ -237,8 +225,7 @@ namespace Pizza_Shop_Project.Controllers
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "The Image format is not supported. Fill the form again !";
-                    return RedirectToAction("Menu", "Menu");
+                    return Json(new { success = false, text = "The Image format is not supported. Fill the form again !" });
                 }
             }
 
@@ -246,11 +233,9 @@ namespace Pizza_Shop_Project.Controllers
 
             if (editItemStatus)
             {
-                // TempData["SuccessMessage"] = "Item Updated successfully";
-                return Json(new { });
+                return Json(new { success = true, text = "Item Updated successfully" });
             }
-            TempData["ErrorMessage"] = "Failed to Update Item";
-            return RedirectToAction("Menu");
+            return Json(new { success = false, text = "Failed to Update Item" });
         }
         #endregion
 
@@ -260,31 +245,87 @@ namespace Pizza_Shop_Project.Controllers
 
         public IActionResult PaginationMenuModifiersByModGroups(long? modgrpid, string search = "", int pageNumber = 1, int pageSize = 3)
         {
-            MenuViewModel menuData = new MenuViewModel();
-            menuData.modifierGroupList = _menuService.GetAllModifierGroupList();
-
-            if (modgrpid != null)
+            try
             {
-                menuData.PaginationForModifiersByModGroups = _menuService.GetMenuModifiersByModGroups(modgrpid, search, pageNumber, pageSize);
+                MenuViewModel menuData = new MenuViewModel();
+                menuData.modifierGroupList = _menuService.GetAllModifierGroupList();
+
+                if (modgrpid != null)
+                {
+                    menuData.PaginationForModifiersByModGroups = _menuService.GetMenuModifiersByModGroups(modgrpid, search, pageNumber, pageSize);
+                }
+
+                return PartialView("_ModifierPartial", menuData.PaginationForModifiersByModGroups);
             }
-            return PartialView("_ModifierPartial", menuData.PaginationForModifiersByModGroups);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
         #endregion
 
-        #region Delete-Modifiers-From-Modal
+        #region Existing-Pagination-Menu-Modifier
+        [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Menu.View")]
+
+        public IActionResult ExistingPaginationMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 3)
+        {
+            try
+            {
+                MenuViewModel menuData = new MenuViewModel();
+                menuData.modifierGroupList = _menuService.GetAllModifierGroupList();
+
+                menuData.PaginationForModifiersByModGroups = _menuService.ExistingGetMenuModifiersByModGroups(search, pageNumber, pageSize);
+
+                return PartialView("_AddExistingModifierPartial", menuData.PaginationForModifiersByModGroups);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
+        #endregion
+
+        #region Add Modifier Group POST
+        [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Menu.AddEdit")]
+        [HttpPost]
+        public async Task<IActionResult> AddModifierGroup(MenuViewModel MenuVM)
+        {
+            string token = Request.Cookies["AuthToken"];
+            var userData = _userService.getUserFromEmail(token);
+            long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
+            var addModifierGroupStatus = await _menuService.AddModifierGroup(MenuVM.addModifierGroupVM, userId);
+            if (addModifierGroupStatus)
+            {
+                return Json(new { success = true, text = "Modifier Group Added successfully" });
+            }
+            return Json(new { success = false, text = "Failed to Add Modifier Group" });
+        }
+        #endregion
+
+        #region Delete Modifier Group POST
         [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.Delete")]
-        public async Task<IActionResult> DeleteModifier(long modid)
+        [HttpPost]
+        public async Task<IActionResult> DeleteModifierGroup(long modgrpid)
         {
-            var isDeleted = await _menuService.DeleteModifier(modid);
-
-            if (!isDeleted)
+            var deletemodifiergrpStatus = await _menuService.DeleteModifierGroup(modgrpid);
+            if (deletemodifiergrpStatus)
             {
-                TempData["ErrorMessage"] = "Modifier cannot be deleted";
-                return RedirectToAction("Menu", "Menu");
+                return Json(new { success = true, text = "Modifier Group Deleted successfully" });
             }
-            TempData["SuccessMessage"] = "Modifier deleted successfully";
-            return RedirectToAction("Menu", "Menu");
+            return Json(new { success = false, text = "Failed to Delete Modifier Group" });
+        }
+        #endregion
+
+        #region Get All ModifierGroup List
+        public IActionResult GetAllModifierGroupList()
+        {
+            MenuViewModel MenuData = new();
+            MenuData.modifierGroupList = _menuService.GetAllModifierGroupList();
+            return PartialView("_ModifierGroupPartial", MenuData);
         }
         #endregion
 
@@ -295,7 +336,8 @@ namespace Pizza_Shop_Project.Controllers
         public IActionResult AddModifierItem()
         {
             MenuViewModel MenuVM = new MenuViewModel();
-            MenuVM.modifierGroupList = _menuService.GetAllModifierGroupList();
+            var ModifierGroupList = _menuService.GetAllModifierGroupList();
+            ViewBag.modifierGroupList = new SelectList(ModifierGroupList, "ModifierGrpId", "ModifierGrpName");
             return PartialView("_AddModifierPartial", MenuVM);
         }
 
@@ -313,10 +355,10 @@ namespace Pizza_Shop_Project.Controllers
             if (addModifierStatus)
             {
                 // TempData["SuccessMessage"] = "Modifier added successfully";
-                return Json(new { });
+                return Json(new { success = true, text = "Modifier Added successfully" });
             }
             // TempData["ErrorMessage"] = "Failed to add Modifier";
-            return RedirectToAction("Menu");
+            return Json(new { success = false, text = "Failed to Add Modifier" });
         }
         #endregion
 
@@ -326,7 +368,8 @@ namespace Pizza_Shop_Project.Controllers
         public IActionResult GetModifiersByModifierId(long modid)
         {
             MenuViewModel MenuVM = new MenuViewModel();
-            MenuVM.modifierGroupList = _menuService.GetAllModifierGroupList();
+            var ModifierGroupList = _menuService.GetAllModifierGroupList();
+            ViewBag.modifierGroupList = new SelectList(ModifierGroupList, "ModifierGrpId", "ModifierGrpName");
             MenuVM.addModifier = _menuService.GetModifiersByModifierId(modid);
             return PartialView("_EditModifierPartial", MenuVM);
         }
@@ -345,12 +388,29 @@ namespace Pizza_Shop_Project.Controllers
             if (editModifierStatus)
             {
                 // TempData["SuccessMessage"] = "Modifier Updated successfully";
-                return Json(new { });
+                return Json(new { success = true, text = "Modifier Updated successfully" });
             }
             // TempData["ErrorMessage"] = "Failed to Update Modifier";
-            return RedirectToAction("Menu");
+            return Json(new { success = false, text = "Failed to Update Modifier" });
         }
         #endregion
 
+        #region Delete Modifiers From Modal
+        [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Menu.Delete")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteModifier(long modid)
+        {
+            var isDeleted = await _menuService.DeleteModifier(modid);
+
+            if (isDeleted)
+            {
+                // TempData["SuccessMessage"] = "Modifier deleted successfully";
+                return Json(new { success = true, text = "Modifier Deleted Successfully" });
+            }
+            // TempData["ErrorMessage"] = "Modifier cannot be deleted";
+            return Json(new { success = false, text = "Failed to Delete Modifier" });
+        }
+        #endregion
     }
 }

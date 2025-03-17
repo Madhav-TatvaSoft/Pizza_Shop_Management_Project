@@ -2,7 +2,7 @@
 
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add New Menu Item</h5>
+        <h5 class="modal-title fs-5 fw-bold text-secondary" id="exampleModalLabel">Add New Menu Item</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
 
@@ -178,23 +178,3 @@
 </div>
 
 <partial name="_ValidationScriptsPartial" />
-
-@* Toaster Message
-<script>
-    $(document).ready(function () {
-        var successMessage = '@TempData["SuccessMessage"]';
-        var errorMessage = '@TempData["ErrorMessage"]';
-        console.log("successMessage", successMessage);
-        toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-            "timeOut": "2000"
-        };
-        if (successMessage) {
-            toastr.success(successMessage);
-        }
-        if (errorMessage) {
-            toastr.error(errorMessage);
-        }
-    });
-</script> *@

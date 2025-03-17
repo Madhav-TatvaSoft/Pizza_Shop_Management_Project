@@ -1,3 +1,11 @@
+@using DAL.ViewModels
+@model MenuViewModel;
+
+@if (Model == null)
+{
+    <p>No modifiers found.</p>
+}
+
 <!-- Modifiers -->
 @{
     int index_mod = 0;
@@ -5,7 +13,7 @@
 @foreach (var mod in Model.modifierGroupList)
 {
     <a class="ModifierGet @(index_mod==0 ? "active-category" : "") d-flex align-items-center justify-content-between col-12 p-2 ps-3 text-decoration-none text-secondary"
-        data-id="@mod.ModifierGrpId" id="Mod_id">
+        data-id="@mod.ModifierGrpId">
 
         <div class="d-flex justify-content-start">
             <i class="fa-solid fa-grip-vertical me-2 mt-1"></i>

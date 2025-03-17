@@ -47,6 +47,7 @@ public class RolePermissionService : IRolePermission
         List<Rolepermissionmapping> data = _context.Rolepermissionmappings.Include(x => x.Role).Include(x => x.Permission).Where(x => x.Role.RoleName == name).OrderBy(x => x.PermissionId).ToList();
 
         List<RolesPermissionViewModel> permissions = new();
+
         for (int i = 0; i < data.Count; i++)
         {
             RolesPermissionViewModel obj = new();
@@ -57,7 +58,7 @@ public class RolePermissionService : IRolePermission
             obj.Canview = data[i].Canview;
             obj.Canaddedit = data[i].Canaddedit;
             obj.Candelete = data[i].Candelete;
-            // obj.Permissioncheck = data[i].Permissioncheck;
+            obj.Permissioncheck = data[i].Permissioncheck;
             permissions.Add(obj);
         }
         return permissions;

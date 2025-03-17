@@ -14,7 +14,8 @@ else
     {
         <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
             <td class="text-start text-nowrap align-content-center d-flex"><input
-                    class="modifier-sub-checkbox form-check-input me-3 mt-2" onclick=CheckBoxTickManageMod() type="checkbox" data-checkid="@item.ModifierId">
+                    class="modifier-sub-checkbox form-check-input me-3 mt-2" onclick=CheckBoxTickManageMod() type="checkbox"
+                    data-checkid="@item.ModifierId">
                 <p class="ms-2 mt-2">@item.ModifierName</p>
             </td>
             <td class="text-center">@item.Unit</td>
@@ -22,11 +23,12 @@ else
             <td class="text-center">@item.Quantity</td>
             <td class="text-center">
                 <i class="fa-solid fa-pen w-25" data-bs-toggle="modal" data-bs-target="#EditModifierModal"
-                    data-id="@item.ModifierGrpId"></i>
+                    data-id="@item.ModifierId" ></i>
                 <i class="fa-solid fa-trash-can ms-2 " data-bs-toggle="modal" data-bs-target="#delete-modifier-modal"
-                    data-id="@item.ModifierGrpId"></i>
+                    data-id="@item.ModifierId" onclick=GetIdForDeleteModifierItem(this) ></i>
             </td>
         </tr>
+
     }
 }
 <input type="hidden" id="totalRecordsHidden-modifier" value="@Model.TotalCount" />

@@ -151,12 +151,17 @@
                                 <i class="bi bi-list"></i></button>
 
                             <!-- offcanvas -->
-                            <div class="offcanvas-class offcanvas d-sm-none offcanvas-start" data-bs-scroll="true"
+                            <div class="offcanvas-class offcanvas d-sm-none offcanvas-start w-50" data-bs-scroll="true"
                                 data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling"
                                 aria-labelledby="offcanvasScrollingLabel">
 
                                 <div class="offcanvas-header">
-                                    <h5 class="offcanvas-title ms-3" id="offcanvasScrollingLabel">PIZZASHOP</h5>
+                                    <div class="logo-image d-flex  me-2">
+                                        <img src="../images/logos/pizzashop_logo.png" width="60px" alt="">
+                                        <div class="logo-text fs-5 mt-3 ps-2 fw-bold">PIZZASHOP</div>
+                                    </div>
+
+                                    @* <h5 class="offcanvas-title ms-3" id="offcanvasScrollingLabel">PIZZASHOP</h5> *@
 
                                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                                         aria-label="Close"></button>
@@ -250,6 +255,7 @@
                                         width="45px" height="45px">
                                 </button>
 
+                                <!-- User Profile Dropdown -->
                                 <ul class="dropdown-menu">
 
                                     <li>
@@ -282,16 +288,12 @@
 
         </div>
     </div>
-    @* <div class="container">
-    <main role="main" class="pb-3"> *@
-    @* </main>
-    </div> *@
 
 
 
 
 
-    @* Model *@
+    @* Logout Model *@
 
     <div class="modal" tabindex="-1" id="exampleModal">
         <div class="modal-dialog modal-dialog-centered">

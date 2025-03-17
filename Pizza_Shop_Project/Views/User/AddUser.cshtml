@@ -183,22 +183,25 @@
         $(document).ready(function () {
             $('#Countries').change(function () {
                 var countryId = $(this).val();
-                console.log(countryId);
+        @* console.log(countryId); *@
 
-                $.getJSON('@Url.Action("GetStates", "User")', { countryId: countryId }, function (states) {
-                    var statesSelect = $('#States');
-                    console.log(states);
-                    statesSelect.empty();
-                    $("#Cities").empty();
-                    statesSelect.append('<option selected value="">Select State</option>');
-                    $("#Cities").append('<option selected value="">Select City</option>');
-                    $.each(states, function (index, state) {
-                        statesSelect.append($('<option/>', {
-                            value: state.value,
-                            text: state.text
-                        }));
+                    $.getJSON('@Url.Action("GetStates", "User")', { countryId: countryId }, function (states) {
+                        var statesSelect = $('#States');
+                        // Returns the array of the states according to the Country.
+        @* console.log(states); *@
+                            statesSelect.empty();
+                        $("#Cities").empty();
+
+                        statesSelect.append('<option selected value="">Select State</option>');
+                        $("#Cities").append('<option selected value="">Select City</option>');
+
+                        $.each(states, function (index, state) {
+                            statesSelect.append($('<option/>', {
+                                value: state.value,
+                                text: state.text
+                            }));
+                        });
                     });
-                });
             });
             $('#States').change(function () {
                 var stateId = $(this).val();
@@ -223,11 +226,11 @@
             var successMessage = '@TempData["SuccessMessage"]';
             var errorMessage = '@TempData["ErrorMessage"]';
             var addUserErrorMessage = '@TempData["addUserErrorMessage"]';
-            console.log("successMessage", successMessage);
-            toastr.options = {
+        @* console.log("successMessage", successMessage); *@
+                toastr.options = {
                 "closeButton": true,
-                "progressBar": true,
-                "timeOut": "2000"
+                    "progressBar": true,
+                        "timeOut": "2000"
             };
             if (successMessage) {
                 toastr.success(successMessage);

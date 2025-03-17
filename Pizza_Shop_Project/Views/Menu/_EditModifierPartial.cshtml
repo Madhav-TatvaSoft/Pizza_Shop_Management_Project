@@ -1,0 +1,94 @@
+@using DAL.ViewModels;
+@model MenuViewModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title fs-5 fw-bold text-secondary">Add New Modifier</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form id="EditModifierForm">
+        <div class="modal-body">
+            <div class="row">
+                <div class="form-floating col-6 p-1">
+                    <select class="form-select" asp-for="@Model.addModifier.ModifierGrpId" id="selectGrpIdDropDown"
+                        aria-label="Floating label select example" asp-items="ViewBag.modifierGroupList">
+                        @* @foreach (var modifier in Model.modifierGroupList)
+                        {
+                            <option value="@modifier.ModifierGrpId">@modifier.ModifierGrpName</option>
+                        } *@
+                    </select>
+                    <label for="selectGrpIdDropDown">Modifier Group</label>
+                </div>
+                <div class="form-floating col-6 p-1">
+                    <input type="text" class="form-control" asp-for="@Model.addModifier.ModifierName" id="floatingInput"
+                        placeholder="Name" required>
+                    <label for="floatingInput">Name</label>
+                    <span asp-validation-for="@Model.addModifier.ModifierName" class="text-danger validate"></span>
+                </div>
+
+                <div class="form-floating col-4 p-1">
+                    <input type="text" class="form-control" id="floatingInput" asp-for="@Model.addModifier.Rate"
+                        placeholder="0" required>
+                    <label for="floatingInput">Rate</label>
+                    <span asp-validation-for="@Model.addModifier.Rate" class="text-danger validate"></span>
+
+                </div>
+                <div class="form-floating col-4 p-1">
+                    <input type="text" class="form-control" id="floatingInput" asp-for="@Model.addModifier.Quantity"
+                        placeholder="0" required>
+                    <label for="floatingInput">Quantity</label>
+                    <span asp-validation-for="@Model.addModifier.Quantity" class="text-danger validate"></span>
+                </div>
+                <div class="form-floating col-4 p-1">
+                    <select class="form-select" asp-for="@Model.addModifier.Unit" id="floatingSelect"
+                        aria-label="Floating label select example">
+                        <option value="pcs">Pieces</option>
+                        <option value="cm">Centimeter</option>
+                    </select>
+                    <label for="floatingSelect">Unit</label>
+                </div>
+                <div class="form-floating col-12 p-1">
+                    <textarea class="form-control" asp-for="@Model.addModifier.Description"
+                        placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea">Description</label>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" asp-for="@Model.addModifier.ModifierId" value="@Model.addModifier.ModifierId" />
+        <div class=" modal-footer">
+            <button type="submit" class="btn solid-btn">save</button>
+            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">cancel</button>
+        </div>
+    </form>
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+<partial name="_Toaster" />
+
+<script>
+    // Modifier To Fill data in the Edit modal 
+    $("#EditModifierForm").on("submit", function (e) {
+        e.preventDefault();
+        let form = $("#EditModifierForm");
+        if (form.valid()) {
+            let formData = new FormData(this);
+            $.ajax({
+                url: "/Menu/EditModifierItem",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    if (data.success) {
+                        callSuccessToaster(data.text);
+                    } else {
+                        callErrorToaster(data.text);
+                    }
+                    $(".btn-close").click();
+                    PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
+                    Modifier_Main_Checkbox_Select();
+                }
+            });
+        }
+    });
+</script>
