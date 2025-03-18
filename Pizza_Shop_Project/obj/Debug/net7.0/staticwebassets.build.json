@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "2xesIXRsI2fmRAJamtWZEeFQ5gpocsSOk7szJq8pLxQ=",
+  "Hash": "dtTvF/X/L3VOndpmgzEqwmorp0y2Glh1SGEqmIL0Kx0=",
   "Source": "Pizza_Shop_Project",
   "BasePath": "_content/Pizza_Shop_Project",
   "Mode": "Default",
@@ -2701,6 +2701,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\c9d8c964-f902-4229-b2f5-43b9dcaf9d05_toppng.com-warning-icon-2400x2400.png"
+    },
+    {
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\cb7247fc-bdb0-44fb-b137-9b95faaeb4dc_Default_pfp.svg.png",
+      "SourceId": "Pizza_Shop_Project",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "BasePath": "_content/Pizza_Shop_Project",
+      "RelativePath": "uploads/cb7247fc-bdb0-44fb-b137-9b95faaeb4dc_Default_pfp.svg.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\cb7247fc-bdb0-44fb-b137-9b95faaeb4dc_Default_pfp.svg.png"
     },
     {
       "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\cc6bc0b5-11eb-4d00-8de1-4cc04b43c8ff_Screenshot 2025-02-19 222730.png",

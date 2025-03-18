@@ -90,7 +90,7 @@
                         <!-- Table and Section -->
                         @if ((await AuthorizationService.AuthorizeAsync(User, "TableSection.View")).Succeeded)
                         {
-                            <a class="text-decoration-none dashboard-text-inactive ">
+                            <a asp-action="Menu" asp-Controller="Menu" class="text-decoration-none dashboard-text-inactive ">
                                 <div class="dashboard-active-div d-flex p-3">
                                     <i class="fa-solid fa-table-cells-large mt-1 "></i>
                                     <p class="mt-1 m-0 ms-3 fw-bold text-nowrap">Table and Section</p>

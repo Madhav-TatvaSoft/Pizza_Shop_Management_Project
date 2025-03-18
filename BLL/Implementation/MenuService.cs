@@ -285,7 +285,7 @@ public class MenuService : IMenuService
     }
     #endregion
 
-    #region Pagination Model for Existing Modifiers
+    #region Pagination Model for Add Existing Modifiers
     public PaginationViewModel<ModifiersViewModel> ExistingGetMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 5)
     {
 
@@ -320,6 +320,180 @@ public class MenuService : IMenuService
     }
     #endregion
 
+    // #region Pagination Model for Edit Existing Modifiers
+    // public PaginationViewModel<ModifiersViewModel> EditExistingGetMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 5)
+    // {
+
+    //     var query = _context.Modifiers.Where(x => x.Isdelete == false)
+    //        .Select(x => new ModifiersViewModel
+    //        {
+    //            ModifierId = x.ModifierId,
+    //            ModifierName = x.ModifierName,
+    //            ModifierGrpId = x.ModifierGrpId,
+    //            Unit = x.Unit,
+    //            Rate = x.Rate,
+    //            Quantity = x.Quantity,
+    //            Isdelete = x.Isdelete
+    //        })
+    //        .AsQueryable();
+
+    //     //search 
+    //     if (!string.IsNullOrEmpty(search))
+    //     {
+    //         string lowerSearchTerm = search.ToLower();
+    //         query = query.Where(x => x.ModifierName.ToLower().Contains(lowerSearchTerm)
+    //         );
+    //     }
+
+    //     // Get total records count (before pagination)
+    //     int totalCount = query.Count();
+
+    //     // Apply pagination
+    //     var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+    //     return new PaginationViewModel<ModifiersViewModel>(items, totalCount, pageNumber, pageSize);
+    // }
+    // #endregion
+
+    #region Add Modifier Group
+    public async Task<bool> AddModifierGroup(AddModifierGroupViewModel addModifierGroupVM, long userId)
+    {
+        var presentModifiergroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpName == addModifierGroupVM.ModifierGrpName && x.Isdelete == false);
+
+        if (presentModifiergroup != null)
+        {
+            return false;
+        }
+        Modifiergroup modifiergroup = new();
+        modifiergroup.ModifierGrpName = addModifierGroupVM.ModifierGrpName;
+        modifiergroup.Desciption = addModifierGroupVM.Desciption;
+        modifiergroup.CreatedBy = userId;
+
+        await _context.AddAsync(modifiergroup);
+        await _context.SaveChangesAsync();
+
+        var modifierTempId = addModifierGroupVM.Temp_Ids.Split(",");
+
+        for (int i = 0; i < modifierTempId.Length; i++)
+        {
+
+            var modifierExist = await _context.Modifiers.FirstOrDefaultAsync(x => x.ModifierId == int.Parse(modifierTempId[i]) && x.Isdelete == false);
+
+            Modifier modifier = new();
+
+            modifier.ModifierGrpId = presentModifiergroup.ModifierGrpId;
+            modifier.ModifierName = modifierExist.ModifierName;
+            modifier.Unit = modifierExist.Unit;
+            modifier.Rate = modifierExist.Rate;
+            modifier.Quantity = modifierExist.Quantity;
+            modifier.Description = modifierExist.Description;
+            modifier.CreatedBy = userId;
+
+            await _context.AddAsync(modifier);
+            await _context.SaveChangesAsync();
+        }
+        return true;
+    }
+    #endregion
+
+    #region Edit Modifier Group
+    public Modifiergroup GetModifierGroupByModifierGroupId(long modgrpid)
+    {
+        var modifierGroup = _context.Modifiergroups.FirstOrDefault(x => x.ModifierGrpId == modgrpid && x.Isdelete == false);
+        return modifierGroup;
+    }
+    public List<ModifiersViewModel> GetModifiersByModifierGroupId(long modgrpid)
+    {
+        var modifiers = _context.Modifiers.Where(x => x.ModifierGrpId == modgrpid && x.Isdelete == false).Select(x => new ModifiersViewModel
+        {
+            ModifierGrpId = x.ModifierGrpId,
+            ModifierId = x.ModifierId,
+            ModifierName = x.ModifierName,
+            Rate = x.Rate,
+            Quantity = x.Quantity,
+            Unit = x.Unit,
+            Isdelete = x.Isdelete
+        }).ToList();
+        return modifiers;
+    }
+    public async Task<bool> AddModToModifierGrpAfterEdit(long modgrpid, long modid, long userId)
+    {
+
+        var existingModifier = await _context.Modifiers.Where(x => x.ModifierId == modid && x.Isdelete == false).ToListAsync();
+
+        if (existingModifier != null)
+        {
+            Modifier modifier = new Modifier();
+            modifier.ModifierGrpId = modgrpid;
+            modifier.ModifierName = existingModifier[0].ModifierName;
+            modifier.Rate = existingModifier[0].Rate;
+            modifier.Quantity = existingModifier[0].Quantity;
+            modifier.Unit = existingModifier[0].Unit;
+            modifier.Description = existingModifier[0].Description;
+            modifier.CreatedBy = userId;
+
+            await _context.Modifiers.AddAsync(modifier);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        return false;
+    }
+    public async Task<bool> DeleteModToModifierGrpAfterEdit(long modid, long modgrpid)
+    {
+        var existingModifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.ModifierGrpId == modgrpid && x.Isdelete == false);
+        
+        if (existingModifier != null)
+        {
+            existingModifier.Isdelete = true;
+            _context.Update(existingModifier);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        return false;
+    }
+    public async Task<bool> EditModifierGroup(AddModifierGroupViewModel editModifierGroupVM, long userId)
+    {
+        if (editModifierGroupVM.ModifierGrpId == null)
+        {
+            return false;
+        }
+        else
+        {
+            var existingModifierGroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpId == editModifierGroupVM.ModifierGrpId && !x.Isdelete);
+            existingModifierGroup.ModifierGrpName = editModifierGroupVM.ModifierGrpName;
+            existingModifierGroup.Desciption = editModifierGroupVM.Desciption;
+            existingModifierGroup.ModifiedAt = DateTime.Now;
+            existingModifierGroup.ModifiedBy = userId;
+
+            _context.Modifiergroups.Update(existingModifierGroup);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+    }
+
+    #endregion
+
+    #region Delete Modifier Group
+    public async Task<bool> DeleteModifierGroup(long modgrpid)
+    {
+        Modifiergroup modifierGroupToDelete = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpId == modgrpid);
+
+        List<Modifier> existingModifiers = _context.Modifiers.Where(x => x.ModifierGrpId == modgrpid).ToList();
+
+        for (int i = 0; i < existingModifiers.Count; i++)
+        {
+            existingModifiers[i].Isdelete = true;
+            _context.Update(existingModifiers[i]);
+            _context.SaveChanges();
+        }
+        modifierGroupToDelete.ModifierGrpName = modifierGroupToDelete.ModifierGrpName + DateTime.Now;
+        modifierGroupToDelete.Isdelete = true;
+        _context.Update(modifierGroupToDelete);
+        _context.SaveChanges();
+        return true;
+    }
+    #endregion
+
     #region Add Modifier
     public async Task<bool> AddModifierItem(AddModifierViewModel addModifierVM, long userId)
     {
@@ -347,71 +521,6 @@ public class MenuService : IMenuService
             await _context.SaveChangesAsync();
             return true;
         }
-    }
-    #endregion
-
-    #region Add Modifier Group
-    public async Task<bool> AddModifierGroup(AddModifierGroupViewModel addModifierGroupVM, long userId)
-    {
-        var presentModifiergroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpName == addModifierGroupVM.ModifierGrpName && x.Isdelete == false);
-
-        if (presentModifiergroup != null)
-        {
-            return false;
-        }
-        Modifiergroup modifiergroup = new();
-        modifiergroup.ModifierGrpName = addModifierGroupVM.ModifierGrpName;
-        modifiergroup.Desciption = addModifierGroupVM.Desciption;
-        modifiergroup.CreatedBy = userId;
-
-        await _context.AddAsync(modifiergroup);
-        await _context.SaveChangesAsync();
-
-        var modifiergroupadded = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpName == addModifierGroupVM.ModifierGrpName && x.Isdelete == false);
-
-        var modifierTempId = addModifierGroupVM.Temp_Ids.Split(",");
-
-        for (int i = 0; i < modifierTempId.Length; i++)
-        {
-
-            var modifierExist = await _context.Modifiers.FirstOrDefaultAsync(x => x.ModifierId == int.Parse(modifierTempId[i]) && x.Isdelete == false);
-
-            Modifier modifier = new();
-
-            modifier.ModifierGrpId = modifiergroupadded.ModifierGrpId;
-            modifier.ModifierName = modifierExist.ModifierName;
-            modifier.Unit = modifierExist.Unit;
-            modifier.Rate = modifierExist.Rate;
-            modifier.Quantity = modifierExist.Quantity;
-            modifier.Description = modifierExist.Description;
-            modifier.CreatedBy = userId;
-
-            await _context.AddAsync(modifier);
-            await _context.SaveChangesAsync();
-        }
-
-        return true;
-    }
-    #endregion
-
-    #region Delete Modifier Group
-    public async Task<bool> DeleteModifierGroup(long modgrpid)
-    {
-        Modifiergroup modifierGroupToDelete = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpId == modgrpid);
-
-        List<Modifier> existingModifiers = _context.Modifiers.Where(x => x.ModifierGrpId == modgrpid).ToList();
-
-        for (int i = 0; i < existingModifiers.Count; i++)
-        {
-            existingModifiers[i].Isdelete = true;
-            _context.Update(existingModifiers[i]);
-            _context.SaveChanges();
-        }
-        modifierGroupToDelete.ModifierGrpName = modifierGroupToDelete.ModifierGrpName + DateTime.Now;
-        modifierGroupToDelete.Isdelete = true;
-        _context.Update(modifierGroupToDelete);
-        _context.SaveChanges();
-        return true;
     }
     #endregion
 

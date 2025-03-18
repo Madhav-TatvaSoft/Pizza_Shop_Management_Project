@@ -72,7 +72,7 @@ public class UserLoginService : IUserLoginService
         {
             try
             {
-                var senderEmail = new MailAddress("tatva.pca42@outlook.com", "sender");
+                var senderEmail = new MailAddress("tatvasoft.pca106@outlook.com", "sender");
                 var receiverEmail = new MailAddress(forgotpassword.Email, "reciever");
                 var password = "P}N^{z-]7Ilp";
                 var sub = "Forgot Password";

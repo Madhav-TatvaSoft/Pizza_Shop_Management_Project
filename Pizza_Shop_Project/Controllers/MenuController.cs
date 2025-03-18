@@ -286,6 +286,27 @@ namespace Pizza_Shop_Project.Controllers
         }
         #endregion
 
+        // #region Edit-Existing-Pagination-Menu-Modifier
+        // [Authorize(Roles = "Admin")]
+        // [PermissionAuthorize("Menu.View")]
+        // public IActionResult EditExistingPaginationMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 3)
+        // {
+        //     try
+        //     {
+        //         MenuViewModel menuData = new MenuViewModel();
+        //         menuData.modifierGroupList = _menuService.GetAllModifierGroupList();
+
+        //         menuData.PaginationForModifiersByModGroups = _menuService.EditExistingGetMenuModifiersByModGroups(search, pageNumber, pageSize);
+
+        //         return PartialView("_AddExistingModifierPartial", menuData.PaginationForModifiersByModGroups);
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, $"Internal Server Error: {ex.Message}");
+        //     }
+        // }
+        // #endregion
+
         #region Add Modifier Group POST
         [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.AddEdit")]
@@ -303,6 +324,66 @@ namespace Pizza_Shop_Project.Controllers
             }
             return Json(new { success = false, text = "Failed to Add Modifier Group" });
         }
+        #endregion
+
+        #region Edit Modifier Group 
+
+        [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Menu.AddEdit")]
+        public IActionResult GetModifierGroupByModifierGroupId(long modgrpid)
+        {
+            var modifiers = _menuService.GetModifiersByModifierGroupId(modgrpid);
+            var modifierGroup = _menuService.GetModifierGroupByModifierGroupId(modgrpid);
+            return Json(new { modifiers, modifierGroup });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Menu.AddEdit")]
+        [HttpPost]
+        public async Task<IActionResult> AddModToModifierGrpAfterEdit(long modgrpid, long modid)
+        {
+            string token = Request.Cookies["AuthToken"];
+            var userData = _userService.getUserFromEmail(token);
+            long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
+            var addModToModifierGrpStatus = await _menuService.AddModToModifierGrpAfterEdit(modgrpid, modid, userId);
+            if (addModToModifierGrpStatus)
+            {
+                return Json(new { success = true, text = "Modifier Added to Modifier Group successfully" });
+            }
+            return Json(new { success = false, text = "Failed to Add Modifier to Modifier Group" });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Menu.AddEdit")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteModToModifierGrpAfterEdit(long modid, long modgrpid)
+        {
+            var deleteModToModifierGrpStatus = await _menuService.DeleteModToModifierGrpAfterEdit(modid, modgrpid);
+            if (deleteModToModifierGrpStatus)
+            {
+                return Json(new { success = true, text = "Modifier Deleted from Modifier Group successfully" });
+            }
+            return Json(new { success = false, text = "Failed to Delete Modifier from Modifier Group" });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Menu.AddEdit")]
+        [HttpPost]
+        public async Task<IActionResult> EditModifierGroup(MenuViewModel MenuVM)
+        {
+            string token = Request.Cookies["AuthToken"];
+            var userData = _userService.getUserFromEmail(token);
+            long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
+            var editModifierGroupStatus = await _menuService.EditModifierGroup(MenuVM.addModifierGroupVM, userId);
+            if (editModifierGroupStatus)
+            {
+                return Json(new { success = true, text = "Modifier Group Updated successfully" });
+            }
+            return Json(new { success = false, text = "Failed to Update Modifier Group" });
+        }
+
         #endregion
 
         #region Delete Modifier Group POST
