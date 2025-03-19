@@ -9,8 +9,6 @@ public partial class AssignTable
 
     public long CustomerId { get; set; }
 
-    public long TableId { get; set; }
-
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? ModifiedAt { get; set; }
@@ -20,6 +18,8 @@ public partial class AssignTable
     public long? CreatedBy { get; set; }
 
     public long? ModifiedBy { get; set; }
+
+    public long TableId { get; set; }
 
     public virtual User? CreatedByNavigation { get; set; }
 

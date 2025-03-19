@@ -4,6 +4,7 @@ using DAL.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using Pizza_Shop_Project.Authorization;
 
 namespace Pizza_Shop_Project.Controllers
@@ -31,8 +32,11 @@ namespace Pizza_Shop_Project.Controllers
             MenuViewModel MenuVM = new();
             MenuVM.categoryList = _menuService.GetAllCategories();
             MenuVM.modifierGroupList = _menuService.GetAllModifierGroupList();
+            ViewBag.categoryList = new SelectList(_menuService.GetAllCategories(), "CategoryId", "CategoryName");
+
 
             ViewBag.modifierGroupList = new SelectList(_menuService.GetAllModifierGroupList(), "ModifierGrpId", "ModifierGrpName");
+
             if (catid == null)
             {
                 MenuVM.PaginationForItemByCategory = _menuService.GetMenuItemsByCategory(MenuVM.categoryList[0].CategoryId, search, pageNumber, pageSize);
@@ -132,6 +136,20 @@ namespace Pizza_Shop_Project.Controllers
             var userData = _userService.getUserFromEmail(token);
             long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
+            List<ItemModifierViewModel> deserializedData = JsonConvert.DeserializeObject<List<ItemModifierViewModel>>(MenuVm.itemData);
+
+            if (deserializedData != null)
+            {
+                MenuVm.addItems = MenuVm.addItems ?? new AddItemViewModel();
+                MenuVm.addItems.itemModifiersVM = MenuVm.addItems.itemModifiersVM ?? new List<ItemModifierViewModel>();
+
+                foreach (ItemModifierViewModel deItems in deserializedData)
+                {
+                    MenuVm.addItems.itemModifiersVM.Add(deItems);
+                }
+            }
+
+
             if (MenuVm.addItems.ItemFormImage != null)
             {
                 var extension = MenuVm.addItems.ItemFormImage.FileName.Split(".");
@@ -166,6 +184,37 @@ namespace Pizza_Shop_Project.Controllers
             }
             return Json(new { success = false, text = "Failed to add Item" });
         }
+
+        public IActionResult GetModifiersByGroup(string data)
+        {
+            MenuViewModel MenuVM = new MenuViewModel();
+
+            List<ItemModifierViewModel> deserializedData = JsonConvert.DeserializeObject<List<ItemModifierViewModel>>(data);
+
+            if (deserializedData != null)
+            {
+                MenuVM.addItems = MenuVM.addItems ?? new AddItemViewModel();
+                MenuVM.addItems.itemModifiersVM = MenuVM.addItems.itemModifiersVM ?? new List<ItemModifierViewModel>();
+
+                var i = 0;
+
+                foreach (ItemModifierViewModel deItems in deserializedData)
+                {
+                    MenuVM.addItems.itemModifiersVM.Add(deItems);
+                    MenuVM.addItems.itemModifiersVM[i].modifiersList = _menuService.GetModifiersByGroup(deItems.ModifierGrpId);
+                    MenuVM.addItems.itemModifiersVM[i].ModifierGrpName = _menuService.GetModifiersGroupName(deItems.ModifierGrpId);
+                    i++;
+                }
+            }
+
+            MenuVM.categoryList = _menuService.GetAllCategories();
+            MenuVM.modifierGroupList = _menuService.GetAllModifierGroupList();
+
+            ViewBag.categoryList = new SelectList(_menuService.GetAllCategories(), "CategoryId", "CategoryName");
+            ViewBag.modifierGroupList = new SelectList(_menuService.GetAllModifierGroupList(), "ModifierGrpId", "ModifierGrpName");
+
+            return PartialView("_ModifierByGroup", MenuVM);
+        }
         #endregion
 
         #region Delete-Items-From-Modal
@@ -186,14 +235,45 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Edit-Items-From-Modal
+
         [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.AddEdit")]
         public IActionResult GetItemsByItemId(long itemid)
         {
             MenuViewModel MenuVM = new MenuViewModel();
             MenuVM.categoryList = _menuService.GetAllCategories();
+            MenuVM.modifierGroupList = _menuService.GetAllModifierGroupList();
+            ViewBag.categoryList = new SelectList(_menuService.GetAllCategories(), "CategoryId", "CategoryName");
+            ViewBag.modifierGroupList = new SelectList(_menuService.GetAllModifierGroupList(), "ModifierGrpId", "ModifierGrpName");
             MenuVM.addItems = _menuService.GetItemsByItemId(itemid);
             return PartialView("_EditItemPartial", MenuVM);
+        }
+
+        public IActionResult EditModifiersByGroup(string data)
+        {
+            MenuViewModel MenuVM = new MenuViewModel();
+            List<ItemModifierViewModel> deserializedData = JsonConvert.DeserializeObject<List<ItemModifierViewModel>>(data);
+
+            if (deserializedData != null)
+            {
+                MenuVM.addItems = MenuVM.addItems ?? new AddItemViewModel();
+                MenuVM.addItems.itemModifiersVM = MenuVM.addItems.itemModifiersVM ?? new List<ItemModifierViewModel>();
+                var i = 0;
+                foreach (ItemModifierViewModel deItems in deserializedData)
+                {
+                    MenuVM.addItems.itemModifiersVM.Add(deItems);
+                    MenuVM.addItems.itemModifiersVM[i].modifiersList = _menuService.GetModifiersByGroup(deItems.ModifierGrpId);
+                    MenuVM.addItems.itemModifiersVM[i].ModifierGrpName = _menuService.GetModifiersGroupName(deItems.ModifierGrpId);
+                    i++;
+                }
+            }
+
+            MenuVM.categoryList = _menuService.GetAllCategories();
+            MenuVM.modifierGroupList = _menuService.GetAllModifierGroupList();
+            ViewBag.categoryList = new SelectList(_menuService.GetAllCategories(), "CategoryId", "CategoryName");
+            ViewBag.modifierGroupList = new SelectList(_menuService.GetAllModifierGroupList(), "ModifierGrpId", "ModifierGrpName");
+
+            return PartialView("_EditModifierByGroup", MenuVM);
         }
 
         [HttpPost]
@@ -202,6 +282,19 @@ namespace Pizza_Shop_Project.Controllers
             string token = Request.Cookies["AuthToken"];
             var userData = _userService.getUserFromEmail(token);
             long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
+            List<ItemModifierViewModel> deserializedData = JsonConvert.DeserializeObject<List<ItemModifierViewModel>>(MenuVm.itemData);
+
+            if (deserializedData != null)
+            {
+                MenuVm.addItems = MenuVm.addItems ?? new AddItemViewModel();
+                MenuVm.addItems.itemModifiersVM = MenuVm.addItems.itemModifiersVM ?? new List<ItemModifierViewModel>();
+
+                foreach (ItemModifierViewModel deItems in deserializedData)
+                {
+                    MenuVm.addItems.itemModifiersVM.Add(deItems);
+                }
+            }
 
             if (MenuVm.addItems.ItemFormImage != null)
             {
@@ -240,7 +333,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Pagination-Menu-Modifier
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.View")]
 
         public IActionResult PaginationMenuModifiersByModGroups(long? modgrpid, string search = "", int pageNumber = 1, int pageSize = 3)
@@ -286,26 +379,26 @@ namespace Pizza_Shop_Project.Controllers
         }
         #endregion
 
-        // #region Edit-Existing-Pagination-Menu-Modifier
-        // [Authorize(Roles = "Admin")]
-        // [PermissionAuthorize("Menu.View")]
-        // public IActionResult EditExistingPaginationMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 3)
-        // {
-        //     try
-        //     {
-        //         MenuViewModel menuData = new MenuViewModel();
-        //         menuData.modifierGroupList = _menuService.GetAllModifierGroupList();
+        #region Edit-Existing-Pagination-Menu-Modifier
+        [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Menu.View")]
+        public IActionResult EditExistingPaginationMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 3)
+        {
+            try
+            {
+                MenuViewModel menuData = new MenuViewModel();
+                menuData.modifierGroupList = _menuService.GetAllModifierGroupList();
 
-        //         menuData.PaginationForModifiersByModGroups = _menuService.EditExistingGetMenuModifiersByModGroups(search, pageNumber, pageSize);
+                menuData.PaginationForModifiersByModGroups = _menuService.EditExistingGetMenuModifiersByModGroups(search, pageNumber, pageSize);
 
-        //         return PartialView("_AddExistingModifierPartial", menuData.PaginationForModifiersByModGroups);
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         return StatusCode(500, $"Internal Server Error: {ex.Message}");
-        //     }
-        // }
-        // #endregion
+                return PartialView("_AddExistingModifierPartial", menuData.PaginationForModifiersByModGroups);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
+        #endregion
 
         #region Add Modifier Group POST
         [Authorize(Roles = "Admin")]
@@ -337,52 +430,52 @@ namespace Pizza_Shop_Project.Controllers
             return Json(new { modifiers, modifierGroup });
         }
 
-        [Authorize(Roles = "Admin")]
-        [PermissionAuthorize("Menu.AddEdit")]
-        [HttpPost]
-        public async Task<IActionResult> AddModToModifierGrpAfterEdit(long modgrpid, long modid)
-        {
-            string token = Request.Cookies["AuthToken"];
-            var userData = _userService.getUserFromEmail(token);
-            long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+        // [Authorize(Roles = "Admin")]
+        // [PermissionAuthorize("Menu.AddEdit")]
+        // [HttpPost]
+        // public async Task<IActionResult> AddModToModifierGrpAfterEdit(long modgrpid, long modid)
+        // {
+        //     string token = Request.Cookies["AuthToken"];
+        //     var userData = _userService.getUserFromEmail(token);
+        //     long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-            var addModToModifierGrpStatus = await _menuService.AddModToModifierGrpAfterEdit(modgrpid, modid, userId);
-            if (addModToModifierGrpStatus)
-            {
-                return Json(new { success = true, text = "Modifier Added to Modifier Group successfully" });
-            }
-            return Json(new { success = false, text = "Failed to Add Modifier to Modifier Group" });
-        }
+        //     var addModToModifierGrpStatus = await _menuService.AddModToModifierGrpAfterEdit(modgrpid, modid, userId);
+        //     if (addModToModifierGrpStatus)
+        //     {
+        //         return Json(new { success = true, text = "Modifier Added to Modifier Group successfully" });
+        //     }
+        //     return Json(new { success = false, text = "Failed to Add Modifier to Modifier Group" });
+        // }
 
-        [Authorize(Roles = "Admin")]
-        [PermissionAuthorize("Menu.AddEdit")]
-        [HttpPost]
-        public async Task<IActionResult> DeleteModToModifierGrpAfterEdit(long modid, long modgrpid)
-        {
-            var deleteModToModifierGrpStatus = await _menuService.DeleteModToModifierGrpAfterEdit(modid, modgrpid);
-            if (deleteModToModifierGrpStatus)
-            {
-                return Json(new { success = true, text = "Modifier Deleted from Modifier Group successfully" });
-            }
-            return Json(new { success = false, text = "Failed to Delete Modifier from Modifier Group" });
-        }
+        // [Authorize(Roles = "Admin")]
+        // [PermissionAuthorize("Menu.AddEdit")]
+        // [HttpPost]
+        // public async Task<IActionResult> DeleteModToModifierGrpAfterEdit(long modid, long modgrpid)
+        // {
+        //     var deleteModToModifierGrpStatus = await _menuService.DeleteModToModifierGrpAfterEdit(modid, modgrpid);
+        //     if (deleteModToModifierGrpStatus)
+        //     {
+        //         return Json(new { success = true, text = "Modifier Deleted from Modifier Group successfully" });
+        //     }
+        //     return Json(new { success = false, text = "Failed to Delete Modifier from Modifier Group" });
+        // }
 
-        [Authorize(Roles = "Admin")]
-        [PermissionAuthorize("Menu.AddEdit")]
-        [HttpPost]
-        public async Task<IActionResult> EditModifierGroup(MenuViewModel MenuVM)
-        {
-            string token = Request.Cookies["AuthToken"];
-            var userData = _userService.getUserFromEmail(token);
-            long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+        // [Authorize(Roles = "Admin")]
+        // [PermissionAuthorize("Menu.AddEdit")]
+        // [HttpPost]
+        // public async Task<IActionResult> EditModifierGroup(MenuViewModel MenuVM)
+        // {
+        //     string token = Request.Cookies["AuthToken"];
+        //     var userData = _userService.getUserFromEmail(token);
+        //     long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-            var editModifierGroupStatus = await _menuService.EditModifierGroup(MenuVM.addModifierGroupVM, userId);
-            if (editModifierGroupStatus)
-            {
-                return Json(new { success = true, text = "Modifier Group Updated successfully" });
-            }
-            return Json(new { success = false, text = "Failed to Update Modifier Group" });
-        }
+        //     var editModifierGroupStatus = await _menuService.EditModifierGroup(MenuVM.addModifierGroupVM, userId);
+        //     if (editModifierGroupStatus)
+        //     {
+        //         return Json(new { success = true, text = "Modifier Group Updated successfully" });
+        //     }
+        //     return Json(new { success = false, text = "Failed to Update Modifier Group" });
+        // }
 
         #endregion
 

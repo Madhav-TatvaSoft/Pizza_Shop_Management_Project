@@ -16,11 +16,11 @@
                             <div class="col-md">
                                 <div class="form-floating mb-3">
                                     <select class="form-select dropdown" id="floatingSelect"
-                                        asp-for="@Model.addItems.CategoryId">
-                                        @foreach (var cat in Model.categoryList)
+                                        asp-for="@Model.addItems.CategoryId" asp-items="ViewBag.categoryList">
+                                        @* @foreach (var cat in Model.categoryList)
                                         {
                                             <option value=" @cat.CategoryId">@cat.CategoryName</option>
-                                        }
+                                        } *@
                                     </select>
                                     <label asp-for="@Model.addItems.CategoryId">Categories*</label>
                                     <span class="text-danger validate"
@@ -162,8 +162,13 @@
                 <!-- Right Section (Modifiers) -->
                 <div class="col-xl-3 g-xl-0 g-2 rounded-2 border border-1">
                     <div class="h-100 p-2 " style="background-color: #fdf5e6;">
-                        <select class="form-select dropdown" asp-items="ViewBag.modifierGroupList" id="Modifier">
+                        <select class="form-select dropdown" asp-items="ViewBag.modifierGroupList" id="Modifier"
+                            onchange="GetModifierByGroups()">
+                            <option selected disabled>Select Modifier Group(s)</option>
                         </select>
+                        <div id="ItemByModifiers">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -178,3 +183,102 @@
 </div>
 
 <partial name="_ValidationScriptsPartial" />
+
+
+    <script>
+
+        var itemData = [];
+
+        function GetModifierByGroups() {
+            var selectedValue = $('#Modifier').val();
+            var minOption = $(`#min-selection-${selectedValue}`).val() ?? 0;
+            var maxOption = $(`#max-selection-${selectedValue}`).val() ?? 0;
+
+            var isAdded = itemData.findIndex(item => item.ModifierGrpId === selectedValue);
+
+            if (isAdded == -1) {
+
+                var modifierGroup = {
+
+                    ModifierGrpId: selectedValue,
+                    Minmodifier: minOption,
+                    Maxmodifier: maxOption
+
+                };
+
+                itemData.push(modifierGroup);
+
+                console.log(itemData);
+
+                $.ajax({
+                    url: '/Menu/GetModifiersByGroup',
+                    type: 'GET',
+                    data: { data: JSON.stringify(itemData) },
+                    success: function (data) {
+                        console.log("data");
+                        $('#ItemByModifiers').html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        }
+
+        function SetMinByGroup(element) {
+
+            var selectedValue = $(element).data('id');
+            var minOption = $(`#min-selection-${selectedValue}`).val() ?? 0;
+            console.log(minOption);
+            console.log(itemData);
+            var index = itemData.findIndex(item => item.ModifierGrpId == selectedValue);
+
+            if (index != -1) {
+
+                itemData[index].Minmodifier = minOption;
+            }
+        }
+
+        function SetMaxByGroup(element) {
+
+            var selectedValue = $(element).data('id');
+            var maxOption = $(`#max-selection-${selectedValue}`).val() ?? 0;
+
+            var index = itemData.findIndex(item => item.ModifierGrpId == selectedValue);
+
+            if (index != -1) {
+
+                itemData[index].Maxmodifier = maxOption;
+
+
+            }
+        }
+
+        function RemoveFromList(element) {
+
+            var selectedValue = $(element).data('id');
+
+            var index = itemData.findIndex(item => item.ModifierGrpId == selectedValue);
+
+            if (index != -1) {
+                console.log("if");
+                itemData.splice(index, 1);
+                $.ajax({
+                    url: '/Menu/GetModifiersByGroup',
+                    type: 'GET',
+                    data: { data: JSON.stringify(itemData) },
+                    success: function (data) {
+                        $('#ItemByModifiers').html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        }
+
+      
+
+    </script>
+
+

@@ -33,4 +33,6 @@ public class AddItemViewModel
     public decimal TaxValue { get; set; }
 
     public bool Isdelete { get; set; }
+
+    public List<ItemModifierViewModel> itemModifiersVM { get; set; }
 }

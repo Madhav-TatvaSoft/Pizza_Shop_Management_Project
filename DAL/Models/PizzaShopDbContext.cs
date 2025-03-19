@@ -31,6 +31,8 @@ public partial class PizzaShopDbContext : DbContext
 
     public virtual DbSet<Item> Items { get; set; }
 
+    public virtual DbSet<ItemModifierGroupMapping> ItemModifierGroupMappings { get; set; }
+
     public virtual DbSet<Itemtype> Itemtypes { get; set; }
 
     public virtual DbSet<Kot> Kots { get; set; }
@@ -73,7 +75,7 @@ public partial class PizzaShopDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Database=Pizza_Shop_DB;Username=postgres; password=tatva123");
+        => optionsBuilder.UseNpgsql("Host=localhost;Database=Pizza_Shop_DB;Username=postgres;     password=tatva123");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -363,6 +365,30 @@ public partial class PizzaShopDbContext : DbContext
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.ItemModifiedByNavigations)
                 .HasForeignKey(d => d.ModifiedBy)
                 .HasConstraintName("items_modified_by_fkey");
+        });
+
+        modelBuilder.Entity<ItemModifierGroupMapping>(entity =>
+        {
+            entity.HasKey(e => e.ItemmodifiergroupmappingId).HasName("ItemModifierGroupMapping_pkey");
+
+            entity.ToTable("ItemModifierGroupMapping");
+
+            entity.Property(e => e.ItemmodifiergroupmappingId).HasColumnName("itemmodifiergroupmapping_id");
+            entity.Property(e => e.Isdelete).HasColumnName("isdelete");
+            entity.Property(e => e.ItemId).HasColumnName("item_id");
+            entity.Property(e => e.Maxmodifier).HasColumnName("maxmodifier");
+            entity.Property(e => e.Minmodifier).HasColumnName("minmodifier");
+            entity.Property(e => e.ModifierGrpId).HasColumnName("modifier_grp_id");
+
+            entity.HasOne(d => d.Item).WithMany(p => p.ItemModifierGroupMappings)
+                .HasForeignKey(d => d.ItemId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("ItemModifierGroupMapping_item_id_fkey");
+
+            entity.HasOne(d => d.ModifierGrp).WithMany(p => p.ItemModifierGroupMappings)
+                .HasForeignKey(d => d.ModifierGrpId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("ItemModifierGroupMapping_modifier_grp_id_fkey");
         });
 
         modelBuilder.Entity<Itemtype>(entity =>
@@ -848,9 +874,7 @@ public partial class PizzaShopDbContext : DbContext
 
             entity.ToTable("tables");
 
-            entity.Property(e => e.TableId)
-                .ValueGeneratedNever()
-                .HasColumnName("table_id");
+            entity.Property(e => e.TableId).HasColumnName("table_id");
             entity.Property(e => e.Capacity).HasColumnName("capacity");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_DATE")
@@ -863,9 +887,7 @@ public partial class PizzaShopDbContext : DbContext
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
             entity.Property(e => e.SectionId).HasColumnName("section_id");
-            entity.Property(e => e.Status)
-                .HasMaxLength(20)
-                .HasColumnName("status");
+            entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.TableName)
                 .HasMaxLength(20)
                 .HasColumnName("table_name");

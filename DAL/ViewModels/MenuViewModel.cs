@@ -1,3 +1,4 @@
+
 using DAL.Models;
 
 namespace DAL.ViewModels;
@@ -29,5 +30,7 @@ public class MenuViewModel
     // Adding the modifier item
 
     public AddModifierViewModel addModifier { get; set; }
+
+    public string itemData { get; set; }
 
 }

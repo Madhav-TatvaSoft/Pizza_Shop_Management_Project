@@ -422,7 +422,19 @@ form i {
     opacity: 1;
 }
 
-/* .change-pass-icon-1{
-    top: 1px !important;
-    left: 20px !important;
-} */
+.SectionGet:hover {
+    cursor: pointer;
+}
+
+.SectionGet i.fa-pen,
+.SectionGet i.fa-trash-can {
+    opacity: 0;
+    transition: 1 0.3s ease;
+}
+
+ /* Show icons when hovering  */
+.SectionGet:hover i.fa-pen,
+.SectionGet:hover i.fa-trash-can {
+    opacity: 1;
+}
+

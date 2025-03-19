@@ -1,3 +1,4 @@
+@using DAL.ViewModels
 @model DAL.ViewModels.MenuViewModel
 
 <div class="modal-content">
@@ -16,11 +17,11 @@
                             <div class="col-md">
                                 <div class="form-floating mb-3">
                                     <select class="form-select dropdown" id="floatingSelect"
-                                        asp-for="@Model.addItems.CategoryId">
-                                        @foreach (var cat in Model.categoryList)
+                                        asp-for="@Model.addItems.CategoryId" asp-items="ViewBag.categoryList">
+                                        @* @foreach (var cat in Model.categoryList)
                                         {
-                                            <option value=" @cat.CategoryId">@cat.CategoryName</option>
-                                        }
+                                        <option value=" @cat.CategoryId">@cat.CategoryName</option>
+                                        } *@
                                     </select>
                                     <label asp-for="@Model.addItems.CategoryId">Categories*</label>
                                     <span class="text-danger validate"
@@ -162,11 +163,14 @@
                 <!-- Right Section (Modifiers) -->
                 <div class="col-xl-3 g-xl-0 g-2 rounded-2 border border-1">
                     <div class="h-100 p-2 " style="background-color: #fdf5e6;">
-                        <select class="form-select " id="Modifer">
-                            <option selected disabled>Select Modifier Groups</option>
+                        <select class="form-select dropdown" asp-items="ViewBag.modifierGroupList" id="EditModifier"
+                            onchange="EditModifierByGroups()">
+                            <option selected disabled>Select Modifier Group(s)</option>
                         </select>
-                        <span class="text-danger"></span>
 
+                        <div id="EditItemByModifiers">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -183,17 +187,131 @@
 <partial name="_Toaster" />
 
 <script>
-
     $("#uploadFile-edit").change(function () {
         const file = this.files[0];
         $("#browseFileText-edit").text(file.name);
     });
 
-    $("#EditItemForm").on("submit", function (e) {
-        e.preventDefault();
-        let form = $("#EditItemForm");
-        if (form.valid()) {
+    var serializedData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.addItems.itemModifiersVM ?? new List<ItemModifierViewModel>(),
+        new System.Text.Json.JsonSerializerOptions
+        {
+            ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve,
+            WriteIndented = false
+        }));
+
+    var editItemData = serializedData.$values || [];
+
+    console.log(editItemData, "editItemData");
+
+    function EditModifierByGroups() {
+
+        var selectedValue = $('#EditModifier').val();
+        var minOption = $(`#edit-min-selection-${selectedValue}`).val() ?? 0;
+        var maxOption = $(`#edit-max-selection-${selectedValue}`).val() ?? 0;
+
+        var isAdded = editItemData.findIndex(item => item.ModifierGrpId == selectedValue);
+
+        console.log(isAdded, "isAdded");
+
+        if (isAdded == -1) {
+            var modifierGroup = {
+                ModifierGrpId: selectedValue,
+                Minmodifier: minOption,
+                Maxmodifier: maxOption
+            };
+
+            editItemData.push(modifierGroup);
+
+            console.log(editItemData, "editItemData paschi no");
+
+            $.ajax({
+                url: '/Menu/EditModifiersByGroup',
+                type: 'GET',
+                data: { data: JSON.stringify(editItemData) },
+                success: function (data) {
+                    $('#EditItemByModifiers').html(data);
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+    }
+
+    function EditMinByGroup(element) {
+
+        var selectedValue = $(element).data('id');
+        var minOption = $(`#edit-min-selection-${selectedValue}`).val() ?? 0;
+
+        console.log("min",minOption);
+        console.log("itemdata",editItemData);
+
+        var index = editItemData.findIndex(item => item.ModifierGrpId == selectedValue);
+
+        if (index != -1) {
+
+            editItemData[index].Minmodifier = minOption;
+        }
+    }
+
+    function EditMaxByGroup(element) {
+
+        var selectedValue = $(element).data('id');
+        var maxOption = $(`#edit-max-selection-${selectedValue}`).val() ?? 0;
+
+        var index = editItemData.findIndex(item => item.ModifierGrpId == selectedValue);
+
+        if (index != -1) {
+
+            editItemData[index].Maxmodifier = maxOption;
+        }
+    }
+
+    function EditRemoveFromList(element) {
+
+        var selectedValue = $(element).data('id');
+
+        var index = editItemData.findIndex(item => item.ModifierGrpId == selectedValue);
+
+        if (index != -1) {
+            console.log("if");
+            editItemData.splice(index, 1);
+            $.ajax({
+                url: '/Menu/EditModifiersByGroup',
+                type: 'GET',
+                data: { data: JSON.stringify(editItemData) },
+                success: function (data) {
+                    $('#EditItemByModifiers').html(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "/Menu/EditModifiersByGroup",
+            type: "GET",
+            data: { data: JSON.stringify(editItemData) },
+            success: function (data) {
+                $('#EditItemByModifiers').html(data);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+
+        $("#EditItemForm").on("submit", function (e) {
+            e.preventDefault();
+
             let formData = new FormData(this);
+
+            formData.append('itemData', JSON.stringify(editItemData));
+
             $.ajax({
                 url: "/Menu/EditItem",
                 type: "POST",
@@ -211,6 +329,7 @@
                     Item_Main_Checkbox_Select();
                 }
             });
-        }
+
+        });
     });
 </script>

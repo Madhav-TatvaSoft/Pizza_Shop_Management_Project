@@ -14,7 +14,7 @@ public interface IMenuService
     public PaginationViewModel<ItemsViewModel> GetMenuItemsByCategory(long? catid, string search = "", int pageNumber = 1, int pageSize = 3);
     public PaginationViewModel<ModifiersViewModel> GetMenuModifiersByModGroups(long? modgrpid, string search = "", int pageNumber = 1, int pageSize = 3);
     public PaginationViewModel<ModifiersViewModel> ExistingGetMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 5);
-    // public PaginationViewModel<ModifiersViewModel> EditExistingGetMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 5);
+    public PaginationViewModel<ModifiersViewModel> EditExistingGetMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 5);
 
     // CRUD Operations Category
     public Task<bool> AddCategory(Category category, long userId);
@@ -32,9 +32,9 @@ public interface IMenuService
 
     public Modifiergroup GetModifierGroupByModifierGroupId(long modgrpid);
     public List<ModifiersViewModel> GetModifiersByModifierGroupId(long modgrpid);
-    public Task<bool> AddModToModifierGrpAfterEdit(long modgrpid, long modid, long userId);
-    public Task<bool> DeleteModToModifierGrpAfterEdit(long modid,long modgrpid);
-    public Task<bool> EditModifierGroup(AddModifierGroupViewModel editModifierGroupVM, long userId);
+    // public Task<bool> AddModToModifierGrpAfterEdit(long modgrpid, long modid, long userId);
+    // public Task<bool> DeleteModToModifierGrpAfterEdit(long modid,long modgrpid);
+    // public Task<bool> EditModifierGroup(AddModifierGroupViewModel editModifierGroupVM, long userId);
 
     public Task<bool> DeleteModifierGroup(long modgrpid);
 
@@ -44,4 +44,12 @@ public interface IMenuService
     public Task<bool> EditModifierItem(AddModifierViewModel editModifierVM, long userId);
     public Task<bool> DeleteModifier(long modid);
 
-}
+    public List<Modifier> GetModifiersByGroup(long modgrpid);
+
+    public string GetModifiersGroupName(long modgrpid);
+
+
+
+
+
+    }

@@ -13,8 +13,6 @@ public partial class Waitinglist
 
     public int NoOfPerson { get; set; }
 
-    public long TableId { get; set; }
-
     public bool Isassign { get; set; }
 
     public DateTime? CreatedAt { get; set; }
@@ -26,6 +24,8 @@ public partial class Waitinglist
     public long? CreatedBy { get; set; }
 
     public long? ModifiedBy { get; set; }
+
+    public long TableId { get; set; }
 
     public virtual User? CreatedByNavigation { get; set; }
 

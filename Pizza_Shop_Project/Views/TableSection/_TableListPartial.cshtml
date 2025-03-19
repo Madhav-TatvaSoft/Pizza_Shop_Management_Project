@@ -1,0 +1,45 @@
+@using DAL.ViewModels
+@model PaginationViewModel<TablesViewModel>
+
+
+@if (Model.Items.Count == 0)
+{
+    <tr>
+        <td colspan="6" class="text-center text-danger fw-bold">No Data Found</td>
+    </tr>
+}
+else
+{
+    @foreach (var item in Model.Items)
+    {
+        <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
+            <td class="text-start text-nowrap align-content-center d-flex"><input
+                    class="table-sub-checkbox form-check-input me-3 mt-2" onclick=TableCheckBoxTickManage() type="checkbox"
+                    data-checkid="@item.TableId">
+                <p class="ms-2 mt-2">@item.TableName</p>
+            </td>
+            <td class="text-center">@item.Capacity</td>
+            <td class="text-center d-flex justify-content-center">
+                @if (item.Status == true)
+                {
+                    <div class="text-center text-white bg-success rounded-pill validate p-1" style="max-width: fit-content;">
+                        Occupied</div>
+                }
+                else
+                {
+                    <div class="text-center text-white bg-secondary rounded-pill validate p-1 ">
+                        Available</div>
+                }
+            </td>
+            
+            <td class="text-center">
+                <i class="fa-solid fa-pen w-25" data-bs-toggle="modal" data-bs-target="#EditTableModal"
+                    data-id="@item.TableId" ></i>
+                <i class="fa-solid fa-trash-can ms-2 " data-bs-toggle="modal" data-bs-target="#DeleteTableModal"
+                    data-id="@item.TableId" onclick=GetIdForDeleteTable(this) ></i>
+            </td>
+        </tr>
+
+    }
+}
+<input type="hidden" id="totalRecordsHidden-table" value="@Model.TotalCount" />

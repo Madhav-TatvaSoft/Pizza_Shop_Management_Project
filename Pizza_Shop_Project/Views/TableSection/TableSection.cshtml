@@ -1,0 +1,328 @@
+@model DAL.ViewModels.TableSectionViewModel
+
+<!-- Section Table text  -->
+<div class="user-text bg-light fs-3 mt-3 fw-bold  mb-3 ps-4">Sections/Tables</div>
+
+<div class="bg-light d-flex justify-content-between">
+
+    <div class="container-fluid">
+
+        <!-- Tables -->
+
+        <div class="row d-flex m-1 ms-0 me-0">
+
+            @* Left-SideBar-table *@
+            <div class="left-sidebar-section-main-div bg-opacity-10 col-xl-2 col-lg-3 col-md-4 col-sm-12 ps-0 pe-0 pb-3 border border-primary border-bottom-0 border-end-1
+            border-start-0 border-top-0 shadow-lg">
+
+                <div class="user-text p-3 d-flex justify-content-between">
+                    <span class="fw-bold fs-5">Sections</span>
+                    <i class="fa-regular fa-square-plus fs-4 user-text" data-bs-toggle="modal"
+                        data-bs-target="#AddSectionModal"></i>
+                </div>
+
+                <div id="SectionList_Partial">
+
+                </div>
+
+            </div>
+
+            @* Right-SideBar-Item *@
+            <div class="right-side-table-div bg-white pt-2 com-sm-12 col-md-8 col-lg-9 col-xl-10 col-12 shadow-lg">
+                <div class="table-text fs-3 fw-bold user-text">Tables</div>
+                <div class="search-adduser-div d-flex justify-content-end pb-2 align-items-center">
+                    <input type="hidden" id="Section_id" value="@Model.SectionList[0].SectionId">
+
+                    <div class="search-button">
+                        <input type="text" id="searchbtn-table" placeholder="Search" class=" p-sm-1 mt-2 border ">
+                        <i class="fa-solid fa-magnifying-glass search-icon-item "></i>
+                    </div>
+
+                    <div class="trash-button-table">
+                        <button disabled id="MassDeleteTablesBtn" class="btn mt-2 p-1 ps-2 pe-2 ms-2 border"
+                            data-bs-toggle="modal" data-bs-target="#MassDeleteTablesModal"><i
+                                class="fa-solid fa-trash-can "></i></button>
+                    </div>
+                    <div class="add-user-button">
+                        <button type="button" class="addTableBtn btn solid-btn text-light p-1 mt-2 ms-2 me-sm-2 me-0"
+                            data-bs-toggle="modal" data-bs-target="#AddTableModal">
+                            + New Table
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table mb-0" id="demo">
+                        <thead>
+                            <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
+                                <th scope="col" class="text-start"><input class="form-check-input me-3 " type="checkbox"
+                                        id="table-main-checkbox" onclick="Table_Main_Checkbox_Select()">Name</th>
+                                <th scope="col" class="text-center">Capacity</th>
+                                <th scope="col" class="text-center">Status</th>
+                                <th scope="col" class="text-center">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody style="white-space: nowrap;" id="table-list-body">
+
+                            @*Partial View of Table List*@
+                            @* @await Html.PartialAsync("_TableListPartialView", Model.PaginationForTable); *@
+
+                        </tbody>
+                    </table>
+                </div>
+
+                @* Pagination Item div *@
+                <div
+                    class="pagination-main-div-table d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-2 mt-3">
+
+                    <span class="mt-2">Items Per page:</span>
+
+                    <select id="itemselect-table">
+                        <option value="3">3</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                    </select>
+
+                    <span class=" mt-2 ms-1" id="pagination-info-table"></span>
+                    <button id="left-arrow-table" class="btn border border-dark bg-light ms-2">&lt;</button>
+                    <button id="right-arrow-table" class="btn border border-dark bg-light ms-2">&gt;</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!------------------------------------Modals---------------------------------------------->
+
+
+
+
+
+
+
+<!------------------------------------End of Modals---------------------------------------------->
+
+
+<partial name="_ValidationScriptsPartial" />
+<partial name="_Toaster" />
+
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    @* Toaster Message *@
+    <script>
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            var errorMessage = '@TempData["ErrorMessage"]';
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "2000"
+            };
+            if (successMessage) {
+                toastr.success(successMessage);
+            }
+            if (errorMessage) {
+                toastr.error(errorMessage);
+            }
+        });
+    </script>
+
+    <script>
+
+        // Get details for Delete Section
+        function GetIdForDeleteTable(tag) {
+            let currentTableId = document.getElementById("table-delete-id");
+            currentTableId.value = tag.getAttribute("data-id");
+        }
+
+        // Delete any particular item 
+        @* document.addEventListener('DOMContentLoaded', function () {
+        var deleteModalItem = document.getElementById('delete-item-modal');
+            deleteModalItem.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var itemid = button.getAttribute('data-id');
+        var deleteItemInput = document.getElementById('deleteitemid');
+                deleteItemInput.value = itemid;
+        });
+        }); *@
+
+            // Table Main checkbox tick  
+            function Table_Main_Checkbox_Select() {
+                var main_checkbox = document.getElementById("table-main-checkbox");
+                var sub_checkboxes = document.getElementsByClassName("table-sub-checkbox");
+                var MassDeleteTablesBtn = document.getElementById("#MassDeleteTablesBtn");
+                if (main_checkbox.checked) {
+                    for (i = 0; i < sub_checkboxes.length; i++) {
+                        sub_checkboxes[i].checked = true;
+                    }
+                }
+                if (!main_checkbox.checked) {
+                    for (i = 0; i < sub_checkboxes.length; i++) {
+                        sub_checkboxes[i].checked = false;
+                    }
+                }
+                toggleMassDeleteBtnMod();
+            }
+
+        // Table Mass Delete Button
+        function toggleMassDeleteBtnMod() {
+            var sub_checkboxes = document.getElementsByClassName("table-sub-checkbox");
+            var MassDeleteTablesBtn = document.getElementById("MassDeleteTablesBtn");
+            var anyChecked = false;
+
+            for (i = 0; i < sub_checkboxes.length; i++) {
+                if (sub_checkboxes[i].checked) {
+                    anyChecked = true;
+                    break;
+                }
+            }
+            MassDeleteTablesBtn.disabled = !anyChecked;
+        }
+
+        // Table Toggle on sub_checkboxes
+        document.addEventListener('DOMContentLoaded', (event) => {
+            var sub_checkboxes = document.getElementsByClassName("table-sub-checkbox");
+            for (i = 0; i < sub_checkboxes.length; i++) {
+                sub_checkboxes[i].addEventListener('change', toggleMassDeleteBtnMod);
+            }
+        });
+
+        // Table Checkbox tick Manage  
+        function TableCheckBoxTickManage() {
+            var main_checkbox = document.getElementById("table-main-checkbox");
+            var sub_checkboxes = document.getElementsByClassName("table-sub-checkbox");
+            flag = true;
+            for (i = 0; i < sub_checkboxes.length; i++) {
+                if (!sub_checkboxes[i].checked) {
+                    flag = false;
+                }
+            }
+            main_checkbox.checked = flag;
+            toggleMassDeleteBtnMod();
+        }
+
+    </script>
+
+    <script>
+        // All Data for Modifiers
+        let currentPage_table = 1;
+        let searchText_table = "";
+        let pageSize_table = $("#itemselect-table").val();
+        let sectionid = $("#Section_id").val();
+        console.log(sectionid, "sectionid");
+
+        // Table Pagination function
+        function PaginationForTable(sectionid, searchText_table = "", page = 1, pageSize_table = 3) {
+            $.ajax({
+                url: "/TableSection/PaginationForTable",
+                type: "GET",
+                data: { sectionid, search: searchText_table, pageNumber: page, pageSize: pageSize_table },
+                success: function (data) {
+
+                    $("#table-list-body").html(data);
+
+                    currentPage_table = page;
+                    pageSize_table = parseInt(pageSize_table);
+
+                    var totalRecords_table = parseInt($("#totalRecordsHidden-table").val()) || 0;
+
+                    var startItem_table = totalRecords_table === 0 ? 0 : (currentPage_table - 1) * pageSize_table + 1;
+
+                    var endItem_table = Math.min(currentPage_table * pageSize_table, totalRecords_table);
+
+                    $("#pagination-info-table").text("Showing " + startItem_table + " - " + endItem_table + " of " + totalRecords_table);
+                    $("#left-arrow-table").prop("disabled", currentPage_table === 1);
+                    $("#right-arrow-table").prop("disabled", currentPage_table * pageSize_table >= totalRecords_table);
+
+                    $("#table-main-checkbox").prop("checked", false);
+                }
+            });
+        }
+
+        // To show the Section List
+        function loadSectionList() {
+
+            console.log("Section List");
+
+            $.ajax({
+                url: "/TableSection/GetAllSections",
+                type: "GET",
+                success: function (data) {
+        @* console.log(data); *@
+                        document.getElementById("SectionList_Partial").innerHTML = data;
+                }
+            });
+        }
+
+
+
+
+
+
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
+
+            loadSectionList();
+
+            // search-button
+            $("#searchbtn-table").on("keyup", function () {
+                searchText_table = $(this).val().trim();
+                currentPage_table = 1;
+                PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
+                Table_Main_Checkbox_Select();
+            });
+
+            // Section click
+            $(document).on("click", ".SectionGet", function () {
+                $(".SectionGet").removeClass("active-category");
+                $(this).addClass("active-category");
+                sectionid = $(this).data("id");
+                currentPage_table = 1;
+                PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
+            });
+
+            // right arrow buttons
+            $("#right-arrow-table").on("click", function () {
+                let right_arrow_table = !$(this).prop("disabled");
+                if (right_arrow_table) {
+                    currentPage_table++;
+                    PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
+                    Table_Main_Checkbox_Select();
+                }
+            });
+
+            // left arrow buttons
+            $("#left-arrow-table").on("click", function () {
+                let left_arrow_table = !$(this).prop("disabled");
+                if (left_arrow_table) {
+                    currentPage_table--;
+                    PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
+                    Table_Main_Checkbox_Select();
+                }
+            });
+
+            // Items per page dropdown
+            $("#itemselect-table").on("change", function () {
+                pageSize_table = $(this).val();
+                currentPage_table = 1;
+                PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
+                Table_Main_Checkbox_Select();
+            });
+        });
+
+    </script>
+
+
+
+}

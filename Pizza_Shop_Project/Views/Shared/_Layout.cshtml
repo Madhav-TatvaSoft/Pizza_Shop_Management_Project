@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Authorization
+﻿﻿@using Microsoft.AspNetCore.Authorization
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
 <!DOCTYPE html>
@@ -90,7 +90,7 @@
                         <!-- Table and Section -->
                         @if ((await AuthorizationService.AuthorizeAsync(User, "TableSection.View")).Succeeded)
                         {
-                            <a asp-action="Menu" asp-Controller="Menu" class="text-decoration-none dashboard-text-inactive ">
+                            <a asp-action="TableSection" asp-Controller="TableSection" class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "TableSection" ? "active-div" : "") ">
                                 <div class="dashboard-active-div d-flex p-3">
                                     <i class="fa-solid fa-table-cells-large mt-1 "></i>
                                     <p class="mt-1 m-0 ms-3 fw-bold text-nowrap">Table and Section</p>

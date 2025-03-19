@@ -62,7 +62,7 @@
 </div>
 
 <partial name="_ValidationScriptsPartial" />
-<partial name="_Toaster"/>
+<partial name="_Toaster" />
 
 <script>
     // Modifier To Fill data in the Add modal 
@@ -78,13 +78,14 @@
                 processData: false,
                 data: formData,
                 success: function (data) {
-                    if(data.success){
+                    if (data.success) {
                         callSuccessToaster(data.text);
-                    }else{
+                    } else {
                         callErrorToaster(data.text);
                     }
                     $(".btn-close").click();
                     PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
+                    console.log("Add Modifier Item", modgrpid);
                     Modifier_Main_Checkbox_Select();
                 }
             });

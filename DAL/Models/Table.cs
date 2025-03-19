@@ -5,15 +5,13 @@ namespace DAL.Models;
 
 public partial class Table
 {
-    public long TableId { get; set; }
-
     public long SectionId { get; set; }
 
     public string TableName { get; set; } = null!;
 
     public int Capacity { get; set; }
 
-    public string Status { get; set; } = null!;
+    public bool Status { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
@@ -24,6 +22,8 @@ public partial class Table
     public long? CreatedBy { get; set; }
 
     public long? ModifiedBy { get; set; }
+
+    public long TableId { get; set; }
 
     public virtual ICollection<AssignTable> AssignTables { get; } = new List<AssignTable>();
 

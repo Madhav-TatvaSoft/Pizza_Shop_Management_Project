@@ -1,0 +1,47 @@
+@model DAL.ViewModels.MenuViewModel
+
+@foreach (var group in Model.addItems.itemModifiersVM)
+{
+    <div data-group-id="@group.ModifierGrpId" class="p-2">
+        <div class="d-flex align-items-center justify-content-between">
+            <p class="mb-1 text-nowrap fw-bold text-secondary">@group.ModifierGrpName</p>
+            <div class="text-secondary border-0" style="background-color: #fdf5e6;" data-id="@group.ModifierGrpId"
+                onclick="EditRemoveFromList(this)"><i class="bi bi-trash-fill"></i>
+            </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between gap-2">
+            <select class="form-select form-select-sm" data-id="@group.ModifierGrpId"
+                id="edit-min-selection-@group.ModifierGrpId" onchange="EditMinByGroup(this)"
+                asp-for="@group.Minmodifier">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+
+            </select>
+            <select class="form-select form-select-sm" data-id="@group.ModifierGrpId"
+                id="edit-max-selection-@group.ModifierGrpId" onchange="EditMaxByGroup(this)"
+                asp-for="@group.Maxmodifier">
+
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+
+            </select>
+        </div>
+        <ul class="modifier-group-list-add-edit-item mt-2">
+            @foreach (var item in group.modifiersList)
+            {
+                <li>
+                    <div class="d-flex justify-content-between">
+                        <span class="mb-0" style="font-size: 14px;">@item.ModifierName </span>
+                        <span class="mb-0" style="font-size: 14px;">@item.Rate</span>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+}

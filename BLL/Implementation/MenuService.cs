@@ -1,3 +1,4 @@
+
 using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
@@ -170,10 +171,37 @@ public class MenuService : IMenuService
 
             await _context.Items.AddAsync(item);
             await _context.SaveChangesAsync();
+
+            foreach (var modifier in addItemVM.itemModifiersVM)
+            {
+                var itemModifierMapping = new ItemModifierGroupMapping
+                {
+                    ItemId = item.ItemId,
+                    ModifierGrpId = modifier.ModifierGrpId,
+                    Minmodifier = modifier.Minmodifier,
+                    Maxmodifier = modifier.Maxmodifier
+                };
+                _context.ItemModifierGroupMappings.Add(itemModifierMapping);
+            }
+            await _context.SaveChangesAsync();
+
             return true;
 
         }
     }
+
+    public List<Modifier> GetModifiersByGroup(long modgrpid)
+    {
+        var dataDetails = _context.Modifiers.Where(e => e.ModifierGrpId == modgrpid && e.Isdelete == false).ToList();
+        return dataDetails;
+    }
+
+    public string GetModifiersGroupName(long modgrpid)
+    {
+        var dataDetails = _context.Modifiergroups.FirstOrDefault(e => e.ModifierGrpId == modgrpid && e.Isdelete == false).ModifierGrpName;
+        return dataDetails;
+    }
+
     #endregion
 
     #region Get Items By ItemId
@@ -196,6 +224,19 @@ public class MenuService : IMenuService
             additemVM.TaxValue = (decimal)item.TaxValue;
             additemVM.Unit = item.Unit;
         }
+
+        var data = _context.ItemModifierGroupMappings.Where(e => e.ItemId == itemid)
+       .Select(x => new ItemModifierViewModel
+       {
+           ModifierGrpId = x.ModifierGrpId,
+           Minmodifier = x.Minmodifier,
+           Maxmodifier = x.Maxmodifier,
+           modifiersList = _context.Modifiers.Where(e => e.ModifierGrpId == x.ModifierGrpId).ToList(),
+           ModifierGrpName = _context.Modifiergroups.FirstOrDefault(e => e.ModifierGrpId == x.ModifierGrpId).ModifierGrpName
+       }).ToList();
+
+        additemVM.itemModifiersVM = data;
+
         return additemVM;
     }
     #endregion
@@ -210,7 +251,7 @@ public class MenuService : IMenuService
         else
         {
             // Check if an item with the same name already exists
-            var existingItem = await _context.Items.FirstOrDefaultAsync(x => x.ItemName == editItemVM.ItemName && x.CategoryId == editItemVM.CategoryId && x.Isdelete == false);
+            var existingItem = await _context.Items.FirstOrDefaultAsync(x => x.ItemName == editItemVM.ItemName && x.ItemId != editItemVM.ItemId && x.Isdelete == false);
             if (existingItem != null)
             {
                 return false;
@@ -233,6 +274,27 @@ public class MenuService : IMenuService
 
             _context.Items.Update(item);
             await _context.SaveChangesAsync();
+
+            var itemModifier = _context.ItemModifierGroupMappings.Where(x => x.ItemId == item.ItemId).ToList();
+
+            foreach (var itemMod in itemModifier)
+            {
+                _context.ItemModifierGroupMappings.Remove(itemMod);
+            }
+
+            foreach (var modifier in editItemVM.itemModifiersVM)
+            {
+                var itemModifierMapping = new ItemModifierGroupMapping
+                {
+                    ItemId = item.ItemId,
+                    ModifierGrpId = modifier.ModifierGrpId,
+                    Minmodifier = modifier.Minmodifier,
+                    Maxmodifier = modifier.Maxmodifier
+                };
+                _context.ItemModifierGroupMappings.Add(itemModifierMapping);
+            }
+            await _context.SaveChangesAsync();
+
             return true;
         }
     }
@@ -320,40 +382,40 @@ public class MenuService : IMenuService
     }
     #endregion
 
-    // #region Pagination Model for Edit Existing Modifiers
-    // public PaginationViewModel<ModifiersViewModel> EditExistingGetMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 5)
-    // {
+    #region Pagination Model for Edit Existing Modifiers
+    public PaginationViewModel<ModifiersViewModel> EditExistingGetMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 5)
+    {
 
-    //     var query = _context.Modifiers.Where(x => x.Isdelete == false)
-    //        .Select(x => new ModifiersViewModel
-    //        {
-    //            ModifierId = x.ModifierId,
-    //            ModifierName = x.ModifierName,
-    //            ModifierGrpId = x.ModifierGrpId,
-    //            Unit = x.Unit,
-    //            Rate = x.Rate,
-    //            Quantity = x.Quantity,
-    //            Isdelete = x.Isdelete
-    //        })
-    //        .AsQueryable();
+        var query = _context.Modifiers.Where(x => x.Isdelete == false)
+           .Select(x => new ModifiersViewModel
+           {
+               ModifierId = x.ModifierId,
+               ModifierName = x.ModifierName,
+               ModifierGrpId = x.ModifierGrpId,
+               Unit = x.Unit,
+               Rate = x.Rate,
+               Quantity = x.Quantity,
+               Isdelete = x.Isdelete
+           })
+           .AsQueryable();
 
-    //     //search 
-    //     if (!string.IsNullOrEmpty(search))
-    //     {
-    //         string lowerSearchTerm = search.ToLower();
-    //         query = query.Where(x => x.ModifierName.ToLower().Contains(lowerSearchTerm)
-    //         );
-    //     }
+        //search 
+        if (!string.IsNullOrEmpty(search))
+        {
+            string lowerSearchTerm = search.ToLower();
+            query = query.Where(x => x.ModifierName.ToLower().Contains(lowerSearchTerm)
+            );
+        }
 
-    //     // Get total records count (before pagination)
-    //     int totalCount = query.Count();
+        // Get total records count (before pagination)
+        int totalCount = query.Count();
 
-    //     // Apply pagination
-    //     var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        // Apply pagination
+        var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
-    //     return new PaginationViewModel<ModifiersViewModel>(items, totalCount, pageNumber, pageSize);
-    // }
-    // #endregion
+        return new PaginationViewModel<ModifiersViewModel>(items, totalCount, pageNumber, pageSize);
+    }
+    #endregion
 
     #region Add Modifier Group
     public async Task<bool> AddModifierGroup(AddModifierGroupViewModel addModifierGroupVM, long userId)
@@ -374,6 +436,9 @@ public class MenuService : IMenuService
 
         var modifierTempId = addModifierGroupVM.Temp_Ids.Split(",");
 
+        var addedModifiergroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpName == addModifierGroupVM.ModifierGrpName && x.Isdelete == false);
+
+
         for (int i = 0; i < modifierTempId.Length; i++)
         {
 
@@ -381,7 +446,7 @@ public class MenuService : IMenuService
 
             Modifier modifier = new();
 
-            modifier.ModifierGrpId = presentModifiergroup.ModifierGrpId;
+            modifier.ModifierGrpId = addedModifiergroup.ModifierGrpId;
             modifier.ModifierName = modifierExist.ModifierName;
             modifier.Unit = modifierExist.Unit;
             modifier.Rate = modifierExist.Rate;
@@ -416,60 +481,60 @@ public class MenuService : IMenuService
         }).ToList();
         return modifiers;
     }
-    public async Task<bool> AddModToModifierGrpAfterEdit(long modgrpid, long modid, long userId)
-    {
+    // public async Task<bool> AddModToModifierGrpAfterEdit(long modgrpid, long modid, long userId)
+    // {
 
-        var existingModifier = await _context.Modifiers.Where(x => x.ModifierId == modid && x.Isdelete == false).ToListAsync();
+    //     var existingModifier = await _context.Modifiers.Where(x => x.ModifierId == modid && x.Isdelete == false).ToListAsync();
 
-        if (existingModifier != null)
-        {
-            Modifier modifier = new Modifier();
-            modifier.ModifierGrpId = modgrpid;
-            modifier.ModifierName = existingModifier[0].ModifierName;
-            modifier.Rate = existingModifier[0].Rate;
-            modifier.Quantity = existingModifier[0].Quantity;
-            modifier.Unit = existingModifier[0].Unit;
-            modifier.Description = existingModifier[0].Description;
-            modifier.CreatedBy = userId;
+    //     if (existingModifier != null)
+    //     {
+    //         Modifier modifier = new Modifier();
+    //         modifier.ModifierGrpId = modgrpid;
+    //         modifier.ModifierName = existingModifier[0].ModifierName;
+    //         modifier.Rate = existingModifier[0].Rate;
+    //         modifier.Quantity = existingModifier[0].Quantity;
+    //         modifier.Unit = existingModifier[0].Unit;
+    //         modifier.Description = existingModifier[0].Description;
+    //         modifier.CreatedBy = userId;
 
-            await _context.Modifiers.AddAsync(modifier);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-        return false;
-    }
-    public async Task<bool> DeleteModToModifierGrpAfterEdit(long modid, long modgrpid)
-    {
-        var existingModifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.ModifierGrpId == modgrpid && x.Isdelete == false);
-        
-        if (existingModifier != null)
-        {
-            existingModifier.Isdelete = true;
-            _context.Update(existingModifier);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-        return false;
-    }
-    public async Task<bool> EditModifierGroup(AddModifierGroupViewModel editModifierGroupVM, long userId)
-    {
-        if (editModifierGroupVM.ModifierGrpId == null)
-        {
-            return false;
-        }
-        else
-        {
-            var existingModifierGroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpId == editModifierGroupVM.ModifierGrpId && !x.Isdelete);
-            existingModifierGroup.ModifierGrpName = editModifierGroupVM.ModifierGrpName;
-            existingModifierGroup.Desciption = editModifierGroupVM.Desciption;
-            existingModifierGroup.ModifiedAt = DateTime.Now;
-            existingModifierGroup.ModifiedBy = userId;
+    //         await _context.Modifiers.AddAsync(modifier);
+    //         await _context.SaveChangesAsync();
+    //         return true;
+    //     }
+    //     return false;
+    // }
+    // public async Task<bool> DeleteModToModifierGrpAfterEdit(long modid, long modgrpid)
+    // {
+    //     var existingModifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.ModifierGrpId == modgrpid && x.Isdelete == false);
 
-            _context.Modifiergroups.Update(existingModifierGroup);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-    }
+    //     if (existingModifier != null)
+    //     {
+    //         existingModifier.Isdelete = true;
+    //         _context.Update(existingModifier);
+    //         await _context.SaveChangesAsync();
+    //         return true;
+    //     }
+    //     return false;
+    // }
+    // public async Task<bool> EditModifierGroup(AddModifierGroupViewModel editModifierGroupVM, long userId)
+    // {
+    //     if (editModifierGroupVM.ModifierGrpId == null)
+    //     {
+    //         return false;
+    //     }
+    //     else
+    //     {
+    //         var existingModifierGroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpId == editModifierGroupVM.ModifierGrpId && !x.Isdelete);
+    //         existingModifierGroup.ModifierGrpName = editModifierGroupVM.ModifierGrpName;
+    //         existingModifierGroup.Desciption = editModifierGroupVM.Desciption;
+    //         existingModifierGroup.ModifiedAt = DateTime.Now;
+    //         existingModifierGroup.ModifiedBy = userId;
+
+    //         _context.Modifiergroups.Update(existingModifierGroup);
+    //         await _context.SaveChangesAsync();
+    //         return true;
+    //     }
+    // }
 
     #endregion
 

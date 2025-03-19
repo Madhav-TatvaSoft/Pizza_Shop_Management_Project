@@ -9,8 +9,6 @@ public partial class Order
 
     public long CustomerId { get; set; }
 
-    public long TableId { get; set; }
-
     public DateTime OrderDate { get; set; }
 
     public string Status { get; set; } = null!;
@@ -34,6 +32,8 @@ public partial class Order
     public long? ModifiedBy { get; set; }
 
     public long? CreatedBy { get; set; }
+
+    public long TableId { get; set; }
 
     public virtual User? CreatedByNavigation { get; set; }
 

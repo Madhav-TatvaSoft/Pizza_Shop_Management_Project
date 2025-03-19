@@ -1,0 +1,46 @@
+@model DAL.ViewModels.MenuViewModel
+
+@foreach (var group in Model.addItems.itemModifiersVM)
+{
+    <div data-group-id="@group.ModifierGrpId" class="p-2">
+        <div class="d-flex align-items-center justify-content-between">
+            <p class="pb-2 pt-2 text-nowrap fw-bold text-secondary">@group.ModifierGrpName</p>
+            <p class="d-flex justify-content-end text-secondary " data-id="@group.ModifierGrpId"
+                onclick="RemoveFromList(this)"><i class="bi bi-trash-fill"></i>
+            </p>
+        </div>
+        <div class="d-flex align-items-center justify-content-between gap-2">
+            <select class="form-select form-select-sm  rounded-2" data-id="@group.ModifierGrpId"
+                id="min-selection-@group.ModifierGrpId" onchange="SetMinByGroup(this)">
+
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+
+            </select>
+            <select class="form-select form-select-sm  rounded-2" data-id="@group.ModifierGrpId"
+                id="max-selection-@group.ModifierGrpId" onchange="SetMaxByGroup(this)">
+
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+
+            </select>
+        </div>
+        <ul class="modifier-group-list-add-edit-item mt-2">
+            @foreach (var item in group.modifiersList)
+            {
+                <li>
+                    <div class="d-flex justify-content-between">
+                        <span class="mb-0" style="font-size: 14px;">@item.ModifierName </span>
+                        <span class="mb-0" style="font-size: 14px;">@item.Rate</span>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+}
