@@ -1,0 +1,97 @@
+@model DAL.ViewModels.TableSectionViewModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title fs-5 fw-bold text-secondary">Add New Table</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form id="AddTableForm">
+        <div class="modal-body">
+
+            <div class="row">
+
+                <div class="form-floating col-6 p-1">
+                    <input type="text" class="form-control" asp-for="@Model.tablesVM.TableName" id="floatingInput"
+                        placeholder="Name" required>
+                    <label for="floatingInput">Name</label>
+                    <span asp-validation-for="@Model.tablesVM.TableName" class="text-danger validate"></span>
+                </div>
+
+                <div class="form-floating col-6 p-1">
+                    <input type="hidden" asp-for="@Model.tablesVM.SectionId" id="Section_id_Table_Add">
+                    <select class="form-select" asp-for="@Model.tablesVM.SectionId" id="selectSectionIdDropDown"
+                        aria-label="Floating label select example" disabled>
+                        @foreach (var data in Model.SectionList)
+                        {
+                            <option value="@data.SectionId" >@data.SectionName</option>
+                        }
+                    </select>
+                    <label for="selectSectionIdDropDown">Section Name</label>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="form-floating col-6 p-1">
+                    <input type="text" class="form-control" asp-for="@Model.tablesVM.Capacity" id="floatingInput"
+                        placeholder="Capacity*" required>
+                    <label for="floatingInput">Capacity*</label>
+                    <span asp-validation-for="@Model.tablesVM.Capacity" class="text-danger validate"></span>
+                </div>
+
+                <div class="form-floating col-6 p-1">
+                    <input type="hidden" asp-for="@Model.tablesVM.Status" id="Status_id_Table_Add">
+                    <select class="form-select" asp-for="@Model.tablesVM.Status" id="selectGrpIdDropDown" disabled>
+                        <option selected>Available</option>
+                    </select>
+                    <label for="selectGrpIdDropDown">Status</label>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn solid-btn">save</button>
+            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">cancel</button>
+        </div>
+    </form>
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+
+
+<script>
+
+    // Table To Fill data in the Add modal 
+    $("#AddTableForm").on("submit", function (e) {
+
+        e.preventDefault();
+
+        let form = $("#AddTableForm");
+
+        if (form.valid()) {
+
+            let formData = new FormData(this);
+
+            $.ajax({
+                url: "/TableSection/AddTable",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    if (data.success) {
+                        callSuccessToaster(data.text);
+                    } else {
+                        callErrorToaster(data.text);
+                    }
+                    $(".btn-close").click();
+                    PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
+                    @* loadSectionList(); *@
+                    Table_Main_Checkbox_Select();
+                }
+            });
+        }
+    });
+</script>

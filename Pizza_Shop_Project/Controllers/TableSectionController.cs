@@ -65,6 +65,14 @@ public class TableSectionController : Controller
     #endregion
 
     #region Add Section
+
+    public IActionResult AddSection()
+    {
+        TableSectionViewModel tableSectionVM = new TableSectionViewModel();
+        return PartialView("_AddSectionPartial", tableSectionVM);
+    }
+
+    [HttpPost]
     public async Task<IActionResult> AddSection(TableSectionViewModel tableSectionVM)
     {
         string token = Request.Cookies["AuthToken"];
@@ -81,14 +89,14 @@ public class TableSectionController : Controller
     #endregion
 
     #region Edit Section
-    public async Task<IActionResult> GetSectionById(long sectionId)
+    public IActionResult GetSectionById(long sectionId)
     {
-        var section = _tableSectionService.GetSectionById(sectionId);
-        return Json(new { success = true, section = section });
+        TableSectionViewModel tableSectionVM = new TableSectionViewModel();
+        tableSectionVM.sectionVM = _tableSectionService.GetSectionById(sectionId);
+        return PartialView("_EditSectionPartial", tableSectionVM);
     }
-    #endregion
 
-    #region Update Section
+    [HttpPost]
     public async Task<IActionResult> EditSection(TableSectionViewModel tableSectionVM)
     {
         string token = Request.Cookies["AuthToken"];
@@ -105,9 +113,9 @@ public class TableSectionController : Controller
     #endregion
 
     #region Delete Section
-    public async Task<IActionResult> DeleteSection(long sectionId)
+    public async Task<IActionResult> DeleteSection(long sectionid)
     {
-        var deleteSectionStatus = await _tableSectionService.DeleteSection(sectionId);
+        var deleteSectionStatus = await _tableSectionService.DeleteSection(sectionid);
         if (deleteSectionStatus)
         {
             return Json(new { success = true, text = "Section Deleted successfully" });
@@ -126,11 +134,13 @@ public class TableSectionController : Controller
     #endregion
 
     #region Add Table
-    public IActionResult AddTable()
+    public IActionResult AddTable(long sectionid)
     {
         TableSectionViewModel tableSectionVM = new TableSectionViewModel();
-        var SectionList = _tableSectionService.GetAllSections();
-        ViewBag.SectionList = new SelectList(SectionList, "SectionId", "SectionName");
+        tableSectionVM.SectionList = _tableSectionService.GetAllSections();
+        tableSectionVM.tablesVM = new TablesViewModel();
+        tableSectionVM.tablesVM.SectionId = sectionid;
+
         return PartialView("_AddTablePartial", tableSectionVM);
     }
 
@@ -151,15 +161,14 @@ public class TableSectionController : Controller
     #endregion
 
     #region Edit Table
-    public async Task<IActionResult> GetTableById(long tableId)
+    public async Task<IActionResult> GetTableById(long tableId, long sectionId)
     {
         TableSectionViewModel tableSectionVM = new TableSectionViewModel();
-        var SectionList = _tableSectionService.GetAllSections();
-        ViewBag.SectionList = new SelectList(SectionList, "SectionId", "SectionName");
-        tableSectionVM.tablesVM = _tableSectionService.GetTableById(tableId);
+        tableSectionVM.SectionList = _tableSectionService.GetAllSections();
+        // ViewBag.SectionList = new SelectList(SectionList, "SectionId", "SectionName");
+        tableSectionVM.tablesVM = _tableSectionService.GetTableById(tableId, sectionId);
         return PartialView("_EditTablePartial", tableSectionVM);
     }
-
 
     [HttpPost]
     public async Task<IActionResult> EditTable([FromForm] TableSectionViewModel tableSectionVM)
@@ -178,10 +187,11 @@ public class TableSectionController : Controller
     #endregion
 
     #region Delete Table
+
     [HttpPost]
-    public async Task<IActionResult> DeleteTable(long tableId)
+    public async Task<IActionResult> DeleteTable(long tableid)
     {
-        var deleteTableStatus = await _tableSectionService.DeleteTable(tableId);
+        var deleteTableStatus = await _tableSectionService.DeleteTable(tableid);
         if (deleteTableStatus)
         {
             return Json(new { success = true, text = "Table Deleted successfully" });

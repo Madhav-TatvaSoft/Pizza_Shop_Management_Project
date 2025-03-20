@@ -14,7 +14,6 @@ public class TablesViewModel
     [Required(ErrorMessage = "Capacity is Required")]
     public int Capacity { get; set; }
 
-    [Required(ErrorMessage = "Status is Required")]
     public bool Status { get; set; }
 
     public bool Isdelete { get; set; }

@@ -1,0 +1,65 @@
+@model DAL.ViewModels.TableSectionViewModel
+
+
+<div class="modal-content">
+    <div class="modal-header">
+
+        <h1 class="modal-title fs-5 fw-bold text-secondary" id="exampleModalLabel">
+            Edit Section</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+
+    <form id="EditSectionForm">
+        <div class="modal-body">
+            <div class="form-floating mb-3">
+                <input type="text" asp-for="@Model.sectionVM.SectionName" class="form-control" id="floatingInput"
+                    placeholder="Name" required>
+                <span asp-validation-for="@Model.sectionVM.SectionName" class="text-danger validate"></span>
+                <label for="floatingInput" class="fs-6 text-secondary">Name</label>
+            </div>
+
+            <div class="form-floating ">
+                <input type="text" asp-for="@Model.sectionVM.Description" class="form-control" id="floatingInput"
+                    placeholder="Description">
+                <label for="floatingInput" class="fs-6 text-secondary">Description</label>
+            </div>
+        </div>
+        <input type="hidden" asp-for="@Model.sectionVM.SectionId" value="@Model.sectionVM.SectionId" />
+        <div class="modal-footer">
+            <button type="submit" class="btn solid-btn">Save</button>
+            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+
+<script>
+    // Modifier To Fill data in the Edit modal 
+    $("#EditSectionForm").on("submit", function (e) {
+        e.preventDefault();
+        let form = $("#EditSectionForm");
+        if (form.valid()) {
+            let formData = new FormData(this);
+            $.ajax({
+                url: "/TableSection/EditSection",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    if (data.success) {
+                        callSuccessToaster(data.text);
+                    } else {
+                        callErrorToaster(data.text);
+                    }
+                    $(".btn-close").click();
+                    PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
+                    loadSectionList();
+                    console.log("Edit Section-", sectionid);
+                    Table_Main_Checkbox_Select();
+                }
+            });
+        }
+    });
+</script>

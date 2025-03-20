@@ -9,14 +9,14 @@ public interface ITableSectionService
     public PaginationViewModel<TablesViewModel> GetTablesBySection(long? sectionid, string search = "", int pageNumber = 1, int pageSize = 3);
 
     public Task<bool> AddSection(SectionViewModel addsection, long userId);
-    public Section GetSectionById(long sectionid);
+    public SectionViewModel GetSectionById(long sectionid);
     public Task<bool> EditSection(SectionViewModel editSection, long userId);
 
-    public Task<bool> DeleteSection(long sectionId);
+    public Task<bool> DeleteSection(long sectionid);
 
     public Task<bool> AddTable(TablesViewModel tableVM, long userId);
 
-    public TablesViewModel GetTableById(long tableId);
+    public TablesViewModel GetTableById(long tableId,long sectionId);
 
     public Task<bool> EditTable(TablesViewModel tableVM, long userId);
 

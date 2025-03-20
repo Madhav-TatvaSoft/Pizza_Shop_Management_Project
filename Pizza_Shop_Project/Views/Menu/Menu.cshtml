@@ -31,8 +31,8 @@
                 <div class="row d-flex m-1 ms-0 me-0">
 
                     @* Left-SideBar-Item *@
-                    <div class="left-sidebar-category-main-div bg-opacity-10 col-xl-2 col-lg-3 col-md-4 col-sm-12 ps-0 pe-0 pb-3"
-                        style="overflow-y:scroll; background-color: rgb(249, 249, 249);">
+                    <div class="left-sidebar-category-main-div bg-opacity-10 col-xl-2 col-lg-3 col-md-4 col-sm-12 ps-0 pe-0 pb-3 border border-primary border-bottom-0 border-end-1
+            border-start-0 border-top-0 " style="overflow-y:scroll; background-color: rgb(249, 249, 249);">
 
                         <div class="user-text p-3 d-flex justify-content-between">
                             <span class="fw-bold fs-5">Category</span>
@@ -71,7 +71,8 @@
                     </div>
 
                     @* Right-SideBar-Item *@
-                    <div class="right-side-table-div bg-white mt-2 pt-2 com-sm-12 col-md-8 col-lg-9 col-xl-10 col-12 ">
+                    <div
+                        class="right-side-table-div bg-white mt-2 pt-2 com-sm-12 col-md-8 col-lg-9 col-xl-10 col-12 ">
                         <div class="menu-text fs-3 fw-bold user-text">Items</div>
                         <div class="search-adduser-div d-flex justify-content-end pb-2 align-items-center">
                             <div class="search-button">
@@ -97,15 +98,15 @@
                         <div class="table-responsive">
                             <table class="table mb-0" id="demo">
                                 <thead>
-                                    <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
-                                        <th scope="col" class="text-start"><input class="form-check-input me-3 "
+                                    <tr class="border border-top-0 border-end-0 border-start-0 border-dark">
+                                        <th scope="col" class="text-start fw-bold"><input class="form-check-input mt-0 me-3 "
                                                 type="checkbox" id="item-main-checkbox"
                                                 onclick="Item_Main_Checkbox_Select()">Name</th>
-                                        <th scope="col" class="text-center text-nowrap">Item Type</th>
-                                        <th scope="col" class="text-center">Rate</th>
-                                        <th scope="col" class="text-center">Quantity</th>
-                                        <th scope="col" class="text-center">Available</th>
-                                        <th scope="col" class="text-center">Action</th>
+                                        <th scope="col" class="text-center fw-bold text-nowrap">Item Type</th>
+                                        <th scope="col" class="text-center fw-bold">Rate</th>
+                                        <th scope="col" class="text-center fw-bold">Quantity</th>
+                                        <th scope="col" class="text-center fw-bold">Available</th>
+                                        <th scope="col" class="text-center fw-bold">Action</th>
 
                                     </tr>
                                 </thead>
@@ -147,8 +148,8 @@
                 <div class="row d-flex m-1 ms-0 me-0">
 
                     @* Left-SideBar-Modifier *@
-                    <div class="left-sidebar-modifier-main-div bg-opacity-10 col-xl-2 col-lg-3 col-md-4 col-sm-12 ps-0 pe-0 pb-3"
-                        style="overflow-y:scroll; background-color: rgb(249, 249, 249);">
+                    <div class="left-sidebar-modifier-main-div bg-opacity-10 col-xl-2 col-lg-3 col-md-4 col-sm-12 ps-0 pe-0 pb-3 border border-primary border-bottom-0 border-end-1
+            border-start-0 border-top-0" style="overflow-y:scroll; background-color: rgb(249, 249, 249);">
 
                         <div class="user-text p-3 d-flex justify-content-between">
                             <span class="fw-bold fs-5">Modifier Group</span>
@@ -157,6 +158,7 @@
                         </div>
 
                         <!-- Modifiers -->
+                        
                         @* for loop *@
 
                         <div id="ModifierGroupList_Partial">
@@ -165,7 +167,8 @@
                     </div>
 
                     @* Right-SideBar-Modifier *@
-                    <div class="right-side-table-div bg-white mt-2 pt-2 com-sm-12 col-md-8 col-lg-9 col-xl-10 col-12 ">
+                    <div
+                        class="right-side-table-div bg-white mt-2 pt-2 com-sm-12 col-md-8 col-lg-9 col-xl-10 col-12">
 
                         <div class="menu-text fs-3 fw-bold user-text">Modifiers</div>
                         <div class="search-adduser-div d-flex justify-content-end pb-2 align-items-center">
@@ -196,14 +199,14 @@
                         <div class="table-responsive">
                             <table class="table mb-0" id="demo">
                                 <thead>
-                                    <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
-                                        <th scope="col" class="text-start"><input id="modifier-main-checkbox"
-                                                class="form-check-input me-3 " type="checkbox"
+                                    <tr class="border border-top-0 border-end-0 border-start-0 border-dark">
+                                        <th scope="col" class="text-start fw-bold"><input id="modifier-main-checkbox"
+                                                class="form-check-input mt-0 me-3 " type="checkbox"
                                                 onclick="Modifier_Main_Checkbox_Select()">Name</th>
-                                        <th scope="col" class="text-center">Unit</th>
-                                        <th scope="col" class="text-center">Rate</th>
-                                        <th scope="col" class="text-center">Quantity</th>
-                                        <th scope="col" class="text-center">Action</th>
+                                        <th scope="col" class="text-center fw-bold">Unit</th>
+                                        <th scope="col" class="text-center fw-bold">Rate</th>
+                                        <th scope="col" class="text-center fw-bold">Quantity</th>
+                                        <th scope="col" class="text-center fw-bold">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody style="white-space: nowrap;" id="modifier-list-body">
@@ -966,7 +969,7 @@
             modifier_div.innerHTML = "";
             for (i = 0; i < modifierTempId.length; i++) {
                 modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                                                                                                                                                                                                                                                                                 ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
+                                                                                                                                                                                                                                                                                                                                                         ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
             }
         }
 
@@ -1042,7 +1045,7 @@
 
             for (i = 0; i < modifierTempId.length; i++) {
                 edit_modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
+                                                                                        ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
             }
 
         }
@@ -1252,11 +1255,16 @@
         // To show the ModifierGroup List
         function loadModifierGroupList() {
             console.log("Modifier Group");
+
+            var modgrpid = @Model.modifierGroupList[0].ModifierGrpId;
+
             $.ajax({
                 url: "/Menu/GetAllModifierGroupList",
                 type: "GET",
                 success: function (data) {
                     document.getElementById("ModifierGroupList_Partial").innerHTML = data;
+                    PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
+
                 }
             })
         }
@@ -1316,22 +1324,22 @@
                 Item_Main_Checkbox_Select();
             });
 
-         // Items To Fill data in the Add modal 
-        $("#AddItemForm").on("submit", function (e) {
+            // Items To Fill data in the Add modal 
+            $("#AddItemForm").on("submit", function (e) {
 
-            e.preventDefault();
+                e.preventDefault();
 
-            @* let form = $("#AddItemForm"); *@
+        @* let form = $("#AddItemForm"); *@
 
-            @* if (form.valid()) { *@
+        @* if (form.valid()) { *@
 
-                let formData = new FormData(this);
-                console.log("iNITIAL",formData);
+                    let formData = new FormData(this);
+                console.log("iNITIAL", formData);
                 console.log(JSON.stringify(itemData));
 
                 formData.append('itemData', JSON.stringify(itemData));
 
-                console.log("Final",formData);
+                console.log("Final", formData);
 
                 $.ajax({
                     url: "/Menu/AddItem",
@@ -1350,8 +1358,8 @@
                         Item_Main_Checkbox_Select();
                     }
                 });
-            @* } *@
-        });
+        @* } *@
+                });
 
             // Items To Show data in the edit modal
             $("#EditItemModal").on('show.bs.modal', function (event) {
@@ -1544,198 +1552,197 @@
                 }
             });
 
-                                                    //Edit modifier group post method
-                                                    /* $(document).on("submit", "#EditModifierGroupForm", function (e) {
+            //Edit modifier group post method
+            /* $(document).on("submit", "#EditModifierGroupForm", function (e) {
 
-                                                        e.preventDefault();
+                e.preventDefault();
 
-         console.log(document.getElementById("EditModifierGrpIdForEdit").value); 
+    console.log(document.getElementById("EditModifierGrpIdForEdit").value); 
 
-                let form = $("#EditModifierGroupForm");
+    let form = $("#EditModifierGroupForm");
 
-            if (form.valid()) {
+    if (form.valid()) {
 
-                let formData = new FormData(this);
+    let formData = new FormData(this);
 
-                console.log(formData);
+    console.log(formData);
+
+    $.ajax({
+    url: `/Menu/EditModifierGroup`,
+    type: "POST",
+    contentType: false,
+    processData: false,
+    data: formData,
+    success: function (data) {
+
+    console.log(data);
+
+    console.log("edit data saved");
+
+    for (i = 0; i < editmodifierTempId.length; i++) {
+
+    if (modifierTempId.indexOf(editmodifierTempId[i]) == -1) {
+
+    //deleteModifierFromModGrpAfterEdit(modGrpID,editModTempId[i]);
+    console.log("delete existing modifier")
+
+    $.ajax({
+    url: `/Menu/DeleteModToModifierGrpAfterEdit?modGrpID=${data.grpId}&modifierID=${editmodifierTempId[i]}`,
+    type: "Post",
+    success: function () {
+    console.log("deleted external modifierGroup form modGrpID addModifierToModGrpAfterEdit edit");
+    }
+    });
+
+    }
+    }
+    for (i = 0; i < modifierTempId.length; i++) {
+
+    if (editmodifierTempId.indexOf(modifierTempId[i]) == -1) {
+
+    //addModifierToModGrpAfterEdit(modGrpID,modTempID[i]);
+    console.log("add existing mod");
+
+    $.ajax({
+    url: `/Menu/AddModToModifierGrpAfterEdit?modGrpID=${data.grpId}&modifierID=${modifierTempId[i]}`,
+    type: "post",
+    success: function () {
+    console.log("added external modifierGroup form modGrpID addModifierToModGrpAfterEdit ");
+    }
+    });
+    }
+    }
+
+    if (data.success) {
+    successToaster(data.text);
+    } else {
+    errorToaster(data.text);
+    }
+    $(".btn-close").click();
+
+    PaginatedModifierTable(data.grpId, searchText_mod, currentPage_mod, pageSize_mod);
+    loadModifierGroupList();
+    Existing_Modifier_Main_Checkbox_Select();
+    modifierTempId = [];
+    editmodifierTempId = [];
+    modifierTempName = [];
+    }
+    });
+    }
+    });
+            */
+
+            // Delete modifier Group POST
+            $(document).on("submit", "#deleteModifierGroupForm", function (e) {
+
+                e.preventDefault();
+
+                let modgrpid = document.getElementById("modifierGroup-id-for-Delete").value;
+                let modifierGrpidstart = document.getElementById("Mod_id").value;
 
                 $.ajax({
-                    url: `/Menu/EditModifierGroup`,
+                    url: `/Menu/DeleteModifierGroup`,
                     type: "POST",
-                    contentType: false,
-                    processData: false,
-                    data: formData,
+                    data: { modgrpid: modgrpid },
                     success: function (data) {
-
-                        console.log(data);
-
-                        console.log("edit data saved");
-
-                        for (i = 0; i < editmodifierTempId.length; i++) {
-
-                            if (modifierTempId.indexOf(editmodifierTempId[i]) == -1) {
-
-                                //deleteModifierFromModGrpAfterEdit(modGrpID,editModTempId[i]);
-                                console.log("delete existing modifier")
-
-                                $.ajax({
-                                    url: `/Menu/DeleteModToModifierGrpAfterEdit?modGrpID=${data.grpId}&modifierID=${editmodifierTempId[i]}`,
-                                    type: "Post",
-                                    success: function () {
-                                        console.log("deleted external modifierGroup form modGrpID addModifierToModGrpAfterEdit edit");
-                                    }
-                                });
-
-                            }
-                        }
-                        for (i = 0; i < modifierTempId.length; i++) {
-
-                            if (editmodifierTempId.indexOf(modifierTempId[i]) == -1) {
-
-                                //addModifierToModGrpAfterEdit(modGrpID,modTempID[i]);
-                                console.log("add existing mod");
-
-                                $.ajax({
-                                    url: `/Menu/AddModToModifierGrpAfterEdit?modGrpID=${data.grpId}&modifierID=${modifierTempId[i]}`,
-                                    type: "post",
-                                    success: function () {
-                                        console.log("added external modifierGroup form modGrpID addModifierToModGrpAfterEdit ");
-                                    }
-                                });
-                            }
-                        }
-
                         if (data.success) {
-                            successToaster(data.text);
+                            callSuccessToaster(data.text);
                         } else {
-                            errorToaster(data.text);
+                            callErrorToaster(data.text);
                         }
                         $(".btn-close").click();
-
-                        PaginatedModifierTable(data.grpId, searchText_mod, currentPage_mod, pageSize_mod);
                         loadModifierGroupList();
                         Existing_Modifier_Main_Checkbox_Select();
-                        modifierTempId = [];
-                        editmodifierTempId = [];
-                        modifierTempName = [];
                     }
                 });
-            }
-        });
-                                                    */
-
-        // Delete modifier Group POST
-        $(document).on("submit", "#deleteModifierGroupForm", function (e) {
-
-            e.preventDefault();
-
-            let modgrpid = document.getElementById("modifierGroup-id-for-Delete").value;
-            let modifierGrpidstart = document.getElementById("Mod_id").value;
-
-            $.ajax({
-                url: `/Menu/DeleteModifierGroup`,
-                type: "POST",
-                data: { modgrpid: modgrpid },
-                success: function (data) {
-                    if (data.success) {
-                        callSuccessToaster(data.text);
-                    } else {
-                        callErrorToaster(data.text);
-                    }
-                    $(".btn-close").click();
-                    loadModifierGroupList();
-                    PaginatedModifierTable(modifierGrpidstart, searchText_mod, currentPage_mod, pageSize_mod);
-                    Existing_Modifier_Main_Checkbox_Select();
-                }
             });
-        });
 
-        // -------------------------------------Modifier-------------------------------------- -----------
+            // -------------------------------------Modifier-------------------------------------- -----------
 
-        // Modifier To Show data in the Add modal GET Method
-        $("#addModifierModalId").on('click', function () {
-            $.ajax({
-                url: "/Menu/AddModifierItem",
-                type: "GET",
-                success: function (data) {
-                    $("#AddModifierModal-MainDiv").html(data);
-                }
-            });
-        });
-
-        // Modifier To Show data in the edit modal GET
-        $("#EditModifierModal").on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var modid = button.data("id");
-            if (modid != null) {
+            // Modifier To Show data in the Add modal GET Method
+            $("#addModifierModalId").on('click', function () {
                 $.ajax({
-                    url: "/Menu/GetModifiersByModifierId",
+                    url: "/Menu/AddModifierItem",
                     type: "GET",
-                    data: { modid },
                     success: function (data) {
-                        $("#EditModifierModal-MainDiv").html(data);
+                        $("#AddModifierModal-MainDiv").html(data);
                     }
                 });
-            }
-        });
-
-        // Modifier Delete Modal POST
-        $(document).on("submit", "#deleteModifierForm", function (e) {
-
-            e.preventDefault();
-
-            let modid = document.getElementById("deletemodifierid").value;
-
-            $.ajax({
-                url: "/Menu/DeleteModifier",
-                type: "POST",
-                data: { modid: modid },
-                success: function (data) {
-                    if (data.success) {
-                        callSuccessToaster(data.text);
-                    } else {
-                        callErrorToaster(data.text);
-                    }
-                    $(".btn-close").click();
-                    currentPage_mod = 1;
-                    PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
-                }
             });
-        });
 
-        // Modifier Mass Delete Modal Yes Button 
-        $(document).on("click", "#MassDeleteModifiersModal_YesButton", function () {
-
-            var sub_checkboxes = document.getElementsByClassName("modifier-sub-checkbox");
-
-            for (i = 0; i < sub_checkboxes.length; i++) {
-                if (sub_checkboxes[i].checked) {
-
-                    let modifierID = sub_checkboxes[i].getAttribute("data-checkid");
+            // Modifier To Show data in the edit modal GET
+            $("#EditModifierModal").on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var modid = button.data("id");
+                if (modid != null) {
                     $.ajax({
-                        url: `/Menu/DeleteModifier?modid=${modifierID}`,
-                        type: "POST",
+                        url: "/Menu/GetModifiersByModifierId",
+                        type: "GET",
+                        data: { modid },
                         success: function (data) {
-                            if (data.success) {
-                                callSuccessToaster(data.text);
-                            }
-                            else {
-                                callErrorToaster(data.text);
-                            }
-                            $("#MassDeleteModifiersBtn").prop("disabled", true);
-                            currentPage_mod = 1;
-                            PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
+                            $("#EditModifierModal-MainDiv").html(data);
                         }
                     });
                 }
-            }
-        });
+            });
 
-                                                    // end of Ready
-                                                });
+            // Modifier Delete Modal POST
+            $(document).on("submit", "#deleteModifierForm", function (e) {
+
+                e.preventDefault();
+
+                let modid = document.getElementById("deletemodifierid").value;
+
+                $.ajax({
+                    url: "/Menu/DeleteModifier",
+                    type: "POST",
+                    data: { modid: modid },
+                    success: function (data) {
+                        if (data.success) {
+                            callSuccessToaster(data.text);
+                        } else {
+                            callErrorToaster(data.text);
+                        }
+                        $(".btn-close").click();
+                        currentPage_mod = 1;
+                        PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
+                    }
+                });
+            });
+
+            // Modifier Mass Delete Modal Yes Button 
+            $(document).on("click", "#MassDeleteModifiersModal_YesButton", function () {
+
+                var sub_checkboxes = document.getElementsByClassName("modifier-sub-checkbox");
+
+                for (i = 0; i < sub_checkboxes.length; i++) {
+                    if (sub_checkboxes[i].checked) {
+
+                        let modifierID = sub_checkboxes[i].getAttribute("data-checkid");
+                        $.ajax({
+                            url: `/Menu/DeleteModifier?modid=${modifierID}`,
+                            type: "POST",
+                            success: function (data) {
+                                if (data.success) {
+                                    callSuccessToaster(data.text);
+                                }
+                                else {
+                                    callErrorToaster(data.text);
+                                }
+                                $("#MassDeleteModifiersBtn").prop("disabled", true);
+                                currentPage_mod = 1;
+                                PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
+                            }
+                        });
+                    }
+                }
+            });
+
+            // end of Ready
+        });
     </script>
 
-    
+
 
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

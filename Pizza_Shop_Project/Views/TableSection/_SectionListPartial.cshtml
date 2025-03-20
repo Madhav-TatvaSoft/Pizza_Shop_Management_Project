@@ -8,7 +8,7 @@
 @foreach (var item in Model.SectionList)
 {
     <a class="SectionGet @(index == 0 ? "active-category" : "") d-flex align-items-center justify-content-between col-12 p-2 ps-3 text-decoration-none text-secondary "
-        data-id="@item.SectionId" id="Section_id">
+        data-id="@item.SectionId" id="Section_id_@item.SectionId">
 
         <div class="d-flex justify-content-start">
             <i class="fa-solid fa-grip-vertical me-2 mt-1"></i>
@@ -17,10 +17,10 @@
 
         <div class="d-flex text-secondary justify-content-end">
             <input type="hidden" value="@item.Description">
-            <i class="fa-solid fa-pen me-2 text-secondary" onclick="GetDetailsForSectionUpdate(this)"
-                data-id="@item.SectionId" data-bs-toggle="modal" data-bs-target="#EditSectionModal"></i>
-            <i class="fa-solid fa-trash-can text-secondary" onclick="GetIdForDeleteSection(this)" data-id="@item.SectionId"
-                data-bs-toggle="modal" data-bs-target="#DeleteSectionModal"></i>
+            <i class="fa-solid fa-pen me-2 text-secondary" data-bs-toggle="modal" data-bs-target="#EditSectionModal"
+                data-id="@item.SectionId"></i>
+            <i class="fa-solid fa-trash-can text-secondary" data-bs-toggle="modal" data-bs-target="#DeleteSectionModal"
+                onclick="GetIdForDeleteSection(this)" data-id="@item.SectionId"></i>
         </div>
 
     </a>

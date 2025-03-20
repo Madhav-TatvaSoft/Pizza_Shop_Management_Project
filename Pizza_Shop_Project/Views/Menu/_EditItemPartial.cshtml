@@ -295,7 +295,7 @@
     $(document).ready(function () {
         $.ajax({
             url: "/Menu/EditModifiersByGroup",
-            type: "GET",
+            type: "POST",
             data: { data: JSON.stringify(editItemData) },
             success: function (data) {
                 $('#EditItemByModifiers').html(data);

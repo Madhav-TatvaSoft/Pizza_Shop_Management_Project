@@ -8,7 +8,6 @@
     <div class="container-fluid">
 
         <!-- Tables -->
-
         <div class="row d-flex m-1 ms-0 me-0">
 
             @* Left-SideBar-table *@
@@ -18,7 +17,7 @@
                 <div class="user-text p-3 d-flex justify-content-between">
                     <span class="fw-bold fs-5">Sections</span>
                     <i class="fa-regular fa-square-plus fs-4 user-text" data-bs-toggle="modal"
-                        data-bs-target="#AddSectionModal"></i>
+                        data-bs-target="#AddSectionModal" id="AddSectionModalId"></i>
                 </div>
 
                 <div id="SectionList_Partial">
@@ -31,6 +30,7 @@
             <div class="right-side-table-div bg-white pt-2 com-sm-12 col-md-8 col-lg-9 col-xl-10 col-12 shadow-lg">
                 <div class="table-text fs-3 fw-bold user-text">Tables</div>
                 <div class="search-adduser-div d-flex justify-content-end pb-2 align-items-center">
+
                     <input type="hidden" id="Section_id" value="@Model.SectionList[0].SectionId">
 
                     <div class="search-button">
@@ -43,23 +43,26 @@
                             data-bs-toggle="modal" data-bs-target="#MassDeleteTablesModal"><i
                                 class="fa-solid fa-trash-can "></i></button>
                     </div>
+
                     <div class="add-user-button">
-                        <button type="button" class="addTableBtn btn solid-btn text-light p-1 mt-2 ms-2 me-sm-2 me-0"
-                            data-bs-toggle="modal" data-bs-target="#AddTableModal">
+                        <button type="button" class="btn solid-btn text-light p-1 mt-2 ms-2 me-sm-2 me-0"
+                            data-bs-toggle="modal" data-bs-target="#AddTableModal" id="AddTableModalId">
                             + New Table
                         </button>
+                        <input type="hidden" id="Section_id_Table">
                     </div>
                 </div>
 
                 <div class="table-responsive">
                     <table class="table mb-0" id="demo">
                         <thead>
-                            <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
-                                <th scope="col" class="text-start"><input class="form-check-input me-3 " type="checkbox"
-                                        id="table-main-checkbox" onclick="Table_Main_Checkbox_Select()">Name</th>
-                                <th scope="col" class="text-center">Capacity</th>
-                                <th scope="col" class="text-center">Status</th>
-                                <th scope="col" class="text-center">Action</th>
+                            <tr class="border border-top-0 border-end-0 border-start-0 border-dark">
+                                <th scope="col" class="text-start fw-bold"><input class="form-check-input me-3 mt-0 "
+                                        type="checkbox" id="table-main-checkbox"
+                                        onclick="Table_Main_Checkbox_Select()">Name</th>
+                                <th scope="col" class="text-center fw-bold">Capacity</th>
+                                <th scope="col" class="text-center fw-bold">Status</th>
+                                <th scope="col" class="text-center fw-bold">Action</th>
 
                             </tr>
                         </thead>
@@ -99,10 +102,113 @@
 <!------------------------------------Modals---------------------------------------------->
 
 
+<!--------------------------------Section--------------------------------------->
+
+<!-- Add Section modal  -->
+<div class="modal fade" id="AddSectionModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" id="AddSection-Content">
+
+    </div>
+</div>
+
+<!-- Edit Section modal  -->
+<div class="modal fade" id="EditSectionModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" id="EditSection-Content">
+
+    </div>
+</div>
+
+<!-- Delete Section Modal-->
+<div class="modal fade" id="DeleteSectionModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5 fw-bold text-secondary">Delete Conformation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div class="d-flex justify-content-center mb-3"><img
+                        src="../images/toppng.com-warning-icon-2400x2400.png" style="width: 30px;" alt=""></div>
+                <p class="fw-semibold text-secondary text-center mb-3">Are you sure you want to delete this Section ?
+                </p>
+                <form id="DeleteSectionForm">
+                    <input type="hidden" asp-for="@Model.section.SectionId" name="sectionid" id="DeleteSectionId">
+                    <div class="modal-footer mt-3 d-flex justify-content-center">
+                        <button type="submit" class="btn solid-btn" data-bs-dismiss="modal">Yes</button>
+                        <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">No</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------------Tables--------------------------------------->
+
+<!-- Add Table modal  -->
+<div class="modal fade" id="AddTableModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" id="AddTable-Content">
+
+    </div>
+</div>
 
 
+<!-- Edit Table modal  -->
+<div class="modal fade" id="EditTableModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" id="EditTable-Content">
 
+    </div>
+</div>
 
+<!-- Delete Table Modal-->
+<div class="modal fade" id="DeleteTableModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5 fw-bold text-secondary">Delete Conformation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div class="d-flex justify-content-center mb-3"><img
+                        src="../images/toppng.com-warning-icon-2400x2400.png" style="width: 30px;" alt=""></div>
+                <p class="fw-semibold text-secondary text-center mb-3">Are you sure you want to delete this Table ?
+                </p>
+                <form id="DeleteTableForm">
+                    <input type="hidden" asp-for="@Model.Tables.TableId" id="DeleteTableId" name="tableid">
+                    <div class="modal-footer mt-3 d-flex justify-content-center">
+                        <button type="submit" class="btn solid-btn" data-bs-dismiss="modal">Yes</button>
+                        <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">No</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mass Delete Table Modal-->
+<div class="modal fade" id="MassDeleteTablesModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold text-secondary">Delete Conformation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="d-flex justify-content-center"><img src="../images/toppng.com-warning-icon-2400x2400.png"
+                    style="width: 30px;" class="mt-2 mb-2" alt=""></div>
+            <p class="fw-semibold text-secondary text-center mb-3">Are you sure you want to delete all this Tables ?
+            </p>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn solid-btn" id="MassDeleteTableModal_YesButton"
+                    data-bs-dismiss="modal">Yes</button>
+                <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!------------------------------------End of Modals---------------------------------------------->
 
@@ -136,39 +242,34 @@
     <script>
 
         // Get details for Delete Section
+        function GetIdForDeleteSection(tag) {
+            let currentSectionId = document.getElementById("DeleteSectionId");
+            currentSectionId.value = tag.getAttribute("data-id");
+        }
+
+        // Get details for Delete Table
         function GetIdForDeleteTable(tag) {
-            let currentTableId = document.getElementById("table-delete-id");
+            let currentTableId = document.getElementById("DeleteTableId");
             currentTableId.value = tag.getAttribute("data-id");
         }
 
-        // Delete any particular item 
-        @* document.addEventListener('DOMContentLoaded', function () {
-        var deleteModalItem = document.getElementById('delete-item-modal');
-            deleteModalItem.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget;
-        var itemid = button.getAttribute('data-id');
-        var deleteItemInput = document.getElementById('deleteitemid');
-                deleteItemInput.value = itemid;
-        });
-        }); *@
-
-            // Table Main checkbox tick  
-            function Table_Main_Checkbox_Select() {
-                var main_checkbox = document.getElementById("table-main-checkbox");
-                var sub_checkboxes = document.getElementsByClassName("table-sub-checkbox");
-                var MassDeleteTablesBtn = document.getElementById("#MassDeleteTablesBtn");
-                if (main_checkbox.checked) {
-                    for (i = 0; i < sub_checkboxes.length; i++) {
-                        sub_checkboxes[i].checked = true;
-                    }
+        // Table Main checkbox tick  
+        function Table_Main_Checkbox_Select() {
+            var main_checkbox = document.getElementById("table-main-checkbox");
+            var sub_checkboxes = document.getElementsByClassName("table-sub-checkbox");
+            var MassDeleteTablesBtn = document.getElementById("#MassDeleteTablesBtn");
+            if (main_checkbox.checked) {
+                for (i = 0; i < sub_checkboxes.length; i++) {
+                    sub_checkboxes[i].checked = true;
                 }
-                if (!main_checkbox.checked) {
-                    for (i = 0; i < sub_checkboxes.length; i++) {
-                        sub_checkboxes[i].checked = false;
-                    }
-                }
-                toggleMassDeleteBtnMod();
             }
+            if (!main_checkbox.checked) {
+                for (i = 0; i < sub_checkboxes.length; i++) {
+                    sub_checkboxes[i].checked = false;
+                }
+            }
+            toggleMassDeleteBtnMod();
+        }
 
         // Table Mass Delete Button
         function toggleMassDeleteBtnMod() {
@@ -245,26 +346,21 @@
             });
         }
 
-        // To show the Section List
+        // To show the Section List Partially
         function loadSectionList() {
 
             console.log("Section List");
+            var sectionid = @Model.SectionList[0].SectionId;
 
             $.ajax({
                 url: "/TableSection/GetAllSections",
                 type: "GET",
                 success: function (data) {
-        @* console.log(data); *@
-                        document.getElementById("SectionList_Partial").innerHTML = data;
+                    document.getElementById("SectionList_Partial").innerHTML = data;
+                    PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
                 }
             });
         }
-
-
-
-
-
-
 
     </script>
 
@@ -288,6 +384,8 @@
                 $(".SectionGet").removeClass("active-category");
                 $(this).addClass("active-category");
                 sectionid = $(this).data("id");
+                var section_id_table = document.getElementById("Section_id_Table");
+                section_id_table.value = sectionid;
                 currentPage_table = 1;
                 PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
             });
@@ -319,6 +417,153 @@
                 PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
                 Table_Main_Checkbox_Select();
             });
+
+            // Add Section Modal GET
+            $("#AddSectionModalId").on('click', function () {
+                $.ajax({
+                    url: "/TableSection/AddSection",
+                    type: "GET",
+                    success: function (data) {
+                        $("#AddSection-Content").html(data);
+                    }
+                });
+            });
+
+            // Edit Section Modal GET
+            $("#EditSectionModal").on('show.bs.modal', function (event) {
+
+                var button = $(event.relatedTarget);
+                var sectionid = button.data("id");
+
+                if (sectionid != null) {
+                    $.ajax({
+                        url: "/TableSection/GetSectionById",
+                        type: "GET",
+                        data: { sectionid },
+                        success: function (data) {
+                            $("#EditSection-Content").html(data);
+                        }
+                    });
+                }
+            });
+
+            // Delete Section Modal POST
+            $(document).on("submit", "#DeleteSectionForm", function (e) {
+
+                e.preventDefault();
+
+                let sectionid = document.getElementById("DeleteSectionId").value;
+
+                $.ajax({
+                    url: "/TableSection/DeleteSection",
+                    type: "POST",
+                    data: { sectionid: sectionid },
+                    success: function (data) {
+                        if (data.success) {
+                            callSuccessToaster(data.text);
+                        } else {
+                            callErrorToaster(data.text);
+                        }
+                        $(".btn-close").click();
+                        currentPage_table = 1;
+                        loadSectionList();
+                    }
+                });
+            });
+
+            // Add Table Modal GET
+            $("#AddTableModalId").on('click', function () {
+                sectionid = $("#Section_id_Table").val();
+
+                $.ajax({
+                    url: "/TableSection/AddTable",
+                    type: "GET",
+                    data: { sectionid: sectionid },
+                    success: function (data) {
+                        $("#AddTable-Content").html(data);
+                    }
+                });
+            });
+
+            // Edit Table Modal GET
+            $("#EditTableModal").on('show.bs.modal', function (event) {
+
+                var button = $(event.relatedTarget);
+                var tableid = button.data("id");
+
+                sectionid = $("#Section_id_Table").val();
+
+                if (tableid != null) {
+                    $.ajax({
+                        url: "/TableSection/GetTableById",
+                        type: "GET",
+                        data: { tableid, sectionid },
+                        success: function (data) {
+                            $("#EditTable-Content").html(data);
+                        }
+                    });
+                }
+            });
+
+            // Delete Table Modal POST
+            $(document).on("submit", "#DeleteTableForm", function (e) {
+
+                e.preventDefault();
+
+                let tableid = document.getElementById("DeleteTableId").value;
+                console.log(tableid, "-tableid");
+
+                $.ajax({
+                    url: "/TableSection/DeleteTable",
+                    type: "POST",
+                    data: { tableid: tableid },
+                    success: function (data) {
+                        if (data.success) {
+                            callSuccessToaster(data.text);
+                        } else {
+                            callErrorToaster(data.text);
+                        }
+                        $(".btn-close").click();
+                        currentPage_table = 1;
+                        PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
+                    }
+                });
+            });
+
+            // Table Mass Delete Modal Yes Button 
+            $(document).on("click", "#MassDeleteTableModal_YesButton", function () {
+
+                var sub_checkboxes = document.getElementsByClassName("table-sub-checkbox");
+
+                for (i = 0; i < sub_checkboxes.length; i++) {
+
+                    if (sub_checkboxes[i].checked) {
+
+                        let tableid = sub_checkboxes[i].getAttribute("data-checkid");
+
+                        $.ajax({
+                            url: `/TableSection/DeleteTable?tableid=${tableid}`,
+                            type: "POST",
+                            success: function (data) {
+
+                                if (data.success) {
+                                    callSuccessToaster(data.text);
+                                }
+                                else {
+                                    callErrorToaster(data.text);
+                                }
+
+                                $("#MassDeleteTablesBtn").prop("disabled", true);
+
+                                currentPage_table = 1;
+                                PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
+                            }
+                        });
+                    }
+                }
+            });
+
+            // End of Ready Function
         });
 
     </script>

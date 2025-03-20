@@ -10,6 +10,8 @@ public class TableSectionViewModel
 
     public SectionViewModel sectionVM { get; set; }
 
+    public Table Tables { get; set; }
+
     public TablesViewModel tablesVM { get; set; }
 
     public PaginationViewModel<TablesViewModel> PaginationForTable { get; set; }
