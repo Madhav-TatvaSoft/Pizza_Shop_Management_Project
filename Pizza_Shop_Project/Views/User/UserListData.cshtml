@@ -28,7 +28,7 @@
 
 <!-- Table -->
 <div class="container">
-  <div class="table-main-div table-responsive p-3 m-3 mb-0 bg-white mt-3 ">
+  <div class="table-main-div table-responsive p-3 m-3 mb-0 bg-white mt-3 shadow-lg">
     <table id="table" class="table">
       <thead>
         <tr class="border border-top-0 border-end-0 border-start-0 border-dark">
@@ -46,22 +46,22 @@
         @await Html.PartialAsync("_UserListDataPartial", Model)
       </tbody>
     </table>
-  </div>
 
-  @* Pagination div *@
-  <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-2">
+    @* Pagination div *@
+    <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-2">
 
-    <span class="mt-2">Items Per page:</span>
+      <span class="mt-2">Items Per page:</span>
 
-    <select id="itemselect">
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="15">15</option>
-    </select>
+      <select id="itemselect">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
 
-    <span class=" mt-2 ms-1" id="pagination-info"></span>
-    <button id="left-arrow" class="btn border border-dark bg-light ms-2">&lt;</button>
-    <button id="right-arrow" class="btn border border-dark bg-light ms-2">&gt;</button>
+      <span class=" mt-2 ms-1" id="pagination-info"></span>
+      <button id="left-arrow" class="btn border border-dark bg-light ms-2">&lt;</button>
+      <button id="right-arrow" class="btn border border-dark bg-light ms-2">&gt;</button>
+    </div>
   </div>
 </div>
 

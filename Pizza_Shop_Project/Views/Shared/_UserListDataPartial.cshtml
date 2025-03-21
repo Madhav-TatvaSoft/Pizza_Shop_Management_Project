@@ -12,40 +12,86 @@ else
 {
     @foreach (var item in Model.Items)
     {
-        <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
-            <td class="text-nowrap align-content-center d-flex"><img src="@item.ProfileImage" class="rounded-circle " width="25px" height="25px" alt="" /><p class="ms-2 mt-1">@item.FirstName
-                    @item.LastName</p></td>
-            <td>@item.Userlogin.Email</td>
-            <td>@item.Phone</td>
-            <td>@item.Userlogin.Role.RoleName</td>
-            <td>
-                @if (item.Status == true)
-                {
-                    <div class="text-center text-white bg-success rounded-pill w-75 fs-6 p-md-1 p-2">
-                        Active</div>
-                }
-                else
-                {
-                    <div class="text-center text-white bg-danger rounded-pill w-75 fs-6 p-md-1 p-2">
-                        Inactive</div>
-                }
-            </td>
-            <td>
-                @if (item.Userlogin.Email == ViewBag.emailid)
-                {
-                    <i class="fa-solid fa-pen text-black-50 me-3"></i>
-                    <i class="fa-solid fa-trash-can text-black-50"></i>
-                }
-                else
-                {
+        @if (item.Userlogin.Email != ViewBag.emailid)
+        {
+            <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
+                <td class="text-nowrap align-content-center d-flex"><img src="@item.ProfileImage" class="rounded-circle "
+                        width="25px" height="25px" alt="" />
+                    <p class="ms-2 mt-1">@item.FirstName
+                        @item.LastName</p>
+                </td>
+                <td>@item.Userlogin.Email</td>
+                <td>@item.Phone</td>
+                <td>@item.Userlogin.Role.RoleName</td>
+                <td>
+                    @if (item.Status == true)
+                    {
+                        <div class="text-center text-white bg-success rounded-pill w-75 fs-6 p-md-1 p-2">
+                            Active</div>
+                    }
+                    else
+                    {
+                        <div class="text-center text-white bg-danger rounded-pill w-75 fs-6 p-md-1 p-2">
+                            Inactive</div>
+                    }
+                </td>
+                <td>
+                    @* @if (item.Userlogin.Email == ViewBag.emailid)
+        { *@
+                    @* <i class="fa-solid fa-pen text-black-50 me-3"></i>
+        <i class="fa-solid fa-trash-can text-black-50"></i> *@
+                    @* }
+        else
+        { *@
                     <a asp-action="EditUser" asp-route-Email="@item.Userlogin.Email" class="text-dark me-3 text-decoration-none">
                         <i class="fa-solid fa-pen"></i>
                     </a>
                     <i class="fa-solid fa-trash-can" data-bs-toggle="modal" data-bs-target="#delete-user"
                         data-email="@item.Userlogin.Email"></i>
-                }
-            </td>
-        </tr>
+                    @* } *@
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1" style="background-color: rgb(202, 236, 255);">
+                <td class="text-nowrap align-content-center d-flex"><img src="@item.ProfileImage" class="rounded-circle "
+                        width="25px" height="25px" alt="" />
+                    <p class="ms-2 mt-1">@item.FirstName
+                        @item.LastName</p>
+                </td>
+                <td>@item.Userlogin.Email</td>
+                <td>@item.Phone</td>
+                <td>@item.Userlogin.Role.RoleName</td>
+                <td>
+                    @if (item.Status == true)
+                    {
+                        <div class="text-center text-white bg-success rounded-pill w-75 fs-6 p-md-1 p-2">
+                            Active</div>
+                    }
+                    else
+                    {
+                        <div class="text-center text-white bg-danger rounded-pill w-75 fs-6 p-md-1 p-2">
+                            Inactive</div>
+                    }
+                </td>
+                <td>
+                    @* @if (item.Userlogin.Email == ViewBag.emailid)
+        { *@
+                    <i class="fa-solid fa-pen text-black-50 me-3"></i>
+                    <i class="fa-solid fa-trash-can text-black-50"></i>
+                    @* }
+        else
+        { *@
+                    @* <a asp-action="EditUser" asp-route-Email="@item.Userlogin.Email" class="text-dark me-3 text-decoration-none">
+        <i class="fa-solid fa-pen"></i>
+        </a>
+        <i class="fa-solid fa-trash-can" data-bs-toggle="modal" data-bs-target="#delete-user"
+        data-email="@item.Userlogin.Email"></i> *@
+                    @* } *@
+                </td>
+            </tr>
+        }
     }
 }
 <input type="hidden" id="totalRecordsHidden" value="@Model.TotalCount" />

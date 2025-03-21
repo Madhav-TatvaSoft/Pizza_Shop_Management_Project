@@ -1,7 +1,12 @@
+using DAL.Models;
+
 namespace DAL.ViewModels;
 
 public class PaginationViewModel<T>
 {
+    private List<Tax> items;
+
+
     public List<T> Items { get; set; }
     public int TotalCount { get; set; }
     public int PageNumber { get; set; }
@@ -20,4 +25,13 @@ public class PaginationViewModel<T>
         PageNumber = pageNumber;
         PageSize = pageSize;
     }
+
+    public PaginationViewModel(List<Tax> items, int totalCount, int pageNumber, int pageSize)
+    {
+        this.items = items;
+        TotalCount = totalCount;
+        PageNumber = pageNumber;
+        PageSize = pageSize;
+    }
+
 }

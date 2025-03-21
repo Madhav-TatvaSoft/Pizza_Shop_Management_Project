@@ -438,3 +438,8 @@ form i {
     opacity: 1;
 }
 
+.search-icon-style-tax {
+    position: absolute;
+    margin-left: -25px;
+    margin-top: 13px;
+}

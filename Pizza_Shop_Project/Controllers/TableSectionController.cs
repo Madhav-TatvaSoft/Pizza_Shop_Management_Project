@@ -115,10 +115,15 @@ public class TableSectionController : Controller
     #region Delete Section
     public async Task<IActionResult> DeleteSection(long sectionid)
     {
+        TableSectionViewModel tableSectionVM = new TableSectionViewModel();
+
         var deleteSectionStatus = await _tableSectionService.DeleteSection(sectionid);
+
+        tableSectionVM.SectionList = _tableSectionService.GetAllSections();
+
         if (deleteSectionStatus)
         {
-            return Json(new { success = true, text = "Section Deleted successfully" });
+            return Json(new { sectionid=tableSectionVM.SectionList[0].SectionId, success = true, text = "Section Deleted successfully" });
         }
         return Json(new { success = false, text = "Failed to Delete Section" });
     }

@@ -12,8 +12,8 @@
 
                 <div class="form-floating col-6 p-1">
                     <input type="text" class="form-control" asp-for="@Model.tablesVM.TableName" id="floatingInput"
-                        placeholder="Name" required>
-                    <label for="floatingInput">Name</label>
+                        placeholder="Name*" required>
+                    <label for="floatingInput">Name*</label>
                     <span asp-validation-for="@Model.tablesVM.TableName" class="text-danger validate"></span>
                 </div>
 
@@ -41,11 +41,22 @@
                 </div>
 
                 <div class="form-floating col-6 p-1">
-                    <select class="form-select" asp-for="@Model.tablesVM.Status" id="selectGrpIdDropDown">
-                        <option value="false">Available</option>
-                        <option value="true">Occupied</option>
+                    <input type="hidden" asp-for="@Model.tablesVM.Status" id="Status_Table_Add">
+                    <select class="form-select" asp-for="@Model.tablesVM.Status" id="selectGrpIdDropDown" disabled>
+                        @if(Model.tablesVM.Status == true)
+                        {
+                            <option selected >Occupied</option>
+                            @* <option value="false">Available</option> *@
+                        }
+                        else
+                        {
+                            @* <option value="true">Occupied</option> *@
+                            <option selected>Available</option>
+                        }
+                        @* <option value="@Model.tablesVM.Status">Available</option> *@
+                        @* <option value="true">Occupied</option> *@
                     </select>
-                    <label for="selectGrpIdDropDown">Status</label>
+                    <label for="selectGrpIdDropDown">Status*</label>
                 </div>
 
             </div>
@@ -54,8 +65,8 @@
         @* <input type="hidden" asp-for="@Model.sectionVM.SectionId" value="@Model.sectionVM.SectionId" /> *@
         <input type="hidden" asp-for="@Model.tablesVM.TableId" value="@Model.tablesVM.TableId" />
         <div class="modal-footer">
-            <button type="submit" class="btn solid-btn">save</button>
-            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">cancel</button>
+            <button type="submit" class="btn solid-btn">Save</button>
+            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Cancel</button>
         </div>
     </form>
 </div>

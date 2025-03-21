@@ -23,7 +23,7 @@ public class TableSectionService : ITableSectionService
     }
     #endregion
 
-    #region Pagination Model for Items
+    #region Pagination Model for Tables
     public PaginationViewModel<TablesViewModel> GetTablesBySection(long? sectionid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
         var query = _context.Tables
@@ -240,7 +240,7 @@ public class TableSectionService : ITableSectionService
         // }
         // return false;
 
-        var isTableNameExist = _context.Tables.FirstOrDefault(x => x.TableId == tableVM.TableId && x.TableName.ToLower().Trim() == tableVM.TableName.ToLower().Trim() && x.Isdelete == false);
+        var isTableNameExist = _context.Tables.FirstOrDefault(x => x.TableId != tableVM.TableId && x.TableName.ToLower().Trim() == tableVM.TableName.ToLower().Trim() && x.Isdelete == false);
 
         if (isTableNameExist != null)
         {

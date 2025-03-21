@@ -1,0 +1,55 @@
+@using DAL.ViewModels
+@model PaginationViewModel<TaxViewModel>
+
+
+@if (Model.Items.Count == 0)
+{
+    <tr>
+        <td colspan="6" class="text-center text-danger fw-bold">No Records Found</td>
+    </tr>
+}
+else
+{
+    @foreach (var item in Model.Items)
+    {
+        <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
+
+            <td class="text-start">@item.TaxName</td>
+
+            <td class="text-start text-nowrap">@item.TaxType</td>
+
+            <td>
+                <div class="form-check form-switch d-flex justify-content-center ps-5">
+                    @if (item.Isenable == true)
+                    {
+                        <input class="form-check-input fs-5 " type="checkbox" id="flexSwitchCheckChecked" checked disabled>
+                    }
+                    else
+                    {
+                        <input class="form-check-input fs-5 " type="checkbox" id="flexSwitchCheckChecked" disabled>
+                    }
+                </div>
+            </td>
+            <td>
+                <div class="form-check form-switch d-flex justify-content-center ps-5">
+                    @if (item.Isdefault == true)
+                    {
+                        <input class="form-check-input fs-5 " type="checkbox" id="flexSwitchCheckChecked" checked disabled>
+                    }
+                    else
+                    {
+                        <input class="form-check-input fs-5 " type="checkbox" id="flexSwitchCheckChecked" disabled>
+                    }
+                </div>
+            </td>
+            <td class="text-center">@item.TaxValue</td>
+            <td class="text-center">
+
+                <i class="fa-solid fa-pen w-25" data-bs-toggle="modal" data-bs-target="#EditTaxModal" data-id="@item.TaxId"></i>
+                <i class="fa-solid fa-trash-can ms-2 " data-bs-toggle="modal" data-bs-target="#DeleteTaxModal"
+                    data-id="@item.TaxId" onclick=GetIdForDeleteTax(this)></i>
+            </td>
+        </tr>
+    }
+}
+<input type="hidden" id="totalRecordsHidden-tax" value="@Model.TotalCount" />

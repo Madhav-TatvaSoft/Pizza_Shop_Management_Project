@@ -1,0 +1,215 @@
+@model DAL.ViewModels.TaxFeesViewModel
+@{
+    ViewData["Title"] = "UserListData Page";
+    Layout = "_Layout";
+}
+
+<!-- Tax list -->
+<div class="Tax-list-main-div  d-flex justify-content-between pt-2">
+    <!-- user txt -->
+    <div class="Tax-div d-flex col-md-3">
+        <div class="user-text fs-3 fw-bold pt-2 mb-3 ps-2 ">Taxes/Fees</div>
+    </div>
+
+    <!-- search add user -->
+    <div class="search-adduser-div d-flex align-items-center justify-content-between mt-2">
+        <div class="search-button ">
+            <input type="text" id="searchbtn-tax" placeholder="Search" class="p-2 border ">
+            <i class="fa-solid fa-magnifying-glass search-icon-style-tax "></i>
+        </div>
+        <div class="add-Tax-button">
+            <button class="btn solid-btn text-light p-2 ms-3 ">+ New Tax</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- Table -->
+<div class="container-fluid ">
+    <div class="table-main-div table-responsive p-3 m-3 mb-0 bg-white mt-3 shadow-lg">
+        <table id="table" class="table">
+            <thead>
+                <tr class="border border-top-0 border-end-0 border-start-0 border-dark">
+                    <th class="fw-bold text-start">Name</th>
+                    <th class="fw-bold text-start">Type</th>
+                    <th class="fw-bold text-center">IsEnabled</th>
+                    <th class="fw-bold text-center">Default</th>
+                    <th class="fw-bold text-center text-nowrap">Tax Value</th>
+                    <th class="fw-bold text-center">Action </th>
+                </tr>
+            </thead>
+            <tbody id="TaxTableBody">
+                @* @await Html.PartialAsync("_TaxListDataPartial", Model) *@
+            </tbody>
+        </table>
+
+        @* Pagination div *@
+        <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-2">
+
+            <span class="mt-2">Items Per page:</span>
+
+            <select id="itemselect-tax">
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+            </select>
+
+            <span class=" mt-2 ms-1" id="pagination-info-tax"></span>
+            <button id="left-arrow-tax" class="btn border border-dark bg-light ms-2">&lt;</button>
+            <button id="right-arrow-tax" class="btn border border-dark bg-light ms-2">&gt;</button>
+        </div>
+    </div>
+
+</div>
+
+<!--------------------------------- All Modal Start here --------------------------->
+
+<!-- AddEdit Tax modal -->
+<div id="AddEditTaxModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+
+    </div>
+</div>
+
+<!-- Delete Tax modal -->
+<div class="modal fade" id="DeleteTaxModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5 fw-bold text-secondary">Delete Conformation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div class="d-flex justify-content-center mb-3"><img
+                        src="../images/toppng.com-warning-icon-2400x2400.png" style="width: 30px;" alt=""></div>
+                <p class="fw-semibold text-secondary text-center mb-3">Are you sure you want to delete this Tax ?
+                </p>
+                <form id="DeleteTaxForm">
+                    <input type="hidden" asp-for="@Model.taxVM.TaxId" id="DeleteTaxId" name="taxid">
+                    <div class="modal-footer mt-3 d-flex justify-content-center">
+                        <button type="submit" class="btn solid-btn" data-bs-dismiss="modal">Yes</button>
+                        <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">No</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!------------------------------------ End Of Modals -------------------------------------->
+
+
+<partial name="_ValidationScriptsPartial" />
+<partial name="_Toaster" />
+
+@section Scripts {
+    @* PaginatedData *@
+    <script>
+
+        function GetIdForDeleteTax(tag) {
+            let taxId = $(tag).data("id");
+            $("#DeleteTaxId").val(taxId);
+        }
+
+
+        let currentPage = 1;
+        let pageSize = $("#itemselect-tax").val();
+        let searchText = "";
+
+        function PaginationForTax(page = 1, search = "", pageSize = 3) {
+            $.ajax({
+                url: "/TaxFees/PaginationForTax",
+                type: "GET",
+                data: { search, pageNumber: page, pageSize },
+                success: function (data) {
+
+                    $("#TaxTableBody").html(data);
+
+                    console.log("page-" + page);
+
+                    currentPage = page;
+                    pageSize = parseInt(pageSize);
+
+                    var totalRecords = parseInt($("#totalRecordsHidden-tax").val()) || 0;
+
+                    var startItem = totalRecords === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+
+                    var endItem = Math.min(currentPage * pageSize, totalRecords);
+
+                    $("#pagination-info-tax").text("Showing " + startItem + " - " + endItem + " of " + totalRecords);
+                    $("#left-arrow-tax").prop("disabled", currentPage === 1);
+                    $("#right-arrow-tax").prop("disabled", currentPage * pageSize >= totalRecords);
+                }
+            });
+        }
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            // Initial table load
+            PaginationForTax(currentPage, searchText, pageSize);
+
+            // Search Tax
+            $("#searchbtn-tax").on("keyup", function () {
+                searchText = $(this).val().trim();
+                currentPage = 1;
+                PaginationForTax(currentPage, searchText, pageSize);
+            });
+
+            // Right arrow Tax
+            $("#right-arrow-tax").on("click", function () {
+                let rightarrow = !$(this).prop("disabled");
+                if (rightarrow) {
+                    currentPage++;
+                    PaginationForTax(currentPage, searchText, pageSize);
+                }
+            });
+
+            // Left arrow Tax
+            $("#left-arrow-tax").on("click", function () {
+                let leftarrow = !$(this).prop("disabled");
+                if (leftarrow) {
+                    currentPage--;
+                    PaginationForTax(currentPage, searchText, pageSize);
+                }
+            });
+
+            // Item per Page Tax
+            $("#itemselect-tax").on("change", function () {
+                pageSize = $(this).val();
+                console.log("items-" + pageSize);
+                currentPage = 1;
+                PaginationForTax(currentPage, searchText, pageSize);
+            });
+
+            // Delete Tax Modal POST
+            $(document).on("submit", "#DeleteTaxForm", function (e) {
+
+                e.preventDefault();
+
+                let taxid = document.getElementById("DeleteTaxId").value;
+                console.log(taxid, "--Taxid");
+
+                $.ajax({
+                    url: "/TaxFees/DeleteTax",
+                    type: "POST",
+                    data: { taxid: taxid },
+                    success: function (data) {
+                        if (data.success) {
+                            callSuccessToaster(data.text);
+                        } else {
+                            callErrorToaster(data.text);
+                        }
+                        $(".btn-close").click();
+                        currentPage = 1;
+                        PaginationForTax(currentPage, searchText, pageSize);
+                    }
+                });
+            });
+
+
+        });
+    </script>
+}

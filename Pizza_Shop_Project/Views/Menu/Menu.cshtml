@@ -71,8 +71,7 @@
                     </div>
 
                     @* Right-SideBar-Item *@
-                    <div
-                        class="right-side-table-div bg-white mt-2 pt-2 com-sm-12 col-md-8 col-lg-9 col-xl-10 col-12 ">
+                    <div class="right-side-table-div bg-white mt-2 pt-2 com-sm-12 col-md-8 col-lg-9 col-xl-10 col-12 ">
                         <div class="menu-text fs-3 fw-bold user-text">Items</div>
                         <div class="search-adduser-div d-flex justify-content-end pb-2 align-items-center">
                             <div class="search-button">
@@ -99,9 +98,9 @@
                             <table class="table mb-0" id="demo">
                                 <thead>
                                     <tr class="border border-top-0 border-end-0 border-start-0 border-dark">
-                                        <th scope="col" class="text-start fw-bold"><input class="form-check-input mt-0 me-3 "
-                                                type="checkbox" id="item-main-checkbox"
-                                                onclick="Item_Main_Checkbox_Select()">Name</th>
+                                        <th scope="col" class="text-start fw-bold"><input
+                                                class="form-check-input mt-0 me-3 " type="checkbox"
+                                                id="item-main-checkbox" onclick="Item_Main_Checkbox_Select()">Name</th>
                                         <th scope="col" class="text-center fw-bold text-nowrap">Item Type</th>
                                         <th scope="col" class="text-center fw-bold">Rate</th>
                                         <th scope="col" class="text-center fw-bold">Quantity</th>
@@ -158,7 +157,7 @@
                         </div>
 
                         <!-- Modifiers -->
-                        
+
                         @* for loop *@
 
                         <div id="ModifierGroupList_Partial">
@@ -167,8 +166,7 @@
                     </div>
 
                     @* Right-SideBar-Modifier *@
-                    <div
-                        class="right-side-table-div bg-white mt-2 pt-2 com-sm-12 col-md-8 col-lg-9 col-xl-10 col-12">
+                    <div class="right-side-table-div bg-white mt-2 pt-2 com-sm-12 col-md-8 col-lg-9 col-xl-10 col-12">
 
                         <div class="menu-text fs-3 fw-bold user-text">Modifiers</div>
                         <div class="search-adduser-div d-flex justify-content-end pb-2 align-items-center">
@@ -969,7 +967,7 @@
             modifier_div.innerHTML = "";
             for (i = 0; i < modifierTempId.length; i++) {
                 modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                                                                                                                                                                                                                                                                                         ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
+                                                                                                                                                                                                                                                                                                                                                             ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
             }
         }
 
@@ -1045,7 +1043,7 @@
 
             for (i = 0; i < modifierTempId.length; i++) {
                 edit_modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                        ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
+                                                                                            ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
             }
 
         }
@@ -1359,7 +1357,7 @@
                     }
                 });
         @* } *@
-                });
+                    });
 
             // Items To Show data in the edit modal
             $("#EditItemModal").on('show.bs.modal', function (event) {

@@ -350,14 +350,15 @@
         function loadSectionList() {
 
             console.log("Section List");
-            var sectionid = @Model.SectionList[0].SectionId;
+
+            @* var sectionid = @Model.SectionList[0].SectionId; *@
 
             $.ajax({
                 url: "/TableSection/GetAllSections",
                 type: "GET",
                 success: function (data) {
                     document.getElementById("SectionList_Partial").innerHTML = data;
-                    PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
+                    @* PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table); *@
                 }
             });
         }
@@ -467,12 +468,15 @@
                         $(".btn-close").click();
                         currentPage_table = 1;
                         loadSectionList();
+                        console.log(data.sectionid);
+                        PaginationForTable(data.sectionid, searchText_table, currentPage_table, pageSize_table);
                     }
                 });
             });
 
             // Add Table Modal GET
             $("#AddTableModalId").on('click', function () {
+                
                 sectionid = $("#Section_id_Table").val();
 
                 $.ajax({
