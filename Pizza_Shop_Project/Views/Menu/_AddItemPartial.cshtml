@@ -190,7 +190,9 @@
         var itemData = [];
 
         function GetModifierByGroups() {
+
             var selectedValue = $('#Modifier').val();
+            
             var minOption = $(`#min-selection-${selectedValue}`).val() ?? 0;
             var maxOption = $(`#max-selection-${selectedValue}`).val() ?? 0;
 

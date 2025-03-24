@@ -7,13 +7,13 @@
 <!-- user list -->
 <div class="user-list-main-div bg-light d-md-flex justify-content-between">
 
-    <div class="user-text fs-3 fw-bold ms-3 mt-3">Permissions</div>
+    <div class="user-text fs-3 fw-bold ps-3 pt-3">Permissions</div>
 
     <!-- search add user -->
     <div class="search-adduser-div d-flex justify-content-end  align-items-center">
         <div class="add-user-button ">
             <a asp-action="RoleDashboard" asp-controller="RolePermission"
-                class="add-user-button btn hollow-btn  p-sm-2 mt-2 ms-3 me-4 ">
+                class="add-user-button btn hollow-btn  p-sm-2  mt-3 ms-3 me-4 ">
                 <i class="bi bi-caret-left-fill"></i>Back</a>
         </div>
 
@@ -21,68 +21,70 @@
 
 </div>
 
-<div class="container">
+<div class="container ps-4 pe-4">
 
-    <div class="bg-white ms-3 me-3 pt-3 mt-3">
-        <div class="form-floating ms-3 col-md-3 col-6  ">
-            <input type="text" asp-for="@Model[0].RoleName" class="form-control bg-light" id="floatingInput"
-                placeholder="Role" disabled>
-            <label for="floatingInput" class="role-text fs-6 text-secondary opacity-1">Role</label>
+    <div class="shadow-lg bg-white mt-3 mb-3">
+        <div class="bg-white pt-3 mt-3">
+            <div class="form-floating ms-3 col-md-3 col-6  ">
+                <input type="text" asp-for="@Model[0].RoleName" class="form-control bg-light" id="floatingInput"
+                    placeholder="Role" disabled>
+                <label for="floatingInput" class="role-text fs-6 text-secondary opacity-1">Role</label>
+            </div>
         </div>
-    </div>
 
-    
-    <form asp-action="Permission" asp-Controller="RolePermission" method="post">
-        <div class="permission-table-main-div table-responsive fs-5 p-3 pe-0 m-3 mt-0 mb-0 bg-white ">
-            <table class="table" id="demo">
-                <thead>
-                    <tr class="">
-                        <th scope="col" class="fw-bold"><i class="fa-regular fa-square-minus ps-2 fs-4"></i></th>
-                        <th scope="col" class="fw-bold text-start">Permissions</th>
-                        <th scope="col" class="fw-bold text-start">Can View</th>
-                        <th scope="col" class="fw-bold text-start">Can Edit/Add</th>
-                        <th scope="col" class="fw-bold text-start">Can Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < @Model.Count; i++)
-                    {
-                        <tr>
-                            <input type="hidden" asp-for="@Model[i].RolepermissionmappingId">
-                            <input type="hidden" asp-for="@Model[i].RoleName">
-                            <td><input type="checkbox" asp-for="@Model[i].Permissioncheck"
-                                    class="form-check-input main-checkbox me-4"></td>
-                            <td class="text-start text-secondary">@Model[i].Name</td>
-                            <td>
-                                <div class="form-check form-switch ms-lg-4">
-                                    <input class="form-check-input can-View" type="checkbox" role="switch"
-                                        id="canView_@Model[i].Name" asp-for="@Model[i].Canview">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="form-check form-switch ms-lg-5">
-                                    <input class="form-check-input can-Edit" type="checkbox" role="switch"
-                                        id="canEdit_@Model[i].Name" asp-for="@Model[i].Canaddedit">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="form-check form-switch ms-lg-4">
-                                    <input class="form-check-input can-Delete" type="checkbox" role="switch"
-                                        id="canDelete_@Model[i].Name" asp-for="@Model[i].Candelete">
-                                </div>
-                            </td>
 
+        <form asp-action="Permission" asp-Controller="RolePermission" method="post">
+            <div class="permission-table-main-div table-responsive fs-5 p-3 pe-0 bg-white ">
+                <table class="table" id="demo">
+                    <thead>
+                        <tr class="">
+                            <th scope="col" class="fw-bold"><i class="fa-regular fa-square-minus ps-2 fs-4"></i></th>
+                            <th scope="col" class="fw-bold text-start">Permissions</th>
+                            <th scope="col" class="fw-bold text-start">Can View</th>
+                            <th scope="col" class="fw-bold text-start">Can Edit/Add</th>
+                            <th scope="col" class="fw-bold text-start">Can Delete</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-3">
-            <button type="submit" class="btn solid-btn">Save</button>
-            <a type="button" asp-action="Permission" asp-controller="RolePermission" asp-route-name="@Model[0].RoleName"
-                class="btn hollow-btn">Cancel</a>
-        </div>
-    </form>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < @Model.Count; i++)
+                        {
+                            <tr>
+                                <input type="hidden" asp-for="@Model[i].RolepermissionmappingId">
+                                <input type="hidden" asp-for="@Model[i].RoleName">
+                                <td><input type="checkbox" asp-for="@Model[i].Permissioncheck"
+                                        class="form-check-input main-checkbox me-4"></td>
+                                <td class="text-start text-secondary">@Model[i].Name</td>
+                                <td>
+                                    <div class="form-check form-switch ms-lg-4">
+                                        <input class="form-check-input can-View" type="checkbox" role="switch"
+                                            id="canView_@Model[i].Name" asp-for="@Model[i].Canview" disabled>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-check form-switch ms-lg-5">
+                                        <input class="form-check-input can-Edit" type="checkbox" role="switch"
+                                            id="canEdit_@Model[i].Name" asp-for="@Model[i].Canaddedit" disabled>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-check form-switch ms-lg-4">
+                                        <input class="form-check-input can-Delete" type="checkbox" role="switch"
+                                            id="canDelete_@Model[i].Name" asp-for="@Model[i].Candelete" disabled>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-3">
+                <button type="submit" class="btn solid-btn">Save</button>
+                <a type="button" asp-action="Permission" asp-controller="RolePermission"
+                    asp-route-name="@Model[0].RoleName" class="btn hollow-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
 
 @section Scripts {

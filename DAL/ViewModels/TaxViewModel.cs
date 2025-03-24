@@ -10,9 +10,9 @@ public class TaxViewModel
 
     public decimal TaxValue { get; set; }
 
-    public bool? Isenable { get; set; }
+    public bool Isenable { get; set; }
 
-    public bool? Isdefault { get; set; }
+    public bool Isdefault { get; set; }
 
     public bool Isdelete { get; set; }
 

@@ -404,8 +404,7 @@
 <!-------------------------------------------- Modifiers Group ------------------------------------------------------------------------>
 
 <!-- Add Modifier Group modal  -->
-<div id="AddModifierGroup" data-bs-backdrop="static" data-bs-keyboard="false" class="modal fade" tabindex="-1"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="AddModifierGroup" data-bs-backdrop="static" data-bs-keyboard="false" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered" id="AddModifierGroupModal-MainDiv">
         <div class="modal-content">
             <div class="modal-header">
@@ -453,7 +452,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title fs-5 fw-bold text-secondary">Add Existing Modifier</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    onclick="DiscardSelectedModifierOnCancel()"></button>
             </div>
             <form id="AddExistModifierFormID">
                 <div class="modal-body">
@@ -468,7 +468,7 @@
                     <div class="table-main-div table-responsive mt-3 bg-white mx-auto w-100 ">
                         <table class="table" id="demo">
                             <thead>
-                                <tr>
+                                <tr class="fw-bold border border-top-0 border-end-0 border-start-0 border-dark">
                                     <th class="text-start" scope="col"><input type="checkbox"
                                             id="existing-modifier-main-checkbox"
                                             onclick="Existing_Modifier_Main_Checkbox_Select();"
@@ -476,7 +476,7 @@
                                         Name</th>
                                     <th class="text-start" scope="col">Unit</th>
                                     <th class="text-start" scope="col">Rate</th>
-                                    <th class="text-start" scope="col">Quantity</th>
+                                    <th class="text-center" scope="col">Quantity</th>
                                 </tr>
                             </thead>
                             <tbody id="ExistingModifiersListBody" style="white-space: nowrap;">
@@ -508,7 +508,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn solid-btn" data-bs-dismiss="modal"
                         onclick="Display_Names_Of_ExistingModifier()">Add</button>
-                    <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">cancel</button>
+                    <button type="button" class="btn hollow-btn" data-bs-dismiss="modal"
+                        onclick="DiscardSelectedModifierOnCancel()">cancel</button>
                 </div>
             </form>
         </div>
@@ -566,7 +567,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title fs-5 fw-bold text-secondary">Add Existing Modifier</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    onclick="DiscardSelectedModifierOnCancel()"></button>
             </div>
             <form id="EditExistModifierFormID">
                 <div class="modal-body">
@@ -581,7 +583,7 @@
                     <div class="table-main-div table-responsive mt-3 bg-white mx-auto w-100 ">
                         <table class="table" id="demo">
                             <thead>
-                                <tr>
+                                <tr class=" fw-bold border border-top-0 border-end-0 border-start-0 border-dark">
                                     <th class="text-start" scope="col"><input type="checkbox"
                                             id="edit-existing-modifier-main-checkbox"
                                             onclick="Edit_Existing_Modifier_Main_Checkbox_Select();"
@@ -589,7 +591,7 @@
                                         Name</th>
                                     <th class="text-start" scope="col">Unit</th>
                                     <th class="text-start" scope="col">Rate</th>
-                                    <th class="text-start" scope="col">Quantity</th>
+                                    <th class="text-center" scope="col">Quantity</th>
                                 </tr>
                             </thead>
                             <tbody id="EditExistingModifiersListBody" style="white-space: nowrap;">
@@ -621,7 +623,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn solid-btn" data-bs-dismiss="modal"
                         onclick="Edit_Display_Names_Of_ExistingModifier()">Add</button>
-                    <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">cancel</button>
+                    <button type="button" class="btn hollow-btn" data-bs-dismiss="modal"
+                        onclick="DiscardSelectedModifierOnCancel()">cancel</button>
                 </div>
             </form>
         </div>
@@ -962,12 +965,22 @@
         // Method to show selected existing modifier in First add Modifier Group Modal
         function Display_Names_Of_ExistingModifier() {
 
+            modifierTempIdCancel = [];
+            modifierTempNameCancel = [];
+
+            for (i = 0; i < modifierTempId.length; i++) {
+                if (modifierTempIdCancel.indexOf(modifierTempId[i]) == -1) {
+                    modifierTempIdCancel.push(modifierTempId[i]);
+                    modifierTempNameCancel.push(modifierTempName[i]);
+                }
+            }
+
             var modifier_div = document.getElementById("ExistingModifiers");
 
             modifier_div.innerHTML = "";
             for (i = 0; i < modifierTempId.length; i++) {
                 modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                                                                                                                                                                                                                                                                                             ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
+                                                                                                                                                                                                                                                                                                                                                                             ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
             }
         }
 
@@ -992,12 +1005,16 @@
         // Method to remove selected existing modifier from list
         function RemoveFromExistingModifierList(id, name) {
 
-            console.log("remove")
+        @* console.log("remove")
             console.log("remove-id-", id)
-            console.log("remove-name-", name);
+            console.log("remove-name-", name); *@
 
-            modifierTempId.splice(modifierTempId.indexOf(id), 1);
+                modifierTempId.splice(modifierTempId.indexOf(id), 1);
             modifierTempName.splice(modifierTempName.indexOf(name), 1);
+
+            modfierTempIdCancel.splice(modifierTempIdCancel.indexOf(id), 1);
+            modifierTempNameCancel.splice(modifierTempNameCancel.indexOf(name), 1);
+
             Display_Names_Of_ExistingModifier();
         }
 
@@ -1043,7 +1060,7 @@
 
             for (i = 0; i < modifierTempId.length; i++) {
                 edit_modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                            ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
+                                                                                                            ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
             }
 
         }
@@ -1092,6 +1109,8 @@
         let modifierTempId = [];
         let modifierTempName = [];
         let editmodifierTempId = [];
+        let modifierTempIdCancel = [];
+        let modifierTempNameCancel = [];
 
         // Items Pagination function
         function PaginatedItemTable(catid, search = "", page = 1, pageSize = 3) {
@@ -1122,11 +1141,11 @@
         }
 
         // Modifiers Pagination function
-        function PaginatedModifierTable(modgrpid, searchText_mod = "", page = 1, pageSize_mod = 3) {
+        function PaginatedModifierTable(modgrpid, search = "", page = 1, pageSize = 3) {
             $.ajax({
                 url: "/Menu/PaginationMenuModifiersByModGroups",
                 type: "GET",
-                data: { modgrpid, search: searchText_mod, pageNumber: page, pageSize: pageSize_mod },
+                data: { modgrpid, search, pageNumber: page, pageSize },
                 success: function (data) {
 
                     $("#modifier-list-body").html(data);
@@ -1149,11 +1168,13 @@
         }
 
         // Existing Modifiers Pagination function
-        function ExistingPaginatedModifierTable(searchText_Existmod = "", page = 1, pageSize_Existmod = 5) {
+        function ExistingPaginatedModifierTable(search = "", page = 1, pageSize = 5) {
+            pageSize = parseInt(pageSize_Existmod);
+            console.log(pageSize, "PageSize adsddddd");
             $.ajax({
                 url: "/Menu/ExistingPaginationMenuModifiersByModGroups",
                 type: "GET",
-                data: { search: searchText_Existmod, pageNumber: page, pageSize: pageSize_Existmod },
+                data: { search, pageNumber: page, pageSize },
                 success: function (data) {
 
                     document.getElementById("existing-modifier-main-checkbox").checked = false;
@@ -1188,11 +1209,15 @@
         }
 
         // Edit Existing Modifiers Pagination function
-        function EditExistingPaginatedModifierTable(searchText_Existmodedit = "", page = 1, pageSize_Existmodedit = 5) {
+        function EditExistingPaginatedModifierTable(search = "", page = 1, pageSize = 5) {
+
+            pageSize = parseInt(pageSize_Existmodedit);
+            console.log(pageSize, "PageSize");
+
             $.ajax({
                 url: "/Menu/EditExistingPaginationMenuModifiersByModGroups",
                 type: "GET",
-                data: { search: searchText_Existmodedit, pageNumber: page, pageSize: pageSize_Existmodedit },
+                data: { search, pageNumber: page, pageSize },
                 success: function (data) {
                     console.log("Edit Existing Modifier");
                     document.getElementById("existing-modifier-main-checkbox").checked = false;
@@ -1267,7 +1292,15 @@
             })
         }
 
-
+        // Discard changes on Cancel
+        function DiscardSelectedModifierOnCancel() {
+            modifierTempId = [];
+            modifierTempName = [];
+            for (i = 0; i < modifierTempIdCancel.length; i++) {
+                modifierTempId.push(modifierTempIdCancel[i]);
+                modifierTempName.push(modifierTempNameCancel[i]);
+            }
+        }
 
         $(document).ready(function () {
 
@@ -1322,16 +1355,14 @@
                 Item_Main_Checkbox_Select();
             });
 
+            // -----------------------------Items Call Function--------------------------------
+
             // Items To Fill data in the Add modal 
             $("#AddItemForm").on("submit", function (e) {
 
                 e.preventDefault();
 
-        @* let form = $("#AddItemForm"); *@
-
-        @* if (form.valid()) { *@
-
-                    let formData = new FormData(this);
+                let formData = new FormData(this);
                 console.log("iNITIAL", formData);
                 console.log(JSON.stringify(itemData));
 
@@ -1356,8 +1387,7 @@
                         Item_Main_Checkbox_Select();
                     }
                 });
-        @* } *@
-                    });
+            });
 
             // Items To Show data in the edit modal
             $("#EditItemModal").on('show.bs.modal', function (event) {
@@ -1514,6 +1544,8 @@
                 currentPage_Existmodedit = 1;
                 EditExistingPaginatedModifierTable(searchText_Existmodedit, currentPage_Existmodedit, pageSize_Existmodedit);
             });
+
+            //  Modifier Group CAll Function
 
             // Add Modifier Group POST 
             $(document).on("submit", "#AddModifierGroupForm", function (e) {
@@ -1739,8 +1771,6 @@
             // end of Ready
         });
     </script>
-
-
 
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

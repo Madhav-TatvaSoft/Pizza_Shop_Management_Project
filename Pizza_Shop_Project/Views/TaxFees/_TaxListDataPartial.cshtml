@@ -42,10 +42,25 @@ else
                     }
                 </div>
             </td>
-            <td class="text-center">@item.TaxValue</td>
+            <td class="text-center">
+                @if (item.TaxType == "Percentage")
+                {
+                    @item.TaxValue
+
+                    <span>%</span>
+                }
+                else if (item.TaxType == "Flat Amount")
+                {
+                    <span>₹</span>
+
+                    @item.TaxValue
+                }
+            </td>
+
             <td class="text-center">
 
-                <i class="fa-solid fa-pen w-25" data-bs-toggle="modal" data-bs-target="#EditTaxModal" data-id="@item.TaxId"></i>
+                <i class="fa-solid fa-pen w-25 AddEditTaxId" data-bs-toggle="modal" data-bs-target="#AddEditTaxModal"
+                    data-id="@item.TaxId"></i>
                 <i class="fa-solid fa-trash-can ms-2 " data-bs-toggle="modal" data-bs-target="#DeleteTaxModal"
                     data-id="@item.TaxId" onclick=GetIdForDeleteTax(this)></i>
             </td>

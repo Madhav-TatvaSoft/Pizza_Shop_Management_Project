@@ -26,7 +26,6 @@ builder.Services.AddScoped<ITaxFeesService, TaxFeesService>();
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
-
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAuthentication(x=>{
@@ -121,6 +120,7 @@ builder.Services.AddSession(
         options.IdleTimeout = TimeSpan.FromSeconds(10);
     }
 );
+
 builder.Services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
 
 var app = builder.Build();

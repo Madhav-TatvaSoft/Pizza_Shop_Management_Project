@@ -1,56 +1,94 @@
-@* <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add Section</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="EmptyAddTaxForm()"></button>
+@model DAL.ViewModels.TaxFeesViewModel;
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title fs-5 fw-bold text-secondary">@(Model.taxVM.TaxId == 0 ? "Add Tax" : "Edit Tax")</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form id="AddEditTaxForm">
+        <div class="modal-body ">
+
+            <input type="hidden" asp-for="@Model.taxVM.TaxId" />
+
+            <div class="form-floating col mb-3">
+                <input type="text" class="form-control" id="TaxName" asp-for="@Model.taxVM.TaxName" placeholder="Name*">
+                <label for="TaxName">Name*</label>
+                <span asp-validation-for="@Model.taxVM.TaxName" class="text-danger validate"></span>
             </div>
-            <form id="TaxAddFormId">
-                <div class="modal-body row">
-                    <div class="form-floating  col-12">
-                        <input type="text" class="form-control" id="TaxName" asp-for="@Model.taxViewModel.TaxName"
-                            placeholder="name">
-                        <span asp-validation-for="@Model.taxViewModel.TaxName" class="text-danger"></span>
-                        <label for="TaxName"> &nbsp; Name*</label>
-                    </div>
 
-                    <div class="col-md-6 mx-auto mt-4">
-                        <div class="form-floating">
-                            <select asp-for="@Model.taxViewModel.TaxType" class="form-control" id="TaxType">
-                                <option value="Percentage">Percentage</option>
-                                <option value="Fix Amount">Fix Amount</option>
-                            </select>
-                            <label for="TaxType">Type*</label>
-                            <span class="text-danger" asp-validation-for="@Model.taxViewModel.TaxType"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mx-auto mt-4">
-                        <div class="form-floating">
-                            <input type="text" id="TaxValue" asp-for="@Model.taxViewModel.TaxValue" class="form-control"
-                                placeholder="Tax Amount*">
-                            <label for="TaxValue">Amount*</label>
-                            <span class="text-danger" asp-validation-for="@Model.taxViewModel.TaxValue"></span>
-                        </div>
-                    </div>
+            <div class="d-flex flex-sm-row flex-column gap-sm-3 gap-0">
+                <div class="form-floating col mb-3">
+                    <select asp-for="@Model.taxVM.TaxType" class="form-select" id="TaxType">
+                        <option value="Percentage">Percentage</option>
+                        <option value="Fix Amount">Fix Amount</option>
+                    </select>
+                    <label for="TaxType">Type*</label>
+                    <span class="text-danger validate" asp-validation-for="@Model.taxVM.TaxType"></span>
+                </div>
+                <div class="form-floating col mb-3">
+                    <input type="text" id="TaxValue" asp-for="@Model.taxVM.TaxValue" class="form-control"
+                        placeholder="Tax Amount*">
+                    <label for="TaxValue">Amount*</label>
+                    <span class="text-danger validate" asp-validation-for="@Model.taxVM.TaxValue"></span>
+                </div>
+            </div>
 
-                    <div class="col-md-6 col-lg-4 mt-2">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="isEnableid"
-                                asp-for="@Model.taxViewModel.Isenable">
-                            <label class="form-check-label" for="isEnableid">IsEnabled</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 mt-2">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="defaultTax"
-                                asp-for="@Model.taxViewModel.Isdefault">
-                            <label class="form-check-label" for="defaultTax">Default</label>
-
-                        </div>
+            <div class="d-flex flex-sm-row flex-column gap-sm-3 gap-0">
+                <div class="col-sm align-self-center mb-3">
+                    <div class="form-check form-switch d-flex justify-content-center align-items-center gap-2">
+                        <input class="form-check-input fs-2 " type="checkbox" id="form-check-label"
+                            asp-for="@Model.taxVM.Isenable">
+                        <label class="form-check-label pt-2" for="isEnableid">IsEnabled</label>
                     </div>
                 </div>
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">save</button>
-                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" onclick="EmptyAddTaxForm()">cancel</button>
+                <div class="col-sm align-self-center mb-3">
+                    <div class="form-check form-switch d-flex justify-content-center align-items-center gap-2">
+                        <input class="form-check-input fs-2" type="checkbox" id="form-check-label"
+                            asp-for="@Model.taxVM.Isdefault">
+                        <label class="form-check-label pt-2" for="defaultTax">Default</label>
+                    </div>
                 </div>
-            </form>
-        </div> *@
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn solid-btn">save</button>
+                <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+
+<script>
+    // POST method of AddEdit Tax
+    $("#AddEditTaxForm").on("submit", function (e) {
+
+        e.preventDefault();
+
+        let form = $("#AddEditTaxForm");
+
+        if (form.valid()) {
+
+            let formData = new FormData(this);
+
+            $.ajax({
+                url: "/TaxFees/AddEditTax",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    if (data.success) {
+                        callSuccessToaster(data.text);
+                    } else {
+                        callErrorToaster(data.text);
+                    }
+                    $(".btn-close").click();
+                    PaginationForTax(currentPage, searchText, pageSize);
+                }
+            });
+        }
+    });
+</script>
