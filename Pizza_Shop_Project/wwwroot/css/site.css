@@ -212,9 +212,9 @@ form i {
 }
 
 .hollow-btn{
-    background-color: white;
-    color: #0084c3;
-    border: 1px solid #0084c3;
+    background-color: white !important;
+    color: #0084c3 !important;
+    border: 1px solid #0084c3 !important;
 }
 
 .user-text{
@@ -443,4 +443,10 @@ form i {
     position: absolute;
     margin-left: -25px;
     margin-top: 13px;
+}
+
+.search-icon-style-order{
+    position: absolute;
+    margin-left: 270px;
+    margin-top: -35px;
 }

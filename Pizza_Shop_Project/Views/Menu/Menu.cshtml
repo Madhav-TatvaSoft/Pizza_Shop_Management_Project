@@ -31,13 +31,13 @@
                 <div class="row d-flex m-1 ms-0 me-0">
 
                     @* Left-SideBar-Item *@
-                    <div class="left-sidebar-category-main-div bg-opacity-10 col-xl-2 col-lg-3 col-md-4 col-sm-12 ps-0 pe-0 pb-3 border border-primary border-bottom-0 border-end-1
-            border-start-0 border-top-0 " style="overflow-y:scroll; background-color: rgb(249, 249, 249);">
+                    <div class="left-sidebar-category-main-div bg-opacity-10 col-xl-2 col-lg-3 col-md-4 col-sm-12 ps-0 pe-0 pb-3 border border-primary border-bottom-0 border-end-1 border-start-0 border-top-0 "
+                        style="overflow-y:scroll; background-color: rgb(249, 249, 249);">
 
                         <div class="user-text p-3 d-flex justify-content-between">
                             <span class="fw-bold fs-5">Category</span>
                             <i class="fa-regular fa-square-plus fs-4 user-text" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal-addCategory"></i>
+                                data-bs-target="#exampleModal-addCategory" onclick="RemoveValidation()"></i>
                         </div>
 
                         <!-- Categories -->
@@ -153,7 +153,7 @@
                         <div class="user-text p-3 d-flex justify-content-between">
                             <span class="fw-bold fs-5">Modifier Group</span>
                             <i class="fa-regular fa-square-plus fs-4 user-text" data-bs-toggle="modal"
-                                data-bs-target="#AddModifierGroup"></i>
+                                data-bs-target="#AddModifierGroup" onclick="RemoveValidation()"></i>
                         </div>
 
                         <!-- Modifiers -->
@@ -258,7 +258,8 @@
                     <div class="form-floating mb-3">
                         <input type="text" asp-for="@Model.category.CategoryName" class="form-control"
                             id="floatingInput" placeholder="First Name" required>
-                        <span asp-validation-for="@Model.category.CategoryName" class="text-danger validate"></span>
+                        <span asp-validation-for="@Model.category.CategoryName"
+                            class="text-danger validate RemoveValidationClass"></span>
                         <label for="floatingInput" class="fs-6 text-secondary">Name</label>
                     </div>
 
@@ -283,7 +284,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Edit Category</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    onclick="RemoveValidation()"></button>
             </div>
             <form asp-action="EditCategoryById" asp-controller="Menu">
                 <div class="modal-body">
@@ -291,7 +293,8 @@
                         <input type="hidden" asp-for="@Model.category.CategoryId" id="category-id">
                         <input type="text" class="form-control" id="category-name"
                             asp-for="@Model.category.CategoryName" placeholder="Name*" required>
-                        <span asp-validation-for="@Model.category.CategoryName" class="text-danger validate"></span>
+                        <span asp-validation-for="@Model.category.CategoryName"
+                            class="text-danger validate RemoveValidationClass"></span>
 
                         <label for="category-name">Name</label>
                     </div>
@@ -303,7 +306,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="updatebtn" class="btn solid-btn">save</button>
-                    <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">cancel</button>
+                    <button type="button" class="btn hollow-btn" data-bs-dismiss="modal"
+                        onclick="RemoveValidation()">cancel</button>
                 </div>
             </form>
         </div>
@@ -410,7 +414,7 @@
             <div class="modal-header">
                 <h5 class="modal-title fs-5 fw-bold text-secondary">Add Modifier Group</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    onclick="EmptyFieldsAddModifierGroup()"></button>
+                    onclick="EmptyFieldsAddModifierGroup(); RemoveValidation();"></button>
             </div>
             <form id="AddModifierGroupForm">
                 <div class="modal-body">
@@ -421,7 +425,7 @@
                         <label asp-for="@Model.addModifierGroupVM.ModifierGrpName"
                             for="AddModifierGroupName">Name</label>
                         <span asp-validation-for="@Model.addModifierGroupVM.ModifierGrpName"
-                            class="text-danger validate"></span>
+                            class="text-danger validate RemoveValidationClass"></span>
                     </div>
                     <div class="form-floating">
                         <textarea class="form-control" asp-for="@Model.addModifierGroupVM.Desciption"
@@ -439,7 +443,7 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn solid-btn">save</button>
                     <button type="button" class="btn hollow-btn" data-bs-dismiss="modal"
-                        onclick="EmptyFieldsAddModifierGroup()">cancel</button>
+                        onclick="EmptyFieldsAddModifierGroup(); RemoveValidation();">cancel</button>
                 </div>
             </form>
         </div>
@@ -524,7 +528,7 @@
             <div class="modal-header">
                 <h5 class="modal-title fs-5 fw-bold text-secondary">Edit Modifier Group</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    onclick="EmptyFieldsEditModifierGroup()"></button>
+                    onclick="EmptyFieldsEditModifierGroup(); RemoveValidation();"></button>
             </div>
             <form id="EditModifierGroupForm">
                 <div class="modal-body">
@@ -536,7 +540,7 @@
                         <label asp-for="@Model.addModifierGroupVM.ModifierGrpName"
                             for="EditModifierGroupName">Name</label>
                         <span asp-validation-for="@Model.addModifierGroupVM.ModifierGrpName"
-                            class="text-danger validate"></span>
+                            class="text-danger validate RemoveValidationClass"></span>
                     </div>
                     <div class="form-floating">
                         <textarea class="form-control" asp-for="@Model.addModifierGroupVM.Desciption"
@@ -554,7 +558,7 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn solid-btn">save</button>
                     <button type="button" class="btn hollow-btn" data-bs-dismiss="modal"
-                        onclick="EmptyFieldsEditModifierGroup()">cancel</button>
+                        onclick="EmptyFieldsEditModifierGroup();  RemoveValidation();">cancel</button>
                 </div>
             </form>
         </div>
@@ -762,6 +766,13 @@
     <script>
 
         // -------------------------------Category------------------------------------------------------
+
+        function RemoveValidation() {
+            var list = document.getElementsByClassName("RemoveValidationClass");
+            for (var i = 0; i < list.length; i++) {
+                list[i].innerHTML = "";
+            }
+        }
 
         // Get details for Edit Categories
         function GetDetailsForCategoryUpdate(tag) {
@@ -980,7 +991,7 @@
             modifier_div.innerHTML = "";
             for (i = 0; i < modifierTempId.length; i++) {
                 modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                                                                                                                                                                                                                                                                                                             ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
+                                                                                                                                                                                                                                                                                                                                                                                 ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
             }
         }
 
@@ -1060,7 +1071,7 @@
 
             for (i = 0; i < modifierTempId.length; i++) {
                 edit_modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                                            ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
+                                                                                                                ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
             }
 
         }

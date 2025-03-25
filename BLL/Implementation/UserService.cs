@@ -113,7 +113,6 @@ public class UserService : IUserService
     #region GetUserList
     public PaginationViewModel<User> GetUserList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5)
     {
-
         var query = _context.Users
             .Include(u => u.Userlogin)
             .ThenInclude(u => u.Role)

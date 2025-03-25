@@ -3,7 +3,7 @@
 <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title fs-5 fw-bold text-secondary" id="exampleModalLabel">Add New Menu Item</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  onclick="RemoveValidation()"></button>
     </div>
 
     <form id="AddItemForm" enctype="multipart/form-data">
@@ -23,7 +23,7 @@
                                         } *@
                                     </select>
                                     <label asp-for="@Model.addItems.CategoryId">Categories*</label>
-                                    <span class="text-danger validate"
+                                    <span class="text-danger validate RemoveValidationClass"
                                         asp-validation-for="@Model.addItems.CategoryId"></span>
                                 </div>
                             </div>
@@ -33,8 +33,8 @@
                                     <input type="text" class="form-control" id="floatingInput"
                                         asp-for="@Model.addItems.ItemName" placeholder="Name*">
                                     <label asp-for="@Model.addItems.ItemName">Name*</label>
-                                    <span class="text-danger validate"
-                                        asp-validation-for="@Model.addItems.ItemName"></span>
+                                    <span class="text-danger validate RemoveValidationClass"
+                                        asp-validation-for="@Model.addItems.ItemName" ></span>
                                 </div>
                             </div>
                         </div>
@@ -51,8 +51,8 @@
                                                 <option value="3">Vegan</option>
                                             </select>
                                             <label asp-for="@Model.addItems.ItemTypeId">Item Type*</label>
-                                            <span class="text-danger validate"
-                                                asp-validation-for="@Model.addItems.ItemTypeId"></span>
+                                            <span class="text-danger validate RemoveValidationClass"
+                                                asp-validation-for="@Model.addItems.ItemTypeId" ></span>
                                         </div>
                                     </div>
                                     <div class="col-md">
@@ -60,8 +60,8 @@
                                             <input type="number" class="form-control" id="floatingInput"
                                                 placeholder="Rate*" asp-for="@Model.addItems.Rate">
                                             <label asp-for="@Model.addItems.Rate">Rate*</label>
-                                            <span class="text-danger validate"
-                                                asp-validation-for="@Model.addItems.Rate"></span>
+                                            <span class="text-danger validate RemoveValidationClass"
+                                                asp-validation-for="@Model.addItems.Rate" ></span>
                                         </div>
                                     </div>
                                 </div>
@@ -73,8 +73,8 @@
                                             <input type="number" class="form-control" id="floatingInput"
                                                 asp-for="@Model.addItems.Quantity" placeholder="Quantity*">
                                             <label asp-for="@Model.addItems.Quantity">Quantity*</label>
-                                            <span class="text-danger validate"
-                                                asp-validation-for="@Model.addItems.Quantity"></span>
+                                            <span class="text-danger validate RemoveValidationClass"
+                                                asp-validation-for="@Model.addItems.Quantity" ></span>
                                         </div>
                                     </div>
                                     <div class="col-md">
@@ -84,7 +84,7 @@
                                                 <option value="cm">cm</option>
                                             </select>
                                             <label asp-for="@Model.addItems.Unit">Unit*</label>
-                                            <span class="text-danger validate"
+                                            <span class="text-danger validate RemoveValidationClass"
                                                 asp-validation-for="@Model.addItems.Unit"></span>
                                         </div>
                                     </div>
@@ -177,7 +177,7 @@
         <!-- Footer Buttons -->
         <div class="modal-footer">
             <button type="submit" class="btn solid-btn" id="additem-save">Save</button>
-            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal" onclick="RemoveValidation()">Cancel</button>
         </div>
     </form>
 </div>

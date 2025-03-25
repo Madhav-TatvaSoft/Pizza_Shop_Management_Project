@@ -23,6 +23,7 @@ builder.Services.AddScoped<IRolePermission,RolePermissionService>();
 builder.Services.AddScoped<IMenuService,MenuService>();
 builder.Services.AddScoped<ITableSectionService, TableSectionService>();
 builder.Services.AddScoped<ITaxFeesService, TaxFeesService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 

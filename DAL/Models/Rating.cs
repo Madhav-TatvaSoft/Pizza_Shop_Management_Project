@@ -9,11 +9,11 @@ public partial class Rating
 
     public long CustomerId { get; set; }
 
-    public string? Food { get; set; }
+    public int? Food { get; set; }
 
-    public string? Service { get; set; }
+    public int? Service { get; set; }
 
-    public string Ambience { get; set; } = null!;
+    public int? Ambience { get; set; }
 
     public string? Review { get; set; }
 
