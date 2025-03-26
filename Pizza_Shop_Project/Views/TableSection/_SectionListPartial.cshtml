@@ -1,6 +1,11 @@
 @using DAL.ViewModels
 @model TableSectionViewModel;
 
+@if (Model == null)
+{
+    <p>No Sections found.</p>
+}
+
 <!-- Sections -->
 @{
     int index = 0;

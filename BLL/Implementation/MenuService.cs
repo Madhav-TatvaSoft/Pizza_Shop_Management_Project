@@ -267,7 +267,10 @@ public class MenuService : IMenuService
             item.Isdefaulttax = editItemVM.Isdefaulttax;
             item.TaxValue = editItemVM.TaxValue;
             item.Description = editItemVM.Description;
-            item.ItemImage = editItemVM.ItemImage;
+            if (item.ItemImage == null)
+            {
+                item.ItemImage = editItemVM.ItemImage;
+            }
             item.ShortCode = editItemVM.ShortCode;
             item.ModifiedAt = DateTime.Now;
             item.ModifiedBy = userId;

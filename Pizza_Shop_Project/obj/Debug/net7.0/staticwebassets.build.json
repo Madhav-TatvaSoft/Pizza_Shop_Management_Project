@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "gcKUYNdjjJ1FVulsLbEEHiwfsnjYOJr0IiWHnWPBBOQ=",
+  "Hash": "K3VnkYU/MlV3TTC489Ra2jkqfZr41TX0YMllLr0wwSA=",
   "Source": "Pizza_Shop_Project",
   "BasePath": "_content/Pizza_Shop_Project",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "Pizza_Shop_Project\\wwwroot",
       "Source": "Pizza_Shop_Project",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\Debug\\net7.0\\scopedcss\\bundle\\Pizza_Shop_Project.styles.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\Debug\\net7.0\\scopedcss\\bundle\\Pizza_Shop_Project.styles.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Computed",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\Debug\\net7.0\\scopedcss\\bundle\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\Debug\\net7.0\\scopedcss\\bundle\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "Pizza_Shop_Project.styles.css",
       "AssetKind": "All",
@@ -31,13 +31,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\Debug\\net7.0\\scopedcss\\bundle\\Pizza_Shop_Project.styles.css"
+      "OriginalItemSpec": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\Debug\\net7.0\\scopedcss\\bundle\\Pizza_Shop_Project.styles.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Pizza_Shop_Project.bundle.scp.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Pizza_Shop_Project.bundle.scp.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Computed",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "Pizza_Shop_Project.bundle.scp.css",
       "AssetKind": "All",
@@ -48,13 +48,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Pizza_Shop_Project.bundle.scp.css"
+      "OriginalItemSpec": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Pizza_Shop_Project.bundle.scp.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\css\\site.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\css\\site.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -68,10 +68,10 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\favicon.ico",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\favicon.ico",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
@@ -85,10 +85,10 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\camera.svg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\camera.svg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/camera.svg",
       "AssetKind": "All",
@@ -102,10 +102,10 @@
       "OriginalItemSpec": "wwwroot\\images\\camera.svg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\dashboard-default.svg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\dashboard-default.svg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/dashboard-default.svg",
       "AssetKind": "All",
@@ -119,10 +119,10 @@
       "OriginalItemSpec": "wwwroot\\images\\dashboard-default.svg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/Default_pfp.svg.png",
       "AssetKind": "All",
@@ -136,10 +136,10 @@
       "OriginalItemSpec": "wwwroot\\images\\Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/dining-menu.png",
       "AssetKind": "All",
@@ -153,10 +153,10 @@
       "OriginalItemSpec": "wwwroot\\images\\dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\dominos_background.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\dominos_background.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/dominos_background.jpg",
       "AssetKind": "All",
@@ -170,10 +170,44 @@
       "OriginalItemSpec": "wwwroot\\images\\dominos_background.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\camera.svg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\eye-open.svg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "BasePath": "_content/Pizza_Shop_Project",
+      "RelativePath": "images/eye-open.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\eye-open.svg"
+    },
+    {
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\filetype-pdf.svg",
+      "SourceId": "Pizza_Shop_Project",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "BasePath": "_content/Pizza_Shop_Project",
+      "RelativePath": "images/filetype-pdf.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\filetype-pdf.svg"
+    },
+    {
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\camera.svg",
+      "SourceId": "Pizza_Shop_Project",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/icons/camera.svg",
       "AssetKind": "All",
@@ -187,10 +221,10 @@
       "OriginalItemSpec": "wwwroot\\images\\icons\\camera.svg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\customer.svg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\customer.svg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/icons/customer.svg",
       "AssetKind": "All",
@@ -204,10 +238,10 @@
       "OriginalItemSpec": "wwwroot\\images\\icons\\customer.svg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\dinner-table.svg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\dinner-table.svg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/icons/dinner-table.svg",
       "AssetKind": "All",
@@ -221,10 +255,10 @@
       "OriginalItemSpec": "wwwroot\\images\\icons\\dinner-table.svg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\non-veg-icon.svg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\non-veg-icon.svg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/icons/non-veg-icon.svg",
       "AssetKind": "All",
@@ -238,10 +272,10 @@
       "OriginalItemSpec": "wwwroot\\images\\icons\\non-veg-icon.svg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\order-value.svg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\order-value.svg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/icons/order-value.svg",
       "AssetKind": "All",
@@ -255,10 +289,10 @@
       "OriginalItemSpec": "wwwroot\\images\\icons\\order-value.svg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\total-orders.svg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\total-orders.svg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/icons/total-orders.svg",
       "AssetKind": "All",
@@ -272,10 +306,10 @@
       "OriginalItemSpec": "wwwroot\\images\\icons\\total-orders.svg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\total-sales.svg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\total-sales.svg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/icons/total-sales.svg",
       "AssetKind": "All",
@@ -289,10 +323,10 @@
       "OriginalItemSpec": "wwwroot\\images\\icons\\total-sales.svg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\veg-icon.svg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\veg-icon.svg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/icons/veg-icon.svg",
       "AssetKind": "All",
@@ -306,10 +340,10 @@
       "OriginalItemSpec": "wwwroot\\images\\icons\\veg-icon.svg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\vegan-icon.svg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\vegan-icon.svg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/icons/vegan-icon.svg",
       "AssetKind": "All",
@@ -323,10 +357,10 @@
       "OriginalItemSpec": "wwwroot\\images\\icons\\vegan-icon.svg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\waiting-list.svg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\waiting-list.svg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/icons/waiting-list.svg",
       "AssetKind": "All",
@@ -340,10 +374,10 @@
       "OriginalItemSpec": "wwwroot\\images\\icons\\waiting-list.svg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\waiting-time.svg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\icons\\waiting-time.svg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/icons/waiting-time.svg",
       "AssetKind": "All",
@@ -357,10 +391,10 @@
       "OriginalItemSpec": "wwwroot\\images\\icons\\waiting-time.svg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\logos\\icons8-facebook-48.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\logos\\icons8-facebook-48.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/logos/icons8-facebook-48.png",
       "AssetKind": "All",
@@ -374,10 +408,10 @@
       "OriginalItemSpec": "wwwroot\\images\\logos\\icons8-facebook-48.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\logos\\icons8-github-48.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\logos\\icons8-github-48.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/logos/icons8-github-48.png",
       "AssetKind": "All",
@@ -391,10 +425,10 @@
       "OriginalItemSpec": "wwwroot\\images\\logos\\icons8-github-48.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\logos\\icons8-google-48.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\logos\\icons8-google-48.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/logos/icons8-google-48.png",
       "AssetKind": "All",
@@ -408,10 +442,10 @@
       "OriginalItemSpec": "wwwroot\\images\\logos\\icons8-google-48.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\logos\\pizzashop_logo.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\logos\\pizzashop_logo.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/logos/pizzashop_logo.png",
       "AssetKind": "All",
@@ -425,10 +459,10 @@
       "OriginalItemSpec": "wwwroot\\images\\logos\\pizzashop_logo.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\profile_div_bg.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\profile_div_bg.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/profile_div_bg.jpg",
       "AssetKind": "All",
@@ -442,10 +476,10 @@
       "OriginalItemSpec": "wwwroot\\images\\profile_div_bg.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\qr-code.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\qr-code.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/qr-code.png",
       "AssetKind": "All",
@@ -459,10 +493,10 @@
       "OriginalItemSpec": "wwwroot\\images\\qr-code.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\QR.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\QR.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/QR.png",
       "AssetKind": "All",
@@ -476,10 +510,10 @@
       "OriginalItemSpec": "wwwroot\\images\\QR.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -493,10 +527,10 @@
       "OriginalItemSpec": "wwwroot\\images\\toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "images/transperent-pizza.png",
       "AssetKind": "All",
@@ -510,10 +544,10 @@
       "OriginalItemSpec": "wwwroot\\images\\transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\js\\site.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\js\\site.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "js/site.js",
       "AssetKind": "All",
@@ -527,10 +561,10 @@
       "OriginalItemSpec": "wwwroot\\js\\site.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css",
       "AssetKind": "All",
@@ -544,10 +578,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css.map",
       "AssetKind": "All",
@@ -561,10 +595,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css",
       "AssetKind": "All",
@@ -578,10 +612,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
       "AssetKind": "All",
@@ -595,10 +629,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
       "AssetKind": "All",
@@ -612,10 +646,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
       "AssetKind": "All",
@@ -629,10 +663,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
       "AssetKind": "All",
@@ -646,10 +680,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
       "AssetKind": "All",
@@ -663,10 +697,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css",
       "AssetKind": "All",
@@ -680,10 +714,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css.map",
       "AssetKind": "All",
@@ -697,10 +731,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css",
       "AssetKind": "All",
@@ -714,10 +748,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
       "AssetKind": "All",
@@ -731,10 +765,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
       "AssetKind": "All",
@@ -748,10 +782,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
       "AssetKind": "All",
@@ -765,10 +799,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
       "AssetKind": "All",
@@ -782,10 +816,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
       "AssetKind": "All",
@@ -799,10 +833,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css",
       "AssetKind": "All",
@@ -816,10 +850,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css.map",
       "AssetKind": "All",
@@ -833,10 +867,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css",
       "AssetKind": "All",
@@ -850,10 +884,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
       "AssetKind": "All",
@@ -867,10 +901,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
       "AssetKind": "All",
@@ -884,10 +918,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
       "AssetKind": "All",
@@ -901,10 +935,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
       "AssetKind": "All",
@@ -918,10 +952,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
       "AssetKind": "All",
@@ -935,10 +969,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css",
       "AssetKind": "All",
@@ -952,10 +986,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css.map",
       "AssetKind": "All",
@@ -969,10 +1003,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css",
       "AssetKind": "All",
@@ -986,10 +1020,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -1003,10 +1037,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css",
       "AssetKind": "All",
@@ -1020,10 +1054,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css.map",
       "AssetKind": "All",
@@ -1037,10 +1071,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css",
       "AssetKind": "All",
@@ -1054,10 +1088,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
       "AssetKind": "All",
@@ -1071,10 +1105,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js",
       "AssetKind": "All",
@@ -1088,10 +1122,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js.map",
       "AssetKind": "All",
@@ -1105,10 +1139,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "AssetKind": "All",
@@ -1122,10 +1156,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
       "AssetKind": "All",
@@ -1139,10 +1173,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js",
       "AssetKind": "All",
@@ -1156,10 +1190,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js.map",
       "AssetKind": "All",
@@ -1173,10 +1207,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js",
       "AssetKind": "All",
@@ -1190,10 +1224,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
       "AssetKind": "All",
@@ -1207,10 +1241,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js",
       "AssetKind": "All",
@@ -1224,10 +1258,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js.map",
       "AssetKind": "All",
@@ -1241,10 +1275,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js",
       "AssetKind": "All",
@@ -1258,10 +1292,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js.map",
       "AssetKind": "All",
@@ -1275,10 +1309,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\bootstrap\\LICENSE",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/bootstrap/LICENSE",
       "AssetKind": "All",
@@ -1292,10 +1326,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\LICENSE"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "AssetKind": "All",
@@ -1309,10 +1343,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
       "AssetKind": "All",
@@ -1326,10 +1360,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/jquery-validation-unobtrusive/LICENSE.txt",
       "AssetKind": "All",
@@ -1343,10 +1377,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.js",
       "AssetKind": "All",
@@ -1360,10 +1394,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.min.js",
       "AssetKind": "All",
@@ -1377,10 +1411,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.js",
       "AssetKind": "All",
@@ -1394,10 +1428,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.min.js",
       "AssetKind": "All",
@@ -1411,10 +1445,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/jquery-validation/LICENSE.md",
       "AssetKind": "All",
@@ -1428,10 +1462,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\LICENSE.md"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery\\dist\\jquery.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/jquery/dist/jquery.js",
       "AssetKind": "All",
@@ -1445,10 +1479,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/jquery/dist/jquery.min.js",
       "AssetKind": "All",
@@ -1462,10 +1496,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.min.js"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/jquery/dist/jquery.min.map",
       "AssetKind": "All",
@@ -1479,10 +1513,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\lib\\jquery\\LICENSE.txt",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "lib/jquery/LICENSE.txt",
       "AssetKind": "All",
@@ -1496,10 +1530,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\06fcb45a-bc63-41f2-9b8d-46b59e964d69_Screenshot 2025-02-19 222730.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\06fcb45a-bc63-41f2-9b8d-46b59e964d69_Screenshot 2025-02-19 222730.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/06fcb45a-bc63-41f2-9b8d-46b59e964d69_Screenshot 2025-02-19 222730.png",
       "AssetKind": "All",
@@ -1513,10 +1547,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\06fcb45a-bc63-41f2-9b8d-46b59e964d69_Screenshot 2025-02-19 222730.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\094ff2f5-bec5-4d75-b9d8-4b7e76fcad1b_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\094ff2f5-bec5-4d75-b9d8-4b7e76fcad1b_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/094ff2f5-bec5-4d75-b9d8-4b7e76fcad1b_transperent-pizza.png",
       "AssetKind": "All",
@@ -1530,10 +1564,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\094ff2f5-bec5-4d75-b9d8-4b7e76fcad1b_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\0c0f4e81-54c8-4a11-ae1b-01b9a2e4c184_dominos_background.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\0c0f4e81-54c8-4a11-ae1b-01b9a2e4c184_dominos_background.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/0c0f4e81-54c8-4a11-ae1b-01b9a2e4c184_dominos_background.jpg",
       "AssetKind": "All",
@@ -1547,10 +1581,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\0c0f4e81-54c8-4a11-ae1b-01b9a2e4c184_dominos_background.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\100df916-ee16-4568-9a81-fa7bedda08b0_dominos_background.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\100df916-ee16-4568-9a81-fa7bedda08b0_dominos_background.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/100df916-ee16-4568-9a81-fa7bedda08b0_dominos_background.jpg",
       "AssetKind": "All",
@@ -1564,10 +1598,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\100df916-ee16-4568-9a81-fa7bedda08b0_dominos_background.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\14d1f5b5-fc7b-44bb-aacf-806f7b324dda_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\14d1f5b5-fc7b-44bb-aacf-806f7b324dda_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/14d1f5b5-fc7b-44bb-aacf-806f7b324dda_dining-menu.png",
       "AssetKind": "All",
@@ -1581,10 +1615,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\14d1f5b5-fc7b-44bb-aacf-806f7b324dda_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\16040b4a-737d-4295-9441-bb63add2ba01_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\16040b4a-737d-4295-9441-bb63add2ba01_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/16040b4a-737d-4295-9441-bb63add2ba01_transperent-pizza.png",
       "AssetKind": "All",
@@ -1598,10 +1632,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\16040b4a-737d-4295-9441-bb63add2ba01_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\1692f556-3e3a-44e1-a5e7-9958a3c8ebc2_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\1692f556-3e3a-44e1-a5e7-9958a3c8ebc2_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/1692f556-3e3a-44e1-a5e7-9958a3c8ebc2_transperent-pizza.png",
       "AssetKind": "All",
@@ -1615,10 +1649,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\1692f556-3e3a-44e1-a5e7-9958a3c8ebc2_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\1a697322-efac-4890-a16e-3db77a8ba11f_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\1a697322-efac-4890-a16e-3db77a8ba11f_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/1a697322-efac-4890-a16e-3db77a8ba11f_transperent-pizza.png",
       "AssetKind": "All",
@@ -1632,10 +1666,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\1a697322-efac-4890-a16e-3db77a8ba11f_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\252e8402-b691-43b3-82a2-fb2aa0f65b58_toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\252e8402-b691-43b3-82a2-fb2aa0f65b58_toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/252e8402-b691-43b3-82a2-fb2aa0f65b58_toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -1649,10 +1683,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\252e8402-b691-43b3-82a2-fb2aa0f65b58_toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\2b676e20-44ca-4023-b19f-3e38cfb8aa30_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\2b676e20-44ca-4023-b19f-3e38cfb8aa30_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/2b676e20-44ca-4023-b19f-3e38cfb8aa30_transperent-pizza.png",
       "AssetKind": "All",
@@ -1666,10 +1700,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\2b676e20-44ca-4023-b19f-3e38cfb8aa30_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\2c455239-bf69-4955-96f2-ac875b802c3a_toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\2c455239-bf69-4955-96f2-ac875b802c3a_toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/2c455239-bf69-4955-96f2-ac875b802c3a_toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -1683,10 +1717,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\2c455239-bf69-4955-96f2-ac875b802c3a_toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\2f048519-cc23-4b08-8d26-314919f98f28_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\2f048519-cc23-4b08-8d26-314919f98f28_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/2f048519-cc23-4b08-8d26-314919f98f28_transperent-pizza.png",
       "AssetKind": "All",
@@ -1700,10 +1734,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\2f048519-cc23-4b08-8d26-314919f98f28_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\3074af69-a5d4-4da6-aa79-81b7d4e70b25_Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\3074af69-a5d4-4da6-aa79-81b7d4e70b25_Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/3074af69-a5d4-4da6-aa79-81b7d4e70b25_Default_pfp.svg.png",
       "AssetKind": "All",
@@ -1717,10 +1751,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\3074af69-a5d4-4da6-aa79-81b7d4e70b25_Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\345828be-d3dd-429b-9b67-732acb92ec0a_Screenshot 2025-02-19 222730.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\345828be-d3dd-429b-9b67-732acb92ec0a_Screenshot 2025-02-19 222730.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/345828be-d3dd-429b-9b67-732acb92ec0a_Screenshot 2025-02-19 222730.png",
       "AssetKind": "All",
@@ -1734,10 +1768,27 @@
       "OriginalItemSpec": "wwwroot\\uploads\\345828be-d3dd-429b-9b67-732acb92ec0a_Screenshot 2025-02-19 222730.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\375ec3fc-fd4f-4d5a-a325-45ee26b32c0e_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\37536540-8929-4c36-9a54-1f07a49a2f65_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "BasePath": "_content/Pizza_Shop_Project",
+      "RelativePath": "uploads/37536540-8929-4c36-9a54-1f07a49a2f65_transperent-pizza.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\37536540-8929-4c36-9a54-1f07a49a2f65_transperent-pizza.png"
+    },
+    {
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\375ec3fc-fd4f-4d5a-a325-45ee26b32c0e_transperent-pizza.png",
+      "SourceId": "Pizza_Shop_Project",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/375ec3fc-fd4f-4d5a-a325-45ee26b32c0e_transperent-pizza.png",
       "AssetKind": "All",
@@ -1751,10 +1802,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\375ec3fc-fd4f-4d5a-a325-45ee26b32c0e_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\3d0d6d5f-b443-4cf7-bce0-9204f9b2600b_Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\3d0d6d5f-b443-4cf7-bce0-9204f9b2600b_Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/3d0d6d5f-b443-4cf7-bce0-9204f9b2600b_Default_pfp.svg.png",
       "AssetKind": "All",
@@ -1768,10 +1819,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\3d0d6d5f-b443-4cf7-bce0-9204f9b2600b_Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\3ea94100-4551-4adc-9ff1-e5d2db1737f2_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\3ea94100-4551-4adc-9ff1-e5d2db1737f2_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/3ea94100-4551-4adc-9ff1-e5d2db1737f2_dining-menu.png",
       "AssetKind": "All",
@@ -1785,10 +1836,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\3ea94100-4551-4adc-9ff1-e5d2db1737f2_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\3f0425d6-b1e9-42b6-adf1-05a988da59e8_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\3f0425d6-b1e9-42b6-adf1-05a988da59e8_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/3f0425d6-b1e9-42b6-adf1-05a988da59e8_transperent-pizza.png",
       "AssetKind": "All",
@@ -1802,10 +1853,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\3f0425d6-b1e9-42b6-adf1-05a988da59e8_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\40311c7c-e5ee-4e4b-88b8-c6805241c5d3_Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\40311c7c-e5ee-4e4b-88b8-c6805241c5d3_Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/40311c7c-e5ee-4e4b-88b8-c6805241c5d3_Default_pfp.svg.png",
       "AssetKind": "All",
@@ -1819,10 +1870,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\40311c7c-e5ee-4e4b-88b8-c6805241c5d3_Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\474ee79a-c1d0-4a75-8fa3-e66c0232e84d_toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\474ee79a-c1d0-4a75-8fa3-e66c0232e84d_toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/474ee79a-c1d0-4a75-8fa3-e66c0232e84d_toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -1836,10 +1887,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\474ee79a-c1d0-4a75-8fa3-e66c0232e84d_toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\4953003d-a83e-41df-9274-89007c5dd321_profile_div_bg.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\4953003d-a83e-41df-9274-89007c5dd321_profile_div_bg.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/4953003d-a83e-41df-9274-89007c5dd321_profile_div_bg.jpg",
       "AssetKind": "All",
@@ -1853,10 +1904,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\4953003d-a83e-41df-9274-89007c5dd321_profile_div_bg.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\4a2a4d39-733a-4a3b-9c34-b73c78b37f61_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\4a2a4d39-733a-4a3b-9c34-b73c78b37f61_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/4a2a4d39-733a-4a3b-9c34-b73c78b37f61_transperent-pizza.png",
       "AssetKind": "All",
@@ -1870,10 +1921,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\4a2a4d39-733a-4a3b-9c34-b73c78b37f61_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\4ad68243-81df-484a-b866-9904b7c1b7ed_Screenshot 2025-02-19 222730.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\4ad68243-81df-484a-b866-9904b7c1b7ed_Screenshot 2025-02-19 222730.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/4ad68243-81df-484a-b866-9904b7c1b7ed_Screenshot 2025-02-19 222730.png",
       "AssetKind": "All",
@@ -1887,10 +1938,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\4ad68243-81df-484a-b866-9904b7c1b7ed_Screenshot 2025-02-19 222730.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\4b7471c6-1c10-42c1-b6f7-73bbb189e22d_Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\4b7471c6-1c10-42c1-b6f7-73bbb189e22d_Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/4b7471c6-1c10-42c1-b6f7-73bbb189e22d_Default_pfp.svg.png",
       "AssetKind": "All",
@@ -1904,10 +1955,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\4b7471c6-1c10-42c1-b6f7-73bbb189e22d_Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\4dfe7252-4b81-46d3-a7f7-181adcb18db9_dominos_background.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\4dfe7252-4b81-46d3-a7f7-181adcb18db9_dominos_background.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/4dfe7252-4b81-46d3-a7f7-181adcb18db9_dominos_background.jpg",
       "AssetKind": "All",
@@ -1921,10 +1972,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\4dfe7252-4b81-46d3-a7f7-181adcb18db9_dominos_background.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\4ff5ac83-7e17-493b-974b-c2977caeb445_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\4ff5ac83-7e17-493b-974b-c2977caeb445_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/4ff5ac83-7e17-493b-974b-c2977caeb445_dining-menu.png",
       "AssetKind": "All",
@@ -1938,10 +1989,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\4ff5ac83-7e17-493b-974b-c2977caeb445_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\5d824fa1-bc25-4773-9027-fc281ccb632b_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\5d824fa1-bc25-4773-9027-fc281ccb632b_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/5d824fa1-bc25-4773-9027-fc281ccb632b_transperent-pizza.png",
       "AssetKind": "All",
@@ -1955,10 +2006,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\5d824fa1-bc25-4773-9027-fc281ccb632b_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\5d9a6012-b9ae-447f-854c-ed3a669463a6_Screenshot 2025-02-19 222730.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\5d9a6012-b9ae-447f-854c-ed3a669463a6_Screenshot 2025-02-19 222730.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/5d9a6012-b9ae-447f-854c-ed3a669463a6_Screenshot 2025-02-19 222730.png",
       "AssetKind": "All",
@@ -1972,10 +2023,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\5d9a6012-b9ae-447f-854c-ed3a669463a6_Screenshot 2025-02-19 222730.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\5e19fd88-0f1a-46bb-b260-55392d7c333d_Screenshot 2025-02-19 222730.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\5e19fd88-0f1a-46bb-b260-55392d7c333d_Screenshot 2025-02-19 222730.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/5e19fd88-0f1a-46bb-b260-55392d7c333d_Screenshot 2025-02-19 222730.png",
       "AssetKind": "All",
@@ -1989,10 +2040,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\5e19fd88-0f1a-46bb-b260-55392d7c333d_Screenshot 2025-02-19 222730.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\5ed3ebdb-55db-458b-9c15-50a1fc2f9fed_toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\5ed3ebdb-55db-458b-9c15-50a1fc2f9fed_toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/5ed3ebdb-55db-458b-9c15-50a1fc2f9fed_toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -2006,10 +2057,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\5ed3ebdb-55db-458b-9c15-50a1fc2f9fed_toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\5eee89eb-2083-41a6-82f7-34b4b2a6b0d6_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\5eee89eb-2083-41a6-82f7-34b4b2a6b0d6_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/5eee89eb-2083-41a6-82f7-34b4b2a6b0d6_transperent-pizza.png",
       "AssetKind": "All",
@@ -2023,10 +2074,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\5eee89eb-2083-41a6-82f7-34b4b2a6b0d6_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\616bc5a4-4140-4c92-af70-3eed631de53b_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\616bc5a4-4140-4c92-af70-3eed631de53b_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/616bc5a4-4140-4c92-af70-3eed631de53b_transperent-pizza.png",
       "AssetKind": "All",
@@ -2040,10 +2091,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\616bc5a4-4140-4c92-af70-3eed631de53b_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\61a18167-6709-4849-ab3f-ee3bbb75ced1_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\61a18167-6709-4849-ab3f-ee3bbb75ced1_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/61a18167-6709-4849-ab3f-ee3bbb75ced1_dining-menu.png",
       "AssetKind": "All",
@@ -2057,10 +2108,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\61a18167-6709-4849-ab3f-ee3bbb75ced1_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\61d369fc-828d-406c-81fb-6deb8816beeb_toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\61d369fc-828d-406c-81fb-6deb8816beeb_toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/61d369fc-828d-406c-81fb-6deb8816beeb_toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -2074,10 +2125,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\61d369fc-828d-406c-81fb-6deb8816beeb_toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\62b3f630-4f36-418b-bd72-149ca0dc805d_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\62b3f630-4f36-418b-bd72-149ca0dc805d_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/62b3f630-4f36-418b-bd72-149ca0dc805d_transperent-pizza.png",
       "AssetKind": "All",
@@ -2091,10 +2142,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\62b3f630-4f36-418b-bd72-149ca0dc805d_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\64438781-2531-43c0-9ca3-f603edeb3508_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\64438781-2531-43c0-9ca3-f603edeb3508_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/64438781-2531-43c0-9ca3-f603edeb3508_transperent-pizza.png",
       "AssetKind": "All",
@@ -2108,10 +2159,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\64438781-2531-43c0-9ca3-f603edeb3508_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\69ef1da2-eb4f-4451-8ee6-82cab953154c_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\69ef1da2-eb4f-4451-8ee6-82cab953154c_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/69ef1da2-eb4f-4451-8ee6-82cab953154c_transperent-pizza.png",
       "AssetKind": "All",
@@ -2125,10 +2176,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\69ef1da2-eb4f-4451-8ee6-82cab953154c_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\6bfbda5b-c225-4236-b3ec-4b35e28bc11b_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\6bfbda5b-c225-4236-b3ec-4b35e28bc11b_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/6bfbda5b-c225-4236-b3ec-4b35e28bc11b_dining-menu.png",
       "AssetKind": "All",
@@ -2142,10 +2193,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\6bfbda5b-c225-4236-b3ec-4b35e28bc11b_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\6ec51810-b7a5-4a36-aa7f-ce131d7adc83_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\6ec51810-b7a5-4a36-aa7f-ce131d7adc83_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/6ec51810-b7a5-4a36-aa7f-ce131d7adc83_dining-menu.png",
       "AssetKind": "All",
@@ -2159,10 +2210,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\6ec51810-b7a5-4a36-aa7f-ce131d7adc83_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\743e8c8a-0a21-4a7c-aeea-79051b68d939_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\743e8c8a-0a21-4a7c-aeea-79051b68d939_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/743e8c8a-0a21-4a7c-aeea-79051b68d939_transperent-pizza.png",
       "AssetKind": "All",
@@ -2176,10 +2227,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\743e8c8a-0a21-4a7c-aeea-79051b68d939_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\77a1469b-bdd3-4a28-87db-c9142acad039_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\77a1469b-bdd3-4a28-87db-c9142acad039_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/77a1469b-bdd3-4a28-87db-c9142acad039_dining-menu.png",
       "AssetKind": "All",
@@ -2193,10 +2244,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\77a1469b-bdd3-4a28-87db-c9142acad039_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\781de690-8d30-4709-81a1-0a2995132c8d_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\781de690-8d30-4709-81a1-0a2995132c8d_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/781de690-8d30-4709-81a1-0a2995132c8d_transperent-pizza.png",
       "AssetKind": "All",
@@ -2210,10 +2261,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\781de690-8d30-4709-81a1-0a2995132c8d_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\787e1ec0-ae19-44dd-999d-643e815ee0b8_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\787e1ec0-ae19-44dd-999d-643e815ee0b8_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/787e1ec0-ae19-44dd-999d-643e815ee0b8_dining-menu.png",
       "AssetKind": "All",
@@ -2227,10 +2278,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\787e1ec0-ae19-44dd-999d-643e815ee0b8_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\7faba17d-e8fe-4f87-8619-a944d5e2e9c3_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\7faba17d-e8fe-4f87-8619-a944d5e2e9c3_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/7faba17d-e8fe-4f87-8619-a944d5e2e9c3_transperent-pizza.png",
       "AssetKind": "All",
@@ -2244,10 +2295,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\7faba17d-e8fe-4f87-8619-a944d5e2e9c3_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\7faf3c5d-1b4d-451f-aaa7-4878b64560e2_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\7faf3c5d-1b4d-451f-aaa7-4878b64560e2_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/7faf3c5d-1b4d-451f-aaa7-4878b64560e2_transperent-pizza.png",
       "AssetKind": "All",
@@ -2261,10 +2312,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\7faf3c5d-1b4d-451f-aaa7-4878b64560e2_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\81139bd2-f059-4892-aa7b-97fce66db367_profile_div_bg.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\81139bd2-f059-4892-aa7b-97fce66db367_profile_div_bg.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/81139bd2-f059-4892-aa7b-97fce66db367_profile_div_bg.jpg",
       "AssetKind": "All",
@@ -2278,10 +2329,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\81139bd2-f059-4892-aa7b-97fce66db367_profile_div_bg.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\8184cea7-f8ac-442d-b248-17cc4babdf55_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\8184cea7-f8ac-442d-b248-17cc4babdf55_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/8184cea7-f8ac-442d-b248-17cc4babdf55_transperent-pizza.png",
       "AssetKind": "All",
@@ -2295,10 +2346,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\8184cea7-f8ac-442d-b248-17cc4babdf55_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\858936f1-cf8f-47be-ae6d-ec5127ed0d01_Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\858936f1-cf8f-47be-ae6d-ec5127ed0d01_Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/858936f1-cf8f-47be-ae6d-ec5127ed0d01_Default_pfp.svg.png",
       "AssetKind": "All",
@@ -2312,10 +2363,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\858936f1-cf8f-47be-ae6d-ec5127ed0d01_Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\85eceb3c-297b-4304-9c6a-d22b506bfd7b_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\85eceb3c-297b-4304-9c6a-d22b506bfd7b_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/85eceb3c-297b-4304-9c6a-d22b506bfd7b_transperent-pizza.png",
       "AssetKind": "All",
@@ -2329,10 +2380,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\85eceb3c-297b-4304-9c6a-d22b506bfd7b_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\869e7fd0-c37c-4b99-9426-9a302eef8702_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\869e7fd0-c37c-4b99-9426-9a302eef8702_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/869e7fd0-c37c-4b99-9426-9a302eef8702_dining-menu.png",
       "AssetKind": "All",
@@ -2346,10 +2397,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\869e7fd0-c37c-4b99-9426-9a302eef8702_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\89acf5e6-1439-44fb-a23f-cdea3788d6d1_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\89acf5e6-1439-44fb-a23f-cdea3788d6d1_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/89acf5e6-1439-44fb-a23f-cdea3788d6d1_transperent-pizza.png",
       "AssetKind": "All",
@@ -2363,10 +2414,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\89acf5e6-1439-44fb-a23f-cdea3788d6d1_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\8a41e31b-7225-48c2-a2ac-896d5d1fa187_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\8a41e31b-7225-48c2-a2ac-896d5d1fa187_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/8a41e31b-7225-48c2-a2ac-896d5d1fa187_dining-menu.png",
       "AssetKind": "All",
@@ -2380,10 +2431,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\8a41e31b-7225-48c2-a2ac-896d5d1fa187_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\8eea8586-2e75-4e18-b285-bf53d655d4a0_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\8eea8586-2e75-4e18-b285-bf53d655d4a0_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/8eea8586-2e75-4e18-b285-bf53d655d4a0_dining-menu.png",
       "AssetKind": "All",
@@ -2397,10 +2448,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\8eea8586-2e75-4e18-b285-bf53d655d4a0_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\90131d2c-a8a6-4f0a-9420-820f8a7c4916_dominos_background.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\90131d2c-a8a6-4f0a-9420-820f8a7c4916_dominos_background.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/90131d2c-a8a6-4f0a-9420-820f8a7c4916_dominos_background.jpg",
       "AssetKind": "All",
@@ -2414,10 +2465,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\90131d2c-a8a6-4f0a-9420-820f8a7c4916_dominos_background.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\94153e7d-cc75-40c3-9517-ccad7e91fdba_QR.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\94153e7d-cc75-40c3-9517-ccad7e91fdba_QR.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/94153e7d-cc75-40c3-9517-ccad7e91fdba_QR.png",
       "AssetKind": "All",
@@ -2431,10 +2482,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\94153e7d-cc75-40c3-9517-ccad7e91fdba_QR.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\95e1a320-fd36-4dfc-a27a-8760e75cd740_toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\95e1a320-fd36-4dfc-a27a-8760e75cd740_toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/95e1a320-fd36-4dfc-a27a-8760e75cd740_toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -2448,10 +2499,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\95e1a320-fd36-4dfc-a27a-8760e75cd740_toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\96c4c9c8-26da-47b0-80aa-2eea9190a959_toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\96c4c9c8-26da-47b0-80aa-2eea9190a959_toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/96c4c9c8-26da-47b0-80aa-2eea9190a959_toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -2465,10 +2516,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\96c4c9c8-26da-47b0-80aa-2eea9190a959_toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\989a74fc-9140-44ea-bbcc-41d6bae0d086_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\989a74fc-9140-44ea-bbcc-41d6bae0d086_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/989a74fc-9140-44ea-bbcc-41d6bae0d086_dining-menu.png",
       "AssetKind": "All",
@@ -2482,10 +2533,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\989a74fc-9140-44ea-bbcc-41d6bae0d086_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\9d980ef3-6758-4871-a6c8-71a97d88bd31_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\9d980ef3-6758-4871-a6c8-71a97d88bd31_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/9d980ef3-6758-4871-a6c8-71a97d88bd31_transperent-pizza.png",
       "AssetKind": "All",
@@ -2499,10 +2550,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\9d980ef3-6758-4871-a6c8-71a97d88bd31_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\9fb5adb7-de57-4ff4-a3ec-e4c68e94c297_Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\9fb5adb7-de57-4ff4-a3ec-e4c68e94c297_Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/9fb5adb7-de57-4ff4-a3ec-e4c68e94c297_Default_pfp.svg.png",
       "AssetKind": "All",
@@ -2516,10 +2567,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\9fb5adb7-de57-4ff4-a3ec-e4c68e94c297_Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\a7b8b706-58a1-409d-b987-5292143931d6_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\a7b8b706-58a1-409d-b987-5292143931d6_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/a7b8b706-58a1-409d-b987-5292143931d6_transperent-pizza.png",
       "AssetKind": "All",
@@ -2533,10 +2584,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\a7b8b706-58a1-409d-b987-5292143931d6_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\ab6fd6cd-19a1-428a-959e-b085ca198de9_Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\ab6fd6cd-19a1-428a-959e-b085ca198de9_Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/ab6fd6cd-19a1-428a-959e-b085ca198de9_Default_pfp.svg.png",
       "AssetKind": "All",
@@ -2550,10 +2601,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\ab6fd6cd-19a1-428a-959e-b085ca198de9_Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\aef2564f-84a2-4da4-b964-9b0d89146596_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\aef2564f-84a2-4da4-b964-9b0d89146596_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/aef2564f-84a2-4da4-b964-9b0d89146596_dining-menu.png",
       "AssetKind": "All",
@@ -2567,10 +2618,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\aef2564f-84a2-4da4-b964-9b0d89146596_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\b019c033-012e-4670-94f4-c17b5124b08b_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\b019c033-012e-4670-94f4-c17b5124b08b_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/b019c033-012e-4670-94f4-c17b5124b08b_transperent-pizza.png",
       "AssetKind": "All",
@@ -2584,10 +2635,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\b019c033-012e-4670-94f4-c17b5124b08b_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\b0b2c639-c9d0-4158-8bc3-705eccdde8c1_toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\b0b2c639-c9d0-4158-8bc3-705eccdde8c1_toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/b0b2c639-c9d0-4158-8bc3-705eccdde8c1_toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -2601,10 +2652,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\b0b2c639-c9d0-4158-8bc3-705eccdde8c1_toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\b2c0980e-3557-4324-a664-b42e2d32e7b1_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\b2c0980e-3557-4324-a664-b42e2d32e7b1_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/b2c0980e-3557-4324-a664-b42e2d32e7b1_dining-menu.png",
       "AssetKind": "All",
@@ -2618,10 +2669,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\b2c0980e-3557-4324-a664-b42e2d32e7b1_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\b5f8e342-4fe3-452c-9cae-72c610f5d4fe_Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\b5f8e342-4fe3-452c-9cae-72c610f5d4fe_Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/b5f8e342-4fe3-452c-9cae-72c610f5d4fe_Default_pfp.svg.png",
       "AssetKind": "All",
@@ -2635,10 +2686,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\b5f8e342-4fe3-452c-9cae-72c610f5d4fe_Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\b5f99f0b-a193-4cb3-9a80-278ab4f68912_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\b5f99f0b-a193-4cb3-9a80-278ab4f68912_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/b5f99f0b-a193-4cb3-9a80-278ab4f68912_dining-menu.png",
       "AssetKind": "All",
@@ -2652,10 +2703,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\b5f99f0b-a193-4cb3-9a80-278ab4f68912_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\baaab90a-4a31-4fbe-a759-a4dd63efdd2c_dominos_background.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\baaab90a-4a31-4fbe-a759-a4dd63efdd2c_dominos_background.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/baaab90a-4a31-4fbe-a759-a4dd63efdd2c_dominos_background.jpg",
       "AssetKind": "All",
@@ -2669,10 +2720,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\baaab90a-4a31-4fbe-a759-a4dd63efdd2c_dominos_background.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\bfaaf926-b552-4c73-81eb-9f94ff8f2c7a_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\bfaaf926-b552-4c73-81eb-9f94ff8f2c7a_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/bfaaf926-b552-4c73-81eb-9f94ff8f2c7a_dining-menu.png",
       "AssetKind": "All",
@@ -2686,10 +2737,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\bfaaf926-b552-4c73-81eb-9f94ff8f2c7a_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\c1a5b5b3-0470-43c3-98c2-31e586e49f83_QR.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\c1a5b5b3-0470-43c3-98c2-31e586e49f83_QR.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/c1a5b5b3-0470-43c3-98c2-31e586e49f83_QR.png",
       "AssetKind": "All",
@@ -2703,10 +2754,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\c1a5b5b3-0470-43c3-98c2-31e586e49f83_QR.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\c49c8687-6aff-4723-9844-a986245f0db0_dominos_background.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\c49c8687-6aff-4723-9844-a986245f0db0_dominos_background.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/c49c8687-6aff-4723-9844-a986245f0db0_dominos_background.jpg",
       "AssetKind": "All",
@@ -2720,10 +2771,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\c49c8687-6aff-4723-9844-a986245f0db0_dominos_background.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\c4f25758-82a4-4a9e-a558-e4fc0d696eb8_dominos_background.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\c4f25758-82a4-4a9e-a558-e4fc0d696eb8_dominos_background.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/c4f25758-82a4-4a9e-a558-e4fc0d696eb8_dominos_background.jpg",
       "AssetKind": "All",
@@ -2737,10 +2788,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\c4f25758-82a4-4a9e-a558-e4fc0d696eb8_dominos_background.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\c69c50d1-f213-4701-b94b-10f5ac0aa1a3_Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\c69c50d1-f213-4701-b94b-10f5ac0aa1a3_Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/c69c50d1-f213-4701-b94b-10f5ac0aa1a3_Default_pfp.svg.png",
       "AssetKind": "All",
@@ -2754,10 +2805,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\c69c50d1-f213-4701-b94b-10f5ac0aa1a3_Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\c9cef6b4-3dbd-4a0e-b3cc-f6336b994548_dominos_background.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\c9cef6b4-3dbd-4a0e-b3cc-f6336b994548_dominos_background.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/c9cef6b4-3dbd-4a0e-b3cc-f6336b994548_dominos_background.jpg",
       "AssetKind": "All",
@@ -2771,10 +2822,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\c9cef6b4-3dbd-4a0e-b3cc-f6336b994548_dominos_background.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\c9d8c964-f902-4229-b2f5-43b9dcaf9d05_toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\c9d8c964-f902-4229-b2f5-43b9dcaf9d05_toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/c9d8c964-f902-4229-b2f5-43b9dcaf9d05_toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -2788,10 +2839,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\c9d8c964-f902-4229-b2f5-43b9dcaf9d05_toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\cb7247fc-bdb0-44fb-b137-9b95faaeb4dc_Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\cb7247fc-bdb0-44fb-b137-9b95faaeb4dc_Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/cb7247fc-bdb0-44fb-b137-9b95faaeb4dc_Default_pfp.svg.png",
       "AssetKind": "All",
@@ -2805,10 +2856,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\cb7247fc-bdb0-44fb-b137-9b95faaeb4dc_Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\cc6bc0b5-11eb-4d00-8de1-4cc04b43c8ff_Screenshot 2025-02-19 222730.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\cc6bc0b5-11eb-4d00-8de1-4cc04b43c8ff_Screenshot 2025-02-19 222730.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/cc6bc0b5-11eb-4d00-8de1-4cc04b43c8ff_Screenshot 2025-02-19 222730.png",
       "AssetKind": "All",
@@ -2822,10 +2873,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\cc6bc0b5-11eb-4d00-8de1-4cc04b43c8ff_Screenshot 2025-02-19 222730.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\d1687451-e9f3-4df6-ad0a-ebd438b26e65_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\d1687451-e9f3-4df6-ad0a-ebd438b26e65_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/d1687451-e9f3-4df6-ad0a-ebd438b26e65_dining-menu.png",
       "AssetKind": "All",
@@ -2839,10 +2890,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\d1687451-e9f3-4df6-ad0a-ebd438b26e65_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\d18cfad3-d2a4-4f59-8266-20228d7ee05a_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\d18cfad3-d2a4-4f59-8266-20228d7ee05a_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/d18cfad3-d2a4-4f59-8266-20228d7ee05a_transperent-pizza.png",
       "AssetKind": "All",
@@ -2856,10 +2907,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\d18cfad3-d2a4-4f59-8266-20228d7ee05a_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\d1b820be-42d7-4079-ae87-e4132739c3b8_Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\d1b820be-42d7-4079-ae87-e4132739c3b8_Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/d1b820be-42d7-4079-ae87-e4132739c3b8_Default_pfp.svg.png",
       "AssetKind": "All",
@@ -2873,10 +2924,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\d1b820be-42d7-4079-ae87-e4132739c3b8_Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\d448a11c-1a05-415b-a569-55d13ebe13ed_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\d448a11c-1a05-415b-a569-55d13ebe13ed_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/d448a11c-1a05-415b-a569-55d13ebe13ed_transperent-pizza.png",
       "AssetKind": "All",
@@ -2890,10 +2941,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\d448a11c-1a05-415b-a569-55d13ebe13ed_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\dc110572-d3eb-48af-9172-2f60964de9ff_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\dc110572-d3eb-48af-9172-2f60964de9ff_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/dc110572-d3eb-48af-9172-2f60964de9ff_dining-menu.png",
       "AssetKind": "All",
@@ -2907,10 +2958,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\dc110572-d3eb-48af-9172-2f60964de9ff_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\dca0d17f-4e7a-4cd6-8447-9c0197cc0055_toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\dca0d17f-4e7a-4cd6-8447-9c0197cc0055_toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/dca0d17f-4e7a-4cd6-8447-9c0197cc0055_toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -2924,10 +2975,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\dca0d17f-4e7a-4cd6-8447-9c0197cc0055_toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\defb8d3b-034a-4f93-9ec5-123af5aa3585_toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\defb8d3b-034a-4f93-9ec5-123af5aa3585_toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/defb8d3b-034a-4f93-9ec5-123af5aa3585_toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -2941,10 +2992,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\defb8d3b-034a-4f93-9ec5-123af5aa3585_toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\df1e823b-8e33-47dd-89c4-488d04a337ac_toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\df1e823b-8e33-47dd-89c4-488d04a337ac_toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/df1e823b-8e33-47dd-89c4-488d04a337ac_toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -2958,10 +3009,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\df1e823b-8e33-47dd-89c4-488d04a337ac_toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e07d5218-707c-45bf-9ebe-0e99ee87652e_dominos_background.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e07d5218-707c-45bf-9ebe-0e99ee87652e_dominos_background.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/e07d5218-707c-45bf-9ebe-0e99ee87652e_dominos_background.jpg",
       "AssetKind": "All",
@@ -2975,10 +3026,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\e07d5218-707c-45bf-9ebe-0e99ee87652e_dominos_background.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e115ca53-fdd2-4732-982a-2414e0b4d6ce_Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e115ca53-fdd2-4732-982a-2414e0b4d6ce_Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/e115ca53-fdd2-4732-982a-2414e0b4d6ce_Default_pfp.svg.png",
       "AssetKind": "All",
@@ -2992,10 +3043,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\e115ca53-fdd2-4732-982a-2414e0b4d6ce_Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e172a00e-75db-4a07-9b50-f09d4fed1305_Screenshot 2025-02-19 222730.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e172a00e-75db-4a07-9b50-f09d4fed1305_Screenshot 2025-02-19 222730.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/e172a00e-75db-4a07-9b50-f09d4fed1305_Screenshot 2025-02-19 222730.png",
       "AssetKind": "All",
@@ -3009,10 +3060,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\e172a00e-75db-4a07-9b50-f09d4fed1305_Screenshot 2025-02-19 222730.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e21f5340-e09a-47ea-b2b9-f408abf13c50_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e21f5340-e09a-47ea-b2b9-f408abf13c50_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/e21f5340-e09a-47ea-b2b9-f408abf13c50_dining-menu.png",
       "AssetKind": "All",
@@ -3026,10 +3077,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\e21f5340-e09a-47ea-b2b9-f408abf13c50_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e4998c5f-0870-4347-a92c-111f41876ffb_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e4998c5f-0870-4347-a92c-111f41876ffb_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/e4998c5f-0870-4347-a92c-111f41876ffb_dining-menu.png",
       "AssetKind": "All",
@@ -3043,10 +3094,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\e4998c5f-0870-4347-a92c-111f41876ffb_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e5934795-12a1-483b-a73e-a32ac1c3a79c_Default_pfp.svg.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e5934795-12a1-483b-a73e-a32ac1c3a79c_Default_pfp.svg.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/e5934795-12a1-483b-a73e-a32ac1c3a79c_Default_pfp.svg.png",
       "AssetKind": "All",
@@ -3060,10 +3111,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\e5934795-12a1-483b-a73e-a32ac1c3a79c_Default_pfp.svg.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e8b86686-7481-4a55-a223-50682d608d78_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\e8b86686-7481-4a55-a223-50682d608d78_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/e8b86686-7481-4a55-a223-50682d608d78_dining-menu.png",
       "AssetKind": "All",
@@ -3077,10 +3128,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\e8b86686-7481-4a55-a223-50682d608d78_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\eaf048db-3a62-4b99-bf61-adfd1fefc577_dominos_background.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\eaf048db-3a62-4b99-bf61-adfd1fefc577_dominos_background.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/eaf048db-3a62-4b99-bf61-adfd1fefc577_dominos_background.jpg",
       "AssetKind": "All",
@@ -3094,10 +3145,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\eaf048db-3a62-4b99-bf61-adfd1fefc577_dominos_background.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\eb4447f2-6d1f-4ee5-9d4b-1ca25ab62790_dominos_background.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\eb4447f2-6d1f-4ee5-9d4b-1ca25ab62790_dominos_background.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/eb4447f2-6d1f-4ee5-9d4b-1ca25ab62790_dominos_background.jpg",
       "AssetKind": "All",
@@ -3111,10 +3162,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\eb4447f2-6d1f-4ee5-9d4b-1ca25ab62790_dominos_background.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\ebe303e7-13de-4bcc-ac9c-f0b45bb6d254_Screenshot 2025-02-19 222730.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\ebe303e7-13de-4bcc-ac9c-f0b45bb6d254_Screenshot 2025-02-19 222730.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/ebe303e7-13de-4bcc-ac9c-f0b45bb6d254_Screenshot 2025-02-19 222730.png",
       "AssetKind": "All",
@@ -3128,10 +3179,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\ebe303e7-13de-4bcc-ac9c-f0b45bb6d254_Screenshot 2025-02-19 222730.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\ee518ee8-13ae-486c-ab42-1598c42a422c_dominos_background.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\ee518ee8-13ae-486c-ab42-1598c42a422c_dominos_background.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/ee518ee8-13ae-486c-ab42-1598c42a422c_dominos_background.jpg",
       "AssetKind": "All",
@@ -3145,10 +3196,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\ee518ee8-13ae-486c-ab42-1598c42a422c_dominos_background.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\f22d5fa9-b1b5-4b47-b7e4-003655358d1f_toppng.com-warning-icon-2400x2400.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\f22d5fa9-b1b5-4b47-b7e4-003655358d1f_toppng.com-warning-icon-2400x2400.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/f22d5fa9-b1b5-4b47-b7e4-003655358d1f_toppng.com-warning-icon-2400x2400.png",
       "AssetKind": "All",
@@ -3162,10 +3213,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\f22d5fa9-b1b5-4b47-b7e4-003655358d1f_toppng.com-warning-icon-2400x2400.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\f25f0fce-39a5-409e-8c1a-2c712e2d4dfd_profile_div_bg.jpg",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\f25f0fce-39a5-409e-8c1a-2c712e2d4dfd_profile_div_bg.jpg",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/f25f0fce-39a5-409e-8c1a-2c712e2d4dfd_profile_div_bg.jpg",
       "AssetKind": "All",
@@ -3179,10 +3230,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\f25f0fce-39a5-409e-8c1a-2c712e2d4dfd_profile_div_bg.jpg"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\f2ddb4ad-28f9-4d21-a26a-439004c16075_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\f2ddb4ad-28f9-4d21-a26a-439004c16075_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/f2ddb4ad-28f9-4d21-a26a-439004c16075_dining-menu.png",
       "AssetKind": "All",
@@ -3196,10 +3247,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\f2ddb4ad-28f9-4d21-a26a-439004c16075_dining-menu.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\f4b37451-cf81-4085-ab33-c27248244009_transperent-pizza.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\f4b37451-cf81-4085-ab33-c27248244009_transperent-pizza.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/f4b37451-cf81-4085-ab33-c27248244009_transperent-pizza.png",
       "AssetKind": "All",
@@ -3213,10 +3264,10 @@
       "OriginalItemSpec": "wwwroot\\uploads\\f4b37451-cf81-4085-ab33-c27248244009_transperent-pizza.png"
     },
     {
-      "Identity": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\fa0031f6-3085-4340-b496-ce64dd6c8d94_dining-menu.png",
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\fa0031f6-3085-4340-b496-ce64dd6c8d94_dining-menu.png",
       "SourceId": "Pizza_Shop_Project",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
       "BasePath": "_content/Pizza_Shop_Project",
       "RelativePath": "uploads/fa0031f6-3085-4340-b496-ce64dd6c8d94_dining-menu.png",
       "AssetKind": "All",

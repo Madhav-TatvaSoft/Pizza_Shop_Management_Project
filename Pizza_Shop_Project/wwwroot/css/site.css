@@ -450,3 +450,9 @@ form i {
     margin-left: 270px;
     margin-top: -35px;
 }
+
+@media (max-width: 576px) {
+    #exportBtn,#search-order-btn,#clear-order-btn{
+        width: 100%;
+    }
+}

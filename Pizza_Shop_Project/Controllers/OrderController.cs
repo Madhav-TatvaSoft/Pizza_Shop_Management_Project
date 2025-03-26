@@ -21,4 +21,9 @@ public class OrderController : Controller
         var orderList = _orderService.GetOrderList(search, sortColumn, sortDirection, pageNumber, pageSize, orderStatus, fromDate, toDate, selectRange);
         return PartialView("_OrderListDataPartial", orderList);
     }
+
+    public async Task<IActionResult> ExportOrderDataToExcel(string search = "", string orderStatus = "", string selectRange = ""){
+        var FileData = await _orderService.ExportData(search, orderStatus, selectRange);
+        return File(FileData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Orders.xlsx");
+    }
 }

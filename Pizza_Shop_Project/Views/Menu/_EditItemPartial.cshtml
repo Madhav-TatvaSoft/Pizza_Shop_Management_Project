@@ -168,7 +168,7 @@
                             <option selected disabled>Select Modifier Group(s)</option>
                         </select>
 
-                        <div id="EditItemByModifiers">
+                        <div id="EditItemByModifiers" style="height:400px; overflow-y: auto; ">
 
                         </div>
                     </div>
@@ -202,7 +202,9 @@
 
     var editItemData = serializedData.$values || [];
 
-    console.log(editItemData, "editItemData");
+    @* console.log("-------------------------------------------------"); *@
+ 
+    @* console.log(editItemData, "editItemData"); *@
 
     function EditModifierByGroups() {
 
@@ -244,8 +246,8 @@
     function EditMinByGroup(element) {
 
         var selectedValue = $(element).data('id');
-        var minOption = $(`#edit-min-selection-${selectedValue}`).val() ?? 0;
-
+        var minOption = Math.min($(`#edit-min-selection-${selectedValue}`).val() ?? 0,$(`#edit-max-selection-${selectedValue}`).val()-1 ?? 0);
+        $(`#edit-min-selection-${selectedValue}`).val(minOption);
         console.log("min",minOption);
         console.log("itemdata",editItemData);
 

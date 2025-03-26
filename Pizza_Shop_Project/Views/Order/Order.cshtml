@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Orders";
     Layout = "_Layout";
-}
+} 
 
 <div class="d-flex flex-column px-3 py-3 gap-3">
 
@@ -11,14 +11,14 @@
         <h1 class="fw-bold user-text fs-2 col-lg-4 pb-3">Orders</h1>
         <div class="d-flex flex-sm-row flex-column justify-content-end align-items-center gap-2 col-lg-8">
             <div class="h-100 w-100">
-                <input type="text" class="form-control h-100 dt-input border" id="searchbtn" placeholder="Search"
+                <input type="text" class="form-control p-3 h-100 dt-input border" id="searchbtn" placeholder="Search"
                     aria-controls="order-list" />
                 @* <i class="fa-solid fa-magnifying-glass search-icon-style-order "></i> *@
                 @* <label>Search</label> *@
             </div>
             <div class="form-floating w-100">
                 <select id="orderStatus" class="form-select p-2">
-                    <option value="" selected>All Status</option>
+                    <option value="All Status" selected>All Status</option>
                     <option value="Pending">Pending</option>
                     <option value="In Progress">In Progress</option>
                     <option value="Served">Served</option>
@@ -27,16 +27,17 @@
                     <option value="On Hold">On Hold</option>
                     <option value="Failed">Failed</option>
                 </select>
+                
             </div>
             <div class="form-floating w-100">
                 <select id="selectRange" class="form-select p-2">
-                    <option value="">All Time</option>
+                    <option value="All Time">All Time</option>
                     <option value="Last 7 days">Last 7 days</option>
                     <option value="Last 30 days">Last 30 days</option>
                     <option value="Current Month">Current Month</option>
                 </select>
             </div>
-            <button class="solid-btn p-3 h-100 rounded border-0 text-nowrap" id="exportBtn">
+            <button class="solid-btn p-3 h-100 rounded border-0 text-nowrap" id="exportBtn" onclick="ExportBtn()">
                 <i class="fa-solid fa-share-from-square"></i> Export
             </button>
         </div>
@@ -141,32 +142,67 @@
         let fromDate = "";
         let toDate = "";
 
-        $(document).ready(function () {
+        // LoadTable function
+        function loadTable(page = 1, search = "", sortColumn = "", sortDirection = "asc", pageSize = 5, orderStatus, fromDate, toDate, selectRange) {
+            $.ajax({
+                url: "/Order/PaginationForOrder",
+                type: "GET",
+                data: { search, sortColumn, sortDirection, pageNumber: page, pageSize, orderStatus, fromDate, toDate, selectRange },
+                success: function (data) {
 
-            function loadTable(page = 1, search = "", sortColumn = "", sortDirection = "asc", pageSize = 5, orderStatus, fromDate, toDate, selectRange) {
-                $.ajax({
-                    url: "/Order/PaginationForOrder",
-                    type: "GET",
-                    data: { search, sortColumn, sortDirection, pageNumber: page, pageSize, orderStatus, fromDate, toDate, selectRange },
-                    success: function (data) {
+                    $("#OrderListBody").html(data);
 
-                        $("#OrderListBody").html(data);
+                    currentPage = page;
+                    pageSize = parseInt(pageSize);
 
-                        currentPage = page;
-                        pageSize = parseInt(pageSize);
+                    var totalRecords = parseInt($("#totalRecordsHidden").val()) || 0;
 
-                        var totalRecords = parseInt($("#totalRecordsHidden").val()) || 0;
+                    var startItem = totalRecords === 0 ? 0 : (currentPage - 1) * pageSize + 1;
 
-                        var startItem = totalRecords === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+                    var endItem = Math.min(currentPage * pageSize, totalRecords);
 
-                        var endItem = Math.min(currentPage * pageSize, totalRecords);
+                    $("#pagination-info").text("Showing " + startItem + " - " + endItem + " of " + totalRecords);
+                    $("#left-arrow").prop("disabled", currentPage === 1);
+                    $("#right-arrow").prop("disabled", currentPage * pageSize >= totalRecords);
+                }
+            });
+        }
 
-                        $("#pagination-info").text("Showing " + startItem + " - " + endItem + " of " + totalRecords);
-                        $("#left-arrow").prop("disabled", currentPage === 1);
-                        $("#right-arrow").prop("disabled", currentPage * pageSize >= totalRecords);
+        // Export to Excel Function
+        function ExportBtn() {
+            searchText = $("#searchbtn").val().trim();
+            orderStatus = $("#orderStatus").val();
+            selectRange = $("#selectRange").val();
+            $.ajax({
+                url: "/Order/ExportOrderDataToExcel",
+                type: "GET",
+                data: { search: searchText, orderStatus, selectRange },
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (data, status, xhr) {
+                    let filename = "Orders.xlsx";
+
+                    let disposition = xhr.getResponseHeader('Content-Disposition');
+                    if (disposition && disposition.indexOf('attachment') !== -1) {
+                        let matches = /filename="([^"]+)"/.exec(disposition);
+                        if (matches !== null && matches[1]) filename = matches[1];
                     }
-                });
-            }
+
+                    let blob = new Blob([data], { type: xhr.getResponseHeader('Content-Type') });
+                    let link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = filename;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    console.log("Export Successful");
+                }
+            });
+        }
+
+        $(document).ready(function () {
 
             // Search on keyup
             $("#searchbtn").on("keyup", function () {
@@ -175,7 +211,7 @@
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
             });
 
-            // Sorting functionality
+            // Sorting Order functionality
             $("#sortable-order").on("click", function () {
                 sortColumn = $(this).data("column");
                 console.log(sortColumn);
@@ -184,7 +220,7 @@
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
             });
 
-            // Sorting functionality
+            // Sorting Date functionality
             $("#sortable-date").on("click", function () {
                 sortColumn = $(this).data("column");
                 console.log(sortColumn);
@@ -193,7 +229,7 @@
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
             });
 
-            // Sorting functionality
+            // Sorting Customer functionality
             $("#sortable-customer").on("click", function () {
                 sortColumn = $(this).data("column");
                 console.log(sortColumn);
@@ -202,7 +238,7 @@
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
             });
 
-            // Sorting functionality
+            // Sorting Amount functionality
             $("#sortable-amount").on("click", function () {
                 sortColumn = $(this).data("column");
                 console.log(sortColumn);
@@ -211,22 +247,25 @@
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
             });
 
+            // Right Arrow Key
             $("#right-arrow").on("click", function () {
                 let rightarrow = !$(this).prop("disabled");
                 if (rightarrow) {
                     currentPage++;
-                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+                    loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
                 }
             });
 
+            // Left Arrow Key
             $("#left-arrow").on("click", function () {
                 let leftarrow = !$(this).prop("disabled");
                 if (leftarrow) {
                     currentPage--;
-                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+                    loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
                 }
             });
 
+            // Item Select
             $("#itemselect").on("change", function () {
                 pageSize = $(this).val();
                 console.log("items-" + pageSize);
@@ -234,6 +273,7 @@
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
             });
 
+            // Order Status
             $("#orderStatus").on("change", function () {
                 orderStatus = $(this).val();
                 console.log(orderStatus);
@@ -241,12 +281,14 @@
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
             });
 
+            // Select Range
             $("#selectRange").on("change", function () {
                 selectRange = $(this).val();
                 currentPage = 1;
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
             });
 
+            // Search Order Date
             $("#search-order-btn").on("click", function () {
                 fromDate = $("#from-order-date").val();
                 toDate = $("#to-order-date").val();
@@ -256,6 +298,7 @@
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
             });
 
+            // Clear Order Date
             $("#clear-order-btn").on("click", function () {
                 $("#from-order-date").val("");
                 $("#to-order-date").val("");
@@ -265,8 +308,8 @@
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
             });
 
-            // Initial table load
-            loadTable();
+            loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+            // End of Ready
         });
     </script>
 }

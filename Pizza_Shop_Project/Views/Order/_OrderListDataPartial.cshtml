@@ -5,7 +5,7 @@
 @if (Model.Items.Count == 0)
 {
     <tr>
-        <td colspan="8" class="text-center text-danger fw-bold">No Records Found</td>
+        <td colspan="12" class="text-center text-danger fw-bold">No Records Found</td>
     </tr>
 }
 else
@@ -25,8 +25,8 @@ else
                 </td>
             <td class="text-start" class="text-end text-nowrap">@item.TotalAmount</td>
             <td class="text-center">
-                <i class="fa-solid fa-pen text-black-50 me-3"></i>
-                <i class="fa-solid fa-trash-can text-black-50"></i>
+                <img src="~/images/filetype-pdf.svg" class="pe-3"/>
+                <img src="~/images/eye-open.svg"/>
             </td>
         </tr>
     }

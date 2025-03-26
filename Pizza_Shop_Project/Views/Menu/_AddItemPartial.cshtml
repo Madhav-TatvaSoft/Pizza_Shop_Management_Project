@@ -166,7 +166,7 @@
                             onchange="GetModifierByGroups()">
                             <option selected disabled>Select Modifier Group(s)</option>
                         </select>
-                        <div id="ItemByModifiers">
+                        <div id="ItemByModifiers" style="height:400px; overflow-y: auto; ">
 
                         </div>
                     </div>
@@ -210,7 +210,7 @@
 
                 itemData.push(modifierGroup);
 
-                console.log(itemData);
+                @* console.log(itemData); *@
 
                 $.ajax({
                     url: '/Menu/GetModifiersByGroup',
@@ -230,9 +230,10 @@
         function SetMinByGroup(element) {
 
             var selectedValue = $(element).data('id');
-            var minOption = $(`#min-selection-${selectedValue}`).val() ?? 0;
-            console.log(minOption);
-            console.log(itemData);
+            var minOption = Math.min($(`#min-selection-${selectedValue}`).val() ?? 0,$(`#max-selection-${selectedValue}`).val()-1 ?? 0)
+            $(`#min-selection-${selectedValue}`).val(minOption);
+            @* console.log(minOption); *@
+            @* console.log(itemData); *@
             var index = itemData.findIndex(item => item.ModifierGrpId == selectedValue);
 
             if (index != -1) {

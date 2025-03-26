@@ -61,6 +61,8 @@ public class TableSectionService : ITableSectionService
     }
     #endregion
 
+    #region Section CRUD
+
     #region Add Section
     public async Task<bool> AddSection(SectionViewModel addsection, long userId)
     {
@@ -172,6 +174,10 @@ public class TableSectionService : ITableSectionService
     }
     #endregion
 
+    #endregion
+
+    #region Table CRUD
+
     #region Add Table
     public async Task<bool> AddTable(TablesViewModel tableVM, long userId)
     {
@@ -280,6 +286,8 @@ public class TableSectionService : ITableSectionService
         }
         return false;
     }
+    #endregion
+
     #endregion
 
 }

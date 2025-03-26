@@ -6,21 +6,21 @@
 }
 
 <!-- user list -->
-<div class="user-list-main-div  d-flex justify-content-between mt-2">
+<div class="user-list-main-div  d-flex justify-content-between pt-2">
   <!-- user txt -->
   <div class="user-div d-flex col-md-3">
-    <div class="user-text fs-2 fw-bold ">Users</div>
+    <div class="user-text user-text bg-light fs-3 pt-3 fw-bold  pb-3 ps-md-3">Users</div>
   </div>
 
   <!-- search add user -->
-  <div class="search-adduser-div d-flex align-items-center justify-content-between mt-2">
-    <div class="search-button ">
-      <input type="text" id="searchbtn" placeholder="Search" class="p-1 border ">
-      <i class="fa-solid fa-magnifying-glass search-icon-style "></i>
+  <div class="search-adduser-div d-flex align-items-center justify-content-between pt-2 gap-2">
+    <div class="search-button">
+      <input type="text" id="searchbtn" placeholder="Search" class="p-1 border w-100">
+      <i class="fa-solid fa-magnifying-glass search-icon-style"></i>
     </div>
     <div class="add-user-button">
-      <a asp-action="AddUser" asp-controller="User" class="btn solid-btn text-light p-2 ms-3 border text">+ Add
-        User</a>
+      <a asp-action="AddUser" asp-controller="User" class="btn solid-btn text-light p-2 me-2 border text">+ <span class="d-none d-md-block ps-1">Add
+          User</span></a>
     </div>
 
   </div>
@@ -28,15 +28,15 @@
 
 <!-- Table -->
 <div class="container">
-  <div class="table-main-div table-responsive p-3 m-3 mb-0 bg-white mt-3 shadow-lg">
+  <div class="table-main-div table-responsive p-3 bg-white ms-md-3 me-0 shadow-lg">
     <table id="table" class="table">
       <thead>
         <tr class="border border-top-0 border-end-0 border-start-0 border-dark">
-          <th class="fw-bold text-start text-nowrap">Name <i class="bi bi-arrow-down-up " id="sortable-name"
+          <th class="fw-bold text-start text-nowrap pt-1">Name <i class="bi bi-arrow-down-up ps-1 " id="sortable-name"
               data-column="Name" data-direction="asc"></i></th>
           <th class="fw-bold text-start">Email</th>
           <th class="fw-bold text-start">Phone</th>
-          <th class="fw-bold text-start text-nowrap">Role<i class="bi bi-arrow-down-up " id="sortable-role"
+          <th class="fw-bold text-start text-nowrap pt-1">Role<i class="bi bi-arrow-down-up ps-2 " id="sortable-role"
               data-column="Role" data-direction="asc"></i></th>
           <th class="fw-bold text-start">Status</th>
           <th class="fw-bold text-start">Action </th>
@@ -48,9 +48,9 @@
     </table>
 
     @* Pagination div *@
-    <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-2">
+    <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ps-3 pe-2">
 
-      <span class="mt-2">Items Per page:</span>
+      <span class="pt-2">Items Per page:</span>
 
       <select id="itemselect">
         <option value="5">5</option>
@@ -58,9 +58,9 @@
         <option value="15">15</option>
       </select>
 
-      <span class=" mt-2 ms-1" id="pagination-info"></span>
-      <button id="left-arrow" class="btn border border-dark bg-light ms-2">&lt;</button>
-      <button id="right-arrow" class="btn border border-dark bg-light ms-2">&gt;</button>
+      <span class=" pt-2 ps-1" id="pagination-info"></span>
+      <button id="left-arrow" class="btn border border-dark bg-light ps-2">&lt;</button>
+      <button id="right-arrow" class="btn border border-dark bg-light ps-2">&gt;</button>
     </div>
   </div>
 </div>

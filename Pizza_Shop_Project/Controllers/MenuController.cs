@@ -127,9 +127,39 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Add-Items-From-Modal
-        
-        [Authorize(Roles = "Admin")]
+
         [PermissionAuthorize("Menu.AddEdit")]
+        public IActionResult GetModifiersByGroup(string data)
+        {
+            MenuViewModel MenuVM = new MenuViewModel();
+
+            List<ItemModifierViewModel> deserializedData = JsonConvert.DeserializeObject<List<ItemModifierViewModel>>(data);
+
+            if (deserializedData != null)
+            {
+                MenuVM.addItems = MenuVM.addItems ?? new AddItemViewModel();
+                MenuVM.addItems.itemModifiersVM = MenuVM.addItems.itemModifiersVM ?? new List<ItemModifierViewModel>();
+
+                var i = 0;
+
+                foreach (ItemModifierViewModel deItems in deserializedData)
+                {
+                    MenuVM.addItems.itemModifiersVM.Add(deItems);
+                    MenuVM.addItems.itemModifiersVM[i].modifiersList = _menuService.GetModifiersByGroup(deItems.ModifierGrpId);
+                    MenuVM.addItems.itemModifiersVM[i].ModifierGrpName = _menuService.GetModifiersGroupName(deItems.ModifierGrpId);
+                    i++;
+                }
+            }
+
+            MenuVM.categoryList = _menuService.GetAllCategories();
+            MenuVM.modifierGroupList = _menuService.GetAllModifierGroupList();
+
+            ViewBag.categoryList = new SelectList(_menuService.GetAllCategories(), "CategoryId", "CategoryName");
+            ViewBag.modifierGroupList = new SelectList(_menuService.GetAllModifierGroupList(), "ModifierGrpId", "ModifierGrpName");
+
+            return PartialView("_ModifierByGroup", MenuVM);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddItem([FromForm] MenuViewModel MenuVm)
         {
@@ -150,7 +180,7 @@ namespace Pizza_Shop_Project.Controllers
                 }
             }
 
-
+            // Code For image upload
             if (MenuVm.addItems.ItemFormImage != null)
             {
                 var extension = MenuVm.addItems.ItemFormImage.FileName.Split(".");
@@ -186,36 +216,7 @@ namespace Pizza_Shop_Project.Controllers
             return Json(new { success = false, text = "Failed to add Item" });
         }
 
-        public IActionResult GetModifiersByGroup(string data)
-        {
-            MenuViewModel MenuVM = new MenuViewModel();
 
-            List<ItemModifierViewModel> deserializedData = JsonConvert.DeserializeObject<List<ItemModifierViewModel>>(data);
-
-            if (deserializedData != null)
-            {
-                MenuVM.addItems = MenuVM.addItems ?? new AddItemViewModel();
-                MenuVM.addItems.itemModifiersVM = MenuVM.addItems.itemModifiersVM ?? new List<ItemModifierViewModel>();
-
-                var i = 0;
-
-                foreach (ItemModifierViewModel deItems in deserializedData)
-                {
-                    MenuVM.addItems.itemModifiersVM.Add(deItems);
-                    MenuVM.addItems.itemModifiersVM[i].modifiersList = _menuService.GetModifiersByGroup(deItems.ModifierGrpId);
-                    MenuVM.addItems.itemModifiersVM[i].ModifierGrpName = _menuService.GetModifiersGroupName(deItems.ModifierGrpId);
-                    i++;
-                }
-            }
-
-            MenuVM.categoryList = _menuService.GetAllCategories();
-            MenuVM.modifierGroupList = _menuService.GetAllModifierGroupList();
-
-            ViewBag.categoryList = new SelectList(_menuService.GetAllCategories(), "CategoryId", "CategoryName");
-            ViewBag.modifierGroupList = new SelectList(_menuService.GetAllModifierGroupList(), "ModifierGrpId", "ModifierGrpName");
-
-            return PartialView("_ModifierByGroup", MenuVM);
-        }
         #endregion
 
         #region Delete-Items-From-Modal
@@ -237,7 +238,6 @@ namespace Pizza_Shop_Project.Controllers
 
         #region Edit-Items-From-Modal
 
-        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.AddEdit")]
         public IActionResult GetItemsByItemId(long itemid)
         {
@@ -250,6 +250,7 @@ namespace Pizza_Shop_Project.Controllers
             return PartialView("_EditItemPartial", MenuVM);
         }
 
+        [PermissionAuthorize("Menu.AddEdit")]
         public IActionResult EditModifiersByGroup(string data)
         {
             MenuViewModel MenuVM = new MenuViewModel();
@@ -277,6 +278,7 @@ namespace Pizza_Shop_Project.Controllers
             return PartialView("_EditModifierByGroup", MenuVM);
         }
 
+        [PermissionAuthorize("Menu.AddEdit")]
         [HttpPost]
         public async Task<IActionResult> EditItem([FromForm] MenuViewModel MenuVm)
         {

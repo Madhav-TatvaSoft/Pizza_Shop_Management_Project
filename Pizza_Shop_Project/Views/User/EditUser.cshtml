@@ -8,13 +8,13 @@
 <div class="user-list-main-div bg-light d-md-flex justify-content-between">
     <!-- user txt -->
 
-    <div class="user-text fs-3 fw-bold ms-3 mt-3">Edit User</div>
+    <div class="user-text fs-3 fw-bold ps-3 pt-3">Edit User</div>
 
     <!-- search add user -->
     <div class="search-adduser-div d-flex justify-content-end  align-items-center">
         <div class="add-user-button ">
             <a asp-action="UserListData" asp-controller="User"
-                class="add-user-button btn hollow-btn  p-sm-2 mt-2 ms-3 me-4 ">
+                class="add-user-button btn hollow-btn   p-sm-2 ps-3 me-4 mt-2 ">
                 <i class="bi bi-caret-left-fill"></i>Back</a>
         </div>
     </div>
@@ -24,34 +24,34 @@
 <!-- form -->
 <form asp-action="EditUser" asp-controller="User" class="form-main-div mt-3 mx-auto bg-white shadow-lg"
     style="width: 96%;" enctype="multipart/form-data">
-    <div class="form-main-div mt-3 mx-auto bg-white " style="width: 98%;">
+    <div class="form-main-div pt-3 mx-auto bg-white " style="width: 98%;">
         <div class="row">
-            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 pt-3">
                 <div class="form-floating d-flex flex-column ">
                     <input type="text" asp-for="FirstName" class="form-control" id="floatingInput"
                         placeholder="First Name">
                     <label for="floatingInput" asp-for="FirstName" class="fs-6 text-secondary">First Name</label>
-                    <span asp-validation-for="FirstName" class="text-danger ms-1 mt-2 validate"></span>
+                    <span asp-validation-for="FirstName" class="text-danger ps-1 pt-2 validate"></span>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 pt-3">
                 <div class="form-floating d-flex flex-column">
                     <input type="text" asp-for="LastName" class="form-control" id="floatingInput"
                         placeholder="Last Name">
                     <label for="floatingInput" asp-for="LastName" class="fs-6 text-secondary">Last Name</label>
-                    <span asp-validation-for="LastName" class="text-danger ms-1 mt-2 validate"></span>
+                    <span asp-validation-for="LastName" class="text-danger ps-1 pt-2 validate"></span>
                 </div>
             </div>
 
-            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 pt-3">
                 <div class="form-floating d-flex flex-column ">
                     <input type="text" asp-for="Username" class="form-control" id="floatingInput"
                         placeholder="Username">
                     <label for="floatingInput" asp-for="Username" class="fs-6 text-secondary">Username</label>
-                    <span asp-validation-for="Username" class="text-danger ms-1 mt-2 validate"></span>
+                    <span asp-validation-for="Username" class="text-danger ps-1 pt-2 validate"></span>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 pt-3">
                 <div class="form-floating d-flex flex-column">
                     <select class="form-select" asp-for="RoleId" asp-items="@ViewBag.Roles" id="Roles"
                         aria-label="Floating label select example">
@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
+            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 pt-3">
                 <div class="form-floating d-flex flex-column">
                     <input type="hidden" asp-for="Email" />
                     <input type="email" asp-for="Email" class="form-control" id="floatingInput"
@@ -69,79 +69,79 @@
 
                 </div>
             </div>
-            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3 ">
+            <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 pt-3 ">
                 <div class="form-floating text-secondary d-flex flex-column">
                     <select class="form-select" asp-for="Status" id="Status" aria-label="Floating label select example">
                         <option value="true">Active</option>
                         <option value="false">InActive</option>
                     </select>
                     <label for="floatingSelect text-secondary">Status</label>
-                    <span asp-validation-for="Status" class="text-danger ms-1 mt-2 validate"></span>
+                    <span asp-validation-for="Status" class="text-danger ps-1 pt-2 validate"></span>
                 </div>
             </div>
 
-            <div class="col-12 mt-3 d-flex justify-content-center align-content-center ">
+            <div class="col-12 pt-3 d-flex justify-content-center align-content-center ">
                 <div class="browswe-file d-flex justify-content-center align-items-center  text-secondary browse-file-div bg-white"
                     style="height: 90px; width: 100%;  ">
                     <input type="file" asp-for="ProfileImage" class=" d-none " id="choose-file" />
                     <label for="choose-file">
-                        <i class="fa-solid fa-cloud-arrow-up d-flex justify-content-center ms-1 mb-1"></i> <span
+                        <i class="fa-solid fa-cloud-arrow-up d-flex justify-content-center ps-1 pb-1"></i> <span
                             id="browseFileText">Browse files</span></label>
                 </div>
             </div>
 
-            <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
+            <div class="col-md-4 col-lg-4 col-xl-4 col-12 pt-3">
                 <div class="form-floating d-flex flex-column">
                     <select asp-for="@Model.CountryId" class="form-select" id="Countries"
                         aria-label="Floating label select example" asp-items="@ViewBag.Countries">
                         <option value="-1">Select Country</option>
                     </select>
                     <label for="floatingSelect text-secondary">Country</label>
-                    <span asp-Validation-for="@Model.CountryId" class="text-danger ms-1 mt-2 validate"></span>
+                    <span asp-Validation-for="@Model.CountryId" class="text-danger ps-1 pt-2 validate"></span>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
+            <div class="col-md-4 col-lg-4 col-xl-4 col-12 pt-3">
                 <div class="form-floating d-flex flex-column">
                     <select class="form-select" asp-for="@Model.StateId" asp-items="@ViewBag.States" id="States"
                         aria-label="Floating label select example"> </select>
                     <label for="floatingSelect text-secondary">State</label>
-                    <span asp-Validation-for="@Model.StateId" class="text-danger ms-1 mt-2 validate"></span>
+                    <span asp-Validation-for="@Model.StateId" class="text-danger ps-1 pt-2 validate"></span>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
+            <div class="col-md-4 col-lg-4 col-xl-4 col-12 pt-3">
                 <div class="form-floating d-flex flex-column">
                     <select class="form-select" asp-for="@Model.CityId" asp-items="@ViewBag.Cities" id="Cities"
                         aria-label="Floating label select example"></select>
                     <label for="floatingSelect text-secondary">City</label>
-                    <span asp-Validation-for="@Model.CityId" class="text-danger ms-1 mt-2 validate"></span>
+                    <span asp-Validation-for="@Model.CityId" class="text-danger ps-1 pt-2 validate"></span>
                 </div>
             </div>
 
-            <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
+            <div class="col-md-4 col-lg-4 col-xl-4 col-12 pt-3">
                 <div class="form-floating d-flex flex-column">
                     <input asp-for="Zipcode" type="text" class="form-control" id="floatingInput" placeholder="John Deo">
                     <label asp-for="Zipcode" for="floatingInput" class="fs-6 text-secondary">Zipcode</label>
-                    <span asp-validation-for="Zipcode" class="text-danger ms-1 mt-2 validate"></span>
+                    <span asp-validation-for="Zipcode" class="text-danger ps-1 pt-2 validate"></span>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
+            <div class="col-md-4 col-lg-4 col-xl-4 col-12 pt-3">
                 <div class="form-floating d-flex flex-column">
                     <input asp-for="Address" type="text" class="form-control" id="floatingInput" placeholder="John Deo">
                     <label asp-for="Address" for="floatingInput" class="fs-6 text-secondary">Address</label>
-                    <span asp-validation-for="Address" class="text-danger ms-1 mt-2 validate"></span>
+                    <span asp-validation-for="Address" class="text-danger ps-1 pt-2 validate"></span>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-4 col-xl-4 col-12 mt-3">
+            <div class="col-md-4 col-lg-4 col-xl-4 col-12 pt-3">
                 <div class="form-floating d-flex flex-column">
                     <input asp-for="Phone" type="number" class="form-control" id="floatingInput" placeholder="John Deo">
                     <label asp-for="Phone" for="floatingInput" class="fs-6 text-secondary">Phone</label>
-                    <span asp-validation-for="Phone" class="text-danger ms-1 mt-2 validate"></span>
+                    <span asp-validation-for="Phone" class="text-danger ps-1 pt-2 validate"></span>
                 </div>
             </div>
 
             <span class="text-danger">@ViewBag.Message</span>
 
-            <div class="create-user-cancel-div mt-4 mb-4">
+            <div class="create-user-cancel-div pt-4 pb-4">
                 <button type="submit" class="btn solid-btn">Update User</button>
                 <a type="button" asp-action="UserListData" asp-controller="User" class="btn hollow-btn">Cancel</a>
             </div>
