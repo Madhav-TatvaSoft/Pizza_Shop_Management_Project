@@ -20,10 +20,6 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVxNZW51LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/Menu/_AddExistingModifierPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVxfQWRkRXhpc3RpbmdNb2RpZmllclBhcnRpYWwuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/Menu/_AddItemPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVxfQWRkSXRlbVBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -44,6 +40,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVxfRWRpdE1vZGlmaWVyUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/Menu/_ExistingModifierPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVxfRXhpc3RpbmdNb2RpZmllclBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/Menu/_ItemPartialView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVxfSXRlbVBhcnRpYWxWaWV3LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -62,6 +62,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/Order/Order.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcT3JkZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/Order/OrderDetailsView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcT3JkZXJEZXRhaWxzVmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/Order/_OrderListDataPartial.cshtml]

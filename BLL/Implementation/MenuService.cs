@@ -350,43 +350,8 @@ public class MenuService : IMenuService
     }
     #endregion
 
-    #region Pagination Model for Add Existing Modifiers
+    #region Pagination Model for Existing Modifiers
     public PaginationViewModel<ModifiersViewModel> ExistingGetMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 5)
-    {
-
-        var query = _context.Modifiers.Where(x => x.Isdelete == false)
-           .Select(x => new ModifiersViewModel
-           {
-               ModifierId = x.ModifierId,
-               ModifierName = x.ModifierName,
-               ModifierGrpId = x.ModifierGrpId,
-               Unit = x.Unit,
-               Rate = x.Rate,
-               Quantity = x.Quantity,
-               Isdelete = x.Isdelete
-           })
-           .AsQueryable();
-
-        //search 
-        if (!string.IsNullOrEmpty(search))
-        {
-            string lowerSearchTerm = search.ToLower();
-            query = query.Where(x => x.ModifierName.ToLower().Contains(lowerSearchTerm)
-            );
-        }
-
-        // Get total records count (before pagination)
-        int totalCount = query.Count();
-
-        // Apply pagination
-        var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
-        return new PaginationViewModel<ModifiersViewModel>(items, totalCount, pageNumber, pageSize);
-    }
-    #endregion
-
-    #region Pagination Model for Edit Existing Modifiers
-    public PaginationViewModel<ModifiersViewModel> EditExistingGetMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 5)
     {
 
         var query = _context.Modifiers.Where(x => x.Isdelete == false)
@@ -484,60 +449,60 @@ public class MenuService : IMenuService
         }).ToList();
         return modifiers;
     }
-    // public async Task<bool> AddModToModifierGrpAfterEdit(long modgrpid, long modid, long userId)
-    // {
+    public async Task<bool> AddModToModifierGrpAfterEdit(long modgrpid, long modid, long userId)
+    {
 
-    //     var existingModifier = await _context.Modifiers.Where(x => x.ModifierId == modid && x.Isdelete == false).ToListAsync();
+        var existingModifier = await _context.Modifiers.Where(x => x.ModifierId == modid && x.Isdelete == false).ToListAsync();
 
-    //     if (existingModifier != null)
-    //     {
-    //         Modifier modifier = new Modifier();
-    //         modifier.ModifierGrpId = modgrpid;
-    //         modifier.ModifierName = existingModifier[0].ModifierName;
-    //         modifier.Rate = existingModifier[0].Rate;
-    //         modifier.Quantity = existingModifier[0].Quantity;
-    //         modifier.Unit = existingModifier[0].Unit;
-    //         modifier.Description = existingModifier[0].Description;
-    //         modifier.CreatedBy = userId;
+        if (existingModifier != null)
+        {
+            Modifier modifier = new Modifier();
+            modifier.ModifierGrpId = modgrpid;
+            modifier.ModifierName = existingModifier[0].ModifierName;
+            modifier.Rate = existingModifier[0].Rate;
+            modifier.Quantity = existingModifier[0].Quantity;
+            modifier.Unit = existingModifier[0].Unit;
+            modifier.Description = existingModifier[0].Description;
+            modifier.CreatedBy = userId;
 
-    //         await _context.Modifiers.AddAsync(modifier);
-    //         await _context.SaveChangesAsync();
-    //         return true;
-    //     }
-    //     return false;
-    // }
-    // public async Task<bool> DeleteModToModifierGrpAfterEdit(long modid, long modgrpid)
-    // {
-    //     var existingModifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.ModifierGrpId == modgrpid && x.Isdelete == false);
+            await _context.Modifiers.AddAsync(modifier);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        return false;
+    }
+    public async Task<bool> DeleteModToModifierGrpAfterEdit(long modid, long modgrpid)
+    {
+        var existingModifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.ModifierGrpId == modgrpid && x.Isdelete == false);
 
-    //     if (existingModifier != null)
-    //     {
-    //         existingModifier.Isdelete = true;
-    //         _context.Update(existingModifier);
-    //         await _context.SaveChangesAsync();
-    //         return true;
-    //     }
-    //     return false;
-    // }
-    // public async Task<bool> EditModifierGroup(AddModifierGroupViewModel editModifierGroupVM, long userId)
-    // {
-    //     if (editModifierGroupVM.ModifierGrpId == null)
-    //     {
-    //         return false;
-    //     }
-    //     else
-    //     {
-    //         var existingModifierGroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpId == editModifierGroupVM.ModifierGrpId && !x.Isdelete);
-    //         existingModifierGroup.ModifierGrpName = editModifierGroupVM.ModifierGrpName;
-    //         existingModifierGroup.Desciption = editModifierGroupVM.Desciption;
-    //         existingModifierGroup.ModifiedAt = DateTime.Now;
-    //         existingModifierGroup.ModifiedBy = userId;
+        if (existingModifier != null)
+        {
+            existingModifier.Isdelete = true;
+            _context.Update(existingModifier);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        return false;
+    }
+    public async Task<bool> EditModifierGroup(AddModifierGroupViewModel editModifierGroupVM, long userId)
+    {
+        if (editModifierGroupVM.ModifierGrpId == null)
+        {
+            return false;
+        }
+        else
+        {
+            var existingModifierGroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpId == editModifierGroupVM.ModifierGrpId && !x.Isdelete);
+            existingModifierGroup.ModifierGrpName = editModifierGroupVM.ModifierGrpName;
+            existingModifierGroup.Desciption = editModifierGroupVM.Desciption;
+            existingModifierGroup.ModifiedAt = DateTime.Now;
+            existingModifierGroup.ModifiedBy = userId;
 
-    //         _context.Modifiergroups.Update(existingModifierGroup);
-    //         await _context.SaveChangesAsync();
-    //         return true;
-    //     }
-    // }
+            _context.Modifiergroups.Update(existingModifierGroup);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+    }
 
     #endregion
 

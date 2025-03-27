@@ -3,30 +3,31 @@
     ViewData["Title"] = "Role";
     Layout = "_Layout";
 }
-
-<div class="permission-table-main-div table-responsive fs-5 p-4 ms-4 mt-5 bg-white shadow-lg" style="width: 85%;">
-    <table class="table" id="demo">
-        <thead>
-            <tr class="border border-bottom-2 border-end-0 border-top-0 border-start-0 border-dark">
-                <th scope="col" class="fw-bold fs-4 text-start">Role</th>
-                <th scope="col" class="fw-bold fs-4 d-flex justify-content-end text-start">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr class="border border-bottom-2 border-end-0 border-top-0 border-start-0">
-                    <td class="fw-semibold text-secondary fs-6 text-start">
-                        @Html.DisplayFor(modelItem => item.RoleName)
-                    </td>
-                    <td class="d-flex justify-content-end ">
-                        <a asp-action="Permission" asp-controller="RolePermission" asp-route-name="@item.RoleName"><i
-                                class="fa-solid fa-pen ps-4 text-secondary text-start"></i></a>
-                    </td>
+<div class="p-4 pt-5">
+    <div class="permission-table-main-div table-responsive fs-5 p-4 ms-1 mt-4 bg-white shadow-lg" style="width: 85%;">
+        <table class="table" id="demo">
+            <thead>
+                <tr class="border border-bottom-2 border-end-0 border-top-0 border-start-0 border-dark">
+                    <th scope="col" class="fw-bold fs-4 text-start">Role</th>
+                    <th scope="col" class="fw-bold fs-4 d-flex justify-content-end text-start">Action</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="border border-bottom-2 border-end-0 border-top-0 border-start-0">
+                        <td class="fw-semibold text-secondary fs-6 text-start">
+                            @Html.DisplayFor(modelItem => item.RoleName)
+                        </td>
+                        <td class="d-flex justify-content-end ">
+                            <a asp-action="Permission" asp-controller="RolePermission" asp-route-name="@item.RoleName"><i
+                                    class="fa-solid fa-pen ps-4 text-secondary text-start"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 @section Scripts {

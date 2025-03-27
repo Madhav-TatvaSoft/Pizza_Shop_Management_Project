@@ -5,30 +5,30 @@
 }
 
 <!-- Tax list -->
-<div class="Tax-list-main-div  d-flex justify-content-between pt-2">
+<div class="Tax-list-main-div row  d-flex justify-content-between pt-2 pe-0">
     <!-- user txt -->
-    <div class="Tax-div d-flex col-md-3">
-        <div class="user-text fs-3 fw-bold pt-2 mb-3 ps-2 ">Taxes/Fees</div>
+    <div class="Tax-div d-flex col-sm-1 col">
+        <div class="user-text bg-light fs-3 pt-4 fw-bold  pb-3 ps-md-3 ">Taxes/Fees</div>
+    </div>
+    <!-- search add user -->
+    <div class="search-adduser-div col-sm-11 col d-flex align-items-center justify-content-end gap-2 pt-3 pe-sm-0">
+        <div class="search-button ">
+            <input type="text" id="searchbtn-tax" placeholder="Search" class="p-2 border ">
+            <i class="fa-solid fa-magnifying-glass search-icon-style-tax "></i>
+        </div>
+        <div class="add-Tax-button">
+            <button class="btn AddEditTaxId solid-btn text-light p-2 validate text-nowrap " data-bs-toggle="modal"
+                data-bs-target="#AddEditTaxModal" data-id="0">+ New Tax</button>
+        </div>
+
     </div>
 </div>
 
 
-<!-- search add user -->
-<div class="search-adduser-div d-flex align-items-center justify-content-end">
-    <div class="search-button ">
-        <input type="text" id="searchbtn-tax" placeholder="Search" class="p-2 border ">
-        <i class="fa-solid fa-magnifying-glass search-icon-style-tax "></i>
-    </div>
-    <div class="add-Tax-button">
-        <button class="btn AddEditTaxId solid-btn text-light p-2 ms-3 " data-bs-toggle="modal"
-            data-bs-target="#AddEditTaxModal" data-id="0">+ New Tax</button>
-    </div>
-
-</div>
 
 <!-- Table -->
-<div class="container-fluid ">
-    <div class="table-main-div table-responsive p-3 m-3 mb-0 bg-white mt-3 shadow-lg">
+<div class="container-fluid p-sm-4 p-3">
+    <div class="table-main table-responsive p-3 bg-white shadow-lg">
         <table id="table" class="table">
             <thead>
                 <tr class="border border-top-0 border-end-0 border-start-0 border-dark">
@@ -46,9 +46,9 @@
         </table>
 
         @* Pagination div *@
-        <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-0 bg-white ms-3 me-2">
+        <div class="pagination-main-div d-flex justify-content-end gap-2 p-3 pt-3 bg-white ps-3 pe-2">
 
-            <span class="mt-2">Items Per page:</span>
+            <span class="pt-2">Items Per page:</span>
 
             <select id="itemselect-tax">
                 <option value="3">3</option>
@@ -56,9 +56,9 @@
                 <option value="10">10</option>
             </select>
 
-            <span class=" mt-2 ms-1" id="pagination-info-tax"></span>
-            <button id="left-arrow-tax" class="btn border border-dark bg-light ms-2">&lt;</button>
-            <button id="right-arrow-tax" class="btn border border-dark bg-light ms-2">&gt;</button>
+            <span class=" pt-2 ps-1" id="pagination-info-tax"></span>
+            <button id="left-arrow-tax" class="btn border border-dark bg-light ps-2">&lt;</button>
+            <button id="right-arrow-tax" class="btn border border-dark bg-light ps-2">&gt;</button>
         </div>
     </div>
 
@@ -67,7 +67,7 @@
 <!--------------------------------- All Modal Start here --------------------------->
 
 <!-- AddEdit Tax modal -->
-<div id="AddEditTaxModal" class="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+<div id="AddEditTaxModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" id="AddEditTax-Content">
 
     </div>
