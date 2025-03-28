@@ -33,6 +33,8 @@ public partial class Modifier
 
     public virtual User? ModifiedByNavigation { get; set; }
 
+    public virtual ICollection<ModifierGroupMapping> ModifierGroupMappings { get; } = new List<ModifierGroupMapping>();
+
     public virtual Modifiergroup ModifierGrp { get; set; } = null!;
 
     public virtual ICollection<Modifierorder> Modifierorders { get; } = new List<Modifierorder>();

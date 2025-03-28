@@ -338,7 +338,7 @@
     </div>
 </div>
 
-<!------------------------------------ Itmes ---------------------------------------->
+<!------------------------------------ Items ---------------------------------------->
 
 <!-- Add Items modal-->
 <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
@@ -533,7 +533,8 @@
             <form id="EditModifierGroupForm">
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        @* <input type="hidden" asp-for="@Model.addModifierGroupVM.Temp_Ids" id="EditTemp_Ids_HiddenField"> *@
+                        @* <input type="hidden" asp-for="@Model.addModifierGroupVM.Temp_Ids"
+                        id="EditTemp_Ids_HiddenField"> *@
                         <input type="hidden" asp-for="@Model.addModifierGroupVM.ModifierGrpId" id="EditModifierGrpId">
                         <input type="text" asp-for="@Model.addModifierGroupVM.ModifierGrpName" class="form-control"
                             id="EditModifierGroupName" placeholder="Name" required>
@@ -557,9 +558,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn solid-btn">save</button>
+                    <button type="submit" class="btn solid-btn">Save</button>
                     <button type="button" class="btn hollow-btn" data-bs-dismiss="modal"
-                        onclick="EmptyFieldsEditModifierGroup();  RemoveValidation();">cancel</button>
+                        onclick="EmptyFieldsEditModifierGroup();  RemoveValidation();">Cancel</button>
                 </div>
             </form>
         </div>
@@ -733,7 +734,6 @@
 
 <partial name="_ValidationScriptsPartial" />
 <partial name="_Toaster" />
-
 
 @section Scripts {
 
@@ -996,7 +996,7 @@
             modifier_div.innerHTML = "";
             for (i = 0; i < modifierTempId.length; i++) {
                 modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                                                                                                                                                                                                                                                                                                                                                     ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
+                                                                                                                                                                                                                                                                                                                                                                                                                         ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
             }
         }
 
@@ -1083,7 +1083,7 @@
 
             for (i = 0; i < modifierTempId.length; i++) {
                 edit_modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                                                                                    ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
+                                                                                                                                                        ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
             }
 
         }
@@ -1115,7 +1115,6 @@
         let searchText_mod = "";
         let pageSize_mod = $("#itemselect-modifier").val();
         let modgrpid = $("#Mod_id").val();
-        console.log(modgrpid, "Modgrpid");
 
         // All Data for Add Existing Modifiers
         let currentPage_Existmod = 1;
@@ -1287,6 +1286,7 @@
                         modifierTempName.push(x.modifierName);
                         editmodifierTempId.push(x.modifierId);
                     });
+
                     document.getElementById("EditModifierGrpId").value = data.modifierGroup.modifierGrpId;
                     document.getElementById("EditModifierGroupName").value = data.modifierGroup.modifierGrpName;
                     document.getElementById("EditModifierGroupDescription").value = data.modifierGroup.desciption;
@@ -1610,15 +1610,10 @@
 
                 e.preventDefault();
 
-                @* console.log(document.getElementById("EditModifierGrpIdForEdit").value); *@
 
-        @* let form = $("#EditModifierGroupForm"); *@
 
-        @* if (form.valid()) { *@
+                let formData = new FormData(this);
 
-                    let formData = new FormData(this);
-
-                @* console.log(formData); *@
 
                 $.ajax({
                     url: `/Menu/EditModifierGroup`,
@@ -1649,6 +1644,7 @@
 
                             }
                         }
+
                         for (i = 0; i < modifierTempId.length; i++) {
 
                             if (editmodifierTempId.indexOf(modifierTempId[i]) == -1) {
@@ -1681,8 +1677,7 @@
                         modifierTempName = [];
                     }
                 });
-        @* } *@
-                });
+            });
 
 
             // Delete modifier Group POST

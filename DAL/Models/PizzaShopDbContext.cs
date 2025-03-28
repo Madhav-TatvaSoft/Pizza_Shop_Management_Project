@@ -39,6 +39,8 @@ public partial class PizzaShopDbContext : DbContext
 
     public virtual DbSet<Modifier> Modifiers { get; set; }
 
+    public virtual DbSet<ModifierGroupMapping> ModifierGroupMappings { get; set; }
+
     public virtual DbSet<Modifiergroup> Modifiergroups { get; set; }
 
     public virtual DbSet<Modifierorder> Modifierorders { get; set; }
@@ -66,6 +68,8 @@ public partial class PizzaShopDbContext : DbContext
     public virtual DbSet<Table> Tables { get; set; }
 
     public virtual DbSet<Tax> Taxes { get; set; }
+
+    public virtual DbSet<TaxInvoiceMapping> TaxInvoiceMappings { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -97,6 +101,8 @@ public partial class PizzaShopDbContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
+            entity.Property(e => e.NoOfPerson).HasColumnName("no_of_person");
+            entity.Property(e => e.OrderId).HasColumnName("order_id");
             entity.Property(e => e.TableId).HasColumnName("table_id");
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.AssignTableCreatedByNavigations)
@@ -111,6 +117,11 @@ public partial class PizzaShopDbContext : DbContext
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.AssignTableModifiedByNavigations)
                 .HasForeignKey(d => d.ModifiedBy)
                 .HasConstraintName("assignTable_modified_by_fkey");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.AssignTables)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("assignTable_order_id_fkey");
 
             entity.HasOne(d => d.Table).WithMany(p => p.AssignTables)
                 .HasForeignKey(d => d.TableId)
@@ -252,18 +263,12 @@ public partial class PizzaShopDbContext : DbContext
             entity.ToTable("invoice");
 
             entity.Property(e => e.InvoiceId).HasColumnName("invoice_id");
-            entity.Property(e => e.CgstTax)
-                .HasPrecision(5, 2)
-                .HasColumnName("cgst_tax");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_DATE")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.CustomerId).HasColumnName("customer_id");
-            entity.Property(e => e.GstTax)
-                .HasPrecision(5, 2)
-                .HasColumnName("gst_tax");
             entity.Property(e => e.InvoiceNo)
                 .HasColumnType("character varying")
                 .HasColumnName("invoice_no");
@@ -273,15 +278,6 @@ public partial class PizzaShopDbContext : DbContext
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
             entity.Property(e => e.OrderId).HasColumnName("order_id");
-            entity.Property(e => e.Other)
-                .HasPrecision(5, 2)
-                .HasColumnName("other");
-            entity.Property(e => e.SgstTax)
-                .HasPrecision(5, 2)
-                .HasColumnName("sgst_tax");
-            entity.Property(e => e.TotalAmount)
-                .HasPrecision(10, 2)
-                .HasColumnName("total_amount");
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.InvoiceCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)
@@ -500,6 +496,28 @@ public partial class PizzaShopDbContext : DbContext
                 .HasConstraintName("modifier_modifier_grp_id_fkey");
         });
 
+        modelBuilder.Entity<ModifierGroupMapping>(entity =>
+        {
+            entity.HasKey(e => e.MappingId).HasName("ModifierGroupMapping_pkey");
+
+            entity.ToTable("ModifierGroupMapping");
+
+            entity.Property(e => e.MappingId).HasColumnName("mapping_id");
+            entity.Property(e => e.Isdelete).HasColumnName("isdelete");
+            entity.Property(e => e.ModifierGrpId).HasColumnName("modifier_grp_id");
+            entity.Property(e => e.ModifierId).HasColumnName("modifier_id");
+
+            entity.HasOne(d => d.ModifierGrp).WithMany(p => p.ModifierGroupMappings)
+                .HasForeignKey(d => d.ModifierGrpId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("modifier_grp_id");
+
+            entity.HasOne(d => d.Modifier).WithMany(p => p.ModifierGroupMappings)
+                .HasForeignKey(d => d.ModifierId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("modifier_id");
+        });
+
         modelBuilder.Entity<Modifiergroup>(entity =>
         {
             entity.HasKey(e => e.ModifierGrpId).HasName("modifiergroup_pkey");
@@ -549,6 +567,7 @@ public partial class PizzaShopDbContext : DbContext
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
             entity.Property(e => e.ModifierId).HasColumnName("modifier_id");
+            entity.Property(e => e.ModifierQuantity).HasColumnName("modifierQuantity");
             entity.Property(e => e.OrderdetailId).HasColumnName("orderdetail_id");
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ModifierorderCreatedByNavigations)
@@ -939,6 +958,27 @@ public partial class PizzaShopDbContext : DbContext
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.TaxModifiedByNavigations)
                 .HasForeignKey(d => d.ModifiedBy)
                 .HasConstraintName("tax_modified_by_fkey");
+        });
+
+        modelBuilder.Entity<TaxInvoiceMapping>(entity =>
+        {
+            entity.HasKey(e => e.TaxInvoiceId).HasName("TaxInvoiceMapping_pkey");
+
+            entity.ToTable("TaxInvoiceMapping");
+
+            entity.Property(e => e.TaxInvoiceId).HasColumnName("tax_invoice_id");
+            entity.Property(e => e.InvoiceId).HasColumnName("invoice_id");
+            entity.Property(e => e.TaxId).HasColumnName("tax_id");
+
+            entity.HasOne(d => d.Invoice).WithMany(p => p.TaxInvoiceMappings)
+                .HasForeignKey(d => d.InvoiceId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("invoice_id");
+
+            entity.HasOne(d => d.Tax).WithMany(p => p.TaxInvoiceMappings)
+                .HasForeignKey(d => d.TaxId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("tax_id");
         });
 
         modelBuilder.Entity<User>(entity =>

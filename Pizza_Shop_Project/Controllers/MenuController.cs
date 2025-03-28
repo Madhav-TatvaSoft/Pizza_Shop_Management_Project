@@ -403,7 +403,6 @@ namespace Pizza_Shop_Project.Controllers
 
         #region Edit Modifier Group 
 
-        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.AddEdit")]
         public IActionResult GetModifierGroupByModifierGroupId(long modgrpid)
         {
@@ -412,7 +411,6 @@ namespace Pizza_Shop_Project.Controllers
             return Json(new { modifiers, modifierGroup });
         }
 
-        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.AddEdit")]
         [HttpPost]
         public async Task<IActionResult> AddModToModifierGrpAfterEdit(long modgrpid, long modid)
@@ -429,7 +427,6 @@ namespace Pizza_Shop_Project.Controllers
             return Json(new { success = false, text = "Failed to Add Modifier to Modifier Group" });
         }
 
-        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.AddEdit")]
         [HttpPost]
         public async Task<IActionResult> DeleteModToModifierGrpAfterEdit(long modid, long modgrpid)

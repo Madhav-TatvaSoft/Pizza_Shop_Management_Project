@@ -27,5 +27,7 @@ public partial class Modifiergroup
 
     public virtual User? ModifiedByNavigation { get; set; }
 
+    public virtual ICollection<ModifierGroupMapping> ModifierGroupMappings { get; } = new List<ModifierGroupMapping>();
+
     public virtual ICollection<Modifier> Modifiers { get; } = new List<Modifier>();
 }

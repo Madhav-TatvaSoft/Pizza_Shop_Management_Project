@@ -425,4 +425,29 @@ public class OrderService : IOrderService
     }
     #endregion
 
+    #region Get Order Details
+    public OrderDetailViewModel GetOrderDetails(long orderid)
+    {
+
+        OrderDetailViewModel orderDetail = new OrderDetailViewModel();
+        
+        var CustomerDetail = _context.Orders.Include(x => x.Customer).FirstOrDefault(x => x.OrderId == orderid);
+        orderDetail.customerVM.CustomerName = CustomerDetail.Customer.CustomerName;
+        orderDetail.customerVM.Email = CustomerDetail.Customer.Email;
+        orderDetail.customerVM.PhoneNo = CustomerDetail.Customer.PhoneNo;
+
+        var TableDetail = _context.AssignTables.Include(x => x.Table).ThenInclude(x => x.Section).Where(x => x.OrderId == orderid).ToList();
+        
+        
+
+        
+        
+        return orderDetail;
+
+
+    }
+
+
+    #endregion
+
 }

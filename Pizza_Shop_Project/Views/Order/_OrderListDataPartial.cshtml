@@ -26,7 +26,7 @@ else
             <td class="text-start" class="text-end text-nowrap">@item.TotalAmount</td>
             <td class="text-center text-nowrap">
                 <img src="~/images/filetype-pdf.svg" class="pe-3"/>
-                <a asp-action="OrderDetailsView" asp-controller="Order"><img src="~/images/eye-open.svg"/></a>
+                <a asp-action="OrderDetails" asp-controller="Order" asp-route-orderid="@item.OrderId"><img src="~/images/eye-open.svg"/></a>
             </td>
         </tr>
     }

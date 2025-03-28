@@ -21,6 +21,8 @@ public partial class Modifierorder
 
     public long? CreatedBy { get; set; }
 
+    public int? ModifierQuantity { get; set; }
+
     public virtual User? CreatedByNavigation { get; set; }
 
     public virtual User? ModifiedByNavigation { get; set; }

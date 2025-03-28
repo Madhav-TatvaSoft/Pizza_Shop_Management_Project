@@ -22,12 +22,15 @@ public class OrderController : Controller
         return PartialView("_OrderListDataPartial", orderList);
     }
 
-    public async Task<IActionResult> ExportOrderDataToExcel(string search = "", string orderStatus = "", string selectRange = ""){
+    public async Task<IActionResult> ExportOrderDataToExcel(string search = "", string orderStatus = "", string selectRange = "")
+    {
         var FileData = await _orderService.ExportData(search, orderStatus, selectRange);
         return File(FileData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Orders.xlsx");
     }
 
-    public IActionResult OrderDetailsView(){
+    public IActionResult OrderDetails(long orderid)
+    {
+        ViewData["sidebar-active"] = "Order";
         return View();
     }
 }
