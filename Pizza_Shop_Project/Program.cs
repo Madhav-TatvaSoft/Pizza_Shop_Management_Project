@@ -69,21 +69,18 @@ builder.Services.AddAuthentication(x=>{
             {
                 // Redirect to login page when unauthorized 
                 context.HandleResponse();
-                context.Response.Redirect("/UserLogin/VerifyUserLogin");
+                context.Response.Redirect("/Error/Unauthorized");
                 return Task.CompletedTask;
             },
             OnForbidden = context =>
             {
                 // Redirect to login when access is forbidden (403)
-                context.Response.Redirect("/UserLogin/VerifyUserLogin");
+                context.Response.Redirect("/Error/Forbidden");
                 return Task.CompletedTask;
             }
         };
     }
-);
-
-
-
+);  
 
 builder.Services.AddAuthorization(options =>
 {
@@ -118,7 +115,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddSession(
     options => {
-        options.IdleTimeout = TimeSpan.FromSeconds(10);
+        options.IdleTimeout = TimeSpan.FromHours(10);
     }
 );
 
@@ -129,10 +126,12 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Error/InternalServerError");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
 app.UseHttpsRedirection();
 

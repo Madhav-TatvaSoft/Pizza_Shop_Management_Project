@@ -8,6 +8,8 @@ public class CustomerViewModel
 
     public string? Email { get; set; }
 
+    public long? CreatedBy { get; set; }
+
     public int totalOrder { get; set; }
 
 }

@@ -34,7 +34,7 @@ public class MenuService : IMenuService
     #region Pagination Model for Items
     public PaginationViewModel<ItemsViewModel> GetMenuItemsByCategory(long? catid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
-        var query = _context.Items
+        IQueryable<ItemsViewModel>? query = _context.Items
            .Include(x => x.Category).Include(x => x.ItemType)
            .Where(x => x.CategoryId == catid).Where(x => x.Isdelete == false)
            .Select(x => new ItemsViewModel
@@ -65,7 +65,7 @@ public class MenuService : IMenuService
         int totalCount = query.Count();
 
         // Apply pagination
-        var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        List<ItemsViewModel>? items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
         return new PaginationViewModel<ItemsViewModel>(items, totalCount, pageNumber, pageSize);
     }
@@ -74,7 +74,7 @@ public class MenuService : IMenuService
     #region Add Category
     public async Task<bool> AddCategory(Category category, long userId)
     {
-        var isCategoryExists = _context.Categories.FirstOrDefault(x => x.CategoryName == category.CategoryName);
+        Category? isCategoryExists = _context.Categories.FirstOrDefault(x => x.CategoryName == category.CategoryName);
         // var isCategoryExistsAdd = _context.Categories.FirstOrDefault(x => x.Isdelete == false && x.CategoryName == category.CategoryName);
 
         if (category != null && isCategoryExists == null)
@@ -100,8 +100,8 @@ public class MenuService : IMenuService
         }
         else
         {
-            var isCategoryExistsEdit = _context.Categories.FirstOrDefault(x => x.CategoryName.ToLower() == category.CategoryName.ToLower());
-            var isCategoryExistsDesc = _context.Categories.FirstOrDefault(x => x.Description.ToLower() == category.Description.ToLower());
+            Category? isCategoryExistsEdit = _context.Categories.FirstOrDefault(x => x.CategoryName.ToLower() == category.CategoryName.ToLower());
+            Category? isCategoryExistsDesc = _context.Categories.FirstOrDefault(x => x.Description.ToLower() == category.Description.ToLower());
             if (isCategoryExistsEdit == null || isCategoryExistsDesc == null)
             {
                 Category cat = _context.Categories.FirstOrDefault(x => x.CategoryId == Cat_Id);
@@ -148,7 +148,7 @@ public class MenuService : IMenuService
         else
         {
             // Check if an item with the same name already exists
-            var existingItem = await _context.Items.FirstOrDefaultAsync(x => x.ItemName.ToLower() == addItemVM.ItemName.ToLower() && x.CategoryId == addItemVM.CategoryId && x.Isdelete == false);
+            Item? existingItem = await _context.Items.FirstOrDefaultAsync(x => x.ItemName.ToLower() == addItemVM.ItemName.ToLower() && x.CategoryId == addItemVM.CategoryId && x.Isdelete == false);
             if (existingItem != null)
             {
                 return false;
@@ -174,7 +174,7 @@ public class MenuService : IMenuService
 
             foreach (var modifier in addItemVM.itemModifiersVM)
             {
-                var itemModifierMapping = new ItemModifierGroupMapping
+                ItemModifierGroupMapping itemModifierMapping = new ItemModifierGroupMapping
                 {
                     ItemId = item.ItemId,
                     ModifierGrpId = modifier.ModifierGrpId,
@@ -207,7 +207,7 @@ public class MenuService : IMenuService
     #region Get Items By ItemId
     public AddItemViewModel GetItemsByItemId(long itemid)
     {
-        var item = _context.Items.FirstOrDefault(x => x.ItemId == itemid && x.Isdelete == false);
+        Item? item = _context.Items.FirstOrDefault(x => x.ItemId == itemid && x.Isdelete == false);
         AddItemViewModel additemVM = new();
         {
             additemVM.CategoryId = item.CategoryId;
@@ -225,7 +225,7 @@ public class MenuService : IMenuService
             additemVM.Unit = item.Unit;
         }
 
-        var data = _context.ItemModifierGroupMappings.Where(e => e.ItemId == itemid)
+        List<ItemModifierViewModel>? data = _context.ItemModifierGroupMappings.Where(e => e.ItemId == itemid)
        .Select(x => new ItemModifierViewModel
        {
            ModifierGrpId = x.ModifierGrpId,
@@ -251,12 +251,12 @@ public class MenuService : IMenuService
         else
         {
             // Check if an item with the same name already exists
-            var existingItem = await _context.Items.FirstOrDefaultAsync(x => x.ItemName == editItemVM.ItemName && x.ItemId != editItemVM.ItemId && x.Isdelete == false);
+            Item? existingItem = await _context.Items.FirstOrDefaultAsync(x => x.ItemName == editItemVM.ItemName && x.ItemId != editItemVM.ItemId && x.Isdelete == false);
             if (existingItem != null)
             {
                 return false;
             }
-            var item = _context.Items.FirstOrDefault(x => x.ItemId == editItemVM.ItemId);
+            Item? item = _context.Items.FirstOrDefault(x => x.ItemId == editItemVM.ItemId);
             item.CategoryId = editItemVM.CategoryId;
             item.ItemName = editItemVM.ItemName;
             item.ItemTypeId = editItemVM.ItemTypeId;
@@ -278,7 +278,7 @@ public class MenuService : IMenuService
             _context.Items.Update(item);
             await _context.SaveChangesAsync();
 
-            var itemModifier = _context.ItemModifierGroupMappings.Where(x => x.ItemId == item.ItemId).ToList();
+            List<ItemModifierGroupMapping>? itemModifier = _context.ItemModifierGroupMappings.Where(x => x.ItemId == item.ItemId).ToList();
 
             foreach (var itemMod in itemModifier)
             {
@@ -287,7 +287,7 @@ public class MenuService : IMenuService
 
             foreach (var modifier in editItemVM.itemModifiersVM)
             {
-                var itemModifierMapping = new ItemModifierGroupMapping
+                ItemModifierGroupMapping itemModifierMapping = new ItemModifierGroupMapping
                 {
                     ItemId = item.ItemId,
                     ModifierGrpId = modifier.ModifierGrpId,
@@ -306,7 +306,7 @@ public class MenuService : IMenuService
     #region Delete Item
     public async Task<bool> DeleteItem(long itemid)
     {
-        var itemToDelete = _context.Items.FirstOrDefault(x => x.ItemId == itemid);
+        Item? itemToDelete = _context.Items.FirstOrDefault(x => x.ItemId == itemid);
 
         itemToDelete.ItemName = itemToDelete.ItemName + DateTime.Now;
         itemToDelete.Isdelete = true;
@@ -319,7 +319,7 @@ public class MenuService : IMenuService
     #region Pagination Model for Modifiers
     public PaginationViewModel<ModifiersViewModel> GetMenuModifiersByModGroups(long? modgrpid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
-        var query = _context.Modifiers.Include(x => x.ModifierGrp).Where(x => x.ModifierGrpId == modgrpid).Where(x => x.Isdelete == false)
+        IQueryable<ModifiersViewModel>? query = _context.Modifiers.Include(x => x.ModifierGrp).Where(x => x.ModifierGrpId == modgrpid).Where(x => x.Isdelete == false)
            .Select(x => new ModifiersViewModel
            {
                ModifierId = x.ModifierId,
@@ -344,7 +344,7 @@ public class MenuService : IMenuService
         int totalCount = query.Count();
 
         // Apply pagination
-        var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        List<ModifiersViewModel>? items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
         return new PaginationViewModel<ModifiersViewModel>(items, totalCount, pageNumber, pageSize);
     }
@@ -353,8 +353,7 @@ public class MenuService : IMenuService
     #region Pagination Model for Existing Modifiers
     public PaginationViewModel<ModifiersViewModel> ExistingGetMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 5)
     {
-
-        var query = _context.Modifiers.Where(x => x.Isdelete == false)
+        IQueryable<ModifiersViewModel>? query = _context.Modifiers.Where(x => x.Isdelete == false)
            .Select(x => new ModifiersViewModel
            {
                ModifierId = x.ModifierId,
@@ -379,7 +378,7 @@ public class MenuService : IMenuService
         int totalCount = query.Count();
 
         // Apply pagination
-        var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        List<ModifiersViewModel> items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
         return new PaginationViewModel<ModifiersViewModel>(items, totalCount, pageNumber, pageSize);
     }
@@ -388,7 +387,7 @@ public class MenuService : IMenuService
     #region Add Modifier Group
     public async Task<bool> AddModifierGroup(AddModifierGroupViewModel addModifierGroupVM, long userId)
     {
-        var presentModifiergroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpName == addModifierGroupVM.ModifierGrpName && x.Isdelete == false);
+        Modifiergroup? presentModifiergroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpName == addModifierGroupVM.ModifierGrpName && x.Isdelete == false);
 
         if (presentModifiergroup != null)
         {
@@ -402,15 +401,15 @@ public class MenuService : IMenuService
         await _context.AddAsync(modifiergroup);
         await _context.SaveChangesAsync();
 
-        var modifierTempId = addModifierGroupVM.Temp_Ids.Split(",");
+        string[] modifierTempId = addModifierGroupVM.Temp_Ids.Split(",");
 
-        var addedModifiergroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpName == addModifierGroupVM.ModifierGrpName && x.Isdelete == false);
+        Modifiergroup? addedModifiergroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpName == addModifierGroupVM.ModifierGrpName && x.Isdelete == false);
 
 
         for (int i = 0; i < modifierTempId.Length; i++)
         {
 
-            var modifierExist = await _context.Modifiers.FirstOrDefaultAsync(x => x.ModifierId == int.Parse(modifierTempId[i]) && x.Isdelete == false);
+            Modifier? modifierExist = await _context.Modifiers.FirstOrDefaultAsync(x => x.ModifierId == int.Parse(modifierTempId[i]) && x.Isdelete == false);
 
             Modifier modifier = new();
 
@@ -432,12 +431,12 @@ public class MenuService : IMenuService
     #region Edit Modifier Group
     public Modifiergroup GetModifierGroupByModifierGroupId(long modgrpid)
     {
-        var modifierGroup = _context.Modifiergroups.FirstOrDefault(x => x.ModifierGrpId == modgrpid && x.Isdelete == false);
+        Modifiergroup? modifierGroup = _context.Modifiergroups.FirstOrDefault(x => x.ModifierGrpId == modgrpid && x.Isdelete == false);
         return modifierGroup;
     }
     public List<ModifiersViewModel> GetModifiersByModifierGroupId(long modgrpid)
     {
-        var modifiers = _context.Modifiers.Where(x => x.ModifierGrpId == modgrpid && x.Isdelete == false).Select(x => new ModifiersViewModel
+        List<ModifiersViewModel>? modifiers = _context.Modifiers.Where(x => x.ModifierGrpId == modgrpid && x.Isdelete == false).Select(x => new ModifiersViewModel
         {
             ModifierGrpId = x.ModifierGrpId,
             ModifierId = x.ModifierId,
@@ -452,7 +451,7 @@ public class MenuService : IMenuService
     public async Task<bool> AddModToModifierGrpAfterEdit(long modgrpid, long modid, long userId)
     {
 
-        var existingModifier = await _context.Modifiers.Where(x => x.ModifierId == modid && x.Isdelete == false).ToListAsync();
+        List<Modifier>? existingModifier = await _context.Modifiers.Where(x => x.ModifierId == modid && x.Isdelete == false).ToListAsync();
 
         if (existingModifier != null)
         {
@@ -473,7 +472,7 @@ public class MenuService : IMenuService
     }
     public async Task<bool> DeleteModToModifierGrpAfterEdit(long modid, long modgrpid)
     {
-        var existingModifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.ModifierGrpId == modgrpid && x.Isdelete == false);
+        Modifier? existingModifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.ModifierGrpId == modgrpid && x.Isdelete == false);
 
         if (existingModifier != null)
         {
@@ -492,7 +491,7 @@ public class MenuService : IMenuService
         }
         else
         {
-            var existingModifierGroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpId == editModifierGroupVM.ModifierGrpId && !x.Isdelete);
+            Modifiergroup? existingModifierGroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpId == editModifierGroupVM.ModifierGrpId && !x.Isdelete);
             existingModifierGroup.ModifierGrpName = editModifierGroupVM.ModifierGrpName;
             existingModifierGroup.Desciption = editModifierGroupVM.Desciption;
             existingModifierGroup.ModifiedAt = DateTime.Now;
@@ -536,7 +535,7 @@ public class MenuService : IMenuService
         }
         else
         {
-            var existingModifier = await _context.Modifiers.FirstOrDefaultAsync(x => x.ModifierName == addModifierVM.ModifierName && x.ModifierGrpId == addModifierVM.ModifierGrpId && x.Isdelete == false);
+            Modifier? existingModifier = await _context.Modifiers.FirstOrDefaultAsync(x => x.ModifierName == addModifierVM.ModifierName && x.ModifierGrpId == addModifierVM.ModifierGrpId && x.Isdelete == false);
             if (existingModifier != null)
             {
                 return false;
@@ -560,7 +559,7 @@ public class MenuService : IMenuService
     #region Get Modifiers By ModifierId
     public AddModifierViewModel GetModifiersByModifierId(long modid)
     {
-        var modifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.Isdelete == false);
+        Modifier? modifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.Isdelete == false);
         AddModifierViewModel addModifierVM = new();
         {
             addModifierVM.ModifierGrpId = modifier.ModifierGrpId;
@@ -589,7 +588,7 @@ public class MenuService : IMenuService
             // {
             //     return false;
             // }
-            var modifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == editModifierVM.ModifierId && x.Isdelete == false);
+            Modifier? modifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == editModifierVM.ModifierId && x.Isdelete == false);
             modifier.ModifierGrpId = editModifierVM.ModifierGrpId;
             modifier.ModifierName = editModifierVM.ModifierName;
             modifier.Rate = editModifierVM.Rate;
@@ -609,7 +608,7 @@ public class MenuService : IMenuService
     #region Delete Modifier
     public async Task<bool> DeleteModifier(long modid)
     {
-        var modofierToDelete = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.Isdelete == false);
+        Modifier? modofierToDelete = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.Isdelete == false);
         if (modofierToDelete != null)
         {
             modofierToDelete.ModifierName = modofierToDelete.ModifierName + DateTime.Now;

@@ -1,0 +1,24 @@
+@using DAL.ViewModels
+@model PaginationViewModel<CustomerViewModel>
+
+@if (Model.Items.Count == 0)
+{
+    <tr>
+        <td colspan="12" class="text-center text-danger fw-bold">No Records Found</td>
+    </tr>
+}
+else
+{
+    @foreach (var item in Model.Items)
+    {
+
+        <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1 text-secondary">
+            <td class="text-start text-nowrap">@item.CustomerName</td>
+            <td class="text-start text-nowrap">@item.Email</td>
+            <td class="text-start text-nowrap">@item.PhoneNo</td>
+            <td class="text-start">@item.CreatedBy</td>
+            <td class="text-start">@item.totalOrder</td>
+        </tr>
+    }
+}
+<input type="hidden" id="totalRecordsHidden" value="@Model.TotalCount" />

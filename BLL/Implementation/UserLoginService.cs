@@ -47,14 +47,14 @@ public class UserLoginService : IUserLoginService
     public async Task<string> VerifyUserLogin(UserLoginViewModel userLogin)
     {
         // var user = _context.UserLogins.FirstOrDefault(e => e.Email == userLogin.Email && e.Password == EncryptPassword(userLogin.Password));
-        var user = _context.UserLogins.Where(e => e.Email == userLogin.Email).FirstOrDefault();
+        UserLogin user = _context.UserLogins.Where(e => e.Email == userLogin.Email).FirstOrDefault();
 
         if (user != null && user.Isdelete == false)
         {
             if (user.Password == EncryptPassword(userLogin.Password))
             {
-                var roleObj = _context.Roles.FirstOrDefault(e => e.RoleId == user.RoleId);
-                var token = _jwtService.GenerateToken(userLogin.Email, roleObj.RoleName);
+                Role roleObj = _context.Roles.FirstOrDefault(e => e.RoleId == user.RoleId);
+                string token = _jwtService.GenerateToken(userLogin.Email, roleObj.RoleName);
                 return token;
             }
             return null;
@@ -67,16 +67,16 @@ public class UserLoginService : IUserLoginService
     //  Used to Send Email
     public async Task<bool> SendEmail(ForgotPasswordViewModel forgotpassword, string resetLink)
     {
-        var user = forgotpassword.Email;
+        string user = forgotpassword.Email;
         if (user != null)
         {
             try
             {
-                var senderEmail = new MailAddress("tatvasoft.pca106@outlook.com", "sender");
-                var receiverEmail = new MailAddress(forgotpassword.Email, "reciever");
-                var password = "P}N^{z-]7Ilp";
-                var sub = "Forgot Password";
-                var body = $@"
+                MailAddress senderEmail = new MailAddress("tatvasoft.pca106@outlook.com", "sender");
+                MailAddress receiverEmail = new MailAddress(forgotpassword.Email, "reciever");
+                string password = "P}N^{z-]7Ilp";
+                string sub = "Forgot Password";
+                string body = $@"
                 <div style='max-width: 500px; font-family: Arial, sans-serif; border: 1px solid #ddd;'>
                 <div style='background: #006CAC; padding: 10px; text-align: center; height:90px; max-width:100%; display: flex; justify-content: center; align-items: center;'>
                     <img src='https://images.vexels.com/media/users/3/128437/isolated/preview/2dd809b7c15968cb7cc577b2cb49c84f-pizza-food-restaurant-logo.png' style='max-width: 50px;' />
@@ -92,7 +92,7 @@ public class UserLoginService : IUserLoginService
                     </p>
                 </div>
                 </div>";
-                var smtp = new SmtpClient
+                SmtpClient smtp = new SmtpClient
                 {
                     Host = "mail.etatvasoft.com",
                     Port = 587,
@@ -124,7 +124,7 @@ public class UserLoginService : IUserLoginService
     // Used to If email exists and will update the encrypted password in the DB. 
     public async Task<bool> ResetPassword(ResetPasswordViewModel resetPassword)
     {
-        var data = _context.UserLogins.FirstOrDefault(e => e.Email == resetPassword.Email && e.Isdelete == false);
+        UserLogin data = _context.UserLogins.FirstOrDefault(e => e.Email == resetPassword.Email && e.Isdelete == false);
         if (data != null && data.Isdelete == false)
         {
             data.Password = EncryptPassword(resetPassword.Password);

@@ -521,7 +521,7 @@
                     url: "/TableSection/DeleteTable",
                     type: "POST",
                     data: { tableid: tableid },
-                    success: function (data) {
+                    success: function (data, status) {
                         if (data.success) {
                             callSuccessToaster(data.text);
                         } else {

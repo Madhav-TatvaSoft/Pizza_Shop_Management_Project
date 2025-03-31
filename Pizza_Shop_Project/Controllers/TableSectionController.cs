@@ -1,3 +1,4 @@
+
 using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
@@ -8,6 +9,7 @@ using Pizza_Shop_Project.Authorization;
 
 namespace Pizza_Shop_Project.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class TableSectionController : Controller
 {
     private readonly ITableSectionService _tableSectionService;
@@ -24,6 +26,7 @@ public class TableSectionController : Controller
     #endregion
 
     #region Main Table Section View
+    [PermissionAuthorize("TableSection.View")]
     public IActionResult TableSection(long? sectionid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
 
@@ -43,6 +46,7 @@ public class TableSectionController : Controller
     #endregion
 
     #region Pagination Table
+    [PermissionAuthorize("TableSection.View")]
     public IActionResult PaginationForTable(long? sectionid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
         try
@@ -65,21 +69,22 @@ public class TableSectionController : Controller
     #endregion
 
     #region Add Section
-
+    // [PermissionAuthorize("TableSection.AddEdit")]
     public IActionResult AddSection()
     {
         TableSectionViewModel tableSectionVM = new TableSectionViewModel();
         return PartialView("_AddSectionPartial", tableSectionVM);
     }
 
+    [PermissionAuthorize("TableSection.AddEdit")]
     [HttpPost]
     public async Task<IActionResult> AddSection(TableSectionViewModel tableSectionVM)
     {
         string token = Request.Cookies["AuthToken"];
-        var userData = _userService.getUserFromEmail(token);
+        List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-        var addSectionStatus = await _tableSectionService.AddSection(tableSectionVM.sectionVM, userId);
+        bool addSectionStatus = await _tableSectionService.AddSection(tableSectionVM.sectionVM, userId);
         if (addSectionStatus)
         {
             return Json(new { success = true, text = "Section Added successfully" });
@@ -89,6 +94,7 @@ public class TableSectionController : Controller
     #endregion
 
     #region Edit Section
+    [PermissionAuthorize("TableSection.AddEdit")]
     public IActionResult GetSectionById(long sectionId)
     {
         TableSectionViewModel tableSectionVM = new TableSectionViewModel();
@@ -96,14 +102,15 @@ public class TableSectionController : Controller
         return PartialView("_EditSectionPartial", tableSectionVM);
     }
 
+    [PermissionAuthorize("TableSection.AddEdit")]
     [HttpPost]
     public async Task<IActionResult> EditSection(TableSectionViewModel tableSectionVM)
     {
         string token = Request.Cookies["AuthToken"];
-        var userData = _userService.getUserFromEmail(token);
+        List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-        var editSectionStatus = await _tableSectionService.EditSection(tableSectionVM.sectionVM, userId);
+        bool editSectionStatus = await _tableSectionService.EditSection(tableSectionVM.sectionVM, userId);
         if (editSectionStatus)
         {
             return Json(new { success = true, text = "Section Updated successfully" });
@@ -113,23 +120,26 @@ public class TableSectionController : Controller
     #endregion
 
     #region Delete Section
+    [PermissionAuthorize("TableSection.Delete")]
+    // [HttpPost]
     public async Task<IActionResult> DeleteSection(long sectionid)
     {
         TableSectionViewModel tableSectionVM = new TableSectionViewModel();
 
-        var deleteSectionStatus = await _tableSectionService.DeleteSection(sectionid);
+        bool deleteSectionStatus = await _tableSectionService.DeleteSection(sectionid);
 
         tableSectionVM.SectionList = _tableSectionService.GetAllSections();
 
         if (deleteSectionStatus)
         {
-            return Json(new { sectionid=tableSectionVM.SectionList[0].SectionId, success = true, text = "Section Deleted successfully" });
+            return Json(new { sectionid = tableSectionVM.SectionList[0].SectionId, success = true, text = "Section Deleted successfully" });
         }
         return Json(new { success = false, text = "Failed to Delete Section" });
     }
     #endregion
 
     #region Get All Section List
+    [PermissionAuthorize("TableSection.View")]
     public IActionResult GetAllSections()
     {
         TableSectionViewModel tableSectionVM = new TableSectionViewModel();
@@ -139,6 +149,7 @@ public class TableSectionController : Controller
     #endregion
 
     #region Add Table
+    [PermissionAuthorize("TableSection.AddEdit")]
     public IActionResult AddTable(long sectionid)
     {
         TableSectionViewModel tableSectionVM = new TableSectionViewModel();
@@ -149,14 +160,15 @@ public class TableSectionController : Controller
         return PartialView("_AddTablePartial", tableSectionVM);
     }
 
+    [PermissionAuthorize("TableSection.AddEdit")]
     [HttpPost]
     public async Task<IActionResult> AddTable([FromForm] TableSectionViewModel tableSectionVM)
     {
         string token = Request.Cookies["AuthToken"];
-        var userData = _userService.getUserFromEmail(token);
+        List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-        var addTableStatus = await _tableSectionService.AddTable(tableSectionVM.tablesVM, userId);
+        bool addTableStatus = await _tableSectionService.AddTable(tableSectionVM.tablesVM, userId);
         if (addTableStatus)
         {
             return Json(new { success = true, text = "Table Added successfully" });
@@ -166,6 +178,7 @@ public class TableSectionController : Controller
     #endregion
 
     #region Edit Table
+    [PermissionAuthorize("TableSection.AddEdit")]
     public async Task<IActionResult> GetTableById(long tableId, long sectionId)
     {
         TableSectionViewModel tableSectionVM = new TableSectionViewModel();
@@ -175,14 +188,15 @@ public class TableSectionController : Controller
         return PartialView("_EditTablePartial", tableSectionVM);
     }
 
+    [PermissionAuthorize("TableSection.AddEdit")]
     [HttpPost]
     public async Task<IActionResult> EditTable([FromForm] TableSectionViewModel tableSectionVM)
     {
         string token = Request.Cookies["AuthToken"];
-        var userData = _userService.getUserFromEmail(token);
+        List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-        var editTableStatus = await _tableSectionService.EditTable(tableSectionVM.tablesVM, userId);
+        bool editTableStatus = await _tableSectionService.EditTable(tableSectionVM.tablesVM, userId);
         if (editTableStatus)
         {
             return Json(new { success = true, text = "Table Updated successfully" });
@@ -192,11 +206,11 @@ public class TableSectionController : Controller
     #endregion
 
     #region Delete Table
-
+    [PermissionAuthorize("TableSection.Delete")]
     [HttpPost]
     public async Task<IActionResult> DeleteTable(long tableid)
     {
-        var deleteTableStatus = await _tableSectionService.DeleteTable(tableid);
+        bool deleteTableStatus = await _tableSectionService.DeleteTable(tableid);
         if (deleteTableStatus)
         {
             return Json(new { success = true, text = "Table Deleted successfully" });

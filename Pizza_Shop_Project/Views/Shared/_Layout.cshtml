@@ -28,7 +28,8 @@
         <div class="row p-0">
 
             <!-- Left-sidebar -->
-            <div class="left-sidebar-main-div pt-0 col-md-3 col-xl-2 col-0 d-none d-md-flex justify-content-start min-vh-100 bg-white p-0">
+            <div
+                class="left-sidebar-main-div pt-0 col-md-3 col-xl-2 col-0 d-none d-md-flex justify-content-start min-vh-100 bg-white p-0">
 
                 <div class="row w-100 justify-content-center ">
 
@@ -126,7 +127,8 @@
                         <!-- customer -->
                         @if ((await AuthorizationService.AuthorizeAsync(User, "Customers.View")).Succeeded)
                         {
-                            <a class="text-decoration-none dashboard-text-inactive ">
+                            <a asp-action="Customer" asp-Controller="Customer"
+                                class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Customer" ? "active-div" : "") ">
                                 <div class="dashboard-active-div d-flex p-3">
                                     <i class="fa-regular fa-id-card pt-1"></i>
                                     <p class="pt-1 ps-3 fw-bold">Cutomers</p>
@@ -171,100 +173,101 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="navbar-nav sidebar-options-menu  d-flex flex-column ">
-                                        <!-- dashboard -->
-                                        <a asp-action="Dashboard" asp-Controller="User"
-                                            class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Dashboard" ? "active-div" : "")">
-                                            <div class="dashboard-active-div d-flex align-items-center p-3">
-                                                <i class="fa-solid fa-table-cells-large"></i>
-                                                <p class="ps-3 fw-bold">Dashboard</p>
+                                    <!-- dashboard -->
+                                    <a asp-action="Dashboard" asp-Controller="User"
+                                        class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Dashboard" ? "active-div" : "")">
+                                        <div class="dashboard-active-div d-flex align-items-center p-3">
+                                            <i class="fa-solid fa-table-cells-large"></i>
+                                            <p class="ps-3 fw-bold">Dashboard</p>
+                                        </div>
+                                    </a>
+
+                                    <!-- users -->
+                                    @if ((await AuthorizationService.AuthorizeAsync(User, "Users.View")).Succeeded)
+                                    {
+                                        <a asp-action="UserListData" asp-Controller="User"
+                                            class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "User" ? "active-div" : "")">
+                                            <div class="dashboard-active-div d-flex align-items-center p-3 ">
+                                                <i class="fa-solid fa-users "></i>
+                                                <p class="p-0 ps-3 fw-bold">Users</p>
                                             </div>
                                         </a>
+                                    }
 
-                                        <!-- users -->
-                                        @if ((await AuthorizationService.AuthorizeAsync(User, "Users.View")).Succeeded)
-                                        {
-                                            <a asp-action="UserListData" asp-Controller="User"
-                                                class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "User" ? "active-div" : "")">
-                                                <div class="dashboard-active-div d-flex align-items-center p-3 ">
-                                                    <i class="fa-solid fa-users "></i>
-                                                    <p class="p-0 ps-3 fw-bold">Users</p>
-                                                </div>
-                                            </a>
-                                        }
+                                    <!--Role and Permission  -->
+                                    @if ((await AuthorizationService.AuthorizeAsync(User, "Role.View")).Succeeded)
+                                    {
+                                        <a asp-action="RoleDashboard" asp-Controller="RolePermission"
+                                            class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Role" ? "active-div" : "")">
+                                            <div class="dashboard-active-div d-flex align-items-center p-3">
+                                                <i class="fa-solid fa-user-clock "></i>
+                                                <p class="p-0 ps-3 fw-bold text-nowrap">Role and Permission</p>
+                                            </div>
+                                        </a>
+                                    }
 
-                                        <!--Role and Permission  -->
-                                        @if ((await AuthorizationService.AuthorizeAsync(User, "Role.View")).Succeeded)
-                                        {
-                                            <a asp-action="RoleDashboard" asp-Controller="RolePermission"
-                                                class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Role" ? "active-div" : "")">
-                                                <div class="dashboard-active-div d-flex align-items-center p-3">
-                                                    <i class="fa-solid fa-user-clock "></i>
-                                                    <p class="p-0 ps-3 fw-bold text-nowrap">Role and Permission</p>
-                                                </div>
-                                            </a>
-                                        }
+                                    <!-- menu -->
+                                    @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.View")).Succeeded)
+                                    {
+                                        <a asp-action="Menu" asp-Controller="Menu"
+                                            class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Menu" ? "active-div" : "")">
+                                            <div class="dashboard-active-div d-flex align-items-center  p-3">
+                                                <i class="fa-solid fa-calendar-minus pe-1"></i>
+                                                <p class="p-0 ps-3 fw-bold">Menu</p>
+                                            </div>
+                                        </a>
+                                    }
 
-                                        <!-- menu -->
-                                        @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.View")).Succeeded)
-                                        {
-                                            <a asp-action="Menu" asp-Controller="Menu"
-                                                class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Menu" ? "active-div" : "")">
-                                                <div class="dashboard-active-div d-flex align-items-center  p-3">
-                                                    <i class="fa-solid fa-calendar-minus pe-1"></i>
-                                                    <p class="p-0 ps-3 fw-bold">Menu</p>
-                                                </div>
-                                            </a>
-                                        }
+                                    <!-- Table and Section -->
+                                    @if ((await AuthorizationService.AuthorizeAsync(User,
+                                    "TableSection.View")).Succeeded)
+                                    {
+                                        <a asp-action="TableSection" asp-Controller="TableSection"
+                                            class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "TableSection" ? "active-div" : "") ">
+                                            <div class="dashboard-active-div d-flex p-3">
+                                                <i class="fa-solid fa-table-cells pt-1"></i>
+                                                <p class="p-0 pt-1 ps-3 fw-bold text-nowrap">Table and Section</p>
+                                            </div>
+                                        </a>
+                                    }
 
-                                        <!-- Table and Section -->
-                                        @if ((await AuthorizationService.AuthorizeAsync(User,
-                                        "TableSection.View")).Succeeded)
-                                        {
-                                            <a asp-action="TableSection" asp-Controller="TableSection"
-                                                class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "TableSection" ? "active-div" : "") ">
-                                                <div class="dashboard-active-div d-flex p-3">
-                                                    <i class="fa-solid fa-table-cells pt-1"></i>
-                                                    <p class="p-0 pt-1 ps-3 fw-bold text-nowrap">Table and Section</p>
-                                                </div>
-                                            </a>
-                                        }
+                                    <!-- taxes and fees -->
+                                    @if ((await AuthorizationService.AuthorizeAsync(User,
+                                    "TaxFees.View")).Succeeded)
+                                    {
+                                        <a asp-action="TaxFees" asp-Controller="TaxFees"
+                                            class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "TaxFees" ? "active-div" : "") ">
+                                            <div class="dashboard-active-div d-flex p-3">
+                                                <i class="fa-solid fa-money-check-dollar pt-1 pe-2 "></i>
+                                                <p class="p-0 pt-1 ps-2 fw-bold text-nowrap">Taxes and Fees</p>
+                                            </div>
+                                        </a>
+                                    }
 
-                                        <!-- taxes and fees -->
-                                        @if ((await AuthorizationService.AuthorizeAsync(User,
-                                        "TaxFees.View")).Succeeded)
-                                        {
-                                            <a asp-action="TaxFees" asp-Controller="TaxFees"
-                                                class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "TaxFees" ? "active-div" : "") ">
-                                                <div class="dashboard-active-div d-flex p-3">
-                                                    <i class="fa-solid fa-money-check-dollar pt-1 pe-2 "></i>
-                                                    <p class="p-0 pt-1 ps-2 fw-bold text-nowrap">Taxes and Fees</p>
-                                                </div>
-                                            </a>
-                                        }
+                                    <!-- orders -->
+                                    @if ((await AuthorizationService.AuthorizeAsync(User, "Orders.View")).Succeeded)
+                                    {
+                                        <a asp-action="Order" asp-Controller="Order"
+                                            class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Order" ? "active-div" : "") ">
+                                            <div class="dashboard-active-div d-flex p-3">
+                                                <i class="fa-solid fa-clipboard-check pt-1 ps-1"></i>
+                                                <p class="pt-1 ps-3 fw-bold">Orders</p>
+                                            </div>
+                                        </a>
+                                    }
 
-                                        <!-- orders -->
-                                        @if ((await AuthorizationService.AuthorizeAsync(User, "Orders.View")).Succeeded)
-                                        {
-                                            <a asp-action="Order" asp-Controller="Order"
-                                                class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Order" ? "active-div" : "") ">
-                                                <div class="dashboard-active-div d-flex p-3">
-                                                    <i class="fa-solid fa-clipboard-check pt-1 ps-1"></i>
-                                                    <p class="pt-1 ps-3 fw-bold">Orders</p>
-                                                </div>
-                                            </a>
-                                        }
-
-                                        <!-- customer -->
-                                        @if ((await AuthorizationService.AuthorizeAsync(User,
-                                        "Customers.View")).Succeeded)
-                                        {
-                                            <a class="text-decoration-none dashboard-text-inactive ">
-                                                <div class="dashboard-active-div d-flex p-3">
-                                                    <i class="fa-regular fa-id-card pt-1"></i>
-                                                    <p class="pt-1 ps-3 fw-bold">Cutomers</p>
-                                                </div>
-                                            </a>
-                                        }
+                                    <!-- customer -->
+                                    @if ((await AuthorizationService.AuthorizeAsync(User,
+                                    "Customers.View")).Succeeded)
+                                    {
+                                        <a asp-action="Customer" asp-Controller="Customer"
+                                            class="text-decoration-none dashboard-text-inactive @((ViewData["sidebar-active"] as string) == "Customer" ? "active-div" : "") ">
+                                            <div class="dashboard-active-div d-flex p-3">
+                                                <i class="fa-regular fa-id-card pt-1"></i>
+                                                <p class="pt-1 ps-3 fw-bold">Cutomers</p>
+                                            </div>
+                                        </a>
+                                    }
 
                                     @* </div> *@
                                 </div>

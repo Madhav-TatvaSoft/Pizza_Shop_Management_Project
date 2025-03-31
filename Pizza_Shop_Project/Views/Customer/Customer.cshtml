@@ -1,7 +1,7 @@
 @using DAL.ViewModels;
-@model DAL.ViewModels.PaginationViewModel<OrdersViewModel>;
+@model DAL.ViewModels.PaginationViewModel<CustomerViewModel>;
 @{
-    ViewData["Title"] = "Orders";
+    ViewData["Title"] = "Customer";
     Layout = "_Layout";
 }
 
@@ -9,26 +9,11 @@
 
     <!-- Search and All -->
     <div class="d-flex flex-lg-row flex-column justify-content-between col">
-        <h1 class="fw-bold user-text fs-2 col-lg-4 pb-3">Orders</h1>
+        <h1 class="fw-bold user-text fs-2 col-lg-4 pb-3">Customers</h1>
         <div class="d-flex flex-sm-row flex-column justify-content-end align-items-center gap-2 col-lg-8">
             <div class="h-100 w-100">
                 <input type="text" class="form-control p-3 h-100 dt-input border" id="searchbtn" placeholder="Search"
                     aria-controls="order-list" />
-                @* <i class="fa-solid fa-magnifying-glass search-icon-style-order "></i> *@
-                @* <label>Search</label> *@
-            </div>
-            <div class="form-floating w-100">
-                <select id="orderStatus" class="form-select p-2">
-                    <option value="All Status" selected>All Status</option>
-                    <option value="Pending">Pending</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Served">Served</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Cancelled">Cancelled</option>
-                    <option value="On Hold">On Hold</option>
-                    <option value="Failed">Failed</option>
-                </select>
-
             </div>
             <div class="form-floating w-100">
                 <select id="selectRange" class="form-select p-2">
@@ -36,31 +21,11 @@
                     <option value="Last 7 days">Last 7 days</option>
                     <option value="Last 30 days">Last 30 days</option>
                     <option value="Current Month">Current Month</option>
+                    <option data-bs-toggle="modal" data-bs-target="#CustomDate">Custom Date</option>
                 </select>
             </div>
             <button class="solid-btn p-3 h-100 rounded border-0 text-nowrap" id="exportBtn" onclick="ExportBtn()">
                 <i class="fa-solid fa-share-from-square"></i> Export
-            </button>
-        </div>
-    </div>
-
-    <!-- Custom Date filter -->
-    <div class="d-flex flex-lg-row flex-column justify-content-between col">
-        <div class="fw-bold text-heading col-xl-6 col-lg-4"></div>
-        <div class="d-flex flex-sm-row flex-column justify-content-end align-items-center gap-2 col-xl-6 col-lg-8">
-            <div class="form-floating w-100">
-                <input type="date" class="form-control" id="from-order-date" placeholder="dd-mm-yyyy" />
-                <label>From Date</label>
-            </div>
-            <div class="form-floating w-100">
-                <input type="date" class="form-control" id="to-order-date" placeholder="dd-mm-yyyy" />
-                <label>To Date</label>
-            </div>
-            <button class="solid-btn p-3 px-4 h-100 rounded border-0 text-nowrap" id="search-order-btn">
-                Search
-            </button>
-            <button class="hollow-btn p-3 px-4 border-0 h-100 rounded text-nowrap" id="clear-order-btn">
-                Clear
             </button>
         </div>
     </div>
@@ -73,43 +38,40 @@
                     <tr class="border-bottom border-dark">
                         <th class="fw-bold text-start text-nowrap">
                             <div class="d-flex">
-                                <span class="pt-1"># Order</span>
-                                <i class="bi bi-arrow-down-up ps-2" id="sortable-order" data-column="Order"
+                                <span class="pt-1">Name</span>
+                                <i class="bi bi-arrow-down-up ps-2" id="sortable-name" data-column="Name"
                                     data-direction="asc"></i>
                             </div>
                         </th>
                         <th class="fw-bold text-start">
+                            <div class="d-flex">
+                                <span class="pt-1">Email</span>
+
+                            </div>
+                        </th>
+                        <th class="fw-bold text-start text-nowrap">
+                            <div class="d-flex">
+                                <span class="pt-1">Phone Number</span>
+
+                            </div>
+                        </th>
+                        <th class="fw-bold text-start text-nowrap">
                             <div class="d-flex">
                                 <span class="pt-1">Date</span>
-                                <i class="bi bi-arrow-down-up  ps-2" id="sortable-date" data-column="Date"
+                                <i class="bi bi-arrow-down-up ps-2" id="sortable-date" data-column="Date"
                                     data-direction="asc"></i>
                             </div>
                         </th>
-                        <th class="fw-bold text-start">
+                        <th class="fw-bold text-start text-nowrap">
                             <div class="d-flex">
-                                <span class="pt-1">Customers</span>
-                                <i class="bi bi-arrow-down-up  ps-2" id="sortable-customer" data-column="Customer"
+                                <span class="pt-1 text-nowrap">Total Order</span>
+                                <i class="bi bi-arrow-down-up  ps-2" id="sortable-totalOrder" data-column="TotalOrder"
                                     data-direction="asc"></i>
                             </div>
                         </th>
-                        <th class="fw-bold text-start">
-                            <div class="d-flex">
-                                <span class="pt-1">Status</span>
-                            </div>
-                        </th>
-                        <th class="fw-bold text-start text-nowrap">Payment Mode</th>
-                        <th class="fw-bold text-start text-nowrap">Rating</th>
-                        <th class="fw-bold text-end text-nowrap">
-                            <div class="d-flex">
-                                <span class="pt-1 text-nowrap">Total Amount</span>
-                                <i class="bi bi-arrow-down-up  ps-2" id="sortable-amount" data-column="Amount"
-                                    data-direction="asc"></i>
-                            </div>
-                        </th>
-                        <th class="fw-bold text-center">Action </th>
                     </tr>
                 </thead>
-                <tbody id="OrderListBody">
+                <tbody id="CustomerListBody">
 
                 </tbody>
             </table>
@@ -129,8 +91,15 @@
 
 </div>
 
+<!------------------------------------- Custom Date Modal --------------------------------------------------->
+
+<!-- Custom Date filter -->
+
+
+<!------------------------------------- End of Custom Date Modal --------------------------------------------------->
+
 <partial name="_Toaster" />
-<partial name="_ValidationScriptsPartial"/>
+<partial name="_ValidationScriptsPartial" />
 
 @section Scripts {
 
@@ -141,20 +110,19 @@
         let searchText = "";
         let sortColumn = "";
         let sortDirection = "asc"
-        let orderStatus = $("#orderStatus").val();
         let selectRange = $("#selectRange").val();
         let fromDate = "";
         let toDate = "";
 
         // LoadTable function
-        function loadTable(page = 1, search = "", sortColumn = "", sortDirection = "asc", pageSize = 5, orderStatus, fromDate, toDate, selectRange) {
+        function loadTable(page = 1, search = "", sortColumn = "", sortDirection = "asc", pageSize = 5, fromDate, toDate, selectRange) {
             $.ajax({
                 url: "/Order/PaginationForOrder",
                 type: "GET",
-                data: { search, sortColumn, sortDirection, pageNumber: page, pageSize, orderStatus, fromDate, toDate, selectRange },
+                data: { search, sortColumn, sortDirection, pageNumber: page, pageSize, fromDate, toDate, selectRange },
                 success: function (data) {
 
-                    $("#OrderListBody").html(data);
+                    $("#CustomerListBody").html(data);
 
                     currentPage = page;
                     pageSize = parseInt(pageSize);
@@ -175,17 +143,16 @@
         // Export to Excel Function
         function ExportBtn() {
             searchText = $("#searchbtn").val().trim();
-            orderStatus = $("#orderStatus").val();
             selectRange = $("#selectRange").val();
             $.ajax({
-                url: "/Order/ExportOrderDataToExcel",
+                url: "/Customer/ExportCustomerDataToExcel",
                 type: "GET",
-                data: { search: searchText, orderStatus, selectRange },
+                data: { search: searchText, selectRange },
                 xhrFields: {
                     responseType: 'blob'
                 },
                 success: function (data, status, xhr) {
-                    let filename = "Orders.xlsx";
+                    let filename = "Customers.xlsx";
 
         @* let disposition = xhr.getResponseHeader('Content-Disposition');
                     if (disposition && disposition.indexOf('attachment') !== -1) {
@@ -204,7 +171,7 @@
                     let text = "Excel Exported Successfully"
                     callSuccessToaster(text);
                 },
-                error: function (xhr,status,error){
+                error: function (xhr, status, error) {
                     console.error(error);
                     let Text = "Failed to Export Excel"
                     callErrorToaster(Text);
@@ -218,16 +185,16 @@
             $("#searchbtn").on("keyup", function () {
                 searchText = $(this).val().trim();
                 currentPage = 1;
-                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
             });
 
             // Sorting Order functionality
-            $("#sortable-order").on("click", function () {
+            $("#sortable-name").on("click", function () {
                 sortColumn = $(this).data("column");
                 console.log(sortColumn);
                 sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
                 $(this).attr("data-direction", sortDirection);
-                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
             });
 
             // Sorting Date functionality
@@ -236,25 +203,16 @@
                 console.log(sortColumn);
                 sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
                 $(this).attr("data-direction", sortDirection);
-                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
             });
 
             // Sorting Customer functionality
-            $("#sortable-customer").on("click", function () {
+            $("#sortable-totalOrder").on("click", function () {
                 sortColumn = $(this).data("column");
                 console.log(sortColumn);
                 sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
                 $(this).attr("data-direction", sortDirection);
-                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
-            });
-
-            // Sorting Amount functionality
-            $("#sortable-amount").on("click", function () {
-                sortColumn = $(this).data("column");
-                console.log(sortColumn);
-                sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
-                $(this).attr("data-direction", sortDirection);
-                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
             });
 
             // Right Arrow Key
@@ -262,7 +220,7 @@
                 let rightarrow = !$(this).prop("disabled");
                 if (rightarrow) {
                     currentPage++;
-                    loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+                    loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
                 }
             });
 
@@ -271,7 +229,7 @@
                 let leftarrow = !$(this).prop("disabled");
                 if (leftarrow) {
                     currentPage--;
-                    loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+                    loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
                 }
             });
 

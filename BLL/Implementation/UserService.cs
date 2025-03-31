@@ -45,8 +45,8 @@ public class UserService : IUserService
     #region GetProfileDetails
     public List<AddUserViewModel> GetUserProfileDetails(string cookieSavedToken)
     {
-        var Email = _JWTService.GetClaimValue(cookieSavedToken, "email");
-        var data = _context.Users.Include(x => x.Userlogin).Where(x => x.Userlogin.Email == Email)
+        string Email = _JWTService.GetClaimValue(cookieSavedToken, "email");
+        List<AddUserViewModel>? data = _context.Users.Include(x => x.Userlogin).Where(x => x.Userlogin.Email == Email)
         .Select(
             x => new AddUserViewModel
             {
@@ -98,7 +98,7 @@ public class UserService : IUserService
     #region ChangePassword
     public bool UserChangePassword(ChangePasswordViewModel changepassword, string Email)
     {
-        var userdetails = _context.UserLogins.FirstOrDefault(x => x.Email == Email);
+        UserLogin? userdetails = _context.UserLogins.FirstOrDefault(x => x.Email == Email);
         if (userdetails.Password == changepassword.CurrentPassword)
         {
             userdetails.Password = changepassword.NewPassword;
@@ -113,7 +113,7 @@ public class UserService : IUserService
     #region GetUserList
     public PaginationViewModel<User> GetUserList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5)
     {
-        var query = _context.Users
+        IQueryable<User>? query = _context.Users
             .Include(u => u.Userlogin)
             .ThenInclude(u => u.Role)
             .Where(u => u.Isdelete == false)
@@ -146,7 +146,7 @@ public class UserService : IUserService
         }
 
         // Apply pagination
-        var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        List<User>? items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
         return new PaginationViewModel<User>(items, totalCount, pageNumber, pageSize);
     }
@@ -199,7 +199,7 @@ public class UserService : IUserService
     #region GetUserByEmail In Edit Page
     public List<AddUserViewModel> GetUserByEmail(string email)
     {
-        var data = _context.Users.Include(x => x.Userlogin).Where(x => x.Userlogin.Email == email).Select(
+        List<AddUserViewModel>? data = _context.Users.Include(x => x.Userlogin).Where(x => x.Userlogin.Email == email).Select(
             x => new AddUserViewModel
             {
                 FirstName = x.FirstName,
@@ -224,7 +224,7 @@ public class UserService : IUserService
     #region EditUser
     public async Task<bool> EditUser(AddUserViewModel user, string Email)
     {
-        var userdetails = _context.Users.Include(x => x.Userlogin).FirstOrDefault(x => x.Userlogin.Email == Email);
+        User? userdetails = _context.Users.Include(x => x.Userlogin).FirstOrDefault(x => x.Userlogin.Email == Email);
         userdetails.FirstName = user.FirstName;
         userdetails.LastName = user.LastName;
         userdetails.Username = user.Username;
@@ -250,8 +250,8 @@ public class UserService : IUserService
     #region DeleteUser
     public async Task<bool> DeleteUser(string Email)
     {
-        var userlogin = _context.UserLogins.FirstOrDefault(x => x.Email == Email);
-        var user = _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email);
+        UserLogin? userlogin = _context.UserLogins.FirstOrDefault(x => x.Email == Email);
+        User? user = _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email);
 
         userlogin.Isdelete = true;
         _context.Update(userlogin);
@@ -267,7 +267,7 @@ public class UserService : IUserService
     #region UserNameExists? in Adding
     public async Task<bool> IsUserNameExists(string Username)
     {
-        var IsUserNameExists = await _context.Users.FirstOrDefaultAsync(x => x.Username == Username && x.Isdelete == false);
+        User? IsUserNameExists = await _context.Users.FirstOrDefaultAsync(x => x.Username == Username && x.Isdelete == false);
         if (IsUserNameExists == null)
         {
             return false;
@@ -292,7 +292,7 @@ public class UserService : IUserService
     public List<User> getUserFromEmail(string token)
     {
         var claims = _JWTService.GetClaimsFromToken(token);
-        var Email = _JWTService.GetClaimValue(token, "email");
+        string? Email = _JWTService.GetClaimValue(token, "email");
         return _context.Users.Include(x => x.Userlogin).Where(x => x.Userlogin.Email == Email).ToList();
     }
     #endregion

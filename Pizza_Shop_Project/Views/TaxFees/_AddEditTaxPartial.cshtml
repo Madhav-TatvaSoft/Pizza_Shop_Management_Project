@@ -27,7 +27,7 @@
                     <span class="text-danger validate" asp-validation-for="@Model.taxVM.TaxType"></span>
                 </div>
                 <div class="form-floating col mb-3">
-                    <input type="text" id="TaxValue" asp-for="@Model.taxVM.TaxValue" class="form-control"
+                    <input type="number" id="TaxValue" asp-for="@Model.taxVM.TaxValue" class="form-control"
                         placeholder="Tax Amount*">
                     <label for="TaxValue">Amount*</label>
                     <span class="text-danger validate" asp-validation-for="@Model.taxVM.TaxValue"></span>

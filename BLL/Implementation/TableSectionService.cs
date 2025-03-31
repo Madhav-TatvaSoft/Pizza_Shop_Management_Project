@@ -26,7 +26,7 @@ public class TableSectionService : ITableSectionService
     #region Pagination Model for Tables
     public PaginationViewModel<TablesViewModel> GetTablesBySection(long? sectionid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
-        var query = _context.Tables
+        IQueryable<TablesViewModel>? query = _context.Tables
            .Include(x => x.Section)
            .Where(x => x.SectionId == sectionid && x.Isdelete == false).OrderBy(x => x.TableId)
            .Select(x => new TablesViewModel
@@ -55,7 +55,7 @@ public class TableSectionService : ITableSectionService
         int totalCount = query.Count();
 
         // Apply pagination
-        var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        List<TablesViewModel>? items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
         return new PaginationViewModel<TablesViewModel>(items, totalCount, pageNumber, pageSize);
     }
@@ -66,7 +66,7 @@ public class TableSectionService : ITableSectionService
     #region Add Section
     public async Task<bool> AddSection(SectionViewModel addsection, long userId)
     {
-        var isSectionExist = await _context.Sections.FirstOrDefaultAsync(x => x.SectionName == addsection.SectionName && x.Isdelete == false && x.Description == addsection.Description);
+        Section? isSectionExist = await _context.Sections.FirstOrDefaultAsync(x => x.SectionName == addsection.SectionName && x.Isdelete == false && x.Description == addsection.Description);
         if (isSectionExist != null)
         {
             return false;
@@ -93,7 +93,7 @@ public class TableSectionService : ITableSectionService
 
     public SectionViewModel GetSectionById(long sectionid)
     {
-        var section = _context.Sections.FirstOrDefault(x => x.SectionId == sectionid && x.Isdelete == false);
+        Section? section = _context.Sections.FirstOrDefault(x => x.SectionId == sectionid && x.Isdelete == false);
         if (section != null)
         {
             SectionViewModel sectionVM = new SectionViewModel
@@ -118,7 +118,7 @@ public class TableSectionService : ITableSectionService
         }
         else
         {
-            var isSectionExist = await _context.Sections.FirstOrDefaultAsync(x => x.SectionId == editSection.SectionId && x.Isdelete == false);
+            Section? isSectionExist = await _context.Sections.FirstOrDefaultAsync(x => x.SectionId == editSection.SectionId && x.Isdelete == false);
             if (isSectionExist != null)
             {
                 isSectionExist.SectionName = editSection.SectionName;
@@ -138,7 +138,7 @@ public class TableSectionService : ITableSectionService
     #region Delete Section
     public async Task<bool> DeleteSection(long sectionid)
     {
-        var sectionToDelete = await _context.Sections.FirstOrDefaultAsync(x => x.SectionId == sectionid && x.Isdelete == false);
+        Section? sectionToDelete = await _context.Sections.FirstOrDefaultAsync(x => x.SectionId == sectionid && x.Isdelete == false);
 
         List<Table> existingTables = await _context.Tables.Where(x => x.SectionId == sectionid && x.Isdelete == false).ToListAsync();
 
@@ -186,7 +186,7 @@ public class TableSectionService : ITableSectionService
             return false;
         }
 
-        var isTableExist = await _context.Tables.FirstOrDefaultAsync(x => x.TableName.ToLower().Trim() == tableVM.TableName.ToLower().Trim() && x.SectionId == tableVM.SectionId && x.Isdelete == false);
+        Table? isTableExist = await _context.Tables.FirstOrDefaultAsync(x => x.TableName.ToLower().Trim() == tableVM.TableName.ToLower().Trim() && x.SectionId == tableVM.SectionId && x.Isdelete == false);
 
         if (isTableExist != null)
         {
@@ -214,7 +214,7 @@ public class TableSectionService : ITableSectionService
     #region Edit Table
     public TablesViewModel GetTableById(long tableId, long sectionId)
     {
-        var table = _context.Tables.FirstOrDefault(x => x.TableId == tableId && x.SectionId == sectionId && x.Isdelete == false);
+        Table? table = _context.Tables.FirstOrDefault(x => x.TableId == tableId && x.SectionId == sectionId && x.Isdelete == false);
         if (table != null)
         {
             TablesViewModel tableVM = new TablesViewModel
@@ -275,7 +275,7 @@ public class TableSectionService : ITableSectionService
     #region Delete Table
     public async Task<bool> DeleteTable(long tableId)
     {
-        var table = _context.Tables.FirstOrDefault(x => x.TableId == tableId && x.Isdelete == false);
+        Table? table = _context.Tables.FirstOrDefault(x => x.TableId == tableId && x.Isdelete == false);
         if (table != null)
         {
             table.TableName = table.TableName;

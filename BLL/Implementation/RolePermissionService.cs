@@ -26,7 +26,7 @@ public class RolePermissionService : IRolePermission
     #region Edit Permission Mapping
     public bool EditPermissionMapping(RolesPermissionViewModel rolepermissionmapping)
     {
-        var data = _context.Rolepermissionmappings.FirstOrDefault(x => x.RolepermissionmappingId == rolepermissionmapping.RolepermissionmappingId);
+        Rolepermissionmapping? data = _context.Rolepermissionmappings.FirstOrDefault(x => x.RolepermissionmappingId == rolepermissionmapping.RolepermissionmappingId);
         if (data == null)
         {
             return false;

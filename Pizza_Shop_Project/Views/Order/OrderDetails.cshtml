@@ -1,4 +1,8 @@
-@model DAL.ViewModels.OrderDetailViewModel;
+@using DAL.ViewModels;
+@model DAL.ViewModels.OrderDetailViewModel
+@{
+    int SrNo = 1;
+}
 
 <div class="d-flex justify-content-center pb-0">
     <div class="container d-flex flex-column gap-2" style="max-width: 1000px;">
@@ -18,19 +22,18 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <h2 class="fs-5 fw-bold mb-0">Order Summary <span class="status">InProgress</span></h2>
+                        <h2 class="fs-5 fw-bold mb-0">Order Summary <span class="status">@Model.Status</span></h2>
                     </div>
                     <button class="solid-btn p-2 rounded text-white border-0 text-nowrap" id="export-order-data">
                         <i class="fa-solid fa-share-from-square"></i> Export
                     </button>
                 </div>
-                <p class="validate pt-4"><strong>Invoice No. : </strong> <span
-                        class="text-secondary">#DOM2025000229</span></p>
+                <p class="validate pt-4"><strong>Invoice No. : </strong> <span class="text-secondary">@Model.InvoiceNo</span></p>
                 <div class="row g-3 pt-4">
 
                     <div class="validate col-12 col-md-6 col-xl-3 "><strong class=" ">Paid on :</strong> </div>
                     <div class="validate col-12 col-md-6 col-xl-3"><strong class=" ">Placed on : </strong> <span
-                            class="text-secondary">&nbsp;20-30-2024 15:12 </span></div>
+                            class="text-secondary">&nbsp; @Model.OrderDate </span></div>
 
                     <div class="validate col-12 col-md-6 col-xl-3"><strong class=" ">Modified on : </strong><span
                             class="text-secondary">&nbsp;22-01-2025 11:47</span></div>
@@ -51,10 +54,10 @@
                             <h3 class="fs-6 fw-bold m-0">Customer Details</h3>
                         </div>
                         <div class="p-2 d-flex flex-column gap-2">
-                            <span>Name : <span class="text-secondary">ajeet lodhi</span></span>
-                            <span>Phone : <span class="text-secondary">9012439231</span></span>
-                            <span>No of Person : <span class="text-secondary">7</span></span>
-                            <span>Email : <span class="text-secondary">ajeet@yopmail.com</span></span>
+                            <span>Name : <span class="text-secondary">@Model.CustomerName</span></span>
+                            <span>Phone : <span class="text-secondary">@Model.PhoneNo</span></span>
+                            <span>No of Person : <span class="text-secondary">@Model.NoOfPerson</span></span>
+                            <span>Email : <span class="text-secondary">@Model.Email</span></span>
                         </div>
                     </div>
                 </div>
@@ -69,8 +72,19 @@
                             <h3 class="fs-6 fw-bold m-0">Table Details</h3>
                         </div>
                         <div class="p-2 d-flex flex-column gap-2">
-                            <span>Table: <span class="text-secondary">T3</span></span>
-                            <span>Section: <span class="text-secondary">Ground Floor</span></span>
+                            <span>Table:
+                                @for (int i = 0; i < Model.tableList.Count; i++)
+                                {
+                                    <span
+                                        class="text-secondary">@Model.tableList[i].TableName</span>
+                                    if (i < Model.tableList.Count - 1)
+                                    {
+
+                                            <span class="text-secondary">,</span>
+                                        }
+                                }
+</span>
+                            <span>Section: <span class="text-secondary">@Model.SectionName</span></span>
                         </div>
                     </div>
                 </div>
@@ -78,7 +92,7 @@
         </div>
 
         <!-- Order Items -->
-        <section class="card shadow-sm">
+        <section class="card shadow-sm mb-3">
             <div class="card-body">
                 <h2 class="fs-5 mb-3 fw-bold ">Order Items</h2>
                 <div class="table-responsive">
@@ -93,31 +107,43 @@
                                 <th class="text-end">Total Amount</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr
-                                class="fw-bold text-secondary border border-bottom-1 border-end-0 border-start-0 border-top-0">
-                                <td>1</td>
-                                <td>Grilled burger<br><span class="sub-item text-secondary"> - Tomato</span></td>
-                                <td>1</td>
-                                <td class="text-end">70.00</td>
-                                <td class="text-end">70.00</td>
-                            </tr>
-                            <tr
-                                class="border border-bottom-1 border-end-0 border-start-0 border-top-0">
-                                <td>2</td>
-                                <td>MARGRITA<br><span class="sub-item"> - test</span></td>
-                                <td>2</td>
-                                <td class="text-end">120.00</td>
-                                <td class="text-end">240.00</td>
-                            </tr>
-                            <tr
-                                class="border border-bottom-1 border-end-0 border-start-0 border-top-0">
-                                <td>3</td>
-                                <td>Grilled burger<br><span class="sub-item"> - Babycorn</span></td>
-                                <td>1</td>
-                                <td class="text-end">70.00</td>
-                                <td class="text-end">70.00</td>
-                            </tr>
+                        <tbody style="height: 3px; overflow-y:scroll;">
+                            <!-- Loop through each item in the order -->
+                            @foreach (var item in Model.itemOrderVM)
+                            {
+                                <tr
+                                    class="fw-semibold text-secondary border border-bottom-1 border-end-0 border-start-0 border-top-0">
+                                    <td>@SrNo</td>
+                                    <td>@item.ItemName
+                                        @foreach (var modifier in item.modifierOrderVM)
+                                        {
+                                            <li class="sub-item text-secondary pt-2" style="margin-left: 0px !important;">@modifier.ModifierName</li>
+                                        }
+                                    </td>
+                                    <td>@item.Quantity
+                                        @foreach (var modifier in item.modifierOrderVM)
+                                        {
+                                            <p class="sub-item text-secondary pt-2 ">@modifier.Quantity</p>
+                                        }
+                                   </td>
+                                   <td class="text-end">@item.Rate
+                                        @foreach (var modifier in item.modifierOrderVM)
+                                        {
+                                            <p class="sub-item text-secondary pt-2">@modifier.Rate</p>
+                                        }
+                                    </td>
+                                    <td class="text-end">@item.TotalItemAmount
+                                        @foreach (var modifier in item.modifierOrderVM)
+                                        {
+                                            <p class="sub-item text-secondary pt-2">@modifier.TotalModifierAmount</p>
+                                        }
+                                    </td>
+
+                                    @{
+                                        SrNo++;
+                                    }
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -127,27 +153,19 @@
                     <div class="d-flex flex-column " style="min-width: 200px;">
                         <div class="d-flex justify-content-between pb-2">
                             <span class="fw-bold">Subtotal:</span>
-                            <span> ₹399.00</span>
+                            <span>@Model.SubTotalAmountOrder</span>
                         </div>
-                        <div class="d-flex justify-content-between pb-2">
-                            <span class="fw-bold">CGST:</span>
-                            <span> ₹47.88</span>
-                        </div>
-                        <div class="d-flex justify-content-between pb-2">
-                            <span class="fw-bold">SGST:</span>
-                            <span> ₹150.00</span>
-                        </div>
-                        <div class="d-flex justify-content-between pb-2">
-                            <span class="fw-bold">GST:</span>
-                            <span> ₹78.88</span>
-                        </div>
-                        <div class="d-flex justify-content-between pb-2">
-                            <span class="fw-bold">Others:</span>
-                            <span> ₹19.95</span>
-                        </div>
+
+                        @foreach(var tax in Model.taxInvoiceVM){
+                            <div class="d-flex justify-content-between pb-2">
+                                <span class="fw-bold">@tax.TaxName:</span>
+                                <span> ₹ @tax.TaxValue</span>
+                            </div>
+                        }
+                        
                         <div class="d-flex justify-content-between pb-2">
                             <span class="fw-bold">Total:</span>
-                            <span> ₹624.81</span>
+                            <span>@Model.TotalAmountOrder</span>
                         </div>
                     </div>
                 </div>

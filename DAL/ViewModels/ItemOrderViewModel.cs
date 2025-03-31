@@ -2,7 +2,9 @@ namespace DAL.ViewModels;
 
 public class ItemOrderViewModel
 {
+    public long ItemId { get; set; }
     public string ItemName { get; set; } = null!;
+
     public decimal Rate { get; set; }
     public int? Quantity { get; set; }
     public decimal TotalItemAmount { get; set; }

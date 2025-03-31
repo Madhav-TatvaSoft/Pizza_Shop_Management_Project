@@ -74,7 +74,7 @@ namespace Pizza_Shop_Project.Controllers
         public async Task<IActionResult> AddCategory(Category category)
         {
             string token = Request.Cookies["AuthToken"];
-            var userData = _userService.getUserFromEmail(token);
+            List<User>? userData = _userService.getUserFromEmail(token);
             long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
             if (await _menuService.AddCategory(category, userId))
@@ -93,10 +93,10 @@ namespace Pizza_Shop_Project.Controllers
         public async Task<IActionResult> EditCategoryById(Category category)
         {
             string token = Request.Cookies["AuthToken"];
-            var userData = _userService.getUserFromEmail(token);
+            List<User>? userData = _userService.getUserFromEmail(token);
             long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-            var Cat_Id = category.CategoryId;
+            long Cat_Id = category.CategoryId;
 
             if (await _menuService.EditCategoryById(category, Cat_Id, userId))
             {
@@ -114,7 +114,7 @@ namespace Pizza_Shop_Project.Controllers
         [PermissionAuthorize("Menu.Delete")]
         public async Task<IActionResult> DeleteCategory(long Cat_Id)
         {
-            var categoryDeleteStatus = await _menuService.DeleteCategory(Cat_Id);
+            bool categoryDeleteStatus = await _menuService.DeleteCategory(Cat_Id);
 
             if (categoryDeleteStatus)
             {
@@ -140,7 +140,7 @@ namespace Pizza_Shop_Project.Controllers
                 MenuVM.addItems = MenuVM.addItems ?? new AddItemViewModel();
                 MenuVM.addItems.itemModifiersVM = MenuVM.addItems.itemModifiersVM ?? new List<ItemModifierViewModel>();
 
-                var i = 0;
+                int i = 0;
 
                 foreach (ItemModifierViewModel deItems in deserializedData)
                 {
@@ -164,7 +164,7 @@ namespace Pizza_Shop_Project.Controllers
         public async Task<IActionResult> AddItem([FromForm] MenuViewModel MenuVm)
         {
             string token = Request.Cookies["AuthToken"];
-            var userData = _userService.getUserFromEmail(token);
+            List<User>? userData = _userService.getUserFromEmail(token);
             long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
             List<ItemModifierViewModel> deserializedData = JsonConvert.DeserializeObject<List<ItemModifierViewModel>>(MenuVm.itemData);
@@ -183,7 +183,7 @@ namespace Pizza_Shop_Project.Controllers
             // Code For image upload
             if (MenuVm.addItems.ItemFormImage != null)
             {
-                var extension = MenuVm.addItems.ItemFormImage.FileName.Split(".");
+                string[]? extension = MenuVm.addItems.ItemFormImage.FileName.Split(".");
                 if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
@@ -195,7 +195,7 @@ namespace Pizza_Shop_Project.Controllers
                     string fileName = $"{Guid.NewGuid()}_{MenuVm.addItems.ItemFormImage.FileName}";
                     string fileNameWithPath = Path.Combine(path, fileName);
 
-                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    using (FileStream stream = new FileStream(fileNameWithPath, FileMode.Create))
                     {
                         MenuVm.addItems.ItemFormImage.CopyTo(stream);
                     }
@@ -207,7 +207,7 @@ namespace Pizza_Shop_Project.Controllers
                 }
             }
 
-            var addItemStatus = await _menuService.AddItem(MenuVm.addItems, userId);
+            bool addItemStatus = await _menuService.AddItem(MenuVm.addItems, userId);
 
             if (addItemStatus)
             {
@@ -215,8 +215,6 @@ namespace Pizza_Shop_Project.Controllers
             }
             return Json(new { success = false, text = "Failed to add Item" });
         }
-
-
         #endregion
 
         #region Delete-Items-From-Modal
@@ -224,15 +222,14 @@ namespace Pizza_Shop_Project.Controllers
         [PermissionAuthorize("Menu.Delete")]
         public async Task<IActionResult> DeleteItem(long itemid)
         {
-            var isDeleted = await _menuService.DeleteItem(itemid);
+            bool isDeleted = await _menuService.DeleteItem(itemid);
 
-            if (!isDeleted)
+            if (isDeleted)
             {
-                TempData["ErrorMessage"] = "Item cannot be deleted";
-                return RedirectToAction("Menu", "Menu");
+                return Json(new { success = true, text = "Item Deleted successfully" });
             }
-            TempData["SuccessMessage"] = "Item deleted successfully";
-            return RedirectToAction("Menu", "Menu");
+            return Json(new { success = false, text = "Failed to delete Item" });
+
         }
         #endregion
 
@@ -260,7 +257,7 @@ namespace Pizza_Shop_Project.Controllers
             {
                 MenuVM.addItems = MenuVM.addItems ?? new AddItemViewModel();
                 MenuVM.addItems.itemModifiersVM = MenuVM.addItems.itemModifiersVM ?? new List<ItemModifierViewModel>();
-                var i = 0;
+                int i = 0;
                 foreach (ItemModifierViewModel deItems in deserializedData)
                 {
                     MenuVM.addItems.itemModifiersVM.Add(deItems);
@@ -283,7 +280,7 @@ namespace Pizza_Shop_Project.Controllers
         public async Task<IActionResult> EditItem([FromForm] MenuViewModel MenuVm)
         {
             string token = Request.Cookies["AuthToken"];
-            var userData = _userService.getUserFromEmail(token);
+            List<User>? userData = _userService.getUserFromEmail(token);
             long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
             List<ItemModifierViewModel> deserializedData = JsonConvert.DeserializeObject<List<ItemModifierViewModel>>(MenuVm.itemData);
@@ -301,7 +298,7 @@ namespace Pizza_Shop_Project.Controllers
 
             if (MenuVm.addItems.ItemFormImage != null)
             {
-                var extension = MenuVm.addItems.ItemFormImage.FileName.Split(".");
+                string[]? extension = MenuVm.addItems.ItemFormImage.FileName.Split(".");
                 if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
@@ -313,7 +310,7 @@ namespace Pizza_Shop_Project.Controllers
                     string fileName = $"{Guid.NewGuid()}_{MenuVm.addItems.ItemFormImage.FileName}";
                     string fileNameWithPath = Path.Combine(path, fileName);
 
-                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    using (FileStream stream = new FileStream(fileNameWithPath, FileMode.Create))
                     {
                         MenuVm.addItems.ItemFormImage.CopyTo(stream);
                     }
@@ -325,7 +322,7 @@ namespace Pizza_Shop_Project.Controllers
                 }
             }
 
-            var editItemStatus = await _menuService.EditItem(MenuVm.addItems, userId);
+            bool editItemStatus = await _menuService.EditItem(MenuVm.addItems, userId);
 
             if (editItemStatus)
             {
@@ -389,10 +386,10 @@ namespace Pizza_Shop_Project.Controllers
         public async Task<IActionResult> AddModifierGroup(MenuViewModel MenuVM)
         {
             string token = Request.Cookies["AuthToken"];
-            var userData = _userService.getUserFromEmail(token);
+            List<User>? userData = _userService.getUserFromEmail(token);
             long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-            var addModifierGroupStatus = await _menuService.AddModifierGroup(MenuVM.addModifierGroupVM, userId);
+            bool addModifierGroupStatus = await _menuService.AddModifierGroup(MenuVM.addModifierGroupVM, userId);
             if (addModifierGroupStatus)
             {
                 return Json(new { success = true, text = "Modifier Group Added successfully" });
@@ -406,8 +403,8 @@ namespace Pizza_Shop_Project.Controllers
         [PermissionAuthorize("Menu.AddEdit")]
         public IActionResult GetModifierGroupByModifierGroupId(long modgrpid)
         {
-            var modifiers = _menuService.GetModifiersByModifierGroupId(modgrpid);
-            var modifierGroup = _menuService.GetModifierGroupByModifierGroupId(modgrpid);
+            List<ModifiersViewModel>? modifiers = _menuService.GetModifiersByModifierGroupId(modgrpid);
+            Modifiergroup? modifierGroup = _menuService.GetModifierGroupByModifierGroupId(modgrpid);
             return Json(new { modifiers, modifierGroup });
         }
 
@@ -416,10 +413,10 @@ namespace Pizza_Shop_Project.Controllers
         public async Task<IActionResult> AddModToModifierGrpAfterEdit(long modgrpid, long modid)
         {
             string token = Request.Cookies["AuthToken"];
-            var userData = _userService.getUserFromEmail(token);
+            List<User>? userData = _userService.getUserFromEmail(token);
             long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-            var addModToModifierGrpStatus = await _menuService.AddModToModifierGrpAfterEdit(modgrpid, modid, userId);
+            bool addModToModifierGrpStatus = await _menuService.AddModToModifierGrpAfterEdit(modgrpid, modid, userId);
             if (addModToModifierGrpStatus)
             {
                 return Json(new { success = true, text = "Modifier Added to Modifier Group successfully" });
@@ -431,7 +428,7 @@ namespace Pizza_Shop_Project.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteModToModifierGrpAfterEdit(long modid, long modgrpid)
         {
-            var deleteModToModifierGrpStatus = await _menuService.DeleteModToModifierGrpAfterEdit(modid, modgrpid);
+            bool deleteModToModifierGrpStatus = await _menuService.DeleteModToModifierGrpAfterEdit(modid, modgrpid);
             if (deleteModToModifierGrpStatus)
             {
                 return Json(new { success = true, text = "Modifier Deleted from Modifier Group successfully" });
@@ -445,13 +442,13 @@ namespace Pizza_Shop_Project.Controllers
         public async Task<IActionResult> EditModifierGroup(MenuViewModel MenuVM)
         {
             string token = Request.Cookies["AuthToken"];
-            var userData = _userService.getUserFromEmail(token);
+            List<User>? userData = _userService.getUserFromEmail(token);
             long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-            var editModifierGroupStatus = await _menuService.EditModifierGroup(MenuVM.addModifierGroupVM, userId);
+            bool editModifierGroupStatus = await _menuService.EditModifierGroup(MenuVM.addModifierGroupVM, userId);
             if (editModifierGroupStatus)
             {
-                return Json(new {grpId = MenuVM.addModifierGroupVM.ModifierGrpId, success = true, text = "Modifier Group Updated successfully" });
+                return Json(new { grpId = MenuVM.addModifierGroupVM.ModifierGrpId, success = true, text = "Modifier Group Updated successfully" });
             }
             return Json(new { success = false, text = "Failed to Update Modifier Group" });
         }
@@ -464,7 +461,7 @@ namespace Pizza_Shop_Project.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteModifierGroup(long modgrpid)
         {
-            var deletemodifiergrpStatus = await _menuService.DeleteModifierGroup(modgrpid);
+            bool deletemodifiergrpStatus = await _menuService.DeleteModifierGroup(modgrpid);
             if (deletemodifiergrpStatus)
             {
                 return Json(new { success = true, text = "Modifier Group Deleted successfully" });
@@ -489,7 +486,7 @@ namespace Pizza_Shop_Project.Controllers
         public IActionResult AddModifierItem()
         {
             MenuViewModel MenuVM = new MenuViewModel();
-            var ModifierGroupList = _menuService.GetAllModifierGroupList();
+            List<Modifiergroup>? ModifierGroupList = _menuService.GetAllModifierGroupList();
             ViewBag.modifierGroupList = new SelectList(ModifierGroupList, "ModifierGrpId", "ModifierGrpName");
             return PartialView("_AddModifierPartial", MenuVM);
         }
@@ -500,10 +497,10 @@ namespace Pizza_Shop_Project.Controllers
         public async Task<IActionResult> AddModifierItem([FromForm] MenuViewModel MenuVm)
         {
             string token = Request.Cookies["AuthToken"];
-            var userData = _userService.getUserFromEmail(token);
+            List<User>? userData = _userService.getUserFromEmail(token);
             long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-            var addModifierStatus = await _menuService.AddModifierItem(MenuVm.addModifier, userId);
+            bool addModifierStatus = await _menuService.AddModifierItem(MenuVm.addModifier, userId);
 
             if (addModifierStatus)
             {
@@ -521,7 +518,7 @@ namespace Pizza_Shop_Project.Controllers
         public IActionResult GetModifiersByModifierId(long modid)
         {
             MenuViewModel MenuVM = new MenuViewModel();
-            var ModifierGroupList = _menuService.GetAllModifierGroupList();
+            List<Modifiergroup>? ModifierGroupList = _menuService.GetAllModifierGroupList();
             ViewBag.modifierGroupList = new SelectList(ModifierGroupList, "ModifierGrpId", "ModifierGrpName");
             MenuVM.addModifier = _menuService.GetModifiersByModifierId(modid);
             return PartialView("_EditModifierPartial", MenuVM);
@@ -533,10 +530,10 @@ namespace Pizza_Shop_Project.Controllers
         public async Task<IActionResult> EditModifierItem([FromForm] MenuViewModel MenuVm)
         {
             string token = Request.Cookies["AuthToken"];
-            var userData = _userService.getUserFromEmail(token);
+            List<User>? userData = _userService.getUserFromEmail(token);
             long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-            var editModifierStatus = await _menuService.EditModifierItem(MenuVm.addModifier, userId);
+            bool editModifierStatus = await _menuService.EditModifierItem(MenuVm.addModifier, userId);
 
             if (editModifierStatus)
             {
@@ -554,7 +551,7 @@ namespace Pizza_Shop_Project.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteModifier(long modid)
         {
-            var isDeleted = await _menuService.DeleteModifier(modid);
+            bool isDeleted = await _menuService.DeleteModifier(modid);
 
             if (isDeleted)
             {

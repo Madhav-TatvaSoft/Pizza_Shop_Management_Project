@@ -668,9 +668,6 @@ public partial class PizzaShopDbContext : DbContext
             entity.ToTable("orderdetails");
 
             entity.Property(e => e.OrderdetailId).HasColumnName("orderdetail_id");
-            entity.Property(e => e.Amount)
-                .HasPrecision(10, 2)
-                .HasColumnName("amount");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_DATE")
                 .HasColumnType("timestamp without time zone")

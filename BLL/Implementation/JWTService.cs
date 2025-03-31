@@ -23,16 +23,16 @@ public class JWTService : IJWTService
     #region Generate Token (email , role)
     public string GenerateToken(string email, string role)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
-        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
+        SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        var claims = new[]
+        Claim[] claims = new[]
         {
                 new Claim("email", email),
                 new Claim("role", role)
             };
 
-        var token = new JwtSecurityToken(
+        JwtSecurityToken token = new JwtSecurityToken(
             issuer: "localhost",
             audience: "localhost",
             claims: claims,
@@ -47,16 +47,16 @@ public class JWTService : IJWTService
     #region Generate Reset Token (email, password)
     public string GenerateResetToken(string email, string password)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
-        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
+        SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        var claims = new[]
+        Claim[] claims = new[]
         {
                 new Claim("email", email),
                 new Claim("password", password)
             };
 
-        var token = new JwtSecurityToken(
+        JwtSecurityToken token = new JwtSecurityToken(
             issuer: "localhost",
             audience: "localhost",
             claims: claims,
@@ -71,9 +71,9 @@ public class JWTService : IJWTService
     #region Get Claim From Token
     public ClaimsPrincipal? GetClaimsFromToken(string token)
     {
-        var handler = new JwtSecurityTokenHandler();
-        var jwtToken = handler.ReadJwtToken(token);
-        var claims = new ClaimsIdentity(jwtToken.Claims);
+        JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+        JwtSecurityToken? jwtToken = handler.ReadJwtToken(token);
+        ClaimsIdentity claims = new ClaimsIdentity(jwtToken.Claims);
         return new ClaimsPrincipal(claims);
     }
     #endregion
@@ -82,9 +82,9 @@ public class JWTService : IJWTService
     // Retrieves a specific claim value from a JWT token.
     public string? GetClaimValue(string token, string claimType)
     {
-        var claimsPrincipal = GetClaimsFromToken(token);
+        ClaimsPrincipal claimsPrincipal = GetClaimsFromToken(token);
         // return claimsPrincipal?.FindFirst(claimType)?.Value;
-        var value = claimsPrincipal?.FindFirst(claimType)?.Value;
+        string value = claimsPrincipal?.FindFirst(claimType)?.Value;
         return value;
     }
     #endregion

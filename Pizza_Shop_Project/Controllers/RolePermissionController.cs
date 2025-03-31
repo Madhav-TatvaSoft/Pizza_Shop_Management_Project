@@ -1,5 +1,6 @@
 using BLL.Interface;
 using DAL.ViewModels;
+using DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pizza_Shop_Project.Authorization;
@@ -24,7 +25,7 @@ namespace Pizza_Shop_Project.Controllers
         public IActionResult RoleDashboard()
         {
             ViewData["sidebar-active"] = "Role";
-            var Roles = _rolePermission.GetAllRoles();
+            List<Role>? Roles = _rolePermission.GetAllRoles();
             return View(Roles);
         }
         #endregion

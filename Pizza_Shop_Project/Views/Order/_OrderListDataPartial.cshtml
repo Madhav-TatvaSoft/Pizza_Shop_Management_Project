@@ -14,19 +14,26 @@ else
     {
 
         <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1 text-secondary">
-            <td class="text-start">#  @item.OrderId</td>
+            <td class="text-start"># @item.OrderId</td>
             <td class="text-start text-nowrap">@item.OrderDate</td>
             <td class="text-start text-nowrap">@item.CustomerName</td>
             <td class="text-start">@item.Status</td>
             <td class="text-start">@item.PaymentMethodName</td>
-            <td class="text-start text-nowrap">@for(int i = 0; i < item.rating; i++){<i class="bi bi-star-fill text-warning"></i>}
-                @for(int i = item.rating; i < 5; i++)
-                {<i class="bi bi-star text-warning"></i>}
-                </td>
+            <td class="text-start text-nowrap">
+                @for (int i = 0; i < item.rating; i++)
+                {
+                    <i class="bi bi-star-fill text-warning"></i>
+                }
+                @for (int i = item.rating; i < 5; i++)
+                {
+                    <i class="bi bi-star text-warning"></i>
+                }
+            </td>
             <td class="text-start" class="text-end text-nowrap">@item.TotalAmount</td>
             <td class="text-center text-nowrap">
-                <img src="~/images/filetype-pdf.svg" class="pe-3"/>
-                <a asp-action="OrderDetails" asp-controller="Order" asp-route-orderid="@item.OrderId"><img src="~/images/eye-open.svg"/></a>
+                <i class="fa-regular fa-file-pdf me-2"></i>
+                <a asp-action="OrderDetails" asp-controller="Order" asp-route-orderid="@item.OrderId" class="text-decoration-none text-dark"><i
+                        class="bi bi-eye"></i></a>
             </td>
         </tr>
     }

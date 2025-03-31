@@ -19,7 +19,7 @@ public class TaxFeesService : ITaxFeesService
     #region Get Tax List
     public PaginationViewModel<TaxViewModel> GetTaxList(int pageNumber = 1, string search = "", int pageSize = 3)
     {
-        var query = _context.Taxes
+        IQueryable<TaxViewModel>? query = _context.Taxes
           .Where(x => x.Isdelete == false).OrderBy(x => x.TaxId)
           .Select(x => new TaxViewModel
           {
@@ -46,7 +46,7 @@ public class TaxFeesService : ITaxFeesService
         int totalCount = query.Count();
 
         // Apply pagination
-        var items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        List<TaxViewModel>? items = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
         return new PaginationViewModel<TaxViewModel>(items, totalCount, pageNumber, pageSize);
     }
@@ -55,7 +55,7 @@ public class TaxFeesService : ITaxFeesService
     #region Get Tax By Id
     public TaxViewModel GetTaxById(long taxid)
     {
-        var tax = _context.Taxes.FirstOrDefault(x => x.TaxId == taxid && x.Isdelete == false);
+        Tax? tax = _context.Taxes.FirstOrDefault(x => x.TaxId == taxid && x.Isdelete == false);
         if (tax != null)
         {
             TaxViewModel taxVM = new TaxViewModel
@@ -77,7 +77,7 @@ public class TaxFeesService : ITaxFeesService
     #region Add Tax
     public async Task<bool> AddTax(TaxViewModel taxVM, long userId)
     {
-        var isTaxExist = await _context.Taxes.FirstOrDefaultAsync(x => x.TaxName.ToLower().Trim() == taxVM.TaxName.ToLower().Trim() && x.Isdelete == false);
+        Tax? isTaxExist = await _context.Taxes.FirstOrDefaultAsync(x => x.TaxName.ToLower().Trim() == taxVM.TaxName.ToLower().Trim() && x.Isdelete == false);
         if (isTaxExist != null)
         {
             return false;
@@ -104,14 +104,14 @@ public class TaxFeesService : ITaxFeesService
     #region Edit Tax
     public async Task<bool> EditTax(TaxViewModel taxVM, long userId)
     {
-        var isTaxExist = await _context.Taxes.FirstOrDefaultAsync(x => x.TaxId != taxVM.TaxId && x.TaxName.ToLower().Trim() == taxVM.TaxName.ToLower().Trim() && x.Isdelete == false);
+        Tax? isTaxExist = await _context.Taxes.FirstOrDefaultAsync(x => x.TaxId != taxVM.TaxId && x.TaxName.ToLower().Trim() == taxVM.TaxName.ToLower().Trim() && x.Isdelete == false);
 
         if (isTaxExist != null)
         {
             return false;
         }
 
-        var tax = _context.Taxes.FirstOrDefault(x => x.TaxId == taxVM.TaxId && x.Isdelete == false);
+        Tax? tax = _context.Taxes.FirstOrDefault(x => x.TaxId == taxVM.TaxId && x.Isdelete == false);
         if (tax != null)
         {
             tax.TaxName = taxVM.TaxName;
@@ -133,7 +133,7 @@ public class TaxFeesService : ITaxFeesService
     #region Delete Tax
     public async Task<bool> DeleteTax(long taxid)
     {
-        var tax = _context.Taxes.FirstOrDefault(x => x.TaxId == taxid && x.Isdelete == false);
+        Tax? tax = _context.Taxes.FirstOrDefault(x => x.TaxId == taxid && x.Isdelete == false);
         if (tax != null)
         {
             tax.TaxName = tax.TaxName + DateTime.Now;
