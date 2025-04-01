@@ -24,9 +24,9 @@
                     <div>
                         <h2 class="fs-5 fw-bold mb-0">Order Summary <span class="status">@Model.Status</span></h2>
                     </div>
-                    <button class="solid-btn p-2 rounded text-white border-0 text-nowrap" id="export-order-data">
+                    <a asp-action="GenerateOrderDetailPDF" asp-controller="Order" asp-route-orderid="@Model.OrderId" class="btn solid-btn p-2 rounded text-white border-0 text-nowrap">
                         <i class="fa-solid fa-share-from-square"></i> Export
-                    </button>
+                    </a>
                 </div>
                 <p class="validate pt-4"><strong>Invoice No. : </strong> <span class="text-secondary">@Model.InvoiceNo</span></p>
                 <div class="row g-3 pt-4">
@@ -79,7 +79,6 @@
                                         class="text-secondary">@Model.tableList[i].TableName</span>
                                     if (i < Model.tableList.Count - 1)
                                     {
-
                                             <span class="text-secondary">,</span>
                                         }
                                 }
@@ -112,30 +111,30 @@
                             @foreach (var item in Model.itemOrderVM)
                             {
                                 <tr
-                                    class="fw-semibold text-secondary border border-bottom-1 border-end-0 border-start-0 border-top-0">
+                                    class="fw-semibold border border-bottom-1 border-end-0 border-start-0 border-top-0">
                                     <td>@SrNo</td>
                                     <td>@item.ItemName
                                         @foreach (var modifier in item.modifierOrderVM)
                                         {
-                                            <li class="sub-item text-secondary pt-2" style="margin-left: 0px !important;">@modifier.ModifierName</li>
+                                            <li class="sub-item pt-2" style="margin-left: 0px !important;">@modifier.ModifierName</li>
                                         }
                                     </td>
                                     <td>@item.Quantity
                                         @foreach (var modifier in item.modifierOrderVM)
                                         {
-                                            <p class="sub-item text-secondary pt-2 ">@modifier.Quantity</p>
+                                            <p class="sub-item pt-2 ">@modifier.Quantity</p>
                                         }
                                    </td>
                                    <td class="text-end">@item.Rate
                                         @foreach (var modifier in item.modifierOrderVM)
                                         {
-                                            <p class="sub-item text-secondary pt-2">@modifier.Rate</p>
+                                            <p class="sub-item pt-2">@modifier.Rate</p>
                                         }
                                     </td>
                                     <td class="text-end">@item.TotalItemAmount
                                         @foreach (var modifier in item.modifierOrderVM)
                                         {
-                                            <p class="sub-item text-secondary pt-2">@modifier.TotalModifierAmount</p>
+                                            <p class="sub-item  pt-2">@modifier.TotalModifierAmount</p>
                                         }
                                     </td>
 
@@ -153,7 +152,7 @@
                     <div class="d-flex flex-column " style="min-width: 200px;">
                         <div class="d-flex justify-content-between pb-2">
                             <span class="fw-bold">Subtotal:</span>
-                            <span>@Model.SubTotalAmountOrder</span>
+                            <span> ₹ @Model.SubTotalAmountOrder</span>
                         </div>
 
                         @foreach(var tax in Model.taxInvoiceVM){
@@ -165,7 +164,7 @@
                         
                         <div class="d-flex justify-content-between pb-2">
                             <span class="fw-bold">Total:</span>
-                            <span>@Model.TotalAmountOrder</span>
+                            <span> ₹ @Model.TotalAmountOrder</span>
                         </div>
                     </div>
                 </div>

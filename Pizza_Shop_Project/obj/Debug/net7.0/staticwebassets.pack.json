@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\Pizza_Shop_Project.bundle.scp.css"
     },
     {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\Rotativa\\wkhtmltopdf.exe",
+      "PackagePath": "staticwebassets\\Rotativa\\wkhtmltopdf.exe"
+    },
+    {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

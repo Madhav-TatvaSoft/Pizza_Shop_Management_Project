@@ -14,5 +14,5 @@ public class RolesPermissionViewModel
 
     public bool Candelete { get; set; }
 
-    public bool Permissioncheck { get; set; }
+    // public bool Permissioncheck { get; set; }
 }

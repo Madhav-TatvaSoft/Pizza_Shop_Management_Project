@@ -21,7 +21,8 @@
                     <option value="Last 7 days">Last 7 days</option>
                     <option value="Last 30 days">Last 30 days</option>
                     <option value="Current Month">Current Month</option>
-                    <option data-bs-toggle="modal" data-bs-target="#CustomDate">Custom Date</option>
+                    <option value="Custom Date" data-bs-toggle="modal" data-bs-target="#CustomDateModal">Custom Date
+                    </option>
                 </select>
             </div>
             <button class="solid-btn p-3 h-100 rounded border-0 text-nowrap" id="exportBtn" onclick="ExportBtn()">
@@ -93,8 +94,40 @@
 
 <!------------------------------------- Custom Date Modal --------------------------------------------------->
 
-<!-- Custom Date filter -->
+<div id="CustomDateModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Custom Date</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    onclick="EmptyData()"></button>
+            </div>
+            <form id="CustomDateFormId">
+                <div class="modal-body">
+                    <div class="d-flex flex-sm-row flex-column gap-sm-3 gap-0">
 
+                        <div class="form-floating  col mb-3">
+                            <input type="date" id="from-date" class="form-control">
+                            <label>From Date</label>
+                        </div>
+
+                        <div class="form-floating  col mb-3">
+                            <input type="date" id="to-date" class="form-control">
+                            <label>To Date</label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn solid-btn">Save</button>
+                    <button type="button" class="btn hollow-btn" onclick="EmptyData();" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!------------------------------------- End of Custom Date Modal --------------------------------------------------->
 
@@ -117,7 +150,7 @@
         // LoadTable function
         function loadTable(page = 1, search = "", sortColumn = "", sortDirection = "asc", pageSize = 5, fromDate, toDate, selectRange) {
             $.ajax({
-                url: "/Order/PaginationForOrder",
+                url: "/Customer/PaginationForCustomer",
                 type: "GET",
                 data: { search, sortColumn, sortDirection, pageNumber: page, pageSize, fromDate, toDate, selectRange },
                 success: function (data) {
@@ -144,10 +177,12 @@
         function ExportBtn() {
             searchText = $("#searchbtn").val().trim();
             selectRange = $("#selectRange").val();
+            fromDate = $("#from-date").val();
+            toDate = $("#to-date").val();
             $.ajax({
                 url: "/Customer/ExportCustomerDataToExcel",
                 type: "GET",
-                data: { search: searchText, selectRange },
+                data: { search: searchText,fromDate,toDate, selectRange },
                 xhrFields: {
                     responseType: 'blob'
                 },
@@ -177,6 +212,12 @@
                     callErrorToaster(Text);
                 }
             });
+        }
+
+        // Empty Fields
+        function EmptyData() {
+            fromDate = "";
+            toDate = "";
         }
 
         $(document).ready(function () {
@@ -238,45 +279,34 @@
                 pageSize = $(this).val();
                 console.log("items-" + pageSize);
                 currentPage = 1;
-                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
-            });
-
-            // Order Status
-            $("#orderStatus").on("change", function () {
-                orderStatus = $(this).val();
-                console.log(orderStatus);
-                currentPage = 1;
-                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
             });
 
             // Select Range
             $("#selectRange").on("change", function () {
                 selectRange = $(this).val();
-                currentPage = 1;
-                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+                if (selectRange == "Custom Date") {
+                    $("#CustomDateModal").modal("show");
+                } else {
+                    fromDate = "";
+                    toDate = "";
+                    currentPage = 1;
+                    loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
+                }
             });
 
-            // Search Order Date
-            $("#search-order-btn").on("click", function () {
-                fromDate = $("#from-order-date").val();
-                toDate = $("#to-order-date").val();
-                console.log(fromDate, "From");
-                console.log(toDate, "To");
+            // Custom Date Form Submit
+            $("#CustomDateFormId").on("submit", function (e) {
+                e.preventDefault();
+                fromDate = $("#from-date").val();
+                toDate = $("#to-date").val();
                 currentPage = 1;
-                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
+                EmptyData();
+                $(".btn-close").click();
             });
 
-            // Clear Order Date
-            $("#clear-order-btn").on("click", function () {
-                $("#from-order-date").val("");
-                $("#to-order-date").val("");
-                fromDate = "";
-                toDate = "";
-                currentPage = 1;
-                loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
-            });
-
-            loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+            loadTable();
             // End of Ready
         });
     </script>

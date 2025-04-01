@@ -38,6 +38,8 @@ public class TaxFeesController : Controller
     }
     #endregion
 
+    #region Tax CRUD
+
     #region Add Edit Tax GET
     public IActionResult AddEditTax(long taxid)
     {
@@ -98,4 +100,7 @@ public class TaxFeesController : Controller
         return Json(new { success = false, text = "Failed to Delete Tax" });
     }
     #endregion
+
+    #endregion
+
 }

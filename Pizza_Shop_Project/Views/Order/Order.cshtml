@@ -130,7 +130,7 @@
 </div>
 
 <partial name="_Toaster" />
-<partial name="_ValidationScriptsPartial"/>
+<partial name="_ValidationScriptsPartial" />
 
 @section Scripts {
 
@@ -145,6 +145,7 @@
         let selectRange = $("#selectRange").val();
         let fromDate = "";
         let toDate = "";
+
 
         // LoadTable function
         function loadTable(page = 1, search = "", sortColumn = "", sortDirection = "asc", pageSize = 5, orderStatus, fromDate, toDate, selectRange) {
@@ -204,7 +205,7 @@
                     let text = "Excel Exported Successfully"
                     callSuccessToaster(text);
                 },
-                error: function (xhr,status,error){
+                error: function (xhr, status, error) {
                     console.error(error);
                     let Text = "Failed to Export Excel"
                     callErrorToaster(Text);

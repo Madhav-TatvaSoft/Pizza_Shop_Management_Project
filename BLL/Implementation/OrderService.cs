@@ -377,7 +377,7 @@ public class OrderService : IOrderService
                 startCol += 1;
 
                 worksheet.Cells[row, startCol, row, startCol + 2].Merge = true;
-                worksheet.Cells[row, startCol].Value = order.OrderDate;
+                worksheet.Cells[row, startCol].Value = order.OrderDate.ToString();
                 startCol += 3;
 
                 worksheet.Cells[row, startCol, row, startCol + 2].Merge = true;
@@ -485,6 +485,7 @@ public class OrderService : IOrderService
         List<TaxInvoiceMapping>? taxdetails = _context.TaxInvoiceMappings.Include(x => x.Invoice).Include(x => x.Tax).Where(x => x.Invoice.OrderId == orderid).ToList();
 
         orderDetailVM.taxInvoiceVM = new List<TaxInvoiceViewModel>();
+        
         foreach (var tax in taxdetails)
         {
 

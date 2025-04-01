@@ -1,0 +1,320 @@
+@model DAL.ViewModels.OrderDetailViewModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            min-width: 320px;
+            margin: 0 auto;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 70px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .logo-text {
+            color: #0084c3;
+            font-size: 25px;
+            font-weight: 600;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        .details {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .details-container {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .customer-details-box {
+            width: 50%;
+            float: left;
+            box-sizing: border-box;
+            padding-right: 20px;
+        }
+
+        .order-details-box {
+            width: 50%;
+            float: right;
+            box-sizing: border-box;
+            padding-left: 100px;
+        }
+
+        .details-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #0084c3;
+        }
+
+        .details-content {
+            margin-top: 8px;
+        }
+
+        .details-content span {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        thead {
+            color: white;
+            background-color: #0084c3;
+        }
+
+        th,
+        td {
+            padding: 5px;
+            text-align: left;
+            border: none;
+        }
+
+        thead th:last-child {
+            text-align: right;
+        }
+
+        td:last-child {
+            text-align: right;
+        }
+
+        tr {
+            border-bottom: 1px solid #0084c3;
+        }
+
+        tbody tr {
+            page-break-inside: avoid;
+        }
+
+        thead tr {
+            border-bottom: 2px solid #0084c3;
+        }
+
+        .tableListDisplay {
+            display: inline !important;
+        }
+
+        .totals-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .total-row {
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .total-row span:first-child {
+            float: left;
+        }
+
+        .total-row span:last-child {
+            float: right;
+        }
+
+        .divider {
+            border: none;
+            border-top: 2px solid #0084c3;
+            margin: 10px 0;
+        }
+
+        .total-amount {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0084c3;
+        }
+
+        .payment-info {
+            margin-top: 10px;
+        }
+
+        .payment-info p {
+            margin: 5px 0;
+        }
+
+        .thank-you {
+            color: #0084c3;
+            font-size: 18px;
+            font-weight: 600;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Start heading logo -->
+        <div class="logo-container">
+            <img src="@Url.Content("~/images/logos/pizzashop_logo.png")" alt="PIZZASHOP" class="logo" />
+            <p class="logo-text">PIZZASHOP</p>
+        </div>
+        <!-- End heading logo -->
+
+        <div class="details">
+            <div class="details-container">
+                <!-- Customer details -->
+                <div class="customer-details-box">
+                    <p class="details-title">Customer Details</p>
+                    <div class="details-content">
+                        <span style="font-size: 17px;"> <strong> Name: </strong>@Model.CustomerName</span>
+                        <span style="font-size: 17px;"><strong>Phone:</strong> @Model.PhoneNo</span>
+                    </div>
+                </div>
+
+                <!-- Order details -->
+                <div class="order-details-box">
+                    <p class="details-title">Order Details</p>
+                    <div class="details-content">
+                        <span style="font-size: 17px;"><strong>Invoice Number:</strong> @Model.InvoiceNo</span>
+                        <span style="font-size: 17px;"><strong>Date:</strong> @Model.OrderDate</span>
+                        <span style="font-size: 17px;"><strong>Section:</strong> @Model.SectionName</span>
+                        <span style="font-size: 17px;"><strong>Table:</strong>
+                            @for (int i = 0; i < Model.tableList.Count; i++)
+                            {
+                                <span class="tableListDisplay" style="font-size: 17px;">@Model.tableList[i].TableName</span>
+                                if (i < Model.tableList.Count - 1)
+                                {
+                                    <span class="tableListDisplay" style="font-size: 17px;">,</span>
+                                }
+                            }
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="details">
+            <!-- Ordered items table -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sr.No.</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int srNo = 1;
+                    }
+                    @foreach (var item in Model.itemOrderVM)
+                    {
+                        <tr>
+                            <td>@srNo</td>
+                            <td style="font-size: 20px;">
+                                @item.ItemName
+                                @foreach (var modifierItem in item.modifierOrderVM)
+                                {
+                                    <br>
+                                    <span style="font-size: 17px;">@modifierItem.ModifierName</span>
+                                }
+                            </td>
+                            <td style="font-size: 20px;">
+                                @item.Quantity
+                                @foreach (var modifierItem in item.modifierOrderVM)
+                                {
+                                    <br>
+                                    <span style="font-size: 17px;">@modifierItem.Quantity</span>
+                                }
+                            </td>
+                            <td style="font-size: 20px;">
+                                @item.Rate
+                                @foreach (var modifierItem in item.modifierOrderVM)
+                                {
+                                    <br>
+                                    <span style="font-size: 17px;">@modifierItem.Rate</span>
+                                }
+                            </td>
+                            <td style="font-size: 20px;">
+                                @item.TotalItemAmount
+                                @foreach (var modifier in item.modifierOrderVM)
+                                {
+                                    <br>
+                                    <span style="font-size: 17px;">@modifier.TotalModifierAmount</span>
+                                }
+                            </td>
+                        </tr>
+                        srNo++;
+                    }
+                </tbody>
+            </table>
+            <!-- End ordered items table -->
+
+            <br>
+
+            <div class="totals-container">
+                <div class="total-row">
+                    <span style="font-size: 17px;"><strong>Sub Total:</strong></span>
+                    <span style="font-size: 17px;">@Model.SubTotalAmountOrder</span>
+                </div>
+
+                @foreach (var tax in Model.taxInvoiceVM)
+                {
+                    <div class="total-row">
+                        <span style="font-size: 17px;">@tax.TaxName:</span>
+                        <span style="font-size: 17px;">@tax.TaxValue</span>
+                    </div>
+                }
+            </div>
+
+            <hr class="divider" />
+
+            <!-- Total amount -->
+            <div class="total-row">
+                <span style="font-size: 20px;" class="total-amount">Total Amount Due:</span>
+                <span style="font-size: 20px;" class="total-amount">@Model.TotalAmountOrder</span>
+            </div>
+            <!-- End total amount -->
+
+            <!-- Payment Information -->
+            <div class="payment-info">
+                <p style="font-size: 20px;" class="details-title">Payment Information:</p>
+                <p style="font-size: 20px;">Payment Method: Pending</p>
+            </div>
+            <!-- End Payment Information -->
+        </div>
+
+        <div class="logo-container">
+            <p style="font-size: 20px;" class="thank-you">THANK YOU!</p>
+        </div>
+    </div>
+</body>
+
+</html>

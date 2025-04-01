@@ -202,6 +202,8 @@ namespace Pizza_Shop_Project.Controllers
         }
         #endregion
 
+        #region User CRUD
+
         #region AddUser
         [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Users.AddEdit")]
@@ -416,5 +418,7 @@ namespace Pizza_Shop_Project.Controllers
         }
         #endregion
 
+        #endregion
+    
     }
 }

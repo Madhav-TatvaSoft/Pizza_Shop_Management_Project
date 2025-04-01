@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "PTjfYPbO0j1txmHBoNQRZ9Sv+mWnfL6PvUUMs8YI2OQ=",
+  "Hash": "J78iPK4jczp9cTOi9H+uFM6BuueSl7TQ67TM25y2eig=",
   "Source": "Pizza_Shop_Project",
   "BasePath": "_content/Pizza_Shop_Project",
   "Mode": "Default",
@@ -1528,6 +1528,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\Rotativa\\wkhtmltopdf.exe",
+      "SourceId": "Pizza_Shop_Project",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\",
+      "BasePath": "_content/Pizza_Shop_Project",
+      "RelativePath": "Rotativa/wkhtmltopdf.exe",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Rotativa\\wkhtmltopdf.exe"
     },
     {
       "Identity": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\06fcb45a-bc63-41f2-9b8d-46b59e964d69_Screenshot 2025-02-19 222730.png",

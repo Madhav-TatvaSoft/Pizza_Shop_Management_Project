@@ -68,6 +68,8 @@ namespace Pizza_Shop_Project.Controllers
         }
         #endregion
 
+        #region Category CRUD
+
         #region Add-Category
         [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.AddEdit")]
@@ -125,6 +127,10 @@ namespace Pizza_Shop_Project.Controllers
             return RedirectToAction("Menu", "Menu");
         }
         #endregion
+
+        #endregion
+
+        #region Item CRUD
 
         #region Add-Items-From-Modal
 
@@ -332,6 +338,8 @@ namespace Pizza_Shop_Project.Controllers
         }
         #endregion
 
+        #endregion
+
         #region Pagination-Menu-Modifier
         // [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Menu.View")]
@@ -378,6 +386,8 @@ namespace Pizza_Shop_Project.Controllers
             }
         }
         #endregion
+
+        #region Modifier Group CRUD
 
         #region Add Modifier Group POST
         [Authorize(Roles = "Admin")]
@@ -470,6 +480,8 @@ namespace Pizza_Shop_Project.Controllers
         }
         #endregion
 
+        #endregion
+
         #region Get All ModifierGroup List
         public IActionResult GetAllModifierGroupList()
         {
@@ -478,6 +490,8 @@ namespace Pizza_Shop_Project.Controllers
             return PartialView("_ModifierGroupPartial", MenuData);
         }
         #endregion
+
+        #region Modifier CRUD
 
         #region Add Modifier Item
 
@@ -562,5 +576,8 @@ namespace Pizza_Shop_Project.Controllers
             return Json(new { success = false, text = "Failed to Delete Modifier" });
         }
         #endregion
+    
+        #endregion
+
     }
 }

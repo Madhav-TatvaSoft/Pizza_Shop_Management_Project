@@ -68,6 +68,8 @@ public class TableSectionController : Controller
     }
     #endregion
 
+    #region Section CRUD
+
     #region Add Section
     // [PermissionAuthorize("TableSection.AddEdit")]
     public IActionResult AddSection()
@@ -138,6 +140,8 @@ public class TableSectionController : Controller
     }
     #endregion
 
+    #endregion
+
     #region Get All Section List
     [PermissionAuthorize("TableSection.View")]
     public IActionResult GetAllSections()
@@ -147,6 +151,8 @@ public class TableSectionController : Controller
         return PartialView("_SectionListPartial", tableSectionVM);
     }
     #endregion
+
+    #region Table CRUD
 
     #region Add Table
     [PermissionAuthorize("TableSection.AddEdit")]
@@ -217,6 +223,8 @@ public class TableSectionController : Controller
         }
         return Json(new { success = false, text = "Failed to Delete Table" });
     }
+    #endregion
+
     #endregion
 
 }

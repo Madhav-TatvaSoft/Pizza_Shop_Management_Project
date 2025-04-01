@@ -10,6 +10,7 @@ using BLL.Interface;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Pizza_Shop_Project.Authorization;
+using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ builder.Services.AddScoped<IMenuService,MenuService>();
 builder.Services.AddScoped<ITableSectionService, TableSectionService>();
 builder.Services.AddScoped<ITaxFeesService, TaxFeesService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ICustomerService,CustomerService>();
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
@@ -136,6 +138,8 @@ app.UseStatusCodePagesWithReExecute("/Error/{0}");
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+
+app.UseRotativa();
 
 app.UseRouting();
 

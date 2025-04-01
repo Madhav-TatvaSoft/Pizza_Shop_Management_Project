@@ -587,3 +587,5 @@ D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\runtimes\win\lib\n
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Security.Cryptography.Pkcs.dll
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Text.Encoding.CodePages.dll
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\runtimes\browser\lib\net7.0\System.Text.Encodings.Web.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Rotativa.AspNetCore.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\obj\Debug\net7.0\Pizza_Shop_Project.MvcApplicationPartsAssemblyInfo.cs

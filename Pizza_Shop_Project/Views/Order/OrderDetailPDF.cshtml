@@ -1,0 +1,299 @@
+@model DAL.ViewModels.OrderDetailViewModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Details</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            min-width: 320px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            color: #0084c3;
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .section {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .card {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .details-container {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .details-box {
+            width: 50%;
+            height: 100%;
+            float: left;
+            box-sizing: border-box;
+            padding-right: 20px;
+        }
+
+        .details-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0084c3;
+            margin-bottom: 10px;
+        }
+
+        .details-content {
+            margin-top: 8px;
+        }
+
+        .details-content span {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .status {
+            background-color: #c6e8ff;
+            color: #0084c3;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        thead {
+            color: white;
+            background-color: #0084c3;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border: none;
+        }
+
+        thead th:last-child,
+        td:last-child {
+            text-align: right;
+        }
+
+        tr {
+            border-bottom: 1px solid #0084c3;
+        }
+
+        thead tr {
+            border-bottom: 2px solid #0084c3;
+        }
+
+        .item-list {
+            padding: 2px 8px;
+            margin: 0px;
+        }
+
+        .sub-item {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .totals-container {
+            width: 100%;
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .total-row {
+            width: 200px;
+            margin-left: auto;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+
+        .total-row span:first-child {
+            float: left;
+        }
+
+        .total-row span:last-child {
+            float: right;
+        }
+
+        .total-row.total-amount {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0084c3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h2>Order Details</h2>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="card">
+            <h3 class="fs-5 fw-bold mb-3">Order Summary <span class="status">@Model.Status</span></h3>
+            <p><strong>Invoice No. : </strong> @Model.InvoiceNo</p>
+            <div class="details-container">
+                <div class="">
+                    <span><strong>Placed on:</strong> @Model.OrderDate</span>
+                    <span><strong>Modified on:</strong> 22-01-2025 11:47</span>
+                    <span><strong>Order Duration:</strong> -</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer and Table Details -->
+        <div class="details-container">
+            <!-- Customer Details -->
+            <div class="details-box">
+                <div class="card">
+                    <h3 class="details-title">Customer Details</h3>
+                    <div class="details-content">
+                        <span><strong>Name : </strong>@Model.CustomerName</span>
+                        <span><strong>Phone : </strong>@Model.PhoneNo</span>
+                        <span><strong>No of Person : </strong>@Model.NoOfPerson</span>
+                        <span><strong>Email : </strong>@Model.Email</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Details -->
+            <div class="details-box" >
+                <div class="card">
+                    <h3 class="details-title">Table Details</h3>
+                    <div class="details-content">
+                        <span><strong>Table : </strong>
+                            @for (int i = 0; i < Model.tableList.Count; i++)
+                            {
+                                @Model.tableList[i].TableName
+                                if (i < Model.tableList.Count - 1)
+                                {
+                                            <text>,</text>
+                                            }
+                            }</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Items -->
+        <div class="section">
+            <div class="card">
+                <h3 class="fs-5 mb-3 fw-bold ">Order Items</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int SrNo = 1;
+                            foreach (var item in Model.itemOrderVM)
+                            {
+                                <tr>
+                                    <td>@SrNo</td>
+                                    <td>
+                                        @item.ItemName
+                                        @if (item.modifierOrderVM.Any())
+                                        {
+                                            <ul class="item-list">
+                                                @foreach (var modifierItem in item.modifierOrderVM)
+                                                {
+                                                    <li class="sub-item">@modifierItem.ModifierName</li>
+                                                }
+                                            </ul>
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.Quantity
+                                        @foreach (var modifierItem in item.modifierOrderVM)
+                                        {
+                                            <br>
+                                            <span class="sub-item">@modifierItem.Quantity</span>
+                                        }
+                                    </td>
+                                    <td class="text-end">
+                                        @item.Rate
+                                        @foreach (var modifierItem in item.modifierOrderVM)
+                                        {
+                                            <br>
+                                            <span class="sub-item">@modifierItem.Rate</span>
+                                        }
+                                    </td>
+                                    <td class="text-end">
+                                        @item.TotalItemAmount
+                                        @foreach (var modifierItem in item.modifierOrderVM)
+                                        {
+                                            <br>
+                                            <span class="sub-item">@modifierItem.TotalModifierAmount</span>
+                                        }
+                                    </td>
+                                </tr>
+                                SrNo++;
+                            }
+                        }
+                    </tbody>
+                </table>
+
+                <!-- Total Section -->
+                <div class="totals-container">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span>₹@Model.SubTotalAmountOrder</span>
+                    </div>
+                    @foreach (var tax in Model.taxInvoiceVM)
+                    {
+                        <div class="total-row">
+                            <span>@tax.TaxName:</span>
+                            <span>₹@tax.TaxValue</span>
+                        </div>
+                    }
+                    <div class="total-row total-amount">
+                        <span>Total:</span>
+                        <span>₹@Model.TotalAmountOrder</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -51,8 +51,7 @@
                             <tr class="border border-top-0 border-end-0 border-start-0 border-bottom-1">
                                 <input type="hidden" asp-for="@Model[i].RolepermissionmappingId">
                                 <input type="hidden" asp-for="@Model[i].RoleName">
-                                <td><input type="checkbox" asp-for="@Model[i].Permissioncheck"
-                                        class="form-check-input main-checkbox me-4"></td>
+                                <td><input type="checkbox" class="form-check-input main-checkbox me-4"></td>
                                 <td class="text-start text-secondary text-nowrap">@Model[i].Name</td>
                                 <td>
                                     <div class="form-check form-switch ms-lg-4">
@@ -95,7 +94,7 @@
         document.addEventListener('DOMContentLoaded', (event) => {
 
         @* main-checkbox *@
-        @* document.querySelectorAll('.main-checkbox').forEach((checkbox) => {
+                @* document.querySelectorAll('.main-checkbox').forEach((checkbox) => {
                     checkbox.addEventListener('change', function () {
                         const row = this.closest('tr');
 
@@ -103,17 +102,17 @@
                         const canEdit = row.querySelector('.can-Edit');
                         const canDelete = row.querySelector('.can-Delete');
 
-            if (this.checked) {
-            canView.removeAttribute('disabled');
-            canEdit.removeAttribute('disabled');
-            canDelete.removeAttribute('disabled');
-            } else {
-            canView.setAttribute('disabled', true);
-            canEdit.setAttribute('disabled', true);
-            canDelete.setAttribute('disabled', true);
-            }
-            })
-            }) *@
+                        if (this.checked) {
+                            canView.removeAttribute('disabled');
+                            canEdit.removeAttribute('disabled');
+                            canDelete.removeAttribute('disabled');
+                        } else {
+                            canView.setAttribute('disabled', true);
+                            canEdit.setAttribute('disabled', true);
+                            canDelete.setAttribute('disabled', true);
+                        }
+                    })
+                }) *@
 
         @* Canview *@
                 document.querySelectorAll('.can-View').forEach((CanView) => {
@@ -164,26 +163,6 @@
                 })
 
         })  
-    </script>
-
-    @* Toaster script *@
-    <script>
-        $(document).ready(function () {
-            var successMessage = '@TempData["SuccessMessage"]';
-            var errorMessage = '@TempData["ErrorMessage"]';
-            console.log("successMessage", successMessage);
-            toastr.options = {
-                "closeButton": true,
-                "progressBar": true,
-                "timeOut": "2000"
-            };
-            if (successMessage) {
-                toastr.success(successMessage);
-            }
-            if (errorMessage) {
-                toastr.error(errorMessage);
-            }
-        });
     </script>
 
 }

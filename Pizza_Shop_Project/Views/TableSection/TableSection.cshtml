@@ -20,7 +20,7 @@
                         data-bs-target="#AddSectionModal" id="AddSectionModalId"></i>
                 </div>
 
-                <div id="SectionList_Partial">
+                <div id="SectionList_Partial" style="overflow-y:scroll; height:260px;">
 
                 </div>
 
@@ -53,6 +53,7 @@
                     </div>
                 </div>
 
+                <!-- Table -->
                 <div class="table-responsive">
                     <table class="table mb-0" id="demo">
                         <thead>
@@ -212,32 +213,12 @@
 
 <!------------------------------------End of Modals---------------------------------------------->
 
-
 <partial name="_ValidationScriptsPartial" />
 <partial name="_Toaster" />
 
 @section Scripts {
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    @* Toaster Message *@
-    <script>
-        $(document).ready(function () {
-            var successMessage = '@TempData["SuccessMessage"]';
-            var errorMessage = '@TempData["ErrorMessage"]';
-            toastr.options = {
-                "closeButton": true,
-                "progressBar": true,
-                "timeOut": "2000"
-            };
-            if (successMessage) {
-                toastr.success(successMessage);
-            }
-            if (errorMessage) {
-                toastr.error(errorMessage);
-            }
-        });
-    </script>
 
     <script>
 

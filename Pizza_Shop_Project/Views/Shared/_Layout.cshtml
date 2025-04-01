@@ -323,7 +323,7 @@
 
     @* Logout Model *@
 
-    <div class="modal" tabindex="-1" id="exampleModal">
+    <div class="modal fade" tabindex="-1" id="exampleModal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -349,6 +349,24 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @* <script src="~/js/custom.js" asp-append-version="true"></script> *@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            var errorMessage = '@TempData["ErrorMessage"]';
+            console.log("successMessage", successMessage);
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "2000"
+            };
+            if (successMessage) {
+                toastr.success(successMessage);
+            }
+            if (errorMessage) {
+                toastr.error(errorMessage);
+            }
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

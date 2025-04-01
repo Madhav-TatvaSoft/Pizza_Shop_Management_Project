@@ -52,7 +52,7 @@ namespace Pizza_Shop_Project.Controllers
                 rolesPermissionvm.Canview = rolesPermissionViewModel[i].Canview;
                 rolesPermissionvm.Canaddedit = rolesPermissionViewModel[i].Canaddedit;
                 rolesPermissionvm.Candelete = rolesPermissionViewModel[i].Candelete;
-                rolesPermissionvm.Permissioncheck = rolesPermissionViewModel[i].Permissioncheck;
+                // rolesPermissionvm.Permissioncheck = rolesPermissionViewModel[i].Permissioncheck;
                 _rolePermission.EditPermissionMapping(rolesPermissionvm);
             }
             TempData["SuccessMessage"] = "Permissions Updated Successfully";
