@@ -43,19 +43,19 @@ public class OrderController : Controller
     #endregion
 
     #region Order Details View
-    public IActionResult OrderDetails(long orderid)
+    public async Task<IActionResult> OrderDetails(long orderid)
     {
-        OrderDetailViewModel? orderDetails = _orderService.GetOrderDetails(orderid);
+        OrderDetailViewModel? orderDetails = await _orderService.GetOrderDetails(orderid);
         ViewData["sidebar-active"] = "Order";
         return View(orderDetails);
     }
     #endregion
 
     #region Download Invoice PDF
-    public IActionResult GenerateInvoicePDF(long orderid)
+    public async Task<IActionResult> GenerateInvoicePDF(long orderid)
     {
-        OrderDetailViewModel orderDetails = _orderService.GetOrderDetails(orderid);
-          return PartialView("Invoice", orderDetails);
+        OrderDetailViewModel orderDetails = await _orderService.GetOrderDetails(orderid);
+        //   return PartialView("Invoice", orderDetails);
         ViewAsPdf PDF = new ViewAsPdf("Invoice", orderDetails)
         {
             FileName = "Invoice.pdf"
@@ -65,9 +65,9 @@ public class OrderController : Controller
     #endregion
 
     #region Download OrderDetail PDF
-    public IActionResult GenerateOrderDetailPDF(long orderid)
+    public async Task<IActionResult> GenerateOrderDetailPDF(long orderid)
     {
-        OrderDetailViewModel orderDetails = _orderService.GetOrderDetails(orderid);
+        OrderDetailViewModel orderDetails = await _orderService.GetOrderDetails(orderid);
         //   return PartialView("OrderDetailPDF", orderDetails);
         ViewAsPdf PDF = new ViewAsPdf("OrderDetailPDF", orderDetails)
         {

@@ -7,7 +7,7 @@
     <div class="container-fluid ps-3 pe-3">
 
         <!-- List of Item and Modifier -->
-        <div class="bg-white shadow-sm">
+        <div class="bg-white shadow-sm pt-2">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item " role="presentation">
                     <button class="nav-link active fw-semibold text-dark" id="home-tab" data-bs-toggle="tab"
@@ -799,7 +799,6 @@
 
         // --------------------------------------------------------Items Functions-----------------------------------------------
 
-
         // Delete any particular item 
         document.addEventListener('DOMContentLoaded', function () {
             var deleteModalItem = document.getElementById('delete-item-modal');
@@ -1090,7 +1089,7 @@
         // Method to remove selected existing modifier from list
         function EditRemoveFromExistingModifierList(id, name) {
 
-            modifierTempId.splice(editmodifierTempId.indexOf(parseInt(id)), 1);
+            modifierTempId.splice(modifierTempId.indexOf(parseInt(id)), 1);
             modifierTempName.splice(modifierTempName.indexOf(name), 1);
 
             modifierTempIdCancel.splice(modifierTempIdCancel.indexOf(id), 1);
@@ -1284,6 +1283,8 @@
                         modifierTempId.push(x.modifierId);
                         modifierTempName.push(x.modifierName);
                         editmodifierTempId.push(x.modifierId);
+                        modifierTempIdCancel.push(x.modifierId);
+                        modifierTempNameCancel.push(x.modifierName);
                     });
 
                     document.getElementById("EditModifierGrpId").value = data.modifierGroup.modifierGrpId;

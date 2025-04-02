@@ -425,8 +425,8 @@ public class OrderService : IOrderService
     }
     #endregion
 
-     #region Get Order Details
-    public OrderDetailViewModel GetOrderDetails(long orderid)
+    #region Get Order Details
+    public async Task<OrderDetailViewModel> GetOrderDetails(long orderid)
     {
 
         Invoice? orderdetails = _context.Invoices.Include(x => x.Order).ThenInclude(x => x.Table).ThenInclude(x => x.Section).Include(x => x.Customer).ThenInclude(x => x.Waitinglists).FirstOrDefault(x => x.OrderId == orderid);
@@ -482,10 +482,22 @@ public class OrderService : IOrderService
         orderDetailVM.SubTotalAmountOrder = Math.Round((decimal)orderDetailVM.itemOrderVM.Sum(x => x.TotalItemAmount + x.modifierOrderVM.Sum(x => x.TotalModifierAmount)), 2);
 
         // Taxes Details
+        // List<Tax> taxes = _context.Taxes.Where(x => x.Isdelete == false).ToList();
+        // Invoice invoices = _context.Invoices.FirstOrDefault(x => x.Isdelete == false && x.OrderId == orderid);
+
+        // for (int i = 1; i < taxes.Count; i++)
+        // {
+        //     TaxInvoiceMapping fillTax = new TaxInvoiceMapping();
+        //     fillTax.TaxId = taxes[i].TaxId;
+        //     fillTax.InvoiceId = invoices.InvoiceId;
+        //     _context.Add(fillTax);
+        //     await _context.SaveChangesAsync();
+        // }
+
         List<TaxInvoiceMapping>? taxdetails = _context.TaxInvoiceMappings.Include(x => x.Invoice).Include(x => x.Tax).Where(x => x.Invoice.OrderId == orderid).ToList();
 
         orderDetailVM.taxInvoiceVM = new List<TaxInvoiceViewModel>();
-        
+
         foreach (var tax in taxdetails)
         {
 
@@ -497,11 +509,12 @@ public class OrderService : IOrderService
                         TaxId = tax.Tax.TaxId,
                         TaxName = tax.Tax.TaxName,
                         TaxType = tax.Tax.TaxType,
-                        TaxValue = tax.Tax.TaxValue
+                        TaxValue = tax.Tax.TaxValue,
+                        InvoiceId = tax.Invoice.InvoiceId
                     }
                 );
             }
-            if(tax.Tax.TaxType == "Percentage")
+            if (tax.Tax.TaxType == "Percentage")
             {
                 orderDetailVM.taxInvoiceVM.Add(
                     new TaxInvoiceViewModel
@@ -509,13 +522,16 @@ public class OrderService : IOrderService
                         TaxId = tax.Tax.TaxId,
                         TaxName = tax.Tax.TaxName,
                         TaxType = tax.Tax.TaxType,
-                        TaxValue = Math.Round( tax.Tax.TaxValue / 100 * orderDetailVM.SubTotalAmountOrder, 2)
+                        TaxValue = Math.Round(tax.Tax.TaxValue / 100 * orderDetailVM.SubTotalAmountOrder, 2),
+                        InvoiceId = tax.Invoice.InvoiceId
                     }
                 );
             }
         }
 
         orderDetailVM.TotalAmountOrder = orderDetailVM.SubTotalAmountOrder + orderDetailVM.taxInvoiceVM.Sum(x => x.TaxValue);
+
+        // orderdetails.Order.TotalAmount = orderDetailVM.TotalAmountOrder;
 
         return orderDetailVM;
     }

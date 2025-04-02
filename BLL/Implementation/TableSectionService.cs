@@ -172,6 +172,12 @@ public class TableSectionService : ITableSectionService
         }
         return false;
     }
+
+    public async Task<bool> IsTableOccupiedinSection(long sectionid)
+    {
+        return _context.Tables.Any(x => x.SectionId == sectionid && x.Isdelete == false && x.Status == true);
+    }
+
     #endregion
 
     #endregion
@@ -285,6 +291,11 @@ public class TableSectionService : ITableSectionService
             return true;
         }
         return false;
+    }
+
+    public async Task<bool> IsTableOccupied(long tableId)
+    {
+        return _context.Tables.Any(x => x.TableId == tableId && x.Isdelete == false && x.Status == true);
     }
     #endregion
 

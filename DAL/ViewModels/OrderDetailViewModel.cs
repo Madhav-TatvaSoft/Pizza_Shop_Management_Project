@@ -16,7 +16,6 @@ public class OrderDetailViewModel
     public string CustomerName { get; set; } = null!;
     public long? PhoneNo { get; set; }
     public string? Email { get; set; }
-    public int totalOrder { get; set; }
     public int NoOfPerson { get; set; }
 
     // Tables Section Details

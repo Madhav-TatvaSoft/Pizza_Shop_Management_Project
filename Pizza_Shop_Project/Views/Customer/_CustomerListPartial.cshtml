@@ -11,13 +11,12 @@ else
 {
     @foreach (var item in Model.Items)
     {
-
-        <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1 text-secondary">
-            <td class="text-start text-nowrap">@item.CustomerName</td>
-            <td class="text-start text-nowrap">@item.Email</td>
-            <td class="text-start text-nowrap">@item.PhoneNo</td>
-            <td class="text-start text-nowrap">@item.CreatedAt</td>
-            <td class="text-start">@item.totalOrder</td>
+        <tr id="CustomerHistoryTR" class="border border-end-0 border-start-0 border-top-0 border-bottom-1 text-secondary" data-bs-toggle="modal" data-bs-target="#CustomerHistoryModal" >
+            <td class="text-start text-nowrap" data-customer="@item.CustomerId" >@item.CustomerName</td>
+            <td class="text-start text-nowrap" data-customer="@item.CustomerId" >@item.Email</td>
+            <td class="text-start text-nowrap" data-customer="@item.CustomerId" >@item.PhoneNo</td>
+            <td class="text-start text-nowrap" data-customer="@item.CustomerId" >@item.CreatedAt</td>
+            <td class="text-start" data-customer="@item.CustomerId">@item.totalOrder</td>
         </tr>
     }
 }

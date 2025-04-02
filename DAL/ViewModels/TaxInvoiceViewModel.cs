@@ -9,4 +9,6 @@ public class TaxInvoiceViewModel
 
     public decimal TaxValue { get; set; }
 
+    public long InvoiceId{get; set;}
+
 }

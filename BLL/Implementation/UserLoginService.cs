@@ -167,11 +167,7 @@ public class UserLoginService : IUserLoginService
     #region Check Email Exists
     public bool CheckEmailExist(string email)
     {
-        if (_context.UserLogins.FirstOrDefault(e => e.Email == email && e.Isdelete == false) != null)
-        {
-            return true;
-        }
-        return false;
+        return _context.UserLogins.Any(e => e.Email == email && !e.Isdelete);
     }
     #endregion
 

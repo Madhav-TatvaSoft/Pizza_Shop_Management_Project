@@ -1,0 +1,88 @@
+@model DAL.ViewModels.CustomerHistoryViewModel;
+
+<div class="modal-content rounded-3 shadow">
+    <div class="modal-header bg-light border-bottom">
+        <h5 class="modal-title  fs-5 fw-bold text-secondary" id="customerHistoryModalLabel">Customer History</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body bg-light p-3 p-sm-4">
+        <!-- Customer Info Section -->
+        <div class=" bg-white  g-3 mb-4">
+            <div class="d-lg-flex justify-content-between mb-2">
+                <div
+                    class=" d-flex customerHistoryDetailsFields justify-content-between border border-2 rounded p-2 h-50 me-lg-2 mb-2 mb-lg-0">
+                    <div class="text-secondary  fw-medium ">Name</div>
+                    <div class=" fw-bold ">@Model.CustomerName</div>
+                </div>
+                <div
+                    class="customerHistoryDetailsFields d-flex  justify-content-between border border-2 rounded p-2 h-50">
+                    <div class="text-secondary  fw-medium ">Average Bill</div>
+                    <div class=" fw-bold ">@Model.AvgBill</div>
+                </div>
+            </div>
+
+            <div class="d-lg-flex justify-content-between mb-2">
+
+                <div
+                    class="customerHistoryDetailsFields d-flex justify-content-between border border-2 rounded p-2 h-50  me-lg-2 mb-2 mb-lg-0">
+                    <div class="text-secondary  fw-medium text-nowrap">Mobile Number</div>
+                    <div class=" fw-bold text-nowrap">@Model.PhoneNo</div>
+                </div>
+                <div
+                    class="customerHistoryDetailsFields  d-flex justify-content-between border border-2 rounded p-2 h-50 ">
+                    <div class="text-secondary  fw-medium text-nowrap">Coming Since</div>
+                    <div class=" fw-bold text-nowrap">@Model.CreatedAt</div>
+                </div>
+            </div>
+
+            <div class="d-lg-flex justify-content-between mb-2">
+                <div
+                    class="customerHistoryDetailsFields d-flex justify-content-between border border-2 rounded p-2 h-50 me-lg-2 mb-2 mb-lg-0">
+                    <div class="text-secondary  fw-medium ">Max Order</div>
+                    <div class=" fw-bold ">@Model.MaxOrder</div>
+                </div>
+                <div
+                    class="customerHistoryDetailsFields  d-flex justify-content-between border border-2 rounded p-2 h-50 ">
+                    <div class="text-secondary  fw-medium ">Visits</div>
+                    <div class=" fw-bold ">@Model.visits</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Orders Table -->
+        <div class="table-responsive p-2 bg-white shadow-sm">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr class="bg-light text-Dark border border-top-0 border-end-0 border-start-0 border-bottom-1 border-dark mb-3">
+                        <th class="fw-bold text-nowrap">Order Date</th>
+                        <th class="fw-bold text-nowrap">Order Type</th>
+                        <th class="fw-bold text-nowrap">Payment</th>
+                        <th class="fw-bold text-nowrap">Items</th>
+                        <th class="fw-bold text-nowrap">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.orderList != null)
+                    {
+                        @foreach (var orders in Model.orderList)
+                        {
+                            <tr class="text-secondary">
+                                <td class="text-nowrap">@orders.OrderDate</td>
+                                <td class="text-nowrap">@orders.OrderType</td>
+                                <td class="text-nowrap">@orders.Paymentstatus</td>
+                                <td class="text-nowrap">@orders.NoOfItems</td>
+                                <td class="text-nowrap">@orders.TotalAmount</td>
+                            </tr>
+                        }
+                    }
+                    else{
+                        <tr>
+                            <td colspan="6" class="text-danger">No Orders Yet</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

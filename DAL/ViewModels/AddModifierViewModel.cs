@@ -7,8 +7,8 @@ public class AddModifierViewModel
 
     public long ModifierId { get; set; }
 
-    [Required(AllowEmptyStrings = false, ErrorMessage = "Modifier Name is required")]
-    [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Modifier Name contain only alphabets")]
+    [Required( ErrorMessage = "Modifier Name is required")]
+    [RegularExpression(@"\S.*", ErrorMessage = "Only white spaces are not allowed")]
     [StringLength(20, ErrorMessage = "Modifier Name cannot exceed 20 characters.")]
     public string ModifierName { get; set; } = null!;
 
@@ -18,15 +18,15 @@ public class AddModifierViewModel
     public string? Description { get; set; }
 
     [Required(ErrorMessage = "Unit is Required")]
-    [Range(0, int.MaxValue, ErrorMessage = "Unit should be Positive")]
+    [Range(0, 999, ErrorMessage = "Unit should be Positive and cannot exceed 3 digit")]
     public string? Unit { get; set; }
 
     [Required(ErrorMessage = "Rate is Required")]
-    [Range(0, int.MaxValue, ErrorMessage = "Rate should be Positive")]
+    [Range(0, 999, ErrorMessage = "Rate should be Positive and cannot exceed 3 digit")]
     public decimal? Rate { get; set; }
 
     [Required(ErrorMessage = "Quantity is Required")]
-    [Range(0,int.MaxValue, ErrorMessage = "Quantity should be Positive")]
+    [Range(0, 999, ErrorMessage = "Quantity should be Positive and cannot exceed 3 digit")]
     public int Quantity { get; set; }
 
     public bool Isdelete { get; set; }

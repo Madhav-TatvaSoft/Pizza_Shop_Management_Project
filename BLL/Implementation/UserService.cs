@@ -70,8 +70,8 @@ public class UserService : IUserService
     }
     #endregion
 
-    #region UpdateUser
-    public bool UpdateUser(AddUserViewModel user, string Email)
+    #region Update User Profile
+    public bool UpdateUserProfile(AddUserViewModel user, string Email)
     {
 
         User userdetails = _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email);
@@ -264,7 +264,7 @@ public class UserService : IUserService
     }
     #endregion
 
-    #region UserNameExists? in Adding
+    #region UserNameExists in Adding
     public async Task<bool> IsUserNameExists(string Username)
     {
         User? IsUserNameExists = await _context.Users.FirstOrDefaultAsync(x => x.Username == Username && x.Isdelete == false);
@@ -276,7 +276,7 @@ public class UserService : IUserService
     }
     #endregion
 
-    #region UserNameExists? in Editing
+    #region UserNameExists in Editing
     public bool IsUserNameExistsForEdit(string Username, string Email)
     {
         List<User> duplicateUsername = _context.Users.Where(x => x.Username == Username && x.Userlogin.Email != Email && x.Isdelete == false).ToList();

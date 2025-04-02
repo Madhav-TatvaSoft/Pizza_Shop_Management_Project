@@ -9,22 +9,26 @@
 
     <!-- Search and All -->
     <div class="d-flex flex-lg-row flex-column justify-content-between col">
+        <!-- Customer Text -->
         <h1 class="fw-bold user-text fs-2 col-lg-4 pb-3">Customers</h1>
         <div class="d-flex flex-sm-row flex-column justify-content-end align-items-center gap-2 col-lg-8">
+            <!-- Search Div -->
             <div class="h-100 w-100">
                 <input type="text" class="form-control p-3 h-100 dt-input border" id="searchbtn" placeholder="Search"
                     aria-controls="order-list" />
             </div>
+            <!-- Select Range Div -->
             <div class="form-floating w-100">
                 <select id="selectRange" class="form-select p-2">
                     <option value="All Time">All Time</option>
                     <option value="Last 7 days">Last 7 days</option>
                     <option value="Last 30 days">Last 30 days</option>
                     <option value="Current Month">Current Month</option>
-                    <option value="Custom Date" data-bs-toggle="modal" data-bs-target="#CustomDateModal">Custom Date
+                    <option value="Custom Date">Custom Date
                     </option>
                 </select>
             </div>
+            <!-- Export Button -->
             <button class="solid-btn p-3 h-100 rounded border-0 text-nowrap" id="exportBtn" onclick="ExportBtn()">
                 <i class="fa-solid fa-share-from-square"></i> Export
             </button>
@@ -72,11 +76,14 @@
                         </th>
                     </tr>
                 </thead>
+                <!-- Table Body -->
                 <tbody id="CustomerListBody">
 
                 </tbody>
             </table>
         </div>
+
+        <!-- Pagination Div -->
         <div class="d-flex justify-content-end gap-2 p-3 pt-0 bg-white align-items-center">
             <span>Items Per page:</span>
             <select id="itemselect" class="border border-secondary">
@@ -98,9 +105,9 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Custom Date</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    onclick="EmptyData()"></button>
+                <h5 class="modal-title fs-5 fw-bold text-secondary">Select Date Range</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="Cross-Cancel-btn"
+                    onclick="EmptyData();"></button>
             </div>
             <form id="CustomDateFormId">
                 <div class="modal-body">
@@ -111,7 +118,7 @@
                             <label>From Date</label>
                         </div>
 
-                        <div class="form-floating  col mb-3">
+                        <div class="form-floating  col ">
                             <input type="date" id="to-date" class="form-control">
                             <label>To Date</label>
                         </div>
@@ -120,12 +127,19 @@
 
                 </div>
 
-                <div class="modal-footer">
-                    <button type="submit" class="btn solid-btn">Save</button>
-                    <button type="button" class="btn hollow-btn" onclick="EmptyData();" data-bs-dismiss="modal">Cancel</button>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn solid-btn">Submit</button>
+                    <button type="button" class="btn hollow-btn" id="Cross-Cancel-btn" onclick="EmptyData();"
+                        data-bs-dismiss="modal">Cancel</button>
                 </div>
             </form>
         </div>
+    </div>
+</div>
+
+<div  id="CustomerHistoryModal" class="modal fade" tabindex="-1">
+    <div id="CustomerHistoryDiv" class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+
     </div>
 </div>
 
@@ -182,7 +196,7 @@
             $.ajax({
                 url: "/Customer/ExportCustomerDataToExcel",
                 type: "GET",
-                data: { search: searchText,fromDate,toDate, selectRange },
+                data: { search: searchText, fromDate, toDate, selectRange },
                 xhrFields: {
                     responseType: 'blob'
                 },
@@ -216,8 +230,8 @@
 
         // Empty Fields
         function EmptyData() {
-            fromDate = "";
-            toDate = "";
+            $("#from-date").val("");
+            $("#to-date").val("");
         }
 
         $(document).ready(function () {
@@ -302,8 +316,24 @@
                 toDate = $("#to-date").val();
                 currentPage = 1;
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
-                EmptyData();
-                $(".btn-close").click();
+                $("#Cross-Cancel-btn").click();
+            });
+
+            // Customer History View
+            $(document).on("click", "#CustomerHistoryTR", function (e){
+                var button = e.target;
+                console.log(button);
+                var customerid = button.getAttribute("data-customer");
+                console.log(customerid,"id");
+
+                $.ajax({
+                    url: "/Customer/GetCustomerHistory",
+                    type: "GET",
+                    data: {customerid : customerid},
+                    success: function(data){
+                        $("#CustomerHistoryDiv").html(data);
+                    }
+                });
             });
 
             loadTable();

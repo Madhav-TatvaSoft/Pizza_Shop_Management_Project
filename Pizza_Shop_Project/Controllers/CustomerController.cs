@@ -44,4 +44,11 @@ public class CustomerController : Controller
     }
     #endregion
 
+    #region Get Customer History
+    public IActionResult GetCustomerHistory(long customerid){
+        var customerhistory = _customerService.GetCustomerHistory(customerid);
+        return PartialView("_CustomerHistoryPartial",customerhistory);
+    }
+    #endregion
+
 }

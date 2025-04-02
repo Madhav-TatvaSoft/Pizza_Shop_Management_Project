@@ -103,7 +103,7 @@ public class CustomerService : ICustomerService
     #endregion
 
     #region Export Order Data To Excel
-    public Task<byte[]> ExportData(string search = "",string fromDate = "", string toDate = "",  string selectRange = "")
+    public Task<byte[]> ExportData(string search = "", string fromDate = "", string toDate = "", string selectRange = "")
     {
         IQueryable<CustomerViewModel>? query = _context.Customers
             .Include(u => u.Orders)
@@ -399,4 +399,37 @@ public class CustomerService : ICustomerService
         }
     }
     #endregion
+
+    public CustomerHistoryViewModel GetCustomerHistory(long customerid)
+    {
+        CustomerHistoryViewModel? customerDetails = _context.Customers.
+        Include(x => x.Orders).
+        ThenInclude(x => x.Orderdetails).
+        ThenInclude(x => x.Order.PaymentStatus).
+        Where(x => x.CustomerId == customerid).
+        Select(x => new CustomerHistoryViewModel
+        {
+            // Customer Details
+
+            CustomerId = x.CustomerId,
+            CustomerName = x.CustomerName,
+            PhoneNo = (long)x.PhoneNo,
+            CreatedAt = (DateTime)x.CreatedAt,
+            visits = x.Orders.Count(),
+            MaxOrder = x.Orders.Max(x => x.TotalAmount),
+            AvgBill = Math.Round(x.Orders.Average(x => x.TotalAmount),2),
+            orderList = x.Orders.Select(x => new OrderListViewModel
+            {
+                OrderDate = DateOnly.FromDateTime(x.OrderDate),
+                OrderType = x.OrderType,
+                Paymentstatus = x.PaymentStatus.PaymentStatus,
+                NoOfItems = x.Orderdetails.Count(),
+                TotalAmount = x.TotalAmount
+            }).ToList()
+        }).FirstOrDefault();
+
+        return customerDetails;
+    }
+
+
 }

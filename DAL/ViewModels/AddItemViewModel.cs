@@ -7,8 +7,8 @@ public class AddItemViewModel
 {
     public long ItemId { get; set; }
 
-    [Required(AllowEmptyStrings = false, ErrorMessage = "ItemName is required")]
-    [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "ItemName must contain only alphabets")]
+    [Required(ErrorMessage = "ItemName is required")]
+    [RegularExpression(@"\S.*", ErrorMessage = "Only white spaces are not allowed")]
     [StringLength(20, ErrorMessage = "ItemName cannot exceed 20 characters.")]
     public string ItemName { get; set; } = null!;
 
@@ -23,13 +23,13 @@ public class AddItemViewModel
 
     public string ItemImage { get; set; }
 
-    [Range(0, int.MaxValue, ErrorMessage = "Rate should be Positive")]
+    [Range(0, 999, ErrorMessage = "Rate should be Positive and cannot exceed 3 digit")]
     public decimal Rate { get; set; }
 
     [StringLength(50, ErrorMessage = "ShortCode cannot exceed 50 characters.")]
     public string? ShortCode { get; set; }
 
-    [Range(0, int.MaxValue, ErrorMessage = "Quantity should be Positive")]
+    [Range(0, 999, ErrorMessage = "Quantity should be Positive and cannot exceed 3 digit")]
     public int Quantity { get; set; }
 
     public bool Isavailable { get; set; }
@@ -38,7 +38,7 @@ public class AddItemViewModel
 
     public bool Isdefaulttax { get; set; }
 
-    [Range(0, int.MaxValue, ErrorMessage = "TaxValue should be Positive")]
+    [Range(0, 999, ErrorMessage = "TaxValue should be Positive and cannot exceed 3 digit")]
     public decimal TaxValue { get; set; }
 
     public bool Isdelete { get; set; }

@@ -7,8 +7,10 @@ public class AddModifierGroupViewModel
 {
     public long ModifierGrpId { get; set; }
 
-    [Required(AllowEmptyStrings = false, ErrorMessage = "Modifier Group Name is required")]
-    [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Modifier Group Name must contain only alphabets")]
+
+    [Required(ErrorMessage = "Modifier Group Name is required")]
+    [RegularExpression(@"\S.*", ErrorMessage = "Only white spaces are not allowed")]
+    // [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Modifier Group Name must contain only alphabets")]
     [StringLength(20, ErrorMessage = "Modifier Group Name cannot exceed 20 characters.")]
     public string ModifierGrpName { get; set; }
 

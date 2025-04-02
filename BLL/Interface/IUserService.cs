@@ -9,7 +9,7 @@ public interface IUserService
     public List<State> GetState(long? countryId);
     public List<City> GetCity(long? stateId);
     public List<AddUserViewModel> GetUserProfileDetails(string cookieSavedToken);
-    public bool UpdateUser(AddUserViewModel user, string Email);
+    public bool UpdateUserProfile(AddUserViewModel user, string Email);
     public bool UserChangePassword(ChangePasswordViewModel changepassword, string Email);
     public PaginationViewModel<User> GetUserList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5);
     public List<Role> GetRole();

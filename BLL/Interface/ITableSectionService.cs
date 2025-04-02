@@ -16,10 +16,13 @@ public interface ITableSectionService
 
     public Task<bool> AddTable(TablesViewModel tableVM, long userId);
 
-    public TablesViewModel GetTableById(long tableId,long sectionId);
+    public TablesViewModel GetTableById(long tableId, long sectionId);
 
     public Task<bool> EditTable(TablesViewModel tableVM, long userId);
 
     public Task<bool> DeleteTable(long tableId);
+    public Task<bool> IsTableOccupied(long tableId);
+    public Task<bool> IsTableOccupiedinSection(long sectionid);
+
 
 }

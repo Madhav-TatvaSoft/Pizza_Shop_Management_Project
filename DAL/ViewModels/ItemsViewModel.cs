@@ -8,8 +8,8 @@ public class ItemsViewModel
     public long ItemId { get; set; }
 
 
-    [Required(AllowEmptyStrings = false, ErrorMessage = "Item Name is required")]
-    [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Item Name contain only alphabets")]
+    [Required( ErrorMessage = "Item Name is required")]
+    [RegularExpression(@"\S.*", ErrorMessage = "Only white spaces are not allowed")]
     [StringLength(20, ErrorMessage = "Item Name cannot exceed 20 characters.")]
     public string ItemName { get; set; } = null!;
 
@@ -20,11 +20,11 @@ public class ItemsViewModel
     public string TypeImage { get; set; } = null!;
 
     [Required(ErrorMessage = "Rate is Required")]
-    [Range(0, 3, ErrorMessage = "Rate should be Positive")]
+    [Range(0, 999, ErrorMessage = "Rate should be Positive and cannot exceed 3 digit")]
     public decimal Rate { get; set; }
 
     [Required(ErrorMessage = "Quantity is Required")]
-    [Range(0, 3, ErrorMessage = "Quantity should be Positive")]
+    [Range(0, 999, ErrorMessage = "Quantity should be Positive and cannot exceed 3 digit")]
     public int? Quantity { get; set; }
 
     public string? ItemImage { get; set; }

@@ -3,7 +3,6 @@ using BLL.Interface;
 using Microsoft.AspNetCore.Authorization;
 using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.Mail;
@@ -114,7 +113,7 @@ namespace Pizza_Shop_Project.Controllers
                 }
             }
 
-            _userService.UpdateUser(user, userEmail);
+            _userService.UpdateUserProfile(user, userEmail);
 
             CookieOptions options = new CookieOptions();
             options.Expires = DateTime.Now.AddMinutes(60);

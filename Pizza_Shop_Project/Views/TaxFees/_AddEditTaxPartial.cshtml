@@ -21,7 +21,7 @@
                 <div class="form-floating col mb-3">
                     <select asp-for="@Model.taxVM.TaxType" class="form-select" id="TaxType">
                         <option value="Percentage">Percentage</option>
-                        <option value="Fix Amount">Fix Amount</option>
+                        <option value="Flat Amount">Fix Amount</option>
                     </select>
                     <label for="TaxType">Type*</label>
                     <span class="text-danger validate" asp-validation-for="@Model.taxVM.TaxType"></span>

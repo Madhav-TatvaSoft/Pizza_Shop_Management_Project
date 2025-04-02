@@ -128,9 +128,16 @@ public class TableSectionController : Controller
     {
         TableSectionViewModel tableSectionVM = new TableSectionViewModel();
 
-        bool deleteSectionStatus = await _tableSectionService.DeleteSection(sectionid);
 
         tableSectionVM.SectionList = _tableSectionService.GetAllSections();
+
+        bool occupiedTableInSection = await _tableSectionService.IsTableOccupiedinSection(sectionid);
+        if (occupiedTableInSection)
+        {
+            return Json(new { success = false, text = "Section Cannot be deleted where Table is Occupied" });
+        }
+        
+        bool deleteSectionStatus = await _tableSectionService.DeleteSection(sectionid);
 
         if (deleteSectionStatus)
         {
@@ -216,6 +223,12 @@ public class TableSectionController : Controller
     [HttpPost]
     public async Task<IActionResult> DeleteTable(long tableid)
     {
+        bool occupiedTable = await _tableSectionService.IsTableOccupied(tableid);
+        if (occupiedTable)
+        {
+            return Json(new { success = false, text = "Occupied Table Cannot be Deleted" });
+        }
+
         bool deleteTableStatus = await _tableSectionService.DeleteTable(tableid);
         if (deleteTableStatus)
         {

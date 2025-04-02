@@ -26,12 +26,12 @@ public class PaginationViewModel<T>
         PageSize = pageSize;
     }
 
-    public PaginationViewModel(List<Tax> items, int totalCount, int pageNumber, int pageSize)
-    {
-        this.items = items;
-        TotalCount = totalCount;
-        PageNumber = pageNumber;
-        PageSize = pageSize;
-    }
+    // public PaginationViewModel(List<Tax> items, int totalCount, int pageNumber, int pageSize)
+    // {
+    //     this.items = items;
+    //     TotalCount = totalCount;
+    //     PageNumber = pageNumber;
+    //     PageSize = pageSize;
+    // }
 
 }
