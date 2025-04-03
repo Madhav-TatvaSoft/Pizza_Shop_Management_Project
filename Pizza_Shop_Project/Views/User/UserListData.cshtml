@@ -116,7 +116,7 @@
       let sortColumn = "";
       let sortDirection = "asc"
 
-      function loadTable(page = 1, search = "", sortColumn = "", sortDirection = "asc", pageSize = 5) {
+      function loadTable(page = 1, search = "", sortColumn = "Name", sortDirection = "asc", pageSize = 5) {
         $.ajax({
           url: "/User/PaginatedData",
           type: "GET",

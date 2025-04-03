@@ -60,6 +60,33 @@ public class TaxFeesController : Controller
 
     #region Add Edit Tax POST
 
+    // [HttpPost]
+    // public async Task<IActionResult> AddEditTax([FromForm] TaxFeesViewModel taxFeesVM)
+    // {
+    //     string? token = Request.Cookies["AuthToken"];
+    //     List<User>? userData = _userService.getUserFromEmail(token);
+    //     long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
+    //     if (taxFeesVM.taxVM.TaxId == 0)
+    //     {
+    //         bool addTaxStatus = await _taxFeesService.AddTax(taxFeesVM.taxVM, userId);
+    //         if (addTaxStatus)
+    //         {
+    //             return Json(new { success = true, text = "Tax Added successfully" });
+    //         }
+    //         return Json(new { success = false, text = "Failed to Add Tax, Check If already exists!" });
+    //     }
+    //     else
+    //     {
+    //         bool editTaxStatus = await _taxFeesService.EditTax(taxFeesVM.taxVM, userId);
+    //         if (editTaxStatus)
+    //         {
+    //             return Json(new { success = true, text = "Tax Updated successfully" });
+    //         }
+    //         return Json(new { success = false, text = "Failed to Update Tax, Check If already exists!" });
+    //     }
+    // }
+
     [HttpPost]
     public async Task<IActionResult> AddEditTax([FromForm] TaxFeesViewModel taxFeesVM)
     {
@@ -67,24 +94,10 @@ public class TaxFeesController : Controller
         List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-        if (taxFeesVM.taxVM.TaxId == 0)
-        {
-            bool addTaxStatus = await _taxFeesService.AddTax(taxFeesVM.taxVM, userId);
-            if (addTaxStatus)
-            {
-                return Json(new { success = true, text = "Tax Added successfully" });
-            }
-            return Json(new { success = false, text = "Failed to Add Tax, Check If already exists!" });
-        }
-        else
-        {
-            bool editTaxStatus = await _taxFeesService.EditTax(taxFeesVM.taxVM, userId);
-            if (editTaxStatus)
-            {
-                return Json(new { success = true, text = "Tax Updated successfully" });
-            }
-            return Json(new { success = false, text = "Failed to Update Tax, Check If already exists!" });
-        }
+        bool taxStatus = await _taxFeesService.AddEditTax(taxFeesVM.taxVM, userId);
+        return Json(taxStatus
+            ? new { success = true, text = taxFeesVM.taxVM.TaxId == 0 ? "Tax Added successfully" : "Tax Updated successfully" }
+            : new { success = false, text = $"Failed to {(taxFeesVM.taxVM.TaxId == 0 ? "Add" : "Update")} Tax, Check If already exists!" });
     }
     #endregion
 

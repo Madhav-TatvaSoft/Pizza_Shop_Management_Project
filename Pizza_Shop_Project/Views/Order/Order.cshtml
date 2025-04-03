@@ -145,10 +145,10 @@
         let selectRange = $("#selectRange").val();
         let fromDate = "";
         let toDate = "";
-
+        const today = new Date().toISOString().split('T')[0];
 
         // LoadTable function
-        function loadTable(page = 1, search = "", sortColumn = "", sortDirection = "asc", pageSize = 5, orderStatus, fromDate, toDate, selectRange) {
+        function loadTable(page = 1, search = "", sortColumn = "Order", sortDirection = "asc", pageSize = 5, orderStatus, fromDate, toDate, selectRange) {
             $.ajax({
                 url: "/Order/PaginationForOrder",
                 type: "GET",
@@ -188,13 +188,13 @@
                 success: function (data, status, xhr) {
                     let filename = "Orders.xlsx";
 
-        @* let disposition = xhr.getResponseHeader('Content-Disposition');
+                    let disposition = xhr.getResponseHeader('Content-Disposition');
                     if (disposition && disposition.indexOf('attachment') !== -1) {
-                    let matches = /filename="([^"]+)"/.exec(disposition);
-                    if (matches !== null && matches[1]) filename = matches[1];
-                    } *@
+                        let matches = /filename="([^"]+)"/.exec(disposition);
+                        if (matches !== null && matches[1]) filename = matches[1];
+                    }
 
-                        let blob = new Blob([data], { type: xhr.getResponseHeader('Content-Type') });
+                    let blob = new Blob([data], { type: xhr.getResponseHeader('Content-Type') });
                     let link = document.createElement('a');
                     link.href = window.URL.createObjectURL(blob);
                     link.download = filename;
@@ -303,8 +303,6 @@
             $("#search-order-btn").on("click", function () {
                 fromDate = $("#from-order-date").val();
                 toDate = $("#to-order-date").val();
-                console.log(fromDate, "From");
-                console.log(toDate, "To");
                 currentPage = 1;
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
             });
@@ -313,13 +311,22 @@
             $("#clear-order-btn").on("click", function () {
                 $("#from-order-date").val("");
                 $("#to-order-date").val("");
+                $("#searchbtn").val("");
+                $("#orderStatus").val("All Status");
+                $("#selectRange").val("All Time");
+                searchText = "";
                 fromDate = "";
                 toDate = "";
+                orderStatus = "";
+                selectRange = "";
                 currentPage = 1;
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+
             });
 
-            loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
+        
+
+            loadTable();
             // End of Ready
         });
     </script>

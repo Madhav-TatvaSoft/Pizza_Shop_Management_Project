@@ -11,24 +11,26 @@
         </div>
         <div class="d-flex align-items-center justify-content-between gap-2">
             <select class="form-select form-select-sm" data-id="@group.ModifierGrpId"
-                id="edit-min-selection-@group.ModifierGrpId" onchange="EditMinByGroup(this)"
-                asp-for="@group.Minmodifier">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
+                id="edit-min-selection-@group.ModifierGrpId" onchange="EditMinByGroup(this)" asp-for="@group.Minmodifier">
+                @{
+                    int minOption = group.modifiersList.Count(); // Get the count of modifiers
+                    for (int i = 0; i <= minOption; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                }
 
             </select>
             <select class="form-select form-select-sm" data-id="@group.ModifierGrpId"
-                id="edit-max-selection-@group.ModifierGrpId" onchange="EditMaxByGroup(this)"
-                asp-for="@group.Maxmodifier">
+                id="edit-max-selection-@group.ModifierGrpId" onchange="EditMaxByGroup(this)" asp-for="@group.Maxmodifier">
 
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
+                @{
+                    int maxOption = group.modifiersList.Count(); // Get the count of modifiers
+                    for (int i = 0; i <= maxOption; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                }
 
             </select>
         </div>

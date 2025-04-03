@@ -137,7 +137,7 @@
     </div>
 </div>
 
-<div  id="CustomerHistoryModal" class="modal fade" tabindex="-1">
+<div id="CustomerHistoryModal" class="modal fade" tabindex="-1">
     <div id="CustomerHistoryDiv" class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
 
     </div>
@@ -160,9 +160,10 @@
         let selectRange = $("#selectRange").val();
         let fromDate = "";
         let toDate = "";
+        const today = new Date().toISOString().split('T')[0];
 
         // LoadTable function
-        function loadTable(page = 1, search = "", sortColumn = "", sortDirection = "asc", pageSize = 5, fromDate, toDate, selectRange) {
+        function loadTable(page = 1, search = "", sortColumn = "Name", sortDirection = "asc", pageSize = 5, fromDate, toDate, selectRange) {
             $.ajax({
                 url: "/Customer/PaginationForCustomer",
                 type: "GET",
@@ -232,6 +233,8 @@
         function EmptyData() {
             $("#from-date").val("");
             $("#to-date").val("");
+            $('#to-date').removeAttr('min');
+            $('#from-date').removeAttr('max');
         }
 
         $(document).ready(function () {
@@ -320,21 +323,48 @@
             });
 
             // Customer History View
-            $(document).on("click", "#CustomerHistoryTR", function (e){
+            $(document).on("click", "#CustomerHistoryTR", function (e) {
                 var button = e.target;
                 console.log(button);
                 var customerid = button.getAttribute("data-customer");
-                console.log(customerid,"id");
+                console.log(customerid, "id");
 
                 $.ajax({
                     url: "/Customer/GetCustomerHistory",
                     type: "GET",
-                    data: {customerid : customerid},
-                    success: function(data){
+                    data: { customerid: customerid },
+                    success: function (data) {
                         $("#CustomerHistoryDiv").html(data);
                     }
                 });
             });
+
+            $('#from-date').on('change', function () {
+                let fromDateValue = $(this).val();
+                if (fromDateValue) {
+                    $('#to-date').attr('min', fromDateValue);
+                    if ($('#to-date').val() < fromDateValue) {
+                        $('#to-date').val(fromDateValue);
+                    }
+                } else {
+                    $('#to-date').removeAttr('min');
+                }
+            });
+
+            $('#to-date').on('change', function () {
+                let toDateValue = $(this).val();
+                if (toDateValue) {
+                    $('#from-date').attr('max', toDateValue);
+                    if ($('#from-date').val() > toDateValue) {
+                        $('#from-date').val(toDateValue);
+                    }
+                } else {
+                    $('#from-date').attr('max', today);
+                }
+            });
+
+            $('#from-date').attr('max', today);
+            $('#to-date').attr('max', today);
 
             loadTable();
             // End of Ready

@@ -186,102 +186,91 @@
 
 
     <script>
+    var itemData = [];
 
-        var itemData = [];
+    function GetModifierByGroups() {
+        var selectedValue = $('#Modifier').val();
+        var minOption = $(`#min-selection-${selectedValue}`).val() ?? 0;
+        var maxOption = $(`#max-selection-${selectedValue}`).val() ?? 0;
 
-        function GetModifierByGroups() {
+        var isAdded = itemData.findIndex(item => item.ModifierGrpId === selectedValue);
 
-            var selectedValue = $('#Modifier').val();
-            
-            var minOption = $(`#min-selection-${selectedValue}`).val() ?? 0;
-            var maxOption = $(`#max-selection-${selectedValue}`).val() ?? 0;
+        if (isAdded == -1) {
+            var modifierGroup = {
+                ModifierGrpId: selectedValue,
+                Minmodifier: minOption,
+                Maxmodifier: maxOption
+            };
 
-            var isAdded = itemData.findIndex(item => item.ModifierGrpId === selectedValue);
+            itemData.push(modifierGroup);
 
-            if (isAdded == -1) {
-
-                var modifierGroup = {
-
-                    ModifierGrpId: selectedValue,
-                    Minmodifier: minOption,
-                    Maxmodifier: maxOption
-
-                };
-
-                itemData.push(modifierGroup);
-
-                @* console.log(itemData); *@
-
-                $.ajax({
-                    url: '/Menu/GetModifiersByGroup',
-                    type: 'GET',
-                    data: { data: JSON.stringify(itemData) },
-                    success: function (data) {
-                        console.log("data");
-                        $('#ItemByModifiers').html(data);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            }
+            $.ajax({
+                url: '/Menu/GetModifiersByGroup',
+                type: 'GET',
+                data: { data: JSON.stringify(itemData) },
+                success: function (data) {
+                    $('#ItemByModifiers').html(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
         }
+    }
 
-        function SetMinByGroup(element) {
+    function SetMinByGroup(element) {
+        var selectedValue = $(element).data('id');
+        var maxOption = parseInt($(`#max-selection-${selectedValue}`).val() ?? 0);
+        var minOption = parseInt($(`#min-selection-${selectedValue}`).val() ?? 0);
 
-            var selectedValue = $(element).data('id');
-            var minOption = Math.min($(`#min-selection-${selectedValue}`).val() ?? 0,$(`#max-selection-${selectedValue}`).val()-1 ?? 0)
+        // Ensure min doesn’t exceed max
+        if (minOption > maxOption) {
+            minOption = maxOption;
             $(`#min-selection-${selectedValue}`).val(minOption);
-            @* console.log(minOption); *@
-            @* console.log(itemData); *@
-            var index = itemData.findIndex(item => item.ModifierGrpId == selectedValue);
-
-            if (index != -1) {
-
-                itemData[index].Minmodifier = minOption;
-            }
         }
 
-        function SetMaxByGroup(element) {
+        var index = itemData.findIndex(item => item.ModifierGrpId == selectedValue);
+        if (index != -1) {
+            itemData[index].Minmodifier = minOption;
+        }
+    }
 
-            var selectedValue = $(element).data('id');
-            var maxOption = $(`#max-selection-${selectedValue}`).val() ?? 0;
+    function SetMaxByGroup(element) {
+        var selectedValue = $(element).data('id');
+        var maxOption = parseInt($(`#max-selection-${selectedValue}`).val() ?? 0);
+        var minOption = parseInt($(`#min-selection-${selectedValue}`).val() ?? 0);
 
-            var index = itemData.findIndex(item => item.ModifierGrpId == selectedValue);
-
-            if (index != -1) {
-
-                itemData[index].Maxmodifier = maxOption;
-
-
-            }
+        // Ensure max isn’t less than min
+        if (maxOption < minOption) {
+            maxOption = minOption;
+            $(`#max-selection-${selectedValue}`).val(maxOption);
         }
 
-        function RemoveFromList(element) {
-
-            var selectedValue = $(element).data('id');
-
-            var index = itemData.findIndex(item => item.ModifierGrpId == selectedValue);
-
-            if (index != -1) {
-                console.log("if");
-                itemData.splice(index, 1);
-                $.ajax({
-                    url: '/Menu/GetModifiersByGroup',
-                    type: 'GET',
-                    data: { data: JSON.stringify(itemData) },
-                    success: function (data) {
-                        $('#ItemByModifiers').html(data);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            }
+        var index = itemData.findIndex(item => item.ModifierGrpId == selectedValue);
+        if (index != -1) {
+            itemData[index].Maxmodifier = maxOption;
         }
+    }
 
-      
+    function RemoveFromList(element) {
+        var selectedValue = $(element).data('id');
+        var index = itemData.findIndex(item => item.ModifierGrpId == selectedValue);
 
-    </script>
+        if (index != -1) {
+            itemData.splice(index, 1);
+            $.ajax({
+                url: '/Menu/GetModifiersByGroup',
+                type: 'GET',
+                data: { data: JSON.stringify(itemData) },
+                success: function (data) {
+                    $('#ItemByModifiers').html(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+    }
+</script>
 
 

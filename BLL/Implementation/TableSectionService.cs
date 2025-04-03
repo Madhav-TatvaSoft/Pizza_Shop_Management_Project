@@ -284,7 +284,7 @@ public class TableSectionService : ITableSectionService
         Table? table = _context.Tables.FirstOrDefault(x => x.TableId == tableId && x.Isdelete == false);
         if (table != null)
         {
-            table.TableName = table.TableName;
+            table.TableName = table.TableName + DateTime.Now;
             table.Isdelete = true;
             _context.Tables.Update(table);
             await _context.SaveChangesAsync();

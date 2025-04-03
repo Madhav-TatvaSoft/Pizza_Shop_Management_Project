@@ -1,4 +1,3 @@
-
 using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
@@ -130,6 +129,25 @@ public class MenuService : IMenuService
         }
         Category category = _context.Categories.FirstOrDefault(x => x.CategoryId == Cat_Id);
 
+        List<Item> existingItems = await _context.Items.Where(x => x.CategoryId == Cat_Id && x.Isdelete == false).ToListAsync();
+
+        // if (existingItems.Count > 0)
+        // {
+        //     foreach (var item in existingItems)
+        //     {
+        //         item.Isdelete = true;
+        //         _context.Items.Update(item);
+        //         await _context.SaveChangesAsync();
+        //     }
+        // }
+
+        for (int i = 0; i < existingItems.Count; i++)
+        {
+            existingItems[i].Isdelete = true;
+            _context.Items.Update(existingItems[i]);
+            await _context.SaveChangesAsync();
+        }
+
         category.CategoryName = category.CategoryName + DateTime.Now;
         category.Isdelete = true;
         _context.Update(category);
@@ -192,14 +210,12 @@ public class MenuService : IMenuService
 
     public List<Modifier> GetModifiersByGroup(long modgrpid)
     {
-        var dataDetails = _context.Modifiers.Where(e => e.ModifierGrpId == modgrpid && e.Isdelete == false).ToList();
-        return dataDetails;
+       return _context.Modifiers.Where(e => e.ModifierGrpId == modgrpid && e.Isdelete == false).ToList();
     }
 
     public string GetModifiersGroupName(long modgrpid)
     {
-        var dataDetails = _context.Modifiergroups.FirstOrDefault(e => e.ModifierGrpId == modgrpid && e.Isdelete == false).ModifierGrpName;
-        return dataDetails;
+        return _context.Modifiergroups.FirstOrDefault(e => e.ModifierGrpId == modgrpid && e.Isdelete == false).ModifierGrpName;
     }
 
     #endregion
@@ -307,7 +323,6 @@ public class MenuService : IMenuService
     public async Task<bool> DeleteItem(long itemid)
     {
         Item? itemToDelete = _context.Items.FirstOrDefault(x => x.ItemId == itemid);
-
         itemToDelete.ItemName = itemToDelete.ItemName + DateTime.Now;
         itemToDelete.Isdelete = true;
         _context.Update(itemToDelete);
@@ -620,5 +635,5 @@ public class MenuService : IMenuService
         return false;
     }
     #endregion
-
+    
 }

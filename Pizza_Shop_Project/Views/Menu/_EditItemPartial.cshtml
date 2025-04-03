@@ -4,7 +4,8 @@
 <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title fs-5 fw-bold text-secondary" id="exampleModalLabel">Edit Menu Item</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="RemoveValidation()"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            onclick="RemoveValidation()"></button>
     </div>
 
     <form id="EditItemForm" enctype="multipart/form-data">
@@ -179,7 +180,8 @@
         <!-- Footer Buttons -->
         <div class="modal-footer">
             <button type="submit" class="btn solid-btn">Save</button>
-            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal" onclick="RemoveValidation()">Cancel</button>
+            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal"
+                onclick="RemoveValidation()">Cancel</button>
         </div>
     </form>
 </div>
@@ -188,11 +190,14 @@
 <partial name="_ValidationScriptsPartial" />
 
 <script>
+
+    // Upload File
     $("#uploadFile-edit").change(function () {
         const file = this.files[0];
         $("#browseFileText-edit").text(file.name);
     });
 
+    // Serialize the data into array of object from String
     var serializedData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.addItems.itemModifiersVM ?? new List<ItemModifierViewModel>(),
         new System.Text.Json.JsonSerializerOptions
         {
@@ -202,10 +207,7 @@
 
     var editItemData = serializedData.$values || [];
 
-    @* console.log("-------------------------------------------------"); *@
- 
-    @* console.log(editItemData, "editItemData"); *@
-
+    // Edit Method
     function EditModifierByGroups() {
 
         var selectedValue = $('#EditModifier').val();
@@ -243,13 +245,17 @@
 
     }
 
+    // Edit Min Selection
     function EditMinByGroup(element) {
 
         var selectedValue = $(element).data('id');
-        var minOption = Math.min($(`#edit-min-selection-${selectedValue}`).val() ?? 0,$(`#edit-max-selection-${selectedValue}`).val()-1 ?? 0);
-        $(`#edit-min-selection-${selectedValue}`).val(minOption);
-        console.log("min",minOption);
-        console.log("itemdata",editItemData);
+        var minOption = parseInt($(`#edit-min-selection-${selectedValue}`).val() ?? 0);
+        var maxOption = parseInt($(`#edit-max-selection-${selectedValue}`).val() ?? 0);
+
+        if (minOption > maxOption) {
+            minOption = maxOption;
+            $(`#edit-min-selection-${selectedValue}`).val(minOption);
+        }
 
         var index = editItemData.findIndex(item => item.ModifierGrpId == selectedValue);
 
@@ -259,19 +265,26 @@
         }
     }
 
+    // Edit Max Selection
     function EditMaxByGroup(element) {
 
         var selectedValue = $(element).data('id');
         var maxOption = $(`#edit-max-selection-${selectedValue}`).val() ?? 0;
+        var minOption = parseInt($(`#edit-min-selection-${selectedValue}`).val() ?? 0);
+
+        if (maxOption < minOption) {
+            maxOption = minOption;
+            $(`#edit-max-selection-${selectedValue}`).val(maxOption);
+        }
 
         var index = editItemData.findIndex(item => item.ModifierGrpId == selectedValue);
 
         if (index != -1) {
-
             editItemData[index].Maxmodifier = maxOption;
         }
     }
 
+    // Remove the Selected Modifier
     function EditRemoveFromList(element) {
 
         var selectedValue = $(element).data('id');
@@ -295,8 +308,9 @@
         }
     }
 
+    // Edit Ajax CAll
     $(document).ready(function () {
-        
+
         $.ajax({
             url: "/Menu/EditModifiersByGroup",
             type: "POST",
