@@ -1,3 +1,4 @@
+using BLL.common;
 using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
@@ -81,10 +82,10 @@ namespace Pizza_Shop_Project.Controllers
 
             if (await _menuService.AddCategory(category, userId))
             {
-                TempData["SuccessMessage"] = "Category added successfully";
+                TempData["SuccessMessage"] = NotificationMessage.EntityCreated.Replace("{0}","Category");
                 return RedirectToAction("Menu");
             }
-            TempData["ErrorMessage"] = "Failed to add category";
+            TempData["ErrorMessage"] = NotificationMessage.EntityCreatedFailed.Replace("{0}","Category");
             return RedirectToAction("Menu");
         }
         #endregion

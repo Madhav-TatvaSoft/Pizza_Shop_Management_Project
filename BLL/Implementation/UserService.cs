@@ -279,12 +279,8 @@ public class UserService : IUserService
     #region UserNameExists in Editing
     public bool IsUserNameExistsForEdit(string Username, string Email)
     {
-        List<User> duplicateUsername = _context.Users.Where(x => x.Username == Username && x.Userlogin.Email != Email && x.Isdelete == false).ToList();
-        if (duplicateUsername.Count >= 1)
-        {
-            return true;
-        }
-        return false;
+        List<User> duplicateUsername = _context.Users.Where(x => x.Username == Username && x.Userlogin.Email != Email && !x.Isdelete).ToList();
+        return (duplicateUsername.Count >= 1) ? true : false;
     }
     #endregion
 

@@ -18,7 +18,6 @@ public class AddModifierViewModel
     public string? Description { get; set; }
 
     [Required(ErrorMessage = "Unit is Required")]
-    [Range(0, 999, ErrorMessage = "Unit should be Positive and cannot exceed 3 digit")]
     public string? Unit { get; set; }
 
     [Required(ErrorMessage = "Rate is Required")]

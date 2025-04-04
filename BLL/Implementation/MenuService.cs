@@ -143,6 +143,7 @@ public class MenuService : IMenuService
 
         for (int i = 0; i < existingItems.Count; i++)
         {
+            existingItems[i].ItemName = existingItems[i].ItemName + DateTime.Now;
             existingItems[i].Isdelete = true;
             _context.Items.Update(existingItems[i]);
             await _context.SaveChangesAsync();
@@ -210,7 +211,7 @@ public class MenuService : IMenuService
 
     public List<Modifier> GetModifiersByGroup(long modgrpid)
     {
-       return _context.Modifiers.Where(e => e.ModifierGrpId == modgrpid && e.Isdelete == false).ToList();
+        return _context.Modifiers.Where(e => e.ModifierGrpId == modgrpid && e.Isdelete == false).ToList();
     }
 
     public string GetModifiersGroupName(long modgrpid)
@@ -408,37 +409,42 @@ public class MenuService : IMenuService
         {
             return false;
         }
+
         Modifiergroup modifiergroup = new();
         modifiergroup.ModifierGrpName = addModifierGroupVM.ModifierGrpName;
         modifiergroup.Desciption = addModifierGroupVM.Desciption;
         modifiergroup.CreatedBy = userId;
 
         await _context.AddAsync(modifiergroup);
-        await _context.SaveChangesAsync();
+        // await _context.SaveChangesAsync();
 
-        string[] modifierTempId = addModifierGroupVM.Temp_Ids.Split(",");
-
-        Modifiergroup? addedModifiergroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpName == addModifierGroupVM.ModifierGrpName && x.Isdelete == false);
-
-
-        for (int i = 0; i < modifierTempId.Length; i++)
+        if (addModifierGroupVM.Temp_Ids != null)
         {
+            string[] modifierTempId = addModifierGroupVM.Temp_Ids.Split(",");
 
-            Modifier? modifierExist = await _context.Modifiers.FirstOrDefaultAsync(x => x.ModifierId == int.Parse(modifierTempId[i]) && x.Isdelete == false);
+            Modifiergroup? addedModifiergroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpName == addModifierGroupVM.ModifierGrpName && x.Isdelete == false);
 
-            Modifier modifier = new();
 
-            modifier.ModifierGrpId = addedModifiergroup.ModifierGrpId;
-            modifier.ModifierName = modifierExist.ModifierName;
-            modifier.Unit = modifierExist.Unit;
-            modifier.Rate = modifierExist.Rate;
-            modifier.Quantity = modifierExist.Quantity;
-            modifier.Description = modifierExist.Description;
-            modifier.CreatedBy = userId;
+            for (int i = 0; i < modifierTempId.Length; i++)
+            {
 
-            await _context.AddAsync(modifier);
-            await _context.SaveChangesAsync();
+                Modifier? modifierExist = await _context.Modifiers.FirstOrDefaultAsync(x => x.ModifierId == int.Parse(modifierTempId[i]) && x.Isdelete == false);
+
+                Modifier modifier = new();
+
+                modifier.ModifierGrpId = addedModifiergroup.ModifierGrpId;
+                modifier.ModifierName = modifierExist.ModifierName;
+                modifier.Unit = modifierExist.Unit;
+                modifier.Rate = modifierExist.Rate;
+                modifier.Quantity = modifierExist.Quantity;
+                modifier.Description = modifierExist.Description;
+                modifier.CreatedBy = userId;
+
+                await _context.AddAsync(modifier);
+                await _context.SaveChangesAsync();
+            }
         }
+        await _context.SaveChangesAsync();
         return true;
     }
     #endregion
@@ -635,5 +641,5 @@ public class MenuService : IMenuService
         return false;
     }
     #endregion
-    
+
 }
