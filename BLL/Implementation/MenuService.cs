@@ -167,7 +167,7 @@ public class MenuService : IMenuService
         else
         {
             // Check if an item with the same name already exists
-            Item? existingItem = await _context.Items.FirstOrDefaultAsync(x => x.ItemName.ToLower() == addItemVM.ItemName.ToLower() && x.CategoryId == addItemVM.CategoryId && x.Isdelete == false);
+            Item? existingItem = await _context.Items.FirstOrDefaultAsync(x => x.ItemName.ToLower().Trim() == addItemVM.ItemName.ToLower().Trim() && x.CategoryId == addItemVM.CategoryId && x.Isdelete == false);
             if (existingItem != null)
             {
                 return false;
@@ -242,7 +242,7 @@ public class MenuService : IMenuService
             additemVM.Unit = item.Unit;
         }
 
-        List<ItemModifierViewModel>? data = _context.ItemModifierGroupMappings.Where(e => e.ItemId == itemid)
+        List<ItemModifierViewModel>? data = _context.ItemModifierGroupMappings.Where(e => e.ItemId == itemid && !e.Isdelete)
        .Select(x => new ItemModifierViewModel
        {
            ModifierGrpId = x.ModifierGrpId,
@@ -533,12 +533,21 @@ public class MenuService : IMenuService
 
         List<Modifier> existingModifiers = _context.Modifiers.Where(x => x.ModifierGrpId == modgrpid).ToList();
 
+        List<ItemModifierGroupMapping> existingItemModifierGroupMappings = _context.ItemModifierGroupMappings.Where(x => x.ModifierGrpId == modgrpid).ToList();
+        for (int i = 0; i < existingItemModifierGroupMappings.Count; i++)
+        {
+            existingItemModifierGroupMappings[i].Isdelete = true;
+            _context.Update(existingItemModifierGroupMappings[i]);
+            _context.SaveChanges();
+        }
+
         for (int i = 0; i < existingModifiers.Count; i++)
         {
             existingModifiers[i].Isdelete = true;
             _context.Update(existingModifiers[i]);
             _context.SaveChanges();
         }
+
         modifierGroupToDelete.ModifierGrpName = modifierGroupToDelete.ModifierGrpName + DateTime.Now;
         modifierGroupToDelete.Isdelete = true;
         _context.Update(modifierGroupToDelete);

@@ -24,7 +24,7 @@ public class CustomerService : ICustomerService
     {
         IQueryable<CustomerViewModel>? query = _context.Customers
             .Include(u => u.Orders)
-            .Where(u => u.Isdelete == false).OrderBy(u => u.CustomerId)
+            .Where(u => !u.Isdelete).OrderBy(u => u.CustomerId)
             .Select(u => new CustomerViewModel
             {
                 CustomerId = u.CustomerId,

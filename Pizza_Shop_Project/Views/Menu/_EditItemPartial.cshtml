@@ -231,7 +231,7 @@
 
             $.ajax({
                 url: '/Menu/EditModifiersByGroup',
-                type: 'GET',
+                type: 'POST',
                 data: { data: JSON.stringify(editItemData) },
                 success: function (data) {
                     $('#EditItemByModifiers').html(data);
@@ -296,7 +296,7 @@
             editItemData.splice(index, 1);
             $.ajax({
                 url: '/Menu/EditModifiersByGroup',
-                type: 'GET',
+                type: 'POST',
                 data: { data: JSON.stringify(editItemData) },
                 success: function (data) {
                     $('#EditItemByModifiers').html(data);

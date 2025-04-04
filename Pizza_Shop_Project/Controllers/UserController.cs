@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.Mail;
 using System.Net;
 using Pizza_Shop_Project.Authorization;
+using BLL.common;
 
 
 namespace Pizza_Shop_Project.Controllers
@@ -52,7 +53,7 @@ namespace Pizza_Shop_Project.Controllers
 
         #region UserProfile
 
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public IActionResult UserProfile()
         {
             string? cookieSavedToken = Request.Cookies["AuthToken"];
@@ -108,7 +109,7 @@ namespace Pizza_Shop_Project.Controllers
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "The Image format is not supported.";
+                    TempData["ErrorMessage"] = NotificationMessage.ImageFormat;
                     return RedirectToAction("AddUser", "User", new { Email = user.Email });
                 }
             }
@@ -123,7 +124,7 @@ namespace Pizza_Shop_Project.Controllers
             }
             Response.Cookies.Append("username", user.Username, options);
 
-            TempData["SuccessMessage"] = "Profile Updated successfully";
+            TempData["SuccessMessage"] = NotificationMessage.ProfileUpdated;
             return RedirectToAction("UserListData", "User");
         }
         #endregion
@@ -160,12 +161,12 @@ namespace Pizza_Shop_Project.Controllers
                 bool password_verify = _userService.UserChangePassword(changepassword, userEmail);
                 if (password_verify)
                 {
-                    TempData["SuccessMessage"] = "Password Changed Successfully";
+                    TempData["SuccessMessage"] = NotificationMessage.PasswordChanged;
                     return RedirectToAction("UserProfile", "User");
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "Current Password is incorrect";
+                    TempData["ErrorMessage"] = NotificationMessage.PasswordChangeFailed;
                     return View();
                 }
             }
@@ -177,7 +178,7 @@ namespace Pizza_Shop_Project.Controllers
         {
             Response.Cookies.Delete("AuthToken");
             Response.Cookies.Delete("email");
-            TempData["SuccessMessage"] = "Logged out successfully";
+            TempData["SuccessMessage"] = NotificationMessage.LogoutSuccess;
             return RedirectToAction("VerifyUserLogin", "UserLogin");
         }
         #endregion
@@ -263,61 +264,56 @@ namespace Pizza_Shop_Project.Controllers
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "The Image format is not supported.";
+                    TempData["ErrorMessage"] = NotificationMessage.ImageFormat;
                     return RedirectToAction("AddUser", "User", new { Email = user.Email });
                 }
             }
 
             if (await _userService.IsUserNameExists(user.Username))
             {
-                TempData["addUserErrorMessage"] = "Username already exists";
+                TempData["addUserErrorMessage"] = NotificationMessage.UserNameAlreadyExists;
                 return RedirectToAction("AddUser", "User");
             }
             if (!await _userService.AddUser(user, Email))
             {
                 //change
-                TempData["ErrorMessage"] = "Account with this email already exists";
+                TempData["ErrorMessage"] = NotificationMessage.AccountEmailAlreadyExists;
                 return View();
             }
 
-            MailAddress senderEmail = new MailAddress("tatva.pca42@outlook.com", "tatva.pca42@outlook.com");
-            MailAddress receiverEmail = new MailAddress(user.Email, user.Email);
-            string? password = "P}N^{z-]7Ilp";
-            string? sub = "Add user";
-            string? body = $@"<div style='max-width: 500px; font-family: Arial, sans-serif; border: 1px solid #ddd;'>
-                <div style='background: #006CAC; padding: 10px; text-align: center; height:90px; max-width:100%; display: flex; justify-content: center; align-items: center;'>
-                    <img class='mt-2' src='https://images.vexels.com/media/users/3/128437/isolated/preview/2dd809b7c15968cb7cc577b2cb49c84f-pizza-food-restaurant-logo.png' style='max-width: 50px;' />
-                    <span style='color: #fff; font-size: 24px; margin-left: 10px; font-weight: 600;'>PIZZASHOP</span>
-                </div>
-                <div style='padding: 20px 5px; background-color: #e8e8e8;'>
-                    <p>Welcome to Pizza shop,</p>
-                    <p>Please Find the details below to login to your account:</p><br>
-                    <h3>Login details</h3>
-                    <p>Email: {user.Email}</p>
-                    <p>Password: {user.Password}</p><br>
-                    <p>If you encounter any issues or have any questions, please do not hesitate to contact our support team.</p>
-                    
-                </div>
-                </div>";
-            SmtpClient smtp = new SmtpClient
+            bool SendEmail = await _userService.SendEmail(user.Password, user.Username, user.Email);
+            if(SendEmail)
             {
-                Host = "mail.etatvasoft.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(senderEmail.Address, password)
-            };
-            using (MailMessage mess = new MailMessage(senderEmail, receiverEmail))
-            {
-                mess.Subject = sub;
-                mess.Body = body;
-                mess.IsBodyHtml = true;
-                await smtp.SendMailAsync(mess);
+                TempData["SuccessMessage"] = NotificationMessage.EmailSentSuccessfully;
             }
-            TempData["SuccessMessage"] = "User added successfully.";
+            else
+            {
+                TempData["ErrorMessage"] = NotificationMessage.EmailSendingFailed;
+            }
+
+            // MailAddress senderEmail = new MailAddress("tatva.pca155@outlook.com", "tatva.pca155@outlook.com");
+            // MailAddress receiverEmail = new MailAddress(user.Email, user.Email);
+            // string? password = "P}N^{z-]7Ilp";
+            // string? sub = "Add user";
+            // string? body = EmailTemplate.AddUserEmail( user.Password, user.Email);
+            // SmtpClient smtp = new SmtpClient
+            // {
+            //     Host = "mail.etatvasoft.com",
+            //     Port = 587,
+            //     EnableSsl = true,
+            //     DeliveryMethod = SmtpDeliveryMethod.Network,
+            //     UseDefaultCredentials = false,
+            //     Credentials = new NetworkCredential(senderEmail.Address, password)
+            // };
+            // using (MailMessage mess = new MailMessage(senderEmail, receiverEmail))
+            // {
+            //     mess.Subject = sub;
+            //     mess.Body = body;
+            //     mess.IsBodyHtml = true;
+            //     await smtp.SendMailAsync(mess);
+            // }
+            TempData["SuccessMessage"] = NotificationMessage.EntityCreated.Replace("{0}", "User");
             return RedirectToAction("UserListData", "User");
-            // return View();
         }
         #endregion
 
@@ -345,6 +341,11 @@ namespace Pizza_Shop_Project.Controllers
 
         public async Task<IActionResult> EditUser(AddUserViewModel adduser)
         {
+            if(ModelState.IsValid == false){
+                TempData["ErrorMessage"] = NotificationMessage.EntityUpdatedFailed.Replace("{0}", "User");
+                return RedirectToAction("EditUser", "User", new { Email = adduser.Email });
+            }
+
             string? Email = adduser.Email;
 
             if (adduser.CountryId == null)
@@ -382,7 +383,7 @@ namespace Pizza_Shop_Project.Controllers
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "The Image format is not supported.";
+                    TempData["ErrorMessage"] = NotificationMessage.ImageFormat;
                     return RedirectToAction("EditUser", "User", new { Email = adduser.Email });
                 }
             }
@@ -394,9 +395,8 @@ namespace Pizza_Shop_Project.Controllers
             }
             await _userService.EditUser(adduser, Email);
 
-            TempData["SuccessMessage"] = "User Updated successfully";
+            TempData["SuccessMessage"] = NotificationMessage.EntityUpdated.Replace("{0}","User");
             return RedirectToAction("UserListData", "User");
-
         }
         #endregion
 
@@ -409,10 +409,10 @@ namespace Pizza_Shop_Project.Controllers
 
             if (!isDeleted)
             {
-                ViewBag.Message = "User cannot be deleted";
+                ViewBag.Message = NotificationMessage.EntityDeletedFailed.Replace("{0}","User");
                 return RedirectToAction("UserListData", "User");
             }
-            TempData["SuccessMessage"] = "User deleted successfully";
+            TempData["SuccessMessage"] = NotificationMessage.EntityDeleted.Replace("{0}","User");
             return RedirectToAction("UserListData", "User");
         }
         #endregion

@@ -1,7 +1,11 @@
+using System.Net;
+using System.Net.Mail;
+using BLL.common;
 using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace BLL.Implementation;
 
@@ -10,20 +14,21 @@ public class UserService : IUserService
     private readonly PizzaShopDbContext _context;
     private readonly IJWTService _JWTService;
     private readonly IUserLoginService _userLoginService;
+    private readonly IConfiguration _configuration;
 
     #region User Service Constructor
-    public UserService(PizzaShopDbContext context, IJWTService jwtService, IUserLoginService userLoginService)
+    public UserService(PizzaShopDbContext context, IJWTService jwtService, IUserLoginService userLoginService, IConfiguration configuration)
     {
         _context = context;
         _JWTService = jwtService;
         _userLoginService = userLoginService;
+        _configuration = configuration;
     }
     #endregion
 
     #region GetCountry
     public List<Country> GetCountry()
     {
-
         return _context.Countries.ToList();
     }
     #endregion
@@ -196,6 +201,46 @@ public class UserService : IUserService
     }
     #endregion
 
+    #region SendEmail when User is Added
+    public async Task<bool> SendEmail(string Password, string Username, string Email)
+    {
+        if (Email != null && Password != null && Username != null)
+        {
+            try
+            {
+                MailAddress senderEmail = new MailAddress("tatvasoft.pca155@outlook.com", "sender");
+                MailAddress receiverEmail = new MailAddress(Email, "reciever");
+                string password = "P}N^{z-]7Ilp";
+                string sub = "User Added";
+                string body = EmailTemplate.AddUserEmail(Password, Username);
+                SmtpClient smtp = new SmtpClient
+                {
+                    Host = _configuration["smtp:Host"],
+                    Port = int.Parse(_configuration["smtp:Port"]),
+                    EnableSsl = bool.Parse(_configuration["smtp:EnableSsl"]),
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = bool.Parse(_configuration["smtp:UseDefaultCredentials"]),
+                    Credentials = new NetworkCredential(senderEmail.Address, password)
+                };
+                using (var mess = new MailMessage(senderEmail, receiverEmail))
+                {
+                    mess.Subject = sub;
+                    mess.Body = body;
+                    mess.IsBodyHtml = true;
+                    await smtp.SendMailAsync(mess);
+                }
+            }
+            catch (Exception exp)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        return false;
+    }
+    #endregion
+
     #region GetUserByEmail In Edit Page
     public List<AddUserViewModel> GetUserByEmail(string email)
     {
@@ -267,7 +312,7 @@ public class UserService : IUserService
     #region UserNameExists in Adding
     public async Task<bool> IsUserNameExists(string Username)
     {
-        User? IsUserNameExists = await _context.Users.FirstOrDefaultAsync(x => x.Username == Username && x.Isdelete == false);
+        User? IsUserNameExists = await _context.Users.FirstOrDefaultAsync(x => x.Username == Username && !x.Isdelete);
         if (IsUserNameExists == null)
         {
             return false;

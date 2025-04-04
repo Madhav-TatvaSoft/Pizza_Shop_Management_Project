@@ -82,10 +82,10 @@ namespace Pizza_Shop_Project.Controllers
 
             if (await _menuService.AddCategory(category, userId))
             {
-                TempData["SuccessMessage"] = NotificationMessage.EntityCreated.Replace("{0}","Category");
+                TempData["SuccessMessage"] = NotificationMessage.EntityCreated.Replace("{0}", "Category");
                 return RedirectToAction("Menu");
             }
-            TempData["ErrorMessage"] = NotificationMessage.EntityCreatedFailed.Replace("{0}","Category");
+            TempData["ErrorMessage"] = NotificationMessage.EntityCreatedFailed.Replace("{0}", "Category");
             return RedirectToAction("Menu");
         }
         #endregion
@@ -135,6 +135,19 @@ namespace Pizza_Shop_Project.Controllers
 
         #region Add-Items-From-Modal
 
+        // Get the Add item Modal 
+        [PermissionAuthorize("Menu.AddEdit")]
+        public IActionResult GetItems()
+        {
+            MenuViewModel MenuVM = new MenuViewModel();
+            MenuVM.categoryList = _menuService.GetAllCategories();
+            MenuVM.modifierGroupList = _menuService.GetAllModifierGroupList();
+            ViewBag.categoryList = new SelectList(_menuService.GetAllCategories(), "CategoryId", "CategoryName");
+            ViewBag.modifierGroupList = new SelectList(_menuService.GetAllModifierGroupList(), "ModifierGrpId", "ModifierGrpName");
+            return PartialView("_AddItemPartial", MenuVM);
+        }
+
+        // Get the Modifiers by Group in Add Item
         [PermissionAuthorize("Menu.AddEdit")]
         public IActionResult GetModifiersByGroup(string data)
         {
@@ -167,6 +180,8 @@ namespace Pizza_Shop_Project.Controllers
             return PartialView("_ModifierByGroup", MenuVM);
         }
 
+        // Add Item Post
+        [PermissionAuthorize("Menu.AddEdit")]
         [HttpPost]
         public async Task<IActionResult> AddItem([FromForm] MenuViewModel MenuVm)
         {
@@ -221,22 +236,6 @@ namespace Pizza_Shop_Project.Controllers
                 return Json(new { success = true, text = "Item added successfully" });
             }
             return Json(new { success = false, text = "Failed to add Item" });
-        }
-        #endregion
-
-        #region Delete-Items-From-Modal
-        [Authorize(Roles = "Admin")]
-        [PermissionAuthorize("Menu.Delete")]
-        public async Task<IActionResult> DeleteItem(long itemid)
-        {
-            bool isDeleted = await _menuService.DeleteItem(itemid);
-
-            if (isDeleted)
-            {
-                return Json(new { success = true, text = "Item Deleted successfully" });
-            }
-            return Json(new { success = false, text = "Failed to delete Item" });
-
         }
         #endregion
 
@@ -336,6 +335,22 @@ namespace Pizza_Shop_Project.Controllers
                 return Json(new { success = true, text = "Item Updated successfully" });
             }
             return Json(new { success = false, text = "Failed to Update Item" });
+        }
+        #endregion
+
+        #region Delete-Items-From-Modal
+        [Authorize(Roles = "Admin")]
+        [PermissionAuthorize("Menu.Delete")]
+        public async Task<IActionResult> DeleteItem(long itemid)
+        {
+            bool isDeleted = await _menuService.DeleteItem(itemid);
+
+            if (isDeleted)
+            {
+                return Json(new { success = true, text = "Item Deleted successfully" });
+            }
+            return Json(new { success = false, text = "Failed to delete Item" });
+
         }
         #endregion
 
@@ -577,7 +592,7 @@ namespace Pizza_Shop_Project.Controllers
             return Json(new { success = false, text = "Failed to Delete Modifier" });
         }
         #endregion
-    
+
         #endregion
 
     }

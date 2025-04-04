@@ -22,6 +22,7 @@
             </ul>
         </div>
 
+        <!-- Both the Tabs -->
         <div class="Both-tab tab-content bg-white shadow-lg" id="myTabContent">
 
             <!-- Item -->
@@ -87,7 +88,7 @@
                                         class="fa-solid fa-trash-can "></i></button>
                             </div>
                             <div class="add-user-button pt-2 pe-sm-2 pe-0">
-                                <button type="button" class="addItemBtn btn solid-btn text-light p-1 "
+                                <button type="button" id="AddItemId" class="addItemBtn btn solid-btn text-light p-1 "
                                     data-bs-toggle="modal" data-bs-target="#addItemModal">
                                     + <span class="d-none d-md-inline">New Item</span>
                                 </button>
@@ -232,6 +233,7 @@
 
             </div>
         </div>
+
     </div>
 </div>
 
@@ -340,17 +342,17 @@
 <!------------------------------------ Items ---------------------------------------->
 
 <!-- Add Items modal-->
-<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-    data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-        @await Html.PartialAsync("_AddItemPartial", Model)
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-xl modal-dialog-centered" id="AddItemModal-Div">
+
     </div>
 </div>
 
 <!-- Edit Items modal-->
 <div class="modal fade" id="EditItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
     data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-xl modal-dialog-centered" id="EditModal">
+    <div class="modal-dialog modal-xl modal-dialog-centered" id="EditItemModal-Div">
         <!-- Adding the Data through Ajax Call -->
     </div>
 </div>
@@ -994,7 +996,7 @@
             modifier_div.innerHTML = "";
             for (i = 0; i < modifierTempId.length; i++) {
                 modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                                                                                                                                                                                                                                                                                                                                                             ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
+                                                                                                                                                                                                                                                                                                                                                                                                                                     ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
             }
         }
 
@@ -1081,7 +1083,7 @@
 
             for (i = 0; i < modifierTempId.length; i++) {
                 edit_modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                                                                                            ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
+                                                                                                                                                                    ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
             }
 
         }
@@ -1378,18 +1380,22 @@
 
             // -----------------------------Items Call Function--------------------------------
 
+            // Add Item Get
+            $("#AddItemId").on('click', function () {
+                $.ajax({
+                    url: "/Menu/GetItems",
+                    type: "GET",
+                    success: function (data) {
+                        $("#AddItemModal-Div").html(data);
+                    }
+                });
+            });
+
             // Items To Fill data in the Add modal 
             $("#AddItemForm").on("submit", function (e) {
-
                 e.preventDefault();
-
                 let formData = new FormData(this);
-                console.log("iNITIAL", formData);
-                console.log(JSON.stringify(itemData));
-
                 formData.append('itemData', JSON.stringify(itemData));
-
-                console.log("Final", formData);
 
                 $.ajax({
                     url: "/Menu/AddItem",
@@ -1420,7 +1426,7 @@
                         type: "GET",
                         data: { itemid },
                         success: function (data) {
-                            $("#EditModal").html(data);
+                            $("#EditItemModal-Div").html(data);
                         }
                     });
                 }
@@ -1601,7 +1607,6 @@
                             $(".btn-close").click();
                             loadModifierGroupList();
                             PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
-                            console.log(modgrpid, "Modgrpid in add mod grp");
                             Existing_Modifier_Main_Checkbox_Select();
                         }
                     });
@@ -1611,14 +1616,9 @@
             //Edit modifier group post method
             $(document).on("submit", "#EditModifierGroupForm", function (e) {
 
-                console.log("chale che?")
-
                 e.preventDefault();
 
-
-
                 let formData = new FormData(this);
-
 
                 $.ajax({
                     url: `/Menu/EditModifierGroup`,
@@ -1628,22 +1628,16 @@
                     data: formData,
                     success: function (data) {
 
-                        console.log(data);
-
-                        console.log("edit data saved");
-
                         for (i = 0; i < editmodifierTempId.length; i++) {
 
                             if (modifierTempId.indexOf(editmodifierTempId[i]) == -1) {
 
                                 //deleteModifierFromModGrpAfterEdit(modGrpID,editModTempId[i]);
-                                console.log("delete existing modifier")
 
                                 $.ajax({
                                     url: `/Menu/DeleteModToModifierGrpAfterEdit?modgrpid=${data.grpId}&modid=${editmodifierTempId[i]}`,
                                     type: "Post",
                                     success: function () {
-                                        console.log("deleted external modifierGroup form modGrpID addModifierToModGrpAfterEdit edit");
                                     }
                                 });
 
@@ -1655,13 +1649,11 @@
                             if (editmodifierTempId.indexOf(modifierTempId[i]) == -1) {
 
                                 //addModifierToModGrpAfterEdit(modGrpID,modTempID[i]);
-                                console.log("add existing mod");
 
                                 $.ajax({
                                     url: `/Menu/AddModToModifierGrpAfterEdit?modgrpid=${data.grpId}&modid=${modifierTempId[i]}`,
                                     type: "post",
                                     success: function () {
-                                        console.log("added external modifierGroup form modGrpID addModifierToModGrpAfterEdit ");
                                     }
                                 });
                             }
@@ -1683,7 +1675,6 @@
                     }
                 });
             });
-
 
             // Delete modifier Group POST
             $(document).on("submit", "#deleteModifierGroupForm", function (e) {

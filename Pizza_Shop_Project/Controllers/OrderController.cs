@@ -45,9 +45,24 @@ public class OrderController : Controller
     #region Order Details View
     public async Task<IActionResult> OrderDetails(long orderid)
     {
-        OrderDetailViewModel? orderDetails = await _orderService.GetOrderDetails(orderid);
-        ViewData["sidebar-active"] = "Order";
-        return View(orderDetails);
+        try
+        {
+            OrderDetailViewModel? orderDetails = await _orderService.GetOrderDetails(orderid);
+            if (orderDetails == null)
+            {
+                TempData["ErrorMessage"] = $"Order not found. For Order-Id {orderid}";
+                return RedirectToAction("Order");
+            }
+
+            ViewData["sidebar-active"] = "Order";
+            return View(orderDetails);
+        }
+        catch (Exception exception)
+        {
+            TempData["ErrorMessage"] = "Something went wrong. Please try again.";
+            return RedirectToAction("Order");
+        }
+
     }
     #endregion
 

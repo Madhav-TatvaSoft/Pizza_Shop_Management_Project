@@ -16,7 +16,6 @@ public class UserLoginService : IUserLoginService
     private readonly IJWTService _jwtService;
     private readonly IConfiguration _configuration;
 
-
     #region User Login Constructor
     public UserLoginService(PizzaShopDbContext context, IJWTService jwtService, IConfiguration configuration)
     {
@@ -53,13 +52,13 @@ public class UserLoginService : IUserLoginService
     public async Task<string> VerifyUserLogin(UserLoginViewModel userLogin)
     {
         // var user = _context.UserLogins.FirstOrDefault(e => e.Email == userLogin.Email && e.Password == EncryptPassword(userLogin.Password));
-        UserLogin user = _context.UserLogins.Where(e => e.Email == userLogin.Email).FirstOrDefault();
+        UserLogin? user = await _context.UserLogins.FirstOrDefaultAsync(e => e.Email == userLogin.Email);
 
         if (user != null && user.Isdelete == false)
         {
             if (user.Password == EncryptPassword(userLogin.Password))
             {
-                Role roleObj = _context.Roles.FirstOrDefault(e => e.RoleId == user.RoleId);
+                Role? roleObj = _context.Roles.SingleOrDefault(e => e.RoleId == user.RoleId);
                 string token = _jwtService.GenerateToken(userLogin.Email, roleObj.RoleName);
                 return token;
             }
@@ -73,12 +72,12 @@ public class UserLoginService : IUserLoginService
     //  Used to Send Email
     public async Task<bool> SendEmail(ForgotPasswordViewModel forgotpassword, string resetLink)
     {
-        string user = forgotpassword.Email;
-        if (user != null)
+        string email = forgotpassword.Email;
+        if (email != null)
         {
             try
             {
-                MailAddress senderEmail = new MailAddress("tatvasoft.pca106@outlook.com", "sender");
+                MailAddress senderEmail = new MailAddress("tatvasoft.pca155@outlook.com", "sender");
                 MailAddress receiverEmail = new MailAddress(forgotpassword.Email, "reciever");
                 string password = "P}N^{z-]7Ilp";
                 string sub = "Forgot Password";
@@ -100,7 +99,7 @@ public class UserLoginService : IUserLoginService
                     await smtp.SendMailAsync(mess);
                 }
             }
-            catch (Exception e)
+            catch (Exception exp)
             {
                 return false;
             }
@@ -112,12 +111,17 @@ public class UserLoginService : IUserLoginService
     #endregion
 
     #region Reset Password
-    // Used to If email exists and will update the encrypted password in the DB. 
+    // Used to find If email exists and will update the encrypted password in the DB. 
     public async Task<bool> ResetPassword(ResetPasswordViewModel resetPassword)
     {
-        UserLogin data = _context.UserLogins.FirstOrDefault(e => e.Email == resetPassword.Email && e.Isdelete == false);
-        if (data != null && data.Isdelete == false)
+        UserLogin? data = _context.UserLogins.FirstOrDefault(e => e.Email == resetPassword.Email && !e.Isdelete);
+        if (data != null && !data.Isdelete)
         {
+            // Check if the new password is the same as the old password
+            if (data.Password == EncryptPassword(resetPassword.Password))
+            {
+                return false;
+            }
             data.Password = EncryptPassword(resetPassword.Password);
             _context.Update(data);
             await _context.SaveChangesAsync();
