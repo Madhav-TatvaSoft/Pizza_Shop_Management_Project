@@ -461,7 +461,6 @@ public class OrderService : IOrderService
             {
                 TableId = x.TableId,
                 TableName = x.Table.TableName
-
             }).ToList();
             orderDetailVM.SectionId = orderdetails.Order.SectionId;
             orderDetailVM.SectionName = orderdetails.Order.Section.SectionName;

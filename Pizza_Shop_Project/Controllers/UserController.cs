@@ -2,14 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using BLL.Interface;
 using Microsoft.AspNetCore.Authorization;
 using DAL.Models;
-using Microsoft.AspNetCore.Mvc;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Net.Mail;
-using System.Net;
 using Pizza_Shop_Project.Authorization;
 using BLL.common;
-
 
 namespace Pizza_Shop_Project.Controllers
 {
@@ -29,7 +25,6 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Dashboard
-        [Authorize(Roles = "Admin")]
         public IActionResult Dashboard()
         {
             ViewData["sidebar-active"] = "Dashboard";
@@ -53,7 +48,6 @@ namespace Pizza_Shop_Project.Controllers
 
         #region UserProfile
 
-        // [Authorize(Roles = "Admin")]
         public IActionResult UserProfile()
         {
             string? cookieSavedToken = Request.Cookies["AuthToken"];
@@ -130,7 +124,6 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region ChangePassword
-
         public IActionResult ChangePassword()
         {
             return View();
@@ -178,13 +171,14 @@ namespace Pizza_Shop_Project.Controllers
         {
             Response.Cookies.Delete("AuthToken");
             Response.Cookies.Delete("email");
+            Response.Cookies.Delete("profileImage");
+            Response.Cookies.Delete("username");
             TempData["SuccessMessage"] = NotificationMessage.LogoutSuccess;
             return RedirectToAction("VerifyUserLogin", "UserLogin");
         }
         #endregion
 
         #region UserListData
-        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Users.View")]
         public IActionResult UserListData()
         {
@@ -205,7 +199,6 @@ namespace Pizza_Shop_Project.Controllers
         #region User CRUD
 
         #region AddUser
-        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Users.AddEdit")]
         public IActionResult AddUser()
         {
@@ -271,18 +264,18 @@ namespace Pizza_Shop_Project.Controllers
 
             if (await _userService.IsUserNameExists(user.Username))
             {
-                TempData["addUserErrorMessage"] = NotificationMessage.UserNameAlreadyExists;
+                TempData["addUserErrorMessage"] = NotificationMessage.AlreadyExists.Replace("{0}", "UserName");
                 return RedirectToAction("AddUser", "User");
             }
             if (!await _userService.AddUser(user, Email))
             {
                 //change
-                TempData["ErrorMessage"] = NotificationMessage.AccountEmailAlreadyExists;
+                TempData["ErrorMessage"] = NotificationMessage.AlreadyExists.Replace("{0}", "Account with this email");
                 return View();
             }
 
             bool SendEmail = await _userService.SendEmail(user.Password, user.Username, user.Email);
-            if(SendEmail)
+            if (SendEmail)
             {
                 TempData["SuccessMessage"] = NotificationMessage.EmailSentSuccessfully;
             }
@@ -318,11 +311,10 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region EditUser
-        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Users.AddEdit")]
         public IActionResult EditUser(string Email)
         {
-             List<AddUserViewModel>? user = _userService.GetUserByEmail(Email);
+            List<AddUserViewModel>? user = _userService.GetUserByEmail(Email);
             List<Role>? Roles = _userService.GetRole();
             List<Country>? Countries = _userService.GetCountry();
             List<State>? States = _userService.GetState(user[0].CountryId);
@@ -338,14 +330,8 @@ namespace Pizza_Shop_Project.Controllers
 
         [PermissionAuthorize("Users.AddEdit")]
         [HttpPost]
-
         public async Task<IActionResult> EditUser(AddUserViewModel adduser)
         {
-            if(ModelState.IsValid == false){
-                TempData["ErrorMessage"] = NotificationMessage.EntityUpdatedFailed.Replace("{0}", "User");
-                return RedirectToAction("EditUser", "User", new { Email = adduser.Email });
-            }
-
             string? Email = adduser.Email;
 
             if (adduser.CountryId == null)
@@ -390,18 +376,24 @@ namespace Pizza_Shop_Project.Controllers
 
             if (_userService.IsUserNameExistsForEdit(adduser.Username, Email))
             {
-                TempData["ErrorMessage"] = "UserName Already Exists. Try Another Username";
+                TempData["ErrorMessage"] = NotificationMessage.AlreadyExists.Replace("{0}", "UserName");
                 return RedirectToAction("EditUser", "User", new { Email = adduser.Email });
             }
-            await _userService.EditUser(adduser, Email);
 
-            TempData["SuccessMessage"] = NotificationMessage.EntityUpdated.Replace("{0}","User");
-            return RedirectToAction("UserListData", "User");
+            if (await _userService.EditUser(adduser, Email))
+            {
+                TempData["SuccessMessage"] = NotificationMessage.EntityUpdated.Replace("{0}", "User");
+                return RedirectToAction("UserListData", "User");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = NotificationMessage.EntityUpdatedFailed.Replace("{0}", "User");
+                return RedirectToAction("EditUser", "User", new { Email = adduser.Email });
+            }
         }
         #endregion
 
         #region DeleteUser
-        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Users.Delete")]
         public async Task<IActionResult> DeleteUser(string Email)
         {
@@ -409,15 +401,15 @@ namespace Pizza_Shop_Project.Controllers
 
             if (!isDeleted)
             {
-                ViewBag.Message = NotificationMessage.EntityDeletedFailed.Replace("{0}","User");
+                ViewBag.Message = NotificationMessage.EntityDeletedFailed.Replace("{0}", "User");
                 return RedirectToAction("UserListData", "User");
             }
-            TempData["SuccessMessage"] = NotificationMessage.EntityDeleted.Replace("{0}","User");
+            TempData["SuccessMessage"] = NotificationMessage.EntityDeleted.Replace("{0}", "User");
             return RedirectToAction("UserListData", "User");
         }
         #endregion
 
         #endregion
-    
+
     }
 }

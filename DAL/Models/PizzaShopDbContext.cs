@@ -431,7 +431,10 @@ public partial class PizzaShopDbContext : DbContext
                 .HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.Isdelete).HasColumnName("isdelete");
-            entity.Property(e => e.Isready).HasColumnName("isready");
+            entity.Property(e => e.Isready)
+                .HasDefaultValueSql("false")
+                .HasColumnType("character varying")
+                .HasColumnName("isready");
             entity.Property(e => e.ModifiedAt)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("modified_at");
@@ -685,6 +688,7 @@ public partial class PizzaShopDbContext : DbContext
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
             entity.Property(e => e.OrderId).HasColumnName("order_id");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
+            entity.Property(e => e.ReadyQuantity).HasColumnName("readyQuantity");
             entity.Property(e => e.Status)
                 .HasMaxLength(20)
                 .HasColumnName("status");

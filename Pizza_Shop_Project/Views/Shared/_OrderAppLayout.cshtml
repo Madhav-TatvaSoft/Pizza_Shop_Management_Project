@@ -1,0 +1,201 @@
+@using DAL.ViewModels
+@using Microsoft.AspNetCore.Authorization
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PizzaShop_Project</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Pizza_Shop_Project.styles.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- rightside  -->
+            <div class="right-side-main-div  col-12 ">
+                <div class="row">
+                    <!-- navbar -->
+                    <div class="header-line nav-header d-flex justify-content-between">
+                        <div class="left-elements d-flex">
+                            <!-- logo text-->
+                            <div class="logo-main-div d-flex gap-2 pt-2 pb-2 ">
+                                <div class="logo-image bg-white d-flex">
+                                    <img src="~/images/logos/pizzashop_logo.png" width="50px" alt="">
+
+                                </div>
+                                <div class="logo-text text-white fs-5 pt-2 fw-semibold d-none d-sm-block">PIZZASHOP
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- profile -->
+                        <div class="profilepic-div d-flex  mt-2 mb-2 ">
+                            <div class="orderAppMenu d-md-flex d-none align-items-center justify-content-between me-3">
+                                <a asp-action="OrderAppKOT" asp-controller="OrderAppKOT"
+                                    class="btn solid-btn text-white border  rounded-pill p-1 px-3 me-2 @((ViewData["orderApp-Active"] as string) == "KOT" ? "orderApp-active-div" : "")"><i
+                                        class="fa-solid fa-clipboard me-1"></i>KOT</a>
+                                <a asp-action="OrderAppWaitingList" asp-controller="OrderAppWaitingList"
+                                    class="btn solid-btn text-white border  rounded-pill p-1 px-3 me-2 @((ViewData["orderApp-Active"] as string) == "WaitingList" ? "orderApp-active-div" : "")"><i
+                                        class="fa-solid fa-clock me-1"></i>Waiting List</a>
+                                <a asp-action="OrderAppTable" asp-controller="OrderAppTable"
+                                    class="btn solid-btn text-white border  rounded-pill p-1 px-3 me-2 @((ViewData["orderApp-Active"] as string) == "Table" ? "orderApp-active-div" : "")"><i
+                                        class="fa-solid fa-table me-1"></i>Tables</a>
+                                <a asp-action="OrderAppMenu" asp-controller="OrderAppMenu"
+                                    class="btn solid-btn text-white border  rounded-pill p-1 px-3 me-2 @((ViewData["orderApp-Active"] as string) == "Menu" ? "orderApp-active-div" : "")"><i
+                                        class="fa-solid fa-burger me-1"></i>Menu</a>
+                            </div>
+                            <div class="dropdown-start mt-1 d-md-none d-block">
+                                <div class="dropdown-toggle d-flex align-items-center btn solid-btn text-white border  rounded-pill p-1 px-3 me-2"
+                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <a class="d-flex align-items-center  text-white text-nowrap text-decoration-none"><i
+                                            class="fa-solid fa-clipboard me-1"></i>@ViewData["orderApp-Active"]</a>
+                                </div>
+
+                                <div class="orderAppMenu align-items-center justify-content-between me-3 dropdown-menu"
+                                    aria-labelledby="dropdownMenuButton1">
+                                    <a asp-action="OrderAppKOT" asp-controller="OrderAppKOT"
+                                        class="d-flex align-items-center justify-content-start text-dark fw-semibold p-2 text-nowrap text-decoration-none  @((ViewData["orderApp-Active"] as string) == "KOT" ? "orderApp-active-div" : "")"><i
+                                            class="fa-solid fa-clipboard pe-2"></i>KOT</a>
+                                    <a asp-action="OrderAppWaitingList" asp-controller="OrderAppWaitingList"
+                                        class="d-flex align-items-center justify-content-start text-dark fw-semibold p-2  text-nowrap text-decoration-none  @((ViewData["orderApp-Active"] as string) == "WaitingList" ? "orderApp-active-div" : "")"><i
+                                            class="fa-solid fa-clock me-1"></i>Waiting List</a>
+                                    <a asp-action="OrderAppTable" asp-controller="OrderAppTable"
+                                        class="d-flex align-items-center justify-content-start text-dark fw-semibold p-2 text-nowrap text-decoration-none  @((ViewData["orderApp-Active"] as string) == "Table" ? "orderApp-active-div" : "")"><i
+                                            class="fa-solid fa-table me-1"></i>Tables</a>
+                                    <a asp-action="OrderAppMenu" asp-controller="OrderAppMenu"
+                                        class="d-flex align-items-center justify-content-start text-dark fw-semibold p-2 text-nowrap text-decoration-none  @((ViewData["orderApp-Active"] as string) == "Menu" ? "orderApp-active-div" : "")"><i
+                                            class="fa-solid fa-burger me-1"></i>Menu</a>
+                                </div>
+
+                            </div>
+
+
+                            <!-- profile-->
+                            <div class="dropdown mt-1">
+                                <div class=" dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <img src="@(HttpContextAccessor.HttpContext.Request.Cookies["ProfileImage"])"
+                                        style="border-radius: 50%;" width="40px" height="35px" alt="">
+                                </div>
+                                <!-- User Profile Dropdown -->
+                                <ul class="dropdown-menu">
+
+                                    <li>
+                                        <div class="d-flex border border-bottom-black border-top-0 pb-2">
+                                            <img src="@(HttpContextAccessor.HttpContext.Request.Cookies["ProfileImage"])"
+                                                class="ms-3" width="35px" height="35px" />
+                                            <div class="fs-6 fw-bold ps-3 align-content-center">
+                                                @(HttpContextAccessor.HttpContext.Request.Cookies["username"])</div>
+                                        </div>
+                                    </li>
+                                    <li><a class="dropdown-item fw-semibold mt-1 " asp-action="UserProfile"
+                                            asp-controller="User"><i class="bi bi-person-circle pe-2"></i>My Profile</a>
+                                    </li>
+                                    <li><a class="dropdown-item fw-semibold" asp-action="ChangePassword"
+                                            asp-controller="User"><i class="fa-solid fa-rotate-right pe-2"></i>Change
+                                            Password</a></li>
+                                    <li data-bs-toggle="modal" data-bs-target="#exampleModal"><a
+                                            class="dropdown-item fw-semibold"><i
+                                                class="fa-solid fa-right-from-bracket pe-2"></i>Logout</a></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container ps-md-4 ps-lg-5 pe-lg-5 pe-md-4 pt-3 pb-3">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    @* Logout Model *@
+
+    <div class="modal fade" tabindex="-1" id="exampleModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold text-secondary">Logout Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-center"><img src="/images/toppng.com-warning-icon-2400x2400.png"
+                            style="width: 30px;" alt=""></div>
+                    <p class="fw-bold text-secondary text-center">Are you sure you want Logout ?</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <a asp-action="UserLogout" asp-controller="User" type="button" class="btn solid-btn fw-bold">Yes</a>
+                    <a type="button" class="btn btn-light fw-bold hollow-btn" data-bs-dismiss="modal">No</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            var errorMessage = '@TempData["ErrorMessage"]';
+            var warningMessage = '@TempData["Warning"]';
+            var infoMessage = '@TempData["Info"]';
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "2000"
+            };
+            if (successMessage) {
+                toastr.success(successMessage);
+            }
+            if (errorMessage) {
+                toastr.error(errorMessage);
+            }
+            if (warningMessage) {
+                toastr.warning(errorMessage);
+            }
+            if (infoMessage) {
+                toastr.info(errorMessage);
+            }
+
+        });
+    </script>
+
+    <partial name="_Toaster" />
+    <partial name="_ValidationScriptsPartial" />
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

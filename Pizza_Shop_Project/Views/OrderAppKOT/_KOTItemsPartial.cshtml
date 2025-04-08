@@ -1,0 +1,44 @@
+@using DAL.ViewModels
+@model List<OrderAppKOTViewModel>;
+
+@foreach (var item in Model)
+{
+    <div class="KOTItemsCardClass rounded border-2 "
+        style="min-width: fit-content; border-style: dotted !important; border-color: rgb(179, 179, 179) !important;">
+        <div class="d-flex p-2" style="background-color: rgb(238, 238, 238);">
+            <div class="user-text fw-bold text-nowrap"># @item.OrderId</div>
+            <div class="text-secondary ms-5 text-nowrap"><i class="fa-regular fa-clock"></i> @item.OrderDate</div>
+        </div>
+        <div class="d-flex p-2 fw-semibold pt-2 pb-2" style="background-color: rgb(238, 238, 238);">
+            @item.SectionName
+            <li class="ps-3 validate">
+                @for (int i = 0 ; i < item.tableList.Count ; i++)
+                {
+                    @item.tableList[i].TableName
+                    if (i < item.tableList.Count - 1)
+                    {
+                        <span class="text-secondary">,</span>
+                    }
+                }
+            </li>
+        </div>
+        <div class="text-secondary p-2" style="overflow: auto; height: 150px;">
+            @foreach (var itemList in item.itemOrderVM)
+            {
+                <div class="pb-2">
+                    <div class="d-flex justify-content-between">
+                        <div>@itemList.ItemName</div>
+                        <div class="text-dark">@itemList.Quantity</div>
+                    </div>
+                    <div>
+                        @foreach (var modifier in itemList.modifierOrderVM)
+                        {
+                            <li class="ps-2 pt-2 validate">@modifier.ModifierName</li>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="d-flex p-2 border border-top-5" style="background-color: rgb(238, 238, 238); height: 64px;"></div>
+    </div>
+}

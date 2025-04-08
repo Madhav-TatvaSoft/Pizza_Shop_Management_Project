@@ -21,11 +21,15 @@ builder.Services.AddScoped<IUserLoginService,UserLoginService>();
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<IJWTService,JWTService>();
 builder.Services.AddScoped<IRolePermission,RolePermissionService>();
-builder.Services.AddScoped<IMenuService,MenuService>();
+builder.Services.AddScoped<ICategoryService,CategoryService>();
+builder.Services.AddScoped<IItemService,ItemService>();
+builder.Services.AddScoped<IModifierGroupService,ModifierGroupService>();
+builder.Services.AddScoped<IModifierItemService,ModifierItemService>();
 builder.Services.AddScoped<ITableSectionService, TableSectionService>();
 builder.Services.AddScoped<ITaxFeesService, TaxFeesService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICustomerService,CustomerService>();
+builder.Services.AddScoped<IOrderAppKOTService,OrderAppKOTService>();
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
@@ -94,7 +98,8 @@ builder.Services.AddAuthorization(options =>
         "TableSection.View", "TableSection.AddEdit", "TableSection.Delete",
         "TaxFees.View", "TaxFees.AddEdit", "TaxFees.Delete",
         "Orders.View", "Orders.AddEdit", "Orders.Delete",
-        "Customers.View", "Customers.AddEdit", "Customers.Delete"
+        "Customers.View", "Customers.AddEdit", "Customers.Delete",
+        "AccountManager"  
     };
 
     foreach (var permission in permissions)

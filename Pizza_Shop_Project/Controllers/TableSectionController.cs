@@ -9,7 +9,6 @@ using Pizza_Shop_Project.Authorization;
 
 namespace Pizza_Shop_Project.Controllers;
 
-[Authorize(Roles = "Admin")]
 public class TableSectionController : Controller
 {
     private readonly ITableSectionService _tableSectionService;

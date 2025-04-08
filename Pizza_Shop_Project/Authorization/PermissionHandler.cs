@@ -32,7 +32,11 @@ public class PermissionHandler : AuthorizationHandler<PermissionRequirement>
         // Check if the token is missing (Unauthenticated user)
         if (string.IsNullOrEmpty(cookieSavedToken))
         {
-            httpContext.Response.Redirect("/Error/Unauthorized");
+            httpContext.Response.Cookies.Delete("email");
+            httpContext.Response.Cookies.Delete("username");
+            httpContext.Response.Cookies.Delete("profileImage");
+
+            httpContext.Response.Redirect("/UserLogin/VerifyUserLogin");
             return Task.CompletedTask;
         }
 
@@ -48,11 +52,11 @@ public class PermissionHandler : AuthorizationHandler<PermissionRequirement>
         var permissionsData = _roleService.GetPermissionByRole(roleName);
 
         // Ensure permissionsData is valid before accessing index positions
-        if (permissionsData == null || permissionsData.Count < 7)
-        {
-            httpContext.Response.Redirect("/Error/Forbidden");
-            return Task.CompletedTask;
-        }
+        // if (permissionsData == null)
+        // {
+        //     httpContext.Response.Redirect("/Error/Forbidden");
+        //     return Task.CompletedTask;
+        // }
 
         switch (requirement.Permission)
         {
@@ -138,6 +142,10 @@ public class PermissionHandler : AuthorizationHandler<PermissionRequirement>
                 break;
             case "Customers.Delete":
                 if (permissionsData[6].Candelete)
+                    context.Succeed(requirement);
+                break;
+            case "AccountManager":
+                if (roleName == "Account Manager")
                     context.Succeed(requirement);
                 break;
             default:

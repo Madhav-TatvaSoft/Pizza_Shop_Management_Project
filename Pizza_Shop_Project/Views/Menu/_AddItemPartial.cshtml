@@ -3,7 +3,8 @@
 <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title fs-5 fw-bold text-secondary" id="exampleModalLabel">Add New Menu Item</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  onclick="RemoveValidation()"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            onclick="RemoveValidation()"></button>
     </div>
 
     <form id="AddItemForm" enctype="multipart/form-data">
@@ -34,7 +35,7 @@
                                         asp-for="@Model.addItems.ItemName" placeholder="Name*">
                                     <label asp-for="@Model.addItems.ItemName">Name*</label>
                                     <span class="text-danger validate RemoveValidationClass"
-                                        asp-validation-for="@Model.addItems.ItemName" ></span>
+                                        asp-validation-for="@Model.addItems.ItemName"></span>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +53,7 @@
                                             </select>
                                             <label asp-for="@Model.addItems.ItemTypeId">Item Type*</label>
                                             <span class="text-danger validate RemoveValidationClass"
-                                                asp-validation-for="@Model.addItems.ItemTypeId" ></span>
+                                                asp-validation-for="@Model.addItems.ItemTypeId"></span>
                                         </div>
                                     </div>
                                     <div class="col-md">
@@ -61,7 +62,7 @@
                                                 placeholder="Rate*" asp-for="@Model.addItems.Rate">
                                             <label asp-for="@Model.addItems.Rate">Rate*</label>
                                             <span class="text-danger validate RemoveValidationClass"
-                                                asp-validation-for="@Model.addItems.Rate" ></span>
+                                                asp-validation-for="@Model.addItems.Rate"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +75,7 @@
                                                 asp-for="@Model.addItems.Quantity" placeholder="Quantity*">
                                             <label asp-for="@Model.addItems.Quantity">Quantity*</label>
                                             <span class="text-danger validate RemoveValidationClass"
-                                                asp-validation-for="@Model.addItems.Quantity" ></span>
+                                                asp-validation-for="@Model.addItems.Quantity"></span>
                                         </div>
                                     </div>
                                     <div class="col-md">
@@ -169,26 +170,31 @@
                         <div id="ItemByModifiers" style="height:400px; overflow-y: auto; ">
 
                         </div>
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Footer Buttons -->
         <div class="modal-footer">
-            <button type="submit" class="btn solid-btn" id="additem-save">Save</button>
-            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal" onclick="RemoveValidation()">Cancel</button>
+            <button type="submit" class="btn solid-btn">Save</button>
+            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal"
+                onclick="RemoveValidation()">Cancel</button>
         </div>
     </form>
 </div>
 
 <partial name="_ValidationScriptsPartial" />
+<partial name="_Toaster" />
 
+<script>
+    // Upload File
+    $("#uploadFile-item").change(function () {
+        const file = this.files[0];
+        $("#browseFileText-item").text(file.name);
+    });
 
-    <script>
     var itemData = [];
-
-
 
     function GetModifierByGroups() {
         var selectedValue = $('#Modifier').val();
@@ -209,6 +215,7 @@
             $.ajax({
                 url: '/Menu/GetModifiersByGroup',
                 type: 'GET',
+                @* contentType: 'application/json', *@
                 data: { data: JSON.stringify(itemData) },
                 success: function (data) {
                     $('#ItemByModifiers').html(data);
@@ -217,7 +224,7 @@
                     console.error(error);
                 }
             });
-        }
+    }
     }
 
     function SetMinByGroup(element) {
@@ -273,6 +280,46 @@
             });
         }
     }
+
+    $(document).ready(function () {
+
+        $.ajax({
+            url: '/Menu/GetModifiersByGroup',
+            type: 'GET',
+            data: { data: JSON.stringify(itemData) },
+            success: function (data) {
+                $('#ItemByModifiers').html(data);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+
+        $("#AddItemForm").on("submit", function (e) {
+
+            e.preventDefault();
+
+            let formData = new FormData(this);
+            formData.append('itemData', JSON.stringify(itemData));
+
+            $.ajax({
+                url: "/Menu/AddItem",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    if (data.success) {
+                        callSuccessToaster(data.text);
+                    } else {
+                        callErrorToaster(data.text);
+                    }
+                    $(".btn-close").click();
+                    PaginatedItemTable(catid, searchText, currentPage, pageSize);
+                    Item_Main_Checkbox_Select();
+                }
+            });
+        });
+    });
+
 </script>
-
-

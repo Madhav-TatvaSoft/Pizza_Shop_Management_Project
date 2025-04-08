@@ -1300,7 +1300,6 @@
 
         // To show the ModifierGroup List
         function loadModifierGroupList() {
-            console.log("Modifier Group");
 
             var modgrpid = @Model.modifierGroupList[0].ModifierGrpId;
 
@@ -1391,31 +1390,6 @@
                 });
             });
 
-            // Items To Fill data in the Add modal 
-            $("#AddItemForm").on("submit", function (e) {
-                e.preventDefault();
-                let formData = new FormData(this);
-                formData.append('itemData', JSON.stringify(itemData));
-
-                $.ajax({
-                    url: "/Menu/AddItem",
-                    type: "POST",
-                    contentType: false,
-                    processData: false,
-                    data: formData,
-                    success: function (data) {
-                        if (data.success) {
-                            callSuccessToaster(data.text);
-                        } else {
-                            callErrorToaster(data.text);
-                        }
-                        $(".btn-close").click();
-                        PaginatedItemTable(catid, searchText, currentPage, pageSize);
-                        Item_Main_Checkbox_Select();
-                    }
-                });
-            });
-
             // Items To Show data in the edit modal
             $("#EditItemModal").on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
@@ -1449,6 +1423,7 @@
                                     callErrorToaster(data.text);
                                 }
                                 $("#MassDeleteItemsBtn").prop("disabled", true);
+                                currentPage = 1;
                                 PaginatedItemTable(catid, searchText, currentPage, pageSize);
                             }
                         });

@@ -27,6 +27,8 @@ public partial class Orderdetail
 
     public long? ModifiedBy { get; set; }
 
+    public int? ReadyQuantity { get; set; }
+
     public virtual User? CreatedByNavigation { get; set; }
 
     public virtual Item Item { get; set; } = null!;

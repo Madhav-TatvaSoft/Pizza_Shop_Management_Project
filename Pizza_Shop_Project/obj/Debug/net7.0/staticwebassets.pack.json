@@ -365,8 +365,16 @@
       "PackagePath": "staticwebassets\\uploads\\094ff2f5-bec5-4d75-b9d8-4b7e76fcad1b_transperent-pizza.png"
     },
     {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\09b19ad1-67d5-4846-9453-9959bf960bc9_transperent-pizza.png",
+      "PackagePath": "staticwebassets\\uploads\\09b19ad1-67d5-4846-9453-9959bf960bc9_transperent-pizza.png"
+    },
+    {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\0c0f4e81-54c8-4a11-ae1b-01b9a2e4c184_dominos_background.jpg",
       "PackagePath": "staticwebassets\\uploads\\0c0f4e81-54c8-4a11-ae1b-01b9a2e4c184_dominos_background.jpg"
+    },
+    {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\0d53ec74-3a92-46e7-a6c4-c83668c54ee0_Screenshot 2025-02-19 222730.png",
+      "PackagePath": "staticwebassets\\uploads\\0d53ec74-3a92-46e7-a6c4-c83668c54ee0_Screenshot 2025-02-19 222730.png"
     },
     {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\100df916-ee16-4568-9a81-fa7bedda08b0_dominos_background.jpg",
@@ -469,6 +477,10 @@
       "PackagePath": "staticwebassets\\uploads\\4ff5ac83-7e17-493b-974b-c2977caeb445_dining-menu.png"
     },
     {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\508e3ab1-6a10-4a36-8f54-1a39e6282efe_dining-menu.png",
+      "PackagePath": "staticwebassets\\uploads\\508e3ab1-6a10-4a36-8f54-1a39e6282efe_dining-menu.png"
+    },
+    {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\5cfed8da-a32c-490d-abd8-736493365a74_dining-menu.png",
       "PackagePath": "staticwebassets\\uploads\\5cfed8da-a32c-490d-abd8-736493365a74_dining-menu.png"
     },
@@ -555,6 +567,10 @@
     {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\8184cea7-f8ac-442d-b248-17cc4babdf55_transperent-pizza.png",
       "PackagePath": "staticwebassets\\uploads\\8184cea7-f8ac-442d-b248-17cc4babdf55_transperent-pizza.png"
+    },
+    {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\856757f6-9bef-475a-b7ee-9c14b76f6f34_Default_pfp.svg.png",
+      "PackagePath": "staticwebassets\\uploads\\856757f6-9bef-475a-b7ee-9c14b76f6f34_Default_pfp.svg.png"
     },
     {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\uploads\\858936f1-cf8f-47be-ae6d-ec5127ed0d01_Default_pfp.svg.png",

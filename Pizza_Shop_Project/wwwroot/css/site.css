@@ -199,8 +199,8 @@ form i {
 }
 
 .solid-btn{
-    background-color: #0084c3;
-    color: white;
+    background-color: #0084c3 !important;
+    color: white !important;
 }
 
 .hollow-btn{
@@ -299,7 +299,7 @@ form i {
 
 .nav-tabs button.active {
     border: 0px;
-    border-bottom: 1px solid #0084c3 !important;
+    border-bottom: 3px solid #0084c3 !important;
     color: #0084c3 !important;
     font-weight: 600;
 }
@@ -478,3 +478,41 @@ form i {
 .customerHistoryTable{
     box-shadow: 5px 5px 10px rgb(192, 192, 192);
 }
+
+.orderApp-active-div{
+    background-color: #71c5ec !important;
+    color: white !important;
+}
+
+.KOTCategoryActive{
+    border: 0px;
+    border-bottom: 3px solid #0084c3 !important;
+    color: #0084c3 !important;
+    font-weight: 600;
+}
+
+/* .accordion-button {
+  margin: 11px !important;
+  padding: 4px !important;
+  color: gray !important;
+  background-color: #fff !important;
+  border: 1px solid gray !important;
+  border-radius: 50% !important;
+  transform: rotate(-90deg) !important;
+}
+.accordion-button:focus {
+  z-index: 3;
+  border-color: #fff !important;
+  background-color: #fff !important;
+  border: 1px solid gray !important;
+  outline: 0;
+  box-shadow: none !important;
+}
+.accordion-button:not(.collapsed) {
+  color: #fff !important;
+  background-color: #e7f1ff;
+  box-shadow: none !important;
+  border: 1px solid #0066a7 !important;
+  border-radius: 50% !important;
+} */
+

@@ -20,7 +20,6 @@ namespace Pizza_Shop_Project.Controllers
 
         #region RoleDashboard
         //Fetching roles
-        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Role.View")]
         public IActionResult RoleDashboard()
         {
@@ -31,7 +30,6 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Permission
-        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Role.AddEdit")]
         public IActionResult Permission(string name)
         {
@@ -40,7 +38,6 @@ namespace Pizza_Shop_Project.Controllers
             return View(permissions);
         }
 
-        [Authorize(Roles = "Admin")]
         [PermissionAuthorize("Role.AddEdit")]
         [HttpPost]
         public IActionResult Permission(List<RolesPermissionViewModel> rolesPermissionViewModel)

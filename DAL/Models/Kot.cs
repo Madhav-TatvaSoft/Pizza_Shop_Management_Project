@@ -9,7 +9,7 @@ public partial class Kot
 
     public long OrderId { get; set; }
 
-    public bool Isready { get; set; }
+    public string Isready { get; set; } = null!;
 
     public DateTime? CreatedAt { get; set; }
 

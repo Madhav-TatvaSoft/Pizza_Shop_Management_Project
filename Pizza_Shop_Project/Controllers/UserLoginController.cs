@@ -106,7 +106,7 @@ namespace Pizza_Shop_Project.Controllers
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = NotificationMessage.EmailDoNotExists;
+                    TempData["ErrorMessage"] = NotificationMessage.DoesNotExists.Replace("{0}", "Email");
                     return View("ForgotPassword");
                 }
             }
@@ -143,7 +143,7 @@ namespace Pizza_Shop_Project.Controllers
 
                 if (!IsEmailExistsStatus)
                 {
-                    TempData["ErrorMessage"] = NotificationMessage.EmailDoNotExists;
+                    TempData["ErrorMessage"] = NotificationMessage.DoesNotExists.Replace("{0}", "Email");
                     return View("ResetPassword");
                 }
 

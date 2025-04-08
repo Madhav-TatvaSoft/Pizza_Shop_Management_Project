@@ -1,0 +1,92 @@
+@model DAL.ViewModels.OrderAppKOTViewModel;
+
+@{
+    ViewData["Title"] = "Order App KOT";
+    Layout = "~/Views/Shared/_OrderAppLayout.cshtml";
+}
+
+<p class="fs-3 fw-bold user-text pb-3">KOT</p>
+
+<!-- List of Item and Modifier -->
+<div class="d-flex bg-white shadow-lg rounded p-2 pb-0" style="overflow: auto; scrollbar-width: thin;">
+    <div class="category-click fw-bold text-black-50 p-3 text-nowrap KOTCategoryActive" id="0">All</div>
+    @foreach (var item in Model.categoryList)
+    {
+        <div class="category-click fw-bold text-black-50 p-3 text-nowrap" id="@item.CategoryId">@item.CategoryName</div>
+    }
+</div>
+
+<div class="bg-white mt-3 shadow-lg rounded p-3" style="height: 400px;">
+
+    <div class="d-flex flex-sm-row flex-column justify-content-between align-item-center">
+
+        <div class="heading-category user-text fs-3 fw-bold">All</div>
+
+        <div class="d-flex gap-2 justify-content-end pt-2 pt-sm-0">
+            <div class="btn solid-btn text-nowrap filters" id="In_Progress">In Progress</div>
+            <div class="btn hollow-btn  text-nowrap filters" id="Ready">Ready</div>
+            <div class="btn hollow-btn">
+                < </div>
+                    <div class="btn hollow-btn"> > </div>
+            </div>
+        </div>
+
+        <!-------------------------- Cards ----------------------->
+
+        <div id="KOT-Card-Items" class="pt-3 d-flex gap-2" style="overflow: auto;">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+        let catid = 0;
+        let filter = "In_Progress";
+
+        function Category_Click(catid, filter) {
+
+            var element = document.getElementById(catid);
+            var filterelement = document.getElementById(filter);
+
+            $(element).addClass("KOTCategoryActive");
+            $(element).siblings().removeClass("KOTCategoryActive");
+
+            $(filterelement).removeClass("hollow-btn");
+            $(filterelement).addClass("solid-btn");
+
+            $(filterelement).siblings().removeClass("solid-btn");
+            $(filterelement).siblings().addClass("hollow-btn");
+
+            $.ajax({
+                url: "/OrderAppKOT/GetKOTItems",
+                type: "GET",
+                data: { catid, filter },
+                success: function (data) {
+                    $("#KOT-Card-Items").html(data);
+                    $(".heading-category").text($(element).text());
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching KOT items:", error);
+                }
+            });
+        }
+
+        $(".category-click").on("click", function () {
+            catid = $(this).attr("id");
+            Category_Click(catid, filter);
+        });
+
+        $(".filters").on("click", function () {
+            filter = $(this).attr("id");
+            Category_Click(catid, filter);
+        });
+
+        $(document).ready(function () {
+            Category_Click(catid, filter);
+        });
+    </script>
+}
