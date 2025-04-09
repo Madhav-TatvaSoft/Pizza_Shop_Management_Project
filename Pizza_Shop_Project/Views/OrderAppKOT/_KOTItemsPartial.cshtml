@@ -1,18 +1,20 @@
 @using DAL.ViewModels
 @model List<OrderAppKOTViewModel>;
-
 @foreach (var item in Model)
 {
-    <div class="KOTItemsCardClass rounded border-2 "
+    <div class="KOTItemsCardClass rounded border-2" data-id="@item.OrderId"
         style="min-width: fit-content; border-style: dotted !important; border-color: rgb(179, 179, 179) !important;">
         <div class="d-flex p-2" style="background-color: rgb(238, 238, 238);">
             <div class="user-text fw-bold text-nowrap"># @item.OrderId</div>
-            <div class="text-secondary ms-5 text-nowrap"><i class="fa-regular fa-clock"></i> @item.OrderDate</div>
+            <div class="text-secondary ms-5 text-nowrap"><i class="fa-regular fa-clock"></i> <span
+                    class="d-none">@item.OrderDate</span>
+                <span class="orderTimeDisplay"></span>
+            </div>
         </div>
         <div class="d-flex p-2 fw-semibold pt-2 pb-2" style="background-color: rgb(238, 238, 238);">
             @item.SectionName
             <li class="ps-3 validate">
-                @for (int i = 0 ; i < item.tableList.Count ; i++)
+                @for (int i = 0; i < item.tableList.Count; i++)
                 {
                     @item.tableList[i].TableName
                     if (i < item.tableList.Count - 1)
@@ -42,3 +44,91 @@
         <div class="d-flex p-2 border border-top-5" style="background-color: rgb(238, 238, 238); height: 64px;"></div>
     </div>
 }
+
+@* data-bs-toggle="modal"
+data-bs-target="#KOTStatusModal" *@
+
+<div class="modal fade" id="KOTStatusModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5 fw-bold text-dark">Order ID : #<span id="ModalOrderID" class="ms-2"></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body " style="overflow: auto; height:250px;">
+                <table class="table">
+                    <thead>
+                        <tr
+                            class="border border-top-0 border-start-0 border-end-0 border-bottom-1 border-secondary d-flex justify-content-between">
+                            <th scope="col" class=" fw-bold fs-5  text-secondary">Item</th>
+                            <th scope="col" class=" fw-bold fs-5 text-secondary">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="StatusUpdateModalTable">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="UpdateKOTStatus()" class="btn solid-btn">Mark as ready</button>
+                <button type="button" class="btn hollow-btn " data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".KOTItemsCardClass").on('click', function (event) {
+
+        $("#KOTStatusModal").modal("show");
+
+        var catid = document.getElementById("KOTCategoryID").value;
+        var filter = document.getElementById("KOTStatus").value;
+
+        var orderid = $(this).data("id");
+
+        document.getElementById("ModalOrderID").innerHTML = orderid;
+
+        $.ajax({
+            url: "/OrderAppKOT/GetKOTItemsFromModal",
+            type: "GET",
+            data: { catid: catid, filter: filter, orderid: orderid },
+            success: function (data) {
+                $("#StatusUpdateModalTable").html(data);
+            }
+        });
+    });
+
+    @* function orderTimeDisplay() {
+        var orderdateclass = document.getElementsByClassName("orderTimeDisplay");
+        for (i = 0; i < orderdateclass.length; i++) {
+            var curdate = Date.now();
+            var orderDate = orderdateclass[i].parentElement.children[1].innerHTML;
+            var Dateonly = orderDate.split(" ");
+            var orderday = Dateonly[0].split("-")[0];
+            var ordermonth = Dateonly[0].split("-")[1];
+            var orderyear = Dateonly[0].split("-")[2];
+            var orderDateformated = orderyear + "-" + ordermonth + "-" + orderday + "T" + Dateonly[1];
+            var orderDateToCal = new Date(orderDateformated);
+            console.log(orderDateToCal);
+            console.log(curdate - orderDateToCal); 
+            var timeDiff = curdate - orderDateToCal;
+
+            const timeDiffday = Math.floor(timeDiff / (24  60  60 * 1000));
+            const daysms = timeDiff % (24  60  60 * 1000);
+            const timeDiffHours = Math.floor(daysms / (60  60  1000));
+            const hoursms = timeDiff % (60  60  1000);
+            const timeDiffMins = Math.floor(hoursms / (60 * 1000));
+            const minutesms = timeDiff % (60 * 1000);
+            const timeDiffSecs = Math.floor(minutesms / 1000);
+            orderdateclass[i].innerHTML = timeDiffday + " days " + timeDiffHours + " hours " + timeDiffMins + " min " + timeDiffSecs + " sec"
+        }
+    }
+
+    var displaytime = window.setInterval(function () {
+        orderTimeDisplay()
+    }, 1000); *@
+
+
+</script>

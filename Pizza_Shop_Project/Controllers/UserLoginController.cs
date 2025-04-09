@@ -55,6 +55,11 @@ namespace Pizza_Shop_Project.Controllers
                 }
 
                 TempData["SuccessMessage"] = NotificationMessage.LoginSuccess;
+                string roleName = _jwtService.GetClaimValue(verification_token, "role");
+                if (roleName == "Chef")
+                {
+                    return RedirectToAction("OrderAppKOT", "OrderAppKOT");
+                }
                 return RedirectToAction("Dashboard", "User");
             }
 

@@ -10,6 +10,6 @@ public class OrderAppKOTViewModel
     public List<Table> tableList { get; set; } = null!;
     public long SectionId { get; set; }
     public string SectionName { get; set; } = null!;
-    public List<ItemOrderViewModel> itemOrderVM { get; set; } = null!;
+    public List<ItemOrderViewModel> itemOrderVM { get; set; } = null!;    
 
 }

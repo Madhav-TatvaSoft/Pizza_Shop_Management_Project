@@ -58,6 +58,7 @@ namespace Pizza_Shop_Project.Controllers
             ViewBag.Countries = new SelectList(Countries, "CountryId", "CountryName");
             ViewBag.States = new SelectList(States, "StateId", "StateName");
             ViewBag.Cities = new SelectList(Cities, "CityId", "CityName");
+            ViewBag.Role = data[0].RoleId;
             return View(data[0]);
         }
 

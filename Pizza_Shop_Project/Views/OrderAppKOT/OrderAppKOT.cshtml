@@ -25,16 +25,16 @@
         <div class="d-flex gap-2 justify-content-end pt-2 pt-sm-0">
             <div class="btn solid-btn text-nowrap filters" id="In_Progress">In Progress</div>
             <div class="btn hollow-btn  text-nowrap filters" id="Ready">Ready</div>
-            <div class="btn hollow-btn">
+            <div class="btn hollow-btn" id="LeftArrow">
                 < </div>
-                    <div class="btn hollow-btn"> > </div>
+                    <div class="btn hollow-btn" id="RightArrow"> > </div>
             </div>
         </div>
 
         <!-------------------------- Cards ----------------------->
 
         <div id="KOT-Card-Items" class="pt-3 d-flex gap-2" style="overflow: auto;">
-
+            
         </div>
     </div>
 </div>
@@ -66,6 +66,8 @@
                 type: "GET",
                 data: { catid, filter },
                 success: function (data) {
+                    data += `<input type="hidden" id="KOTCategoryID" value="${catid}">
+                                <input type="hidden" id="KOTStatus" value="${filter}">`
                     $("#KOT-Card-Items").html(data);
                     $(".heading-category").text($(element).text());
                 },
@@ -86,6 +88,7 @@
         });
 
         $(document).ready(function () {
+            
             Category_Click(catid, filter);
         });
     </script>

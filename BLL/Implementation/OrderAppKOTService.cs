@@ -29,6 +29,18 @@ public class OrderAppKOTService : IOrderAppKOTService
             .Include(x => x.Section)
             .Where(x => !x.Isdelete);
 
+        // IQueryable<Order> query2 = from o in _context.Orders.Where(x => !x.Isdelete)
+        //                             join od in _context.Orderdetails.Where(x => !x.Isdelete) on o.OrderId equals od.OrderId
+        //                             join i in _context.Items.Where(x => !x.Isdelete) on od.ItemId equals i.ItemId
+        //                             join mo in _context.Modifierorders.Where(x => !x.Isdelete) on od.OrderdetailId equals mo.OrderdetailId
+        //                             select new Order
+        //                             {
+        //                                 OrderId = o.OrderId,
+        //                                 OrderDate = o.OrderDate,
+        //                                 SectionId = o.SectionId,
+        //                                 Section = o.Section,
+        //                             };
+
         if (catid == 0)
         {
             query = query.Where(x => x.Orderdetails.Any(od => !od.Item.Isdelete && ((filter == "Ready") ? (od.ReadyQuantity > 0) : (od.Quantity - od.ReadyQuantity > 0))));
@@ -95,6 +107,19 @@ public class OrderAppKOTService : IOrderAppKOTService
             return data;
         }
     }
+
+    #endregion
+
+    #region Get KOT Items From Modal
+
+    public async Task<OrderAppKOTViewModel> GetKOTItemsFromModal(long catid, string filter, long orderid)
+    {
+        List<OrderAppKOTViewModel> demo = new();
+        demo = await GetKOTItems(catid,filter);
+        demo = demo.Where(x => x.OrderId == orderid).ToList();
+        return demo[0];
+    }
+
     #endregion
 
 }

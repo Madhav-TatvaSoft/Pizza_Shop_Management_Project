@@ -36,6 +36,20 @@ public class CustomerService : ICustomerService
             })
             .AsQueryable();
 
+        // IQueryable<CustomerViewModel>? query2 = from c in _context.Customers.Where(i => !i.Isdelete)
+        //                                         join o in _context.Orders.Where(i => !i.Isdelete)
+        //                                         on c.CustomerId equals o.CustomerId into customerOrders
+        //                                         orderby c.CustomerId
+        //                                         select new CustomerViewModel
+        //                                         {
+        //                                             CustomerId = c.CustomerId,
+        //                                             CustomerName = c.CustomerName,
+        //                                             Email = c.Email,
+        //                                             PhoneNo = c.PhoneNo,
+        //                                             CreatedAt = System.DateOnly.FromDateTime((DateTime)c.CreatedAt),
+        //                                             totalOrder = customerOrders.Count()
+        //                                         };
+
         // Apply search 
         if (!string.IsNullOrEmpty(search))
         {

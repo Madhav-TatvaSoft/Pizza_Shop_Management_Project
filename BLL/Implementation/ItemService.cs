@@ -107,6 +107,10 @@ public class ItemService : IItemService
     {
         Item? item = _context.Items.FirstOrDefault(x => x.ItemId == itemid && !x.Isdelete);
 
+        // if(item == null){
+        //     return null;
+        // }
+
         AddItemViewModel edititemVM = new();
         {
             edititemVM.CategoryId = item.CategoryId;

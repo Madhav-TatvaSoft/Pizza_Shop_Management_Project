@@ -1,0 +1,28 @@
+@using DAL.ViewModels
+@model OrderAppKOTViewModel
+
+@foreach (var item in Model.itemOrderVM)
+{
+    <tr
+        class="border border-top-0 border-start-0 border-end-0 border-bottom-1 border-light-50 d-flex justify-content-between align-content-center">
+        @* <input type="hidden" value="@item.ItemId"> *@
+        <td class="text-secondary">
+            <input type="checkbox" class="ItemStatusModalCBClass"><span class="ps-2">@item.ItemName</span>
+            <div class="pt-1">
+                @foreach (var modifier in item.modifierOrderVM)
+                {
+                    <li class="ms-3 pt-2 validate">@modifier.ModifierName</li>
+                }
+            </div>
+        </td>
+        <td class="pt-2 text-secondary">
+            <div class="p-2 hollow-btn rounded d-flex" style="max-width: fit-content;">
+                <div class="me-4" onclick="ChangeItemUpdateQuantity(this,@item.Quantity)" style="cursor: pointer;"> -
+                </div>
+                <span>@item.Quantity</span>
+                <div class="ms-4" onclick="ChangeItemUpdateQuantity(this,@item.Quantity)" style="cursor: pointer;"> +
+                </div>
+            </div>
+        </td>
+    </tr>
+}
