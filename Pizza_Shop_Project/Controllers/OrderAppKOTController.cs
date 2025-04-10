@@ -1,3 +1,4 @@
+using BLL.common;
 using BLL.Interface;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -29,9 +30,20 @@ public class OrderAppKOTController : Controller
         return PartialView("_KOTItemsPartial", KOTVM);
     }
 
-    public async Task<IActionResult> GetKOTItemsFromModal(long catid, string filter,long orderid)
+    public async Task<IActionResult> GetKOTItemsFromModal(long catid, string filter, long orderid)
     {
-        OrderAppKOTViewModel KOTVM = await _orderAppKOTService.GetKOTItemsFromModal(catid, filter,orderid);
+        OrderAppKOTViewModel KOTVM = await _orderAppKOTService.GetKOTItemsFromModal(catid, filter, orderid);
         return PartialView("_KOTModalDataPartial", KOTVM);
     }
+
+    public async Task<IActionResult> UpdateKOTStatus(string filter, int[] orderDetailId, int[] quantity)
+    {
+        bool UpdateStatus = await _orderAppKOTService.UpdateKOTStatus(filter, orderDetailId, quantity);
+        if (UpdateStatus == true)
+        {
+            return Json(new { success = true, text = NotificationMessage.EntityUpdated.Replace("{0}", "Item Status") });
+        }
+        return Json(new { success = false, text = NotificationMessage.EntityUpdatedFailed.Replace("{0}", "Item Status") });
+    }
+
 }

@@ -413,7 +413,6 @@ public class CustomerService : ICustomerService
         }
     }
     #endregion
-
     public CustomerHistoryViewModel GetCustomerHistory(long customerid)
     {
         CustomerHistoryViewModel? customerDetails = _context.Customers.

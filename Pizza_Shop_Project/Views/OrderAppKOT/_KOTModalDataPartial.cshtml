@@ -5,9 +5,9 @@
 {
     <tr
         class="border border-top-0 border-start-0 border-end-0 border-bottom-1 border-light-50 d-flex justify-content-between align-content-center">
-        @* <input type="hidden" value="@item.ItemId"> *@
         <td class="text-secondary">
-            <input type="checkbox" class="ItemStatusModalCBClass"><span class="ps-2">@item.ItemName</span>
+            <input type="checkbox" class="ItemStatusModalCBClass" onclick="CheckBoxClick(this);">
+            <span class="ps-2">@item.ItemName</span>
             <div class="pt-1">
                 @foreach (var modifier in item.modifierOrderVM)
                 {
@@ -16,13 +16,90 @@
             </div>
         </td>
         <td class="pt-2 text-secondary">
-            <div class="p-2 hollow-btn rounded d-flex" style="max-width: fit-content;">
-                <div class="me-4" onclick="ChangeItemUpdateQuantity(this,@item.Quantity)" style="cursor: pointer;"> -
+            <div class="p-2 hollow-btn rounded d-flex" style="max-width: fit-content;" data-quantity="@item.Quantity">
+                <div class="me-4 minus" style="cursor: pointer;"> -
                 </div>
-                <span>@item.Quantity</span>
-                <div class="ms-4" onclick="ChangeItemUpdateQuantity(this,@item.Quantity)" style="cursor: pointer;"> +
+                <span>0</span>
+                <div class="ms-4 plus" style="cursor: pointer;"> +
                 </div>
             </div>
         </td>
+        <input type="hidden" value="@item.OrderdetailId" class="OrderDetailId">
     </tr>
 }
+
+<script>
+
+    function minusQuantity(tag) {
+        var quantity = parseInt(tag.nextElementSibling.innerText);
+        if (quantity > 1) {
+            quantity--;
+            tag.nextElementSibling.innerText = quantity;
+        }
+    }
+
+    function plusQuantity(tag, maxQuantity) {
+        var quantity = parseInt(tag.previousElementSibling.innerText);
+        if (quantity < maxQuantity) {
+            quantity++;
+            tag.previousElementSibling.innerText = quantity;
+        }
+    }
+
+    function CheckBoxClick(tag) {
+        if (tag.checked) {
+            const quantityDiv = tag.parentElement.parentElement.children[1].children[0];
+
+            const minusElement = quantityDiv.children[0];
+            const plusElement = quantityDiv.children[2];
+
+            const maxQuantity = quantityDiv.getAttribute('data-quantity');
+
+            minusElement.setAttribute('onclick', 'minusQuantity(this)');
+            plusElement.setAttribute('onclick', 'plusQuantity(this, ' + maxQuantity + ')');
+
+            quantityDiv.children[1].innerText = "1";
+        }
+        else {
+            const quantityDiv = tag.parentElement.parentElement.children[1].children[0];
+
+            const minusElement = quantityDiv.children[0];
+            const plusElement = quantityDiv.children[2];
+
+            minusElement.removeAttribute('onclick');
+            plusElement.removeAttribute('onclick');
+
+            quantityDiv.children[1].innerText = "0";
+        }
+    }
+    @*
+        function CheckBoxClick(tag) {
+        if (tag.checked) {
+                const quantityDiv = tag.parentElement.parentElement.children[1].querySelector('.hollow-btn');
+
+                const minusElement = quantityDiv.querySelector('.minus');
+                const plusElement = quantityDiv.querySelector('.plus');
+                const quantitySpan = quantityDiv.querySelector('span');
+
+                const maxQuantity = quantityDiv.getAttribute('data-quantity');
+
+                minusElement.setAttribute('onclick', 'minusQuantity(this)');
+                plusElement.setAttribute('onclick', 'plusQuantity(this, ' + maxQuantity + ')');
+
+                quantitySpan.innerText = "1";
+        }
+            else {
+                const quantityDiv = tag.parentElement.parentElement.children[1].querySelector('.hollow-btn');
+
+                const minusElement = quantityDiv.querySelector('.minus');
+                const plusElement = quantityDiv.querySelector('.plus');
+                const quantitySpan = quantityDiv.querySelector('span');
+
+                minusElement.removeAttribute('onclick');
+                plusElement.removeAttribute('onclick');
+
+                quantitySpan.innerText = "0";
+        }
+        } *@
+
+</script>

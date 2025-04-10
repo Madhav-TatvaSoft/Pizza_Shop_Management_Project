@@ -25,6 +25,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Dashboard
+        [PermissionAuthorize("DashboardView")]
         public IActionResult Dashboard()
         {
             ViewData["sidebar-active"] = "Dashboard";

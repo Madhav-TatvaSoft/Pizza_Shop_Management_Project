@@ -605,6 +605,9 @@ public partial class PizzaShopDbContext : DbContext
                 .HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.CustomerId).HasColumnName("customer_id");
+            entity.Property(e => e.ExtraInstruction)
+                .HasColumnType("character varying")
+                .HasColumnName("extra_instruction");
             entity.Property(e => e.Isdelete).HasColumnName("isdelete");
             entity.Property(e => e.ModifiedAt)
                 .HasColumnType("timestamp without time zone")

@@ -6,14 +6,16 @@
         style="min-width: fit-content; border-style: dotted !important; border-color: rgb(179, 179, 179) !important;">
         <div class="d-flex p-2" style="background-color: rgb(238, 238, 238);">
             <div class="user-text fw-bold text-nowrap"># @item.OrderId</div>
-            <div class="text-secondary ms-5 text-nowrap"><i class="fa-regular fa-clock"></i> <span
-                    class="d-none">@item.OrderDate</span>
+            <div class="text-secondary ms-5 text-nowrap">
+                <i class="fa-regular fa-clock"></i>
+                <span class="d-none">@item.OrderDate</span>
                 <span class="orderTimeDisplay"></span>
             </div>
         </div>
         <div class="d-flex p-2 fw-semibold pt-2 pb-2" style="background-color: rgb(238, 238, 238);">
             @item.SectionName
             <li class="ps-3 validate">
+                <!-- Table -->
                 @for (int i = 0; i < item.tableList.Count; i++)
                 {
                     @item.tableList[i].TableName
@@ -25,14 +27,16 @@
             </li>
         </div>
         <div class="text-secondary p-2" style="overflow: auto; height: 150px;">
+            <!-- Item -->
             @foreach (var itemList in item.itemOrderVM)
             {
                 <div class="pb-2">
                     <div class="d-flex justify-content-between">
                         <div>@itemList.ItemName</div>
-                        <div class="text-dark">@itemList.Quantity</div>
+                        <div class="text-dark ps-3">@itemList.Quantity</div>
                     </div>
                     <div>
+                        <!-- Modifier -->
                         @foreach (var modifier in itemList.modifierOrderVM)
                         {
                             <li class="ps-2 pt-2 validate">@modifier.ModifierName</li>
@@ -45,8 +49,7 @@
     </div>
 }
 
-@* data-bs-toggle="modal"
-data-bs-target="#KOTStatusModal" *@
+<!----------------------------------------------Modal-------------------------------------------------->
 
 <div class="modal fade" id="KOTStatusModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
@@ -71,14 +74,21 @@ data-bs-target="#KOTStatusModal" *@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="UpdateKOTStatus()" class="btn solid-btn">Mark as ready</button>
+                <button type="button" id="SaveButtonText" class="btn solid-btn">Mark as ready</button>
                 <button type="button" class="btn hollow-btn " data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+<!----------------------------------------------End of Modal-------------------------------------------------->
+
 
 <script>
+
+    var id = [];
+    var quantity = [];
+
+    // Ajax for Opening the Modal data.
     $(".KOTItemsCardClass").on('click', function (event) {
 
         $("#KOTStatusModal").modal("show");
@@ -90,6 +100,13 @@ data-bs-target="#KOTStatusModal" *@
 
         document.getElementById("ModalOrderID").innerHTML = orderid;
 
+        if (filter == "In_Progress") {
+            document.getElementById("SaveButtonText").innerHTML = "Mark as Ready";
+        }
+        else {
+            document.getElementById("SaveButtonText").innerHTML = "Mark as Progress";
+        }
+
         $.ajax({
             url: "/OrderAppKOT/GetKOTItemsFromModal",
             type: "GET",
@@ -100,35 +117,74 @@ data-bs-target="#KOTStatusModal" *@
         });
     });
 
-    @* function orderTimeDisplay() {
-        var orderdateclass = document.getElementsByClassName("orderTimeDisplay");
-        for (i = 0; i < orderdateclass.length; i++) {
-            var curdate = Date.now();
-            var orderDate = orderdateclass[i].parentElement.children[1].innerHTML;
-            var Dateonly = orderDate.split(" ");
-            var orderday = Dateonly[0].split("-")[0];
-            var ordermonth = Dateonly[0].split("-")[1];
-            var orderyear = Dateonly[0].split("-")[2];
-            var orderDateformated = orderyear + "-" + ordermonth + "-" + orderday + "T" + Dateonly[1];
-            var orderDateToCal = new Date(orderDateformated);
-            console.log(orderDateToCal);
-            console.log(curdate - orderDateToCal); 
-            var timeDiff = curdate - orderDateToCal;
+    // Time Display
+    function orderTimeDisplay() {
 
-            const timeDiffday = Math.floor(timeDiff / (24  60  60 * 1000));
-            const daysms = timeDiff % (24  60  60 * 1000);
-            const timeDiffHours = Math.floor(daysms / (60  60  1000));
-            const hoursms = timeDiff % (60  60  1000);
+        var orderdateclass = document.getElementsByClassName("orderTimeDisplay");
+
+        for (i = 0; i < orderdateclass.length; i++) {
+            var currentDate = Date.now();
+            var orderDate = orderdateclass[i].parentElement.children[1].innerHTML.trim();
+            var DateOnly = orderDate.split(" ");
+            var orderDay = DateOnly[0].split("-")[0];
+            var orderMonth = DateOnly[0].split("-")[1];
+            var orderYear = DateOnly[0].split("-")[2];
+            var orderDateFormated = orderYear + "-" + orderMonth + "-" + orderDay + "T" + DateOnly[1];
+            var orderDateToCal = new Date(orderDateFormated);
+            var timeDiff = currentDate - orderDateToCal;
+
+            const timeDiffday = Math.floor(timeDiff / (24 * 60 * 60 * 1000));
+            const daysms = timeDiff % (24 * 60 * 60 * 1000);
+            const timeDiffHours = Math.floor(daysms / (60 * 60 * 1000));
+            const hoursms = timeDiff % (60 * 60 * 1000);
             const timeDiffMins = Math.floor(hoursms / (60 * 1000));
             const minutesms = timeDiff % (60 * 1000);
             const timeDiffSecs = Math.floor(minutesms / 1000);
-            orderdateclass[i].innerHTML = timeDiffday + " days " + timeDiffHours + " hours " + timeDiffMins + " min " + timeDiffSecs + " sec"
+            orderdateclass[i].innerHTML = timeDiffday + " days " + timeDiffHours + " hours " + timeDiffMins + " min " + timeDiffSecs + " sec";
         }
     }
 
     var displaytime = window.setInterval(function () {
         orderTimeDisplay()
-    }, 1000); *@
+    }, -1000);
 
+    // KOT Status Update
+    $("#SaveButtonText").on("click", function () {
+
+        var filter = document.getElementById("KOTStatus").value;
+
+        var checkboxes = document.getElementsByClassName("ItemStatusModalCBClass");
+        console.log(checkboxes.nextElementSibling);
+        @* console.log(checkboxes.parentElement.parentElement.children[1].children[0].children[1].innerText); *@
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                id.push(checkboxes[i].parentElement.parentElement.children[2].value);
+                quantity.push(checkboxes[i].parentElement.parentElement.children[1].children[0].children[1].innerText);
+            }
+        }
+
+        $.ajax({
+            url: "/OrderAppKOT/UpdateKOTStatus",
+            type: "POST",
+            data: { filter, orderDetailId: id, quantity },
+            success: function (data) {
+                if(data.success){
+                    callSuccessToaster(data.text);
+                }
+                else{
+                    callErrorToaster(data.text);
+                }
+                $(".btn-close").click();
+                if(filter == "In_Progress"){
+                    $("#In_Progress").click();
+                }
+                else{
+                    $("#Ready").click();
+                }
+                
+            }
+        });
+    })
 
 </script>

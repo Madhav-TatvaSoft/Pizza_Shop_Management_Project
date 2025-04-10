@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj": {}
+    "D:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj": {}
   },
   "projects": {
-    "d:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj": {
+    "D:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj",
+        "projectUniqueName": "D:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj",
         "projectName": "BLL",
-        "projectPath": "d:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj",
+        "projectPath": "D:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj",
         "packagesPath": "C:\\Users\\pca155\\.nuget\\packages\\",
-        "outputPath": "d:\\T30_Pizza_Shop_Project\\BLL\\obj\\",
+        "outputPath": "D:\\T30_Pizza_Shop_Project\\BLL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pca155\\AppData\\Roaming\\NuGet\\NuGet.Config"

@@ -50,31 +50,37 @@
 
 
                         <!-- profile -->
+
                         <div class="profilepic-div d-flex  mt-2 mb-2 ">
-                            <div class="orderAppMenu d-md-flex d-none align-items-center justify-content-between me-3">
-                                <a asp-action="OrderAppKOT" asp-controller="OrderAppKOT"
-                                    class="btn solid-btn text-white border  rounded-pill p-1 px-3 me-2 @((ViewData["orderApp-Active"] as string) == "KOT" ? "orderApp-active-div" : "")"><i
-                                        class="fa-solid fa-clipboard me-1"></i>KOT</a>
-                                @if ((await AuthorizationService.AuthorizeAsync(User, "AccountManager")).Succeeded)
-                                {
+                            @if ((await AuthorizationService.AuthorizeAsync(User, "AccountManager")).Succeeded)
+                            {
+                                <div class="orderAppMenu d-md-flex d-none align-items-center justify-content-between me-3">
+                                    <a asp-action="OrderAppKOT" asp-controller="OrderAppKOT"
+                                        class="btn solid-btn text-white border  rounded-pill p-1 px-3 me-2 @((ViewData["orderApp-Active"] as string) == "KOT" ? "orderApp-active-div" : "")"><i
+                                            class="fa-solid fa-clipboard me-1"></i>KOT</a>
+
                                     <a asp-action="OrderAppWaitingList" asp-controller="OrderAppWaitingList"
                                         class="btn solid-btn text-white border  rounded-pill p-1 px-3 me-2 @((ViewData["orderApp-Active"] as string) == "WaitingList" ? "orderApp-active-div" : "")">
                                         <i class="fa-solid fa-clock me-1"></i>Waiting List</a>
 
-                                }
-                                @if ((await AuthorizationService.AuthorizeAsync(User, "AccountManager")).Succeeded)
-                                {
+
                                     <a asp-action="OrderAppTable" asp-controller="OrderAppTable"
                                         class="btn solid-btn text-white border  rounded-pill p-1 px-3 me-2 @((ViewData["orderApp-Active"] as string) == "Table" ? "orderApp-active-div" : "")"><i
                                             class="fa-solid fa-table me-1"></i>Tables</a>
-                                }
-                                @if ((await AuthorizationService.AuthorizeAsync(User, "AccountManager")).Succeeded)
-                                {
+
                                     <a asp-action="OrderAppMenu" asp-controller="OrderAppMenu"
                                         class="btn solid-btn text-white border  rounded-pill p-1 px-3 me-2 @((ViewData["orderApp-Active"] as string) == "Menu" ? "orderApp-active-div" : "")"><i
                                             class="fa-solid fa-burger me-1"></i>Menu</a>
-                                }
-                            </div>
+                                </div>
+                            }
+                            @if ((await AuthorizationService.AuthorizeAsync(User, "Chef")).Succeeded)
+                            {
+                                <div class="orderAppMenu d-flex align-items-center justify-content-between me-3">
+                                    <a asp-action="OrderAppKOT" asp-controller="OrderAppKOT"
+                                        class="btn solid-btn text-white border  rounded-pill p-1 px-3 me-2 @((ViewData["orderApp-Active"] as string) == "KOT" ? "orderApp-active-div" : "")"><i
+                                            class="fa-solid fa-clipboard me-1"></i>KOT</a>
+                                </div>
+                            }
 
                             @if ((await AuthorizationService.AuthorizeAsync(User, "AccountManager")).Succeeded)
                             {
