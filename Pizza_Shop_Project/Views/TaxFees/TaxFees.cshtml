@@ -24,8 +24,6 @@
     </div>
 </div>
 
-
-
 <!-- Table -->
 <div class="container-fluid p-sm-4 p-3">
     <div class="table-main table-responsive p-3 bg-white rounded shadow-lg">
@@ -129,9 +127,7 @@
                 data: { pageNumber: page, search, pageSize },
                 success: function (data) {
 
-
                     $("#TaxTableBody").html(data);
-
 
                     currentPage = page;
                     pageSize = parseInt(pageSize);

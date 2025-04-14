@@ -2,8 +2,11 @@ using BLL.common;
 using BLL.Interface;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Pizza_Shop_Project.Authorization;
 
 namespace Pizza_Shop_Project.Controllers;
+
+[PermissionAuthorize("KOT")]
 
 public class OrderAppKOTController : Controller
 {
@@ -24,15 +27,15 @@ public class OrderAppKOTController : Controller
         return View(KOTVM);
     }
 
-    public async Task<IActionResult> GetKOTItems(long catid, string filter)
+    public async Task<IActionResult> GetKOTItems(long catid, string filter, int page = 1, int pageSize = 5)
     {
-        List<OrderAppKOTViewModel>? KOTVM = await _orderAppKOTService.GetKOTItems(catid, filter);
+        PaginationViewModel<OrderAppKOTViewModel>? KOTVM = await _orderAppKOTService.GetKOTItems(catid, filter, page, pageSize);
         return PartialView("_KOTItemsPartial", KOTVM);
     }
 
     public async Task<IActionResult> GetKOTItemsFromModal(long catid, string filter, long orderid)
     {
-        OrderAppKOTViewModel KOTVM = await _orderAppKOTService.GetKOTItemsFromModal(catid, filter, orderid);
+        var KOTVM = await _orderAppKOTService.GetKOTItemsFromModal(catid, filter, orderid);
         return PartialView("_KOTModalDataPartial", KOTVM);
     }
 

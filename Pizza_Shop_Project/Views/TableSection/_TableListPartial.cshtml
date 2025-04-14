@@ -20,12 +20,12 @@ else
             </td>
             <td class="text-center">@item.Capacity</td>
             <td class="text-center d-flex justify-content-center">
-                @if (item.Status == true)
+                @if (item.Status == "Occupied" || item.Status == "Running")
                 {
                     <div class="text-center text-white bg-secondary rounded-pill validate p-1" style="max-width: fit-content;">
                         Occupied</div>
                 }
-                else
+                else if(item.Status == "Available")
                 {
                     <div class="text-center text-white  bg-success rounded-pill validate p-1 ">
                         Available</div>

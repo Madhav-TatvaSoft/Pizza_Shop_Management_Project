@@ -1,6 +1,7 @@
 using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Implementation;
@@ -17,7 +18,7 @@ public class OrderAppKOTService : IOrderAppKOTService
     #endregion
 
     #region Get KOT Items
-    public async Task<List<OrderAppKOTViewModel>> GetKOTItems(long catid, string filter)
+    public async Task<PaginationViewModel<OrderAppKOTViewModel>> GetKOTItems(long catid, string filter, int page = 1, int pageSize = 5)
     {
         IQueryable<Order> query = _context.Orders
             .Include(x => x.Orderdetails)
@@ -47,7 +48,7 @@ public class OrderAppKOTService : IOrderAppKOTService
         {
             query = query.Where(x => x.Orderdetails.Any(od => !od.Item.Isdelete && ((filter == "Ready") ? (od.ReadyQuantity > 0) : (od.Quantity - od.ReadyQuantity > 0))));
 
-            var data = query
+            List<OrderAppKOTViewModel>? data = query
             .Select(x => new OrderAppKOTViewModel
             {
                 OrderId = x.OrderId,
@@ -77,7 +78,11 @@ public class OrderAppKOTService : IOrderAppKOTService
                 }).ToList()
             }).ToList();
 
-            return data;
+            int totalCount = data.Count();
+
+            var items = data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return new PaginationViewModel<OrderAppKOTViewModel>(items, totalCount, page, pageSize);
         }
         else
         {
@@ -112,7 +117,12 @@ public class OrderAppKOTService : IOrderAppKOTService
                     }).ToList()
                 }).ToList()
             }).ToList();
-            return data;
+
+            int totalCount = data.Count();
+
+            var items = data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return new PaginationViewModel<OrderAppKOTViewModel>(items, totalCount, page, pageSize);
         }
     }
 
@@ -121,8 +131,8 @@ public class OrderAppKOTService : IOrderAppKOTService
     #region Get KOT Items From Modal
     public async Task<OrderAppKOTViewModel> GetKOTItemsFromModal(long catid, string filter, long orderid)
     {
-        List<OrderAppKOTViewModel> KotModalData = await GetKOTItems(catid, filter);
-        var KotData = KotModalData.Where(x => x.OrderId == orderid).SingleOrDefault();
+        PaginationViewModel<OrderAppKOTViewModel> KotModalData = await GetKOTItems(catid, filter,1,5);
+        var KotData = KotModalData.Items.Where(x => x.OrderId == orderid).SingleOrDefault();
         if (KotData == null)
         {
             KotData = new OrderAppKOTViewModel();

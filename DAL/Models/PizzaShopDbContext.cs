@@ -908,7 +908,10 @@ public partial class PizzaShopDbContext : DbContext
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
             entity.Property(e => e.SectionId).HasColumnName("section_id");
-            entity.Property(e => e.Status).HasColumnName("status");
+            entity.Property(e => e.Status)
+                .HasDefaultValueSql("false")
+                .HasColumnType("character varying")
+                .HasColumnName("status");
             entity.Property(e => e.TableName)
                 .HasMaxLength(100)
                 .HasColumnName("table_name");

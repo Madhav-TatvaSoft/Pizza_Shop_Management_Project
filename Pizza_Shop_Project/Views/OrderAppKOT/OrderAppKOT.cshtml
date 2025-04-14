@@ -25,18 +25,18 @@
         <div class="d-flex gap-2 justify-content-end pt-2 pt-sm-0">
             <div class="btn solid-btn text-nowrap filters" id="In_Progress">In Progress</div>
             <div class="btn hollow-btn  text-nowrap filters" id="Ready">Ready</div>
-            <div class="btn hollow-btn" id="LeftArrow">
-                < </div>
-                    <div class="btn hollow-btn" id="RightArrow"> > </div>
-            </div>
-        </div>
-
-        <!-------------------------- Cards ----------------------->
-
-        <div id="KOT-Card-Items" class="pt-3 d-flex gap-2" style="overflow: auto;">
-            
+            <button class="btn hollow-btn" id="LeftArrow">
+                < </button>
+                    <button class="btn hollow-btn" id="RightArrow"> > </button>
         </div>
     </div>
+
+    <!-------------------------- Cards ----------------------->
+
+    <div id="KOT-Card-Items" class="pt-3 d-flex flex-sm-row flex-column gap-2" style="overflow: auto;">
+
+    </div>
+</div>
 </div>
 
 @section Scripts {
@@ -46,8 +46,10 @@
 
         let catid = 0;
         let filter = "In_Progress";
+        let currentPage = 1;
+        let pageSize = 5;
 
-        function Category_Click(catid, filter) {
+        function Category_Click(catid, filter, page = 1) {
 
             var element = document.getElementById(catid);
             var filterelement = document.getElementById(filter);
@@ -64,12 +66,20 @@
             $.ajax({
                 url: "/OrderAppKOT/GetKOTItems",
                 type: "GET",
-                data: { catid, filter },
+                data: { catid, filter, page, pageSize },
                 success: function (data) {
                     data += `<input type="hidden" id="KOTCategoryID" value="${catid}">
-                                <input type="hidden" id="KOTStatus" value="${filter}">`
+                                                                            <input type="hidden" id="KOTStatus" value="${filter}">`
                     $("#KOT-Card-Items").html(data);
                     $(".heading-category").text($(element).text());
+
+                    currentPage = page;
+                    pageSize = parseInt(pageSize);
+
+                    var totalRecords = parseInt($("#totalRecords").val()) || 0;
+
+                    $("#LeftArrow").prop("disabled", currentPage === 1);
+                    $("#RightArrow").prop("disabled", currentPage * pageSize >= totalRecords);
                 },
                 error: function (xhr, status, error) {
                     console.error("Error fetching KOT items:", error);
@@ -77,19 +87,44 @@
             });
         }
 
+        // Category Click 
         $(".category-click").on("click", function () {
             catid = $(this).attr("id");
-            Category_Click(catid, filter);
+            currentPage = 1;
+            Category_Click(catid, filter, currentPage);
         });
 
+        // Filter button click
         $(".filters").on("click", function () {
             filter = $(this).attr("id");
-            Category_Click(catid, filter);
+            currentPage = 1;
+            Category_Click(catid, filter, currentPage);
         });
 
         $(document).ready(function () {
-            
+
             Category_Click(catid, filter);
+
+            // Right arrow 
+            $("#RightArrow").on("click", function () {
+                let rightarrow = !$(this).prop("disabled");
+                if (rightarrow) {
+                    currentPage++;
+                    Category_Click(catid, filter, currentPage);
+                }
+            });
+
+            // Left arrow 
+            $("#LeftArrow").on("click", function () {
+                let leftarrow = !$(this).prop("disabled");
+                if (leftarrow) {
+                    currentPage--;
+                    Category_Click(catid, filter, currentPage);
+                }
+            });
+
         });
+
+
     </script>
 }

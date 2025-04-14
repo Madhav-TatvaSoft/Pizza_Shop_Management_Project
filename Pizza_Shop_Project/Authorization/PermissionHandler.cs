@@ -152,8 +152,8 @@ public class PermissionHandler : AuthorizationHandler<PermissionRequirement>
                 if (roleName == "Chef")
                     context.Succeed(requirement);
                 break;
-            case "DashboardView":
-                if (roleName == "Admin" || roleName == "Account Manager")
+            case "KOT":
+                if (roleName == "Chef" || roleName == "Account Manager")
                     context.Succeed(requirement);
                 break;
 

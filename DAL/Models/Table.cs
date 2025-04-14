@@ -11,7 +11,7 @@ public partial class Table
 
     public int Capacity { get; set; }
 
-    public bool Status { get; set; }
+    public string Status { get; set; } = null!;
 
     public DateTime? CreatedAt { get; set; }
 

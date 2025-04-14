@@ -491,28 +491,54 @@ form i {
     font-weight: 600;
 }
 
-/* .accordion-button {
-  margin: 11px !important;
-  padding: 4px !important;
-  color: gray !important;
-  background-color: #fff !important;
-  border: 1px solid gray !important;
-  border-radius: 50% !important;
-  transform: rotate(-90deg) !important;
-}
-.accordion-button:focus {
-  z-index: 3;
-  border-color: #fff !important;
-  background-color: #fff !important;
-  border: 1px solid gray !important;
-  outline: 0;
-  box-shadow: none !important;
-}
-.accordion-button:not(.collapsed) {
-  color: #fff !important;
-  background-color: #e7f1ff;
-  box-shadow: none !important;
-  border: 1px solid #0066a7 !important;
-  border-radius: 50% !important;
-} */
+/* Table Accordion  */
 
+.accordion-button:not(.collapsed)::after {
+    transform: rotate(90deg) !important;
+} 
+
+.accordion-button {
+    margin: 11px !important;
+    padding: 4px !important;
+    color: gray !important;
+    background-color: #fff !important;
+    border: 1px solid gray !important;
+    border-radius: 50% !important;
+    transform: rotate(-90deg) !important;
+  }
+  .accordion-button:focus {
+    z-index: 3;
+    border-color: #fff !important;
+    background-color: #fff !important;
+    border: 1px solid gray !important;
+    outline: 0;
+    box-shadow: none !important;
+  }
+  .accordion-button:not(.collapsed) {
+    color: #fff !important;
+    background-color: #e7f1ff;
+    box-shadow: none !important;
+    border: 1px solid #0084c3 !important;
+    border-radius: 50% !important;
+  }
+
+.bg-available{
+    background-color: rgb(202, 202, 202) !important;
+}
+
+.bg-assigned-dark{
+    background-color: #7ec83b !important;
+}
+
+.bg-running-dark{
+    background-color: rgb(100, 182, 237) !important;
+    border : 1px solid rgb(100, 182, 237);
+}
+
+.bg-available-selected{
+    background-color: rgb(202, 202, 202) !important;
+}
+
+.bg-assigned-selected{
+    border: 1px solid #7ec83b !important;
+}

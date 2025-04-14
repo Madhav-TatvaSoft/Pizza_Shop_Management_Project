@@ -17,7 +17,7 @@ public class TablesViewModel
     [Range(0, 20, ErrorMessage = "Capacity should be Positive and cannot exceed 20")]
     public int Capacity { get; set; }
 
-    public bool Status { get; set; }
+    public string Status { get; set; } = null!;
 
     public bool Isdelete { get; set; }
 

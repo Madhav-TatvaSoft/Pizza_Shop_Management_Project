@@ -1,9 +1,9 @@
 @using DAL.ViewModels
-@model List<OrderAppKOTViewModel>;
-@foreach (var item in Model)
+@model PaginationViewModel<OrderAppKOTViewModel>;
+@foreach (var item in Model.Items)
 {
     <div class="KOTItemsCardClass rounded border-2" data-id="@item.OrderId"
-        style="min-width: fit-content; border-style: dotted !important; border-color: rgb(179, 179, 179) !important;">
+        style="width: 350px; border-style: dotted !important; border-color: rgb(179, 179, 179) !important;">
         <div class="d-flex p-2" style="background-color: rgb(238, 238, 238);">
             <div class="user-text fw-bold text-nowrap"># @item.OrderId</div>
             <div class="text-secondary ms-5 text-nowrap">
@@ -42,12 +42,16 @@
                             <li class="ps-2 pt-2 validate">@modifier.ModifierName</li>
                         }
                     </div>
+                    <div class="p-2 pb-0" style="color: #00c9e4;">Instruction : <span class="text-secondary">@itemList.ExtraInstruction</span></div>
                 </div>
             }
         </div>
-        <div class="d-flex p-2 border border-top-5" style="background-color: rgb(238, 238, 238); height: 64px;"></div>
+        <div class="d-flex p-2 border border-top-5" style="background-color: rgb(238, 238, 238); height: 64px;">
+            <span class="text-nowrap" style="color: #00c9e4;">Order Instruction : </span><span class="text-dark ps-1">@item.ExtraInstruction</span>
+        </div>
     </div>
 }
+<input type="hidden" id="totalRecords" value="@Model.TotalCount" />
 
 <!----------------------------------------------Modal-------------------------------------------------->
 
@@ -81,7 +85,6 @@
     </div>
 </div>
 <!----------------------------------------------End of Modal-------------------------------------------------->
-
 
 <script>
 
@@ -155,9 +158,9 @@
 
         var checkboxes = document.getElementsByClassName("ItemStatusModalCBClass");
         console.log(checkboxes.nextElementSibling);
-        @* console.log(checkboxes.parentElement.parentElement.children[1].children[0].children[1].innerText); *@
+    @* console.log(checkboxes.parentElement.parentElement.children[1].children[0].children[1].innerText); *@
 
-        for (var i = 0; i < checkboxes.length; i++) {
+            for (var i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].checked) {
                 id.push(checkboxes[i].parentElement.parentElement.children[2].value);
                 quantity.push(checkboxes[i].parentElement.parentElement.children[1].children[0].children[1].innerText);
@@ -169,20 +172,20 @@
             type: "POST",
             data: { filter, orderDetailId: id, quantity },
             success: function (data) {
-                if(data.success){
+                if (data.success) {
                     callSuccessToaster(data.text);
                 }
-                else{
+                else {
                     callErrorToaster(data.text);
                 }
                 $(".btn-close").click();
-                if(filter == "In_Progress"){
+                if (filter == "In_Progress") {
                     $("#In_Progress").click();
                 }
-                else{
+                else {
                     $("#Ready").click();
                 }
-                
+
             }
         });
     })
