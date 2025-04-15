@@ -25,7 +25,9 @@ public partial class Waitinglist
 
     public long? ModifiedBy { get; set; }
 
-    public long TableId { get; set; }
+    public long? TableId { get; set; }
+
+    public long SectionId { get; set; }
 
     public virtual User? CreatedByNavigation { get; set; }
 
@@ -33,5 +35,7 @@ public partial class Waitinglist
 
     public virtual User? ModifiedByNavigation { get; set; }
 
-    public virtual Table Table { get; set; } = null!;
+    public virtual Section Section { get; set; } = null!;
+
+    public virtual Table? Table { get; set; }
 }

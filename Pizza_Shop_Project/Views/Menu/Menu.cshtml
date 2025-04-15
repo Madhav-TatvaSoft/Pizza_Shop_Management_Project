@@ -1,4 +1,6 @@
 @model DAL.ViewModels.MenuViewModel
+@using Microsoft.AspNetCore.Authorization
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
 <!-- Menu text  -->
 <div class="user-text bg-light fs-3 pt-4 fw-bold  pb-3 ps-md-4">Menu</div>
 
@@ -36,8 +38,11 @@
 
                         <div class="user-text p-3 d-flex justify-content-between">
                             <span class="fw-bold fs-5">Category</span>
-                            <i class="fa-regular fa-square-plus fs-4 user-text" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal-addCategory" onclick="RemoveValidation()"></i>
+                            @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.AddEdit")).Succeeded)
+                            {
+                                <i class="fa-regular fa-square-plus fs-4 user-text" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal-addCategory" onclick="RemoveValidation()"></i>
+                            }
                         </div>
 
                         <!-- Categories -->
@@ -58,12 +63,18 @@
 
                                     <div class="d-flex text-secondary justify-content-end">
                                         <input type="hidden" value="@item.Description">
-                                        <i class="fa-solid fa-pen me-2 text-secondary"
-                                            onclick="GetDetailsForCategoryUpdate(this)" data-id="@item.CategoryId"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal-editCategory"></i>
-                                        <i class="fa-solid fa-trash-can text-secondary"
-                                            onclick="GetIdForDeleteCategory(this)" data-id="@item.CategoryId"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal-deleteCategory"></i>
+                                        @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.AddEdit")).Succeeded)
+                                        {
+                                            <i class="fa-solid fa-pen me-2 text-secondary"
+                                                onclick="GetDetailsForCategoryUpdate(this)" data-id="@item.CategoryId"
+                                                data-bs-toggle="modal" data-bs-target="#exampleModal-editCategory"></i>
+                                            @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.Delete")).Succeeded)
+                                            {
+                                                <i class="fa-solid fa-trash-can text-secondary"
+                                                    onclick="GetIdForDeleteCategory(this)" data-id="@item.CategoryId"
+                                                    data-bs-toggle="modal" data-bs-target="#exampleModal-deleteCategory"></i>
+                                            }
+                                        }
                                     </div>
 
                                 </a>
@@ -82,32 +93,45 @@
                                 <i class="fa-solid fa-magnifying-glass search-icon-item "></i>
                             </div>
 
-                            <div class="trash-button-item pt-2">
-                                <button disabled id="MassDeleteItemsBtn" class="btn p-1 ps-2 pe-2 border"
-                                    data-bs-toggle="modal" data-bs-target="#MassDeleteItemsModal"><i
-                                        class="fa-solid fa-trash-can "></i></button>
-                            </div>
-                            <div class="add-user-button pt-2 pe-sm-2 pe-0">
-                                <button type="button" id="AddItemId" class="addItemBtn btn solid-btn text-light p-1 "
-                                    data-bs-toggle="modal" data-bs-target="#addItemModal">
-                                    + <span class="d-none d-md-inline">New Item</span>
-                                </button>
-                            </div>
+                            @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.AddEdit")).Succeeded)
+                            {
+                                @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.Delete")).Succeeded)
+                                {
+                                    <div class="trash-button-item pt-2">
+                                        <button disabled id="MassDeleteItemsBtn" class="btn p-1 ps-2 pe-2 border"
+                                            data-bs-toggle="modal" data-bs-target="#MassDeleteItemsModal"><i
+                                                class="fa-solid fa-trash-can "></i></button>
+                                    </div>
+                                }
+
+                                <div class="add-user-button pt-2 pe-sm-2 pe-0">
+                                    <button type="button" id="AddItemId" class="addItemBtn btn solid-btn text-light p-1 "
+                                        data-bs-toggle="modal" data-bs-target="#addItemModal">
+                                        + <span class="d-none d-md-inline">New Item</span>
+                                    </button>
+                                </div>
+                            }
                         </div>
 
                         <div class="table-responsive">
                             <table class="table mb-0" id="demo">
                                 <thead>
                                     <tr class="border border-top-0 border-end-0 border-start-0 border-dark">
-                                        <th scope="col" class="text-start fw-bold"><input
+                                        <th scope="col" class="text-start fw-bold">
+                                            @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.Delete")).Succeeded)
+            {<input
                                                 class="form-check-input mt-0 me-3 " type="checkbox"
-                                                id="item-main-checkbox" onclick="Item_Main_Checkbox_Select()">Name</th>
+                                                id="item-main-checkbox" onclick="Item_Main_Checkbox_Select()">
+                                                }Name</th>
                                         <th scope="col" class="text-center fw-bold text-nowrap">Item Type</th>
                                         <th scope="col" class="text-center fw-bold">Rate</th>
                                         <th scope="col" class="text-center fw-bold">Quantity</th>
                                         <th scope="col" class="text-center fw-bold">Available</th>
-                                        <th scope="col" class="text-center fw-bold">Action</th>
-
+                                        @if ((await AuthorizationService.AuthorizeAsync(User,
+                                        "Menu.AddEdit")).Succeeded)
+                                        {
+                                            <th scope="col" class="text-center fw-bold">Action</th>
+                                        }
                                     </tr>
                                 </thead>
                                 <tbody style="white-space: nowrap;" id="item-list-body">
@@ -153,8 +177,11 @@
 
                         <div class="user-text p-3 d-flex justify-content-between">
                             <span class="fw-bold fs-5">Modifier Group</span>
-                            <i class="fa-regular fa-square-plus fs-4 user-text" data-bs-toggle="modal"
-                                data-bs-target="#AddModifierGroup" onclick="RemoveValidation()"></i>
+                            @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.AddEdit")).Succeeded)
+                            {
+                                <i class="fa-regular fa-square-plus fs-4 user-text" data-bs-toggle="modal"
+                                    data-bs-target="#AddModifierGroup" onclick="RemoveValidation()"></i>
+                            }
                         </div>
 
                         <!-- Modifiers -->
@@ -178,32 +205,43 @@
                                 <i class="fa-solid fa-magnifying-glass search-icon-item "></i>
 
                             </div>
-
-                            <div class="trash-button-modifier pt-2">
-                                <button disabled id="MassDeleteModifiersBtn" class="btn p-1 ps-2 pe-2 border"
-                                    data-bs-toggle="modal" data-bs-target="#MassDeleteModifiersModal"><i
-                                        class="fa-solid fa-trash-can "></i>
-                                </button>
-                            </div>
-                            <div class="add-user-button pt-2 pe-sm-2 pe-0">
-                                <button type="button" class="addModifierBtn btn solid-btn text-light p-1"
-                                    data-bs-toggle="modal" data-bs-target="#addModifierModal" id="addModifierModalId">
-                                    +<span class="d-none d-md-inline">New Modifier</span>
-                                </button>
-                            </div>
+                            @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.AddEdit")).Succeeded)
+                            {
+                                @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.Delete")).Succeeded)
+                                {
+                                    <div class="trash-button-modifier pt-2">
+                                        <button disabled id="MassDeleteModifiersBtn" class="btn p-1 ps-2 pe-2 border"
+                                            data-bs-toggle="modal" data-bs-target="#MassDeleteModifiersModal"><i
+                                                class="fa-solid fa-trash-can "></i>
+                                        </button>
+                                    </div>
+                                }
+                                <div class="add-user-button pt-2 pe-sm-2 pe-0">
+                                    <button type="button" class="addModifierBtn btn solid-btn text-light p-1"
+                                        data-bs-toggle="modal" data-bs-target="#addModifierModal" id="addModifierModalId">
+                                        +<span class="d-none d-md-inline">New Modifier</span>
+                                    </button>
+                                </div>
+                            }
                         </div>
 
                         <div class="table-responsive">
                             <table class="table mb-0" id="demo">
                                 <thead>
                                     <tr class="border border-top-0 border-end-0 border-start-0 border-dark">
-                                        <th scope="col" class="text-start fw-bold"><input id="modifier-main-checkbox"
+                                        <th scope="col" class="text-start fw-bold">
+                                            @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.Delete")).Succeeded)
+            {<input id="modifier-main-checkbox"
                                                 class="form-check-input mt-0 me-3 " type="checkbox"
-                                                onclick="Modifier_Main_Checkbox_Select()">Name</th>
+                                                onclick="Modifier_Main_Checkbox_Select()">}Name</th>
                                         <th scope="col" class="text-center fw-bold">Unit</th>
                                         <th scope="col" class="text-center fw-bold">Rate</th>
                                         <th scope="col" class="text-center fw-bold">Quantity</th>
-                                        <th scope="col" class="text-center fw-bold">Action</th>
+                                        @if ((await AuthorizationService.AuthorizeAsync(User,
+                                        "Menu.AddEdit")).Succeeded)
+                                        {
+                                            <th scope="col" class="text-center fw-bold">Action</th>
+                                        }
                                     </tr>
                                 </thead>
                                 <tbody style="white-space: nowrap;" id="modifier-list-body">
@@ -977,7 +1015,7 @@
             modifier_div.innerHTML = "";
             for (i = 0; i < modifierTempId.length; i++) {
                 modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                                                                                                                                                                                                                                                                                                                                                                     ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
+                                                                                                                                                                                                                                                                                                                                                                                                                                                             ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="RemoveFromExistingModifierList(${modifierTempId[i]},'${modifierTempName[i]}')"></i></div> `
             }
         }
 
@@ -1064,7 +1102,7 @@
 
             for (i = 0; i < modifierTempId.length; i++) {
                 edit_modifier_div.innerHTML += `<div class="p-1 border border-1 rounded-pill ms-1 mb-2 me-2 d-inline justify-content-between align-items-center" style="max-width:fit-content;">
-                                                                                                                                                                    ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
+                                                                                                                                                                                            ${modifierTempName[i]} <i class="fa-solid fa-xmark" style="margin-left: 0px;" onclick="EditRemoveFromExistingModifierList(\`${modifierTempId[i]}\`,\`${modifierTempName[i]}\`)"></i></div> `
             }
 
         }

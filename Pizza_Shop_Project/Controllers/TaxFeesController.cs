@@ -2,6 +2,7 @@ using BLL.Interface;
 using DAL.ViewModels;
 using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Pizza_Shop_Project.Authorization;
 
 namespace Pizza_Shop_Project.Controllers;
 
@@ -21,6 +22,7 @@ public class TaxFeesController : Controller
     #endregion
 
     #region Main Tax Fees View
+    [PermissionAuthorize("TaxFees.View")]
     public IActionResult TaxFees()
     {
         ViewData["sidebar-active"] = "TaxFees";
@@ -29,11 +31,10 @@ public class TaxFeesController : Controller
     #endregion
 
     #region Pagination Tax
+    [PermissionAuthorize("TaxFees.View")]
     public IActionResult PaginationForTax(int pageNumber = 1, string search = "", int pageSize = 3)
     {
-
         PaginationViewModel<TaxViewModel>? taxList = _taxFeesService.GetTaxList(pageNumber, search, pageSize);
-
         return PartialView("_TaxListDataPartial", taxList);
     }
     #endregion
@@ -41,6 +42,7 @@ public class TaxFeesController : Controller
     #region Tax CRUD
 
     #region Add Edit Tax GET
+    [PermissionAuthorize("TaxFees.Delete")]
     public IActionResult AddEditTax(long taxid)
     {
         TaxFeesViewModel taxFeesVM = new TaxFeesViewModel();
@@ -86,7 +88,7 @@ public class TaxFeesController : Controller
     //         return Json(new { success = false, text = "Failed to Update Tax, Check If already exists!" });
     //     }
     // }
-
+    [PermissionAuthorize("TaxFees.AddEdit")]
     [HttpPost]
     public async Task<IActionResult> AddEditTax([FromForm] TaxFeesViewModel taxFeesVM)
     {
@@ -102,6 +104,7 @@ public class TaxFeesController : Controller
     #endregion
 
     #region Delete Tax
+    [PermissionAuthorize("TaxFees.Delete")]
     [HttpPost]
     public async Task<IActionResult> DeleteTaxAsync(long taxid)
     {

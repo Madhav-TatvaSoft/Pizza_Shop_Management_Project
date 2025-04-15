@@ -7,40 +7,56 @@
 }
 else
 {
-    <div class="d-flex flex-column gap-2 px-3">
-        <div class="d-flex flex-wrap justify-content-start gap-3 " id="TablesToDisplayDiv">
-            @foreach (var table in Model)
-            {
-                var isStatus = string.IsNullOrEmpty(table.Status);
-                var status = string.IsNullOrEmpty(table.Status) ? "" : table.Status.ToLower();
-                var backGroundColor = isStatus ? "" : $"bg-{status}";
-                var borderColor = isStatus ? "" : $"border-{status}";
-                var textColor = isStatus ? "" : $"text-{status}";
+    @foreach (var table in Model)
+    {
+        <div class="table-card card border border-1 rounded-2 " style="width: 270px;" data-sec="@table.SectionId"
+            
+            onclick="SelectTable(this,'@table.Status')">
+            <div
+                class=" card-body rounded-1  d-flex flex-column bg-light text-secondary @(table.Status == "Assigned" || table.Status == "Occupied" ? "table-Assigned": table.Status == "Running"? "table-Running" : "table-Available")">
+                <div class="d-flex justify-content-between align-items-center mx-1">
+                    <div
+                        class="fs-5 fw-bold pe-2 pb-2 @(table.Status == "Assigned" || table.Status == "Occupied" ? "text-Assigned": table.Status == "Running"? "text-Running" : "text-Available")">
+                        @table.TableName</div>
+                    @if (table.Status == "Running")
+                    {
+                        @if (table.OrderAmount > 0)
+                        {
+                            <div>₹@table.OrderAmount</div>
+                        }
+                        else
+                        {
+                            <div>₹ 0</div>
+                        }
+                    }
+                </div>
 
-                <div class="table-card card border border-1 rounded-2 @borderColor" style="width: 270px;"
-                    data-status=@table.Status.ToLower() data-id=@table.TableId>
-                    <div class="card-body rounded-1 d-flex flex-column @backGroundColor">
-                        <div class="fs-5 fw-semibold @textColor">@table.TableName</div>
-                        <div class="d-flex justify-content-between align-items-center mx-1">
-                            <div class="d-flex flex-column align-items-center">
-                                <div><i class="bi bi-people"></i></div>
-                                <div>@table.Capacity</div>
-                            </div>
-                            <div class="d-flex align-items-center flex-column">
-                                <div><i class="bi bi-stopwatch"></i></div>
-                                <div>@table.OrderAmount</div>
-                                <div>@table.TableTime</div>
-                            </div>
-                        </div>
+                <div class="d-flex justify-content-between align-items-center mx-1 pt-2">
+                    <div class="d-flex flex-column align-items-center flex-column pt-2">
+                        <div><i class="bi bi-people pb-2"></i></div>
+                        <div class="pt-2">@table.Capacity</div>
+                        <div>&nbsp;</div>
+                    </div>
+                    <div class="d-flex flex-column align-items-center ">
+                        <div><i class="bi bi-stopwatch"></i></div>
+                        @if (table.Status == "Running" || table.Status == "Assigned" || table.Status == "Occupied")
+                        {
+
+                            <div class="pt-2">@table.TableTime</div>
+                        }
+                        else
+                        {
+
+                            <div class="text-center pt-2">0 <br> min</div>
+                        }
                     </div>
                 </div>
-            }
+            </div>
         </div>
-        <div class="d-flex justify-content-end">
-            <button class="btn bg-button text-white assign-tables-button" disabled data-bs-toggle="offcanvas"
-                data-bs-target="#assign-table-waiting-list-@Model[0].SectionId"
-                aria-controls="assign-table-waiting-list">Assign</button>
-        </div>
-
-    </div>
+    }
 }
+
+<script>
+    var IsEnable = 0;
+
+</script>

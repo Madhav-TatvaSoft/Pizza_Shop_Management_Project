@@ -1,5 +1,7 @@
 @model DAL.ViewModels.TableSectionViewModel
-
+@using Microsoft.AspNetCore.Authorization
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
 <!-- Section Table text  -->
 <div class="user-text bg-light fs-3 pt-4 fw-bold  pb-3 ps-md-4">Sections/Tables</div>
 
@@ -16,8 +18,11 @@
 
                 <div class="user-text p-3 d-flex justify-content-between">
                     <span class="fw-bold fs-5">Sections</span>
-                    <i class="fa-regular fa-square-plus fs-4 user-text" data-bs-toggle="modal"
-                        data-bs-target="#AddSectionModal" id="AddSectionModalId"></i>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "TableSection.AddEdit")).Succeeded)
+                    {
+                        <i class="fa-regular fa-square-plus fs-4 user-text" data-bs-toggle="modal"
+                            data-bs-target="#AddSectionModal" id="AddSectionModalId"></i>
+                    }
                 </div>
 
                 <div id="SectionList_Partial" style="overflow-y:scroll; height:260px;">
@@ -37,20 +42,24 @@
                         <input type="text" id="searchbtn-table" placeholder="Search" class=" p-sm-1 border ">
                         <i class="fa-solid fa-magnifying-glass search-icon-item "></i>
                     </div>
-
-                    <div class="trash-button-table pt-2">
-                        <button disabled id="MassDeleteTablesBtn" class="btn p-1 ps-2 pe-2 border"
-                            data-bs-toggle="modal" data-bs-target="#MassDeleteTablesModal"><i
-                                class="fa-solid fa-trash-can "></i></button>
-                    </div>
-
-                    <div class="add-user-button pt-2 pe-sm-2 pe-0">
-                        <button type="button" class="btn solid-btn text-light p-1"
-                            data-bs-toggle="modal" data-bs-target="#AddTableModal" id="AddTableModalId">
-                            + <span class="d-none d-md-inline">New Table</span>
-                        </button>
-                        <input type="hidden" id="Section_id_Table">
-                    </div>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "TableSection.AddEdit")).Succeeded)
+                    {
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "TableSection.Delete")).Succeeded)
+                        {
+                            <div class="trash-button-table pt-2">
+                                <button disabled id="MassDeleteTablesBtn" class="btn p-1 ps-2 pe-2 border"
+                                    data-bs-toggle="modal" data-bs-target="#MassDeleteTablesModal"><i
+                                        class="fa-solid fa-trash-can "></i></button>
+                            </div>
+                        }
+                        <div class="add-user-button pt-2 pe-sm-2 pe-0">
+                            <button type="button" class="btn solid-btn text-light p-1" data-bs-toggle="modal"
+                                data-bs-target="#AddTableModal" id="AddTableModalId">
+                                + <span class="d-none d-md-inline">New Table</span>
+                            </button>
+                            <input type="hidden" id="Section_id_Table">
+                        </div>
+                    }
                 </div>
 
                 <!-- Table -->
@@ -58,12 +67,18 @@
                     <table class="table mb-0" id="demo">
                         <thead>
                             <tr class="border border-top-0 border-end-0 border-start-0 border-dark">
-                                <th scope="col" class="text-start text-nowrap fw-bold"><input class="form-check-input me-3 mt-0 "
-                                        type="checkbox" id="table-main-checkbox"
-                                        onclick="Table_Main_Checkbox_Select()">Name</th>
+                                <th scope="col" class="text-start text-nowrap fw-bold">
+                                    @if ((await AuthorizationService.AuthorizeAsync(User, "TableSection.Delete")).Succeeded)
+                    {<input
+                                        class="form-check-input me-3 mt-0 " type="checkbox" id="table-main-checkbox"
+                                        onclick="Table_Main_Checkbox_Select()">
+                                        }Name</th>
                                 <th scope="col" class="text-center fw-bold">Capacity</th>
                                 <th scope="col" class="text-center fw-bold">Status</th>
+                                @if ((await AuthorizationService.AuthorizeAsync(User, "TableSection.AddEdit")).Succeeded)
+                    {
                                 <th scope="col" class="text-center fw-bold">Action</th>
+                                }
 
                             </tr>
                         </thead>
@@ -77,8 +92,7 @@
                 </div>
 
                 @* Pagination Item div *@
-                <div
-                    class="pagination-main-div-table d-flex justify-content-end gap-2 p-3 pt-3 bg-white ps-3 pe-2">
+                <div class="pagination-main-div-table d-flex justify-content-end gap-2 p-3 pt-3 bg-white ps-3 pe-2">
 
                     <span class="pt-2">Items Per page:</span>
 
@@ -297,7 +311,7 @@
         let searchText_table = "";
         let pageSize_table = $("#itemselect-table").val();
         let sectionid = $("#Section_id").val();
-        console.log(sectionid, "sectionid");
+        @* console.log(sectionid, "sectionid"); *@
 
         // Table Pagination function
         function PaginationForTable(sectionid, searchText_table = "", page = 1, pageSize_table = 3) {
@@ -332,16 +346,16 @@
 
             console.log("Section List");
 
-            @* var sectionid = @Model.SectionList[0].SectionId; *@
+        @* var sectionid = @Model.SectionList[0].SectionId; *@
 
-            $.ajax({
-                url: "/TableSection/GetAllSections",
-                type: "GET",
-                success: function (data) {
-                    document.getElementById("SectionList_Partial").innerHTML = data;
-                    @* PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table); *@
-                }
-            });
+                $.ajax({
+                    url: "/TableSection/GetAllSections",
+                    type: "GET",
+                    success: function (data) {
+                        document.getElementById("SectionList_Partial").innerHTML = data;
+        @* PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table); *@
+                        }
+                });
         }
 
     </script>
@@ -368,6 +382,8 @@
                 sectionid = $(this).data("id");
                 var section_id_table = document.getElementById("Section_id_Table");
                 section_id_table.value = sectionid;
+                @* console.log(sectionid,"tetet") *@
+                @* console.log(section_id_table.value,"jgjhg") *@
                 currentPage_table = 1;
                 PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
             });
@@ -457,7 +473,7 @@
 
             // Add Table Modal GET
             $("#AddTableModalId").on('click', function () {
-                
+
                 sectionid = $("#Section_id_Table").val();
 
                 $.ajax({

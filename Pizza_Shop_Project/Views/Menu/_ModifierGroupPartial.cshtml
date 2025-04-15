@@ -1,5 +1,7 @@
 @using DAL.ViewModels
 @model MenuViewModel;
+@using Microsoft.AspNetCore.Authorization
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
 
 @if (Model == null)
 {
@@ -22,10 +24,16 @@
 
         <div class="d-flex text-secondary justify-content-end">
             <input type="hidden" value="@mod.Desciption">
-            <i class="fa-solid fa-pen me-2 text-secondary" onclick="GetDetailsForModifierGroupEdit(this)"
-                data-id="@mod.ModifierGrpId" data-bs-toggle="modal" data-bs-target="#EditModifierGroup"></i>
-            <i class="fa-solid fa-trash-can text-secondary" onclick="GetIdForDeleteModifierGroup(this)"
-                data-id="@mod.ModifierGrpId" data-bs-toggle="modal" data-bs-target="#exampleModal-deleteModifierGroup"></i>
+            @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.AddEdit")).Succeeded)
+            {
+                <i class="fa-solid fa-pen me-2 text-secondary" onclick="GetDetailsForModifierGroupEdit(this)"
+                    data-id="@mod.ModifierGrpId" data-bs-toggle="modal" data-bs-target="#EditModifierGroup"></i>
+                @if ((await AuthorizationService.AuthorizeAsync(User, "Menu.Delete")).Succeeded)
+                {
+                    <i class="fa-solid fa-trash-can text-secondary" onclick="GetIdForDeleteModifierGroup(this)"
+                        data-id="@mod.ModifierGrpId" data-bs-toggle="modal" data-bs-target="#exampleModal-deleteModifierGroup"></i>
+                }
+            }
         </div>
     </a>
     index_mod++;

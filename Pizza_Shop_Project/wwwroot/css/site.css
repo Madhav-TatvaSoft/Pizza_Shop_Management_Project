@@ -540,5 +540,31 @@ form i {
 }
 
 .bg-assigned-selected{
-    border: 1px solid #7ec83b !important;
+    border: 2px solid #7ec83b !important;
+}
+
+.table-Selected{
+    border: 2px solid #7ec83b !important;
+}
+
+.table-Assigned{
+    border: 2px solid #7ec83b !important;
+    background-color: #eeffe3 !important;
+}
+
+.table-Running{
+    border : 2px solid rgb(100, 182, 237);
+    background-color: rgb(221, 242, 255) !important;
+}
+
+.text-Assigned{
+    color: #7ec83b !important;
+}
+
+.text-Running{
+    color : rgb(79, 167, 226);
+}
+
+.text-Available{
+    color: #8b8b8b !important;
 }

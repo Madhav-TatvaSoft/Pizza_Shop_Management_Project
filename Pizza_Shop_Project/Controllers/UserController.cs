@@ -25,6 +25,7 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Dashboard
+        [PermissionAuthorize("AdminAccountManager")]
         public IActionResult Dashboard()
         {
             if (User.IsInRole("Chef"))
@@ -51,7 +52,6 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region UserProfile
-
         public IActionResult UserProfile()
         {
             string? cookieSavedToken = Request.Cookies["AuthToken"];

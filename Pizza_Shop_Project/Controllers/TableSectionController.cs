@@ -168,7 +168,6 @@ public class TableSectionController : Controller
         tableSectionVM.SectionList = _tableSectionService.GetAllSections();
         tableSectionVM.tablesVM = new TablesViewModel();
         tableSectionVM.tablesVM.SectionId = sectionid;
-
         return PartialView("_AddTablePartial", tableSectionVM);
     }
 

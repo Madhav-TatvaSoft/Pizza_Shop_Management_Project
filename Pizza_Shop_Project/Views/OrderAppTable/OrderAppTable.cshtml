@@ -6,8 +6,8 @@
     Layout = "~/Views/Shared/_OrderAppLayout.cshtml";
 }
 
-<div class="d-flex flex-column flex-sm-row justify-content-between gap-3">
-    <p class="fs-2 fw-bold user-text">Table View</p>
+<div class="d-flex flex-column flex-sm-row justify-content-between gap-3 pb-3">
+    <p class="fs-2 fw-bold user-text text-nowrap">Table View</p>
     <div class="d-flex justify-content-sm-end justify-content-between gap-3 flex-wrap">
         <div class="d-flex align-items-center justify-content-center gap-2">
             <div class="rounded-circle bg-available" style="width: 10px; height: 10px;"></div>
@@ -28,88 +28,37 @@
     </div>
 </div>
 
-<div class="accordion " id="accordianmain">
-    @foreach (var sec in Model.sectionListVM)
-    {
-        <div class="accordion-item border rounded">
-            <div class="accordion">
+<!------------ accodions -------------->
 
-                <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between">
-                    <div class="d-flex align-items-center w-100 p-2">
-                        <button class="accordion-button col-auto w-auto collapsed" type="button" data-id=@sec.SectionId
-                            data-bs-toggle="collapse" data-bs-target="#SectionMain-Div-@sec.SectionId" aria-expanded="false"
-                            aria-controls="#SectionMain-Div-@sec.SectionId" onclick="ViewTableDetailsBySection(this)">
-                        </button>
-                        <div class="d-flex justify-content-between flex-wrap w-100 ps-2">
-                            <div class="text-primary fs-4 ">@sec.SectionName</div>
-                            <div class="d-flex gap-3 align-items-center">
-                                <div class="d-flex align-items-center justify-content-center gap-2">
-                                    <div class="rounded-circle bg-available" style="width: 10px; height: 10px;">
-                                    </div>
-                                    @sec.AvailableCount
-                                </div>
+<div class="accordion" id="accordianmain">
 
-                                <div class="d-flex align-items-center justify-content-center gap-2">
-                                    <div class="rounded-circle bg-assigned-dark" style="width: 10px; height: 10px;">
-                                    </div>
-                                    @sec.AssignedCount
-                                </div>
-                                <div class="d-flex align-items-center justify-content-center gap-2">
-                                    <div class="rounded-circle bg-running-dark" style="width: 10px; height: 10px;">
-                                        @sec.RunningCount
-                                    </div>
-                                    <div class="btn border border-main text-heading add-edit-waiting-token-button"
-                                        data-bs-toggle="modal" data-bs-target="#add-edit-waiting-token-modal">
-                                        + <span class="d-sm-inline d-none"> Waiting Token</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+</div>
 
-            <div id="SectionMain-Div-@sec.SectionId" class="accordion-collapse collapse my-3"
-                data-bs-parent="#accordianmain">
 
-                @* <div class="d-flex flex-wrap justify-content-center gap-3" id="TablesToDisplayDiv-@sec.SectionId">
 
-            </div>
-            <div class="d-flex justify-content-end me-3 mt-3">
-            <button class="btn btn-primary active-btn" disabled>Assign</button>
-            </div> *@
-            </div>
-        </div>
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="assign-table-waiting-list-@sec.SectionId"
-            data-bs-backdrop=false>
 
-        </div>
-    }
+@section scripts {
 
-    @section scripts {
-        <script>
+    <partial name="_Toaster" />
+    <partial name="_ValidationScriptsPartial" />
 
-            function ViewTableDetailsBySection(tag) {
-                isexpand = tag.getAttribute("aria-expanded");
-                console.log(isexpand, "expand");
-                var sectionid = tag.getAttribute("data-id");
-            @* console.log(sec_id_div); *@
-            @* var sectionid = parseInt(sec_id_div.split("-")[1]) *@
-                    console.log(sectionid, "section id");
-                if (isexpand) {
-                    $.ajax({
-                        url: "/OrderAppTable/GetTablesBySection",
-                        type: "GET",
-                        data: { sectionid: sectionid },
-                        success: function (data) {
-                            console.log(data);
-                            $(`#SectionMain-Div-${sectionid}`).html(data);
-                        }
-                    })
+    <script>
+
+        function DisplaySections() {
+            $.ajax({
+                url: "/OrderAppTable/GetAllSectionList",
+                type: "GET",
+                success: function (data) {
+                    $("#accordianmain").html(data);
                 }
-            }
-            @* $(document).ready(function () {
+            })
+        }
 
-            }); *@
-        </script>
-    }
+
+        $(document).ready(function () {
+            DisplaySections();
+        });
+
+        
+    </script>
+}

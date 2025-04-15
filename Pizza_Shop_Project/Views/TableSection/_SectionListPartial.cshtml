@@ -1,5 +1,8 @@
 @using DAL.ViewModels
 @model TableSectionViewModel;
+@using Microsoft.AspNetCore.Authorization
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
 
 @if (Model == null)
 {
@@ -22,10 +25,16 @@
 
         <div class="d-flex text-secondary justify-content-end">
             <input type="hidden" value="@item.Description">
-            <i class="fa-solid fa-pen me-2 text-secondary" data-bs-toggle="modal" data-bs-target="#EditSectionModal"
-                data-id="@item.SectionId"></i>
-            <i class="fa-solid fa-trash-can text-secondary" data-bs-toggle="modal" data-bs-target="#DeleteSectionModal"
-                onclick="GetIdForDeleteSection(this)" data-id="@item.SectionId"></i>
+            @if ((await AuthorizationService.AuthorizeAsync(User, "TableSection.AddEdit")).Succeeded)
+            {
+                <i class="fa-solid fa-pen me-2 text-secondary" data-bs-toggle="modal" data-bs-target="#EditSectionModal"
+                    data-id="@item.SectionId"></i>
+                @if ((await AuthorizationService.AuthorizeAsync(User, "TableSection.Delete")).Succeeded)
+                {
+                    <i class="fa-solid fa-trash-can text-secondary" data-bs-toggle="modal" data-bs-target="#DeleteSectionModal"
+                        onclick="GetIdForDeleteSection(this)" data-id="@item.SectionId"></i>
+                }
+            }
         </div>
 
     </a>

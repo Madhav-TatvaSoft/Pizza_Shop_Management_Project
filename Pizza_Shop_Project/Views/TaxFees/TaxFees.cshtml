@@ -1,4 +1,6 @@
 @model DAL.ViewModels.TaxFeesViewModel
+@using Microsoft.AspNetCore.Authorization
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
 @{
     ViewData["Title"] = "UserListData Page";
     Layout = "_Layout";
@@ -11,16 +13,18 @@
         <div class="user-text bg-light fs-3 pt-4 fw-bold  pb-3 ps-md-3 ">Taxes/Fees</div>
     </div>
     <!-- search add user -->
-    <div class="search-adduser-div col-sm-11 col d-flex align-items-center justify-content-end gap-2 pt-3 pe-sm-0">
+    <div class="search-adduser-div col-sm-11 col d-flex align-items-center justify-content-end gap-2 pt-3 ">
         <div class="search-button ">
             <input type="text" id="searchbtn-tax" placeholder="Search" class="p-2 border ">
             <i class="fa-solid fa-magnifying-glass search-icon-style-tax "></i>
         </div>
-        <div class="add-Tax-button">
-            <button class="btn AddEditTaxId solid-btn text-light p-2 validate text-nowrap " data-bs-toggle="modal"
-                data-bs-target="#AddEditTaxModal" data-id="0">+ New Tax</button>
-        </div>
-
+        @if ((await AuthorizationService.AuthorizeAsync(User, "TaxFees.AddEdit")).Succeeded)
+        {
+            <div class="add-Tax-button">
+                <button class="btn AddEditTaxId solid-btn text-light p-2 validate text-nowrap " data-bs-toggle="modal"
+                    data-bs-target="#AddEditTaxModal" data-id="0">+ New Tax</button>
+            </div>
+        }
     </div>
 </div>
 
@@ -35,7 +39,10 @@
                     <th class="fw-bold text-center">IsEnabled</th>
                     <th class="fw-bold text-center">Default</th>
                     <th class="fw-bold text-center text-nowrap">Tax Value</th>
-                    <th class="fw-bold text-center">Action </th>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "TaxFees.AddEdit")).Succeeded)
+                    {
+                        <th class="fw-bold text-center">Action </th>
+                    }
                 </tr>
             </thead>
             <tbody id="TaxTableBody">

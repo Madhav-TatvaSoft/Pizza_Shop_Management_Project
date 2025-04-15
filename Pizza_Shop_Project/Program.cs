@@ -100,7 +100,7 @@ builder.Services.AddAuthorization(options =>
         "TaxFees.View", "TaxFees.AddEdit", "TaxFees.Delete",
         "Orders.View", "Orders.AddEdit", "Orders.Delete",
         "Customers.View", "Customers.AddEdit", "Customers.Delete",
-        "AccountManager", "Chef","KOT"  
+        "AccountManager", "Chef","KOT", "AdminAccountManager"  
     };
 
     foreach (var permission in permissions)

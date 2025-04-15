@@ -1,0 +1,166 @@
+@using DAL.ViewModels
+@model OrderAppTableMainViewModel;
+
+@foreach (var sec in Model.sectionListVM)
+{
+    <div class="accordion-item mb-3 rounded-2">
+        <div class="accordion">
+            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between">
+                <div class="d-flex align-items-center w-100 me-4 me-sm-0">
+                    @* accordian button *@
+                    <button class="accordion-button col-auto w-auto collapsed" id="Accordion-Btn-@sec.SectionId"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#SectionMainDiv-@sec.SectionId"
+                        aria-expanded="false" aria-controls="#SectionMainDiv-@sec.SectionId" data-id="@sec.SectionId" data-name="@sec.SectionName">
+                    </button>
+                    @* accordian button *@
+                    <div class="d-flex flex-sm-row flex-column justify-content-between flex-wrap w-100">
+                        <div class="user-text fs-4 pt-2">@sec.SectionName</div>
+                        @* right side of accordian *@
+                        <div class="d-flex gap-3 justify-content-center align-items-center px-3 mb-2 mb-sm-0">
+
+                            <div class="d-flex align-items-center justify-content-center gap-1 ">
+                                <div class="rounded-circle bg-available" style="width: 10px; height: 10px;">
+                                </div>
+                                @sec.AvailableCount
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center gap-1">
+                                <div class="rounded-circle bg-assigned-dark" style="width: 10px; height: 10px;">
+                                </div>
+                                @sec.AssignedCount
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center gap-1">
+                                <div class="rounded-circle bg-running-dark" style="width: 10px; height: 10px;"></div>
+                                @sec.RunningCount
+                            </div>
+                            <div class="btn hollow-btn" data-bs-toggle="modal" data-bs-target="#WaitingListModal"
+                                id="Waiting_Token_id-@sec.SectionId" onclick="WaitingTokenModal(this);">
+                                + <span class="d-sm-inline d-none">Waiting Token</span>
+                                <div class="d-none">@sec.SectionName</div>
+                            </div>
+                        </div>
+                        @* right side of accordian *@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="SectionMainDiv-@sec.SectionId" class="accordion-collapse collapse my-3" data-bs-parent="#accordianmain">
+            <div class="d-flex flex-wrap justify-content-start ms-4 gap-3" id="TablesToDisplayDiv-@sec.SectionId">
+                @* Fill Table list *@
+            </div>
+            <div class="d-flex justify-content-end pe-3 pt-3">
+                <button class="btn solid-btn" id="Assign-btn-@sec.SectionId" disabled>Assign</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!----------------------- modal -------------------->
+
+<div id="WaitingListModal" class="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" id="WaitingListModal-Div">
+
+    </div>
+</div>
+
+<script>
+
+    // On Accordion Click
+    $(".accordion-button").on("click", function () {
+        var isexpand = this.getAttribute("aria-expanded");
+        var sec_id_div = this.getAttribute("aria-controls");
+        var SectionId = parseInt(sec_id_div.split("-")[1])
+        if (isexpand) {
+            $.ajax({
+                url: "/OrderAppTable/GetTablesBySection",
+                type: "GET",
+                data: { SectionId: SectionId },
+                success: function (data) {
+                    $(`#TablesToDisplayDiv-${SectionId}`).html(data);
+                    $(`#Assign-btn-${SectionId}`).attr("disabled", true);
+                }
+            });
+        }
+    });
+
+    // Select Table
+    function SelectTable(tag, tableStatus) {
+
+        var sectionId = tag.getAttribute("data-sec");
+        var Assign_btn = document.getElementById(`Assign-btn-${sectionId}`);
+
+        if (tableStatus == "Available" && !tag.classList.contains("table-Selected")) {
+            tag.classList.toggle("table-Selected");
+            tag.classList.toggle("table-Available");
+            IsEnable++;
+            Assign_btn.removeAttribute("disabled");
+        }
+        else if (tag.classList.contains("table-Selected")) {
+            tag.classList.toggle("table-Available");
+            tag.classList.toggle("table-Selected");
+            IsEnable--;
+            if (IsEnable == 0) {
+                Assign_btn.setAttribute("disabled", "disabled");
+            }
+        }
+    }
+
+    // To show Waiting Token Modal
+    function WaitingTokenModal(tag) {
+
+        $("#WaitingListModal").show("modal");
+
+        var sectionid = tag.parentElement.parentElement.parentElement.children[0].getAttribute("data-id");
+        var sectionname = tag.parentElement.parentElement.parentElement.children[0].getAttribute("data-name")
+
+        $.ajax({
+            url: "/OrderAppTable/WaitingTokenDetails",
+            type: "GET",
+            data: { sectionid: sectionid ,sectionname : sectionname},
+            success: function (data) {
+                $("#WaitingListModal-Div").html(data);
+            }
+        });
+    }
+
+    $("#waitingListFormId").on("submit", function (e) {
+
+        e.preventDefault();
+
+        let form = $("#waitingListFormId");
+
+        if (form.valid()) {
+
+            let formData = new FormData(this);
+
+            $.ajax({
+                url: "/OrderAppTable/WaitingTokenDetails",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (res) {
+                    if (res.success) {
+                        callSuccessToaster(res.text);
+                    } else {
+                        callErrorToaster(res.text);
+                    }
+                    $(".btn-close").click();
+                }
+            })
+        }
+    })
+
+    @*function fillDetailOfModal(tag, secId) {
+            console.log(tag.children[1].innerText);
+            document.getElementById("sectionName").value = tag.children[1].innerText;
+            document.getElementById("sectionId").value = secId;
+            document.getElementById("Email").value = "";
+            document.getElementById("Name").value = "";
+            document.getElementById("mobile").value = "";
+            document.getElementById("persons").value = "";
+        }*@
+
+
+
+</script>
+@* onclick="fillDetailOfModal(this,@sec.SectionId)" *@

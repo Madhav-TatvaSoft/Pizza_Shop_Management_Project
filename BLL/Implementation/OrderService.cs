@@ -536,7 +536,7 @@ public class OrderService : IOrderService
 
             orderDetailVM.TotalAmountOrder = orderDetailVM.SubTotalAmountOrder + orderDetailVM.taxInvoiceVM.Sum(x => x.TaxValue);
 
-            // orderdetails.Order.TotalAmount = orderDetailVM.TotalAmountOrder;
+            // orderdetails.Order.TotalAmount = orderDetailVM.SubTotalAmountOrder;
 
             return orderDetailVM;
         }

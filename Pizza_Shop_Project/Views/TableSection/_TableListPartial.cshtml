@@ -1,6 +1,8 @@
 @using DAL.ViewModels
 @model PaginationViewModel<TablesViewModel>
-
+@using Microsoft.AspNetCore.Authorization
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
 
 @if (Model.Items.Count == 0)
 {
@@ -13,9 +15,12 @@ else
     @foreach (var item in Model.Items)
     {
         <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1">
-            <td class="text-start text-nowrap align-content-center d-flex"><input
-                    class="table-sub-checkbox form-check-input me-3 mt-2" onclick=TableCheckBoxTickManage() type="checkbox"
-                    data-checkid="@item.TableId">
+            <td class="text-start text-nowrap align-content-center d-flex">
+                @if ((await AuthorizationService.AuthorizeAsync(User, "TableSection.Delete")).Succeeded)
+                {
+                    <input class="table-sub-checkbox form-check-input me-3 mt-2" onclick=TableCheckBoxTickManage() type="checkbox"
+                        data-checkid="@item.TableId">
+                }
                 <p class="mt-2">@item.TableName</p>
             </td>
             <td class="text-center">@item.Capacity</td>
@@ -25,19 +30,24 @@ else
                     <div class="text-center text-white bg-secondary rounded-pill validate p-1" style="max-width: fit-content;">
                         Occupied</div>
                 }
-                else if(item.Status == "Available")
+                else if (item.Status == "Available")
                 {
                     <div class="text-center text-white  bg-success rounded-pill validate p-1 ">
                         Available</div>
                 }
             </td>
-            
-            <td class="text-center">
-                <i class="fa-solid fa-pen w-25" data-bs-toggle="modal" data-bs-target="#EditTableModal"
-                    data-id="@item.TableId" ></i>
-                <i class="fa-solid fa-trash-can ms-2 " data-bs-toggle="modal" data-bs-target="#DeleteTableModal"
-                    data-id="@item.TableId" onclick=GetIdForDeleteTable(this) ></i>
-            </td>
+            @if ((await AuthorizationService.AuthorizeAsync(User, "TableSection.AddEdit")).Succeeded)
+            {
+                <td class="text-center">
+                    <i class="fa-solid fa-pen w-25" data-bs-toggle="modal" data-bs-target="#EditTableModal"
+                        data-id="@item.TableId"></i>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "TableSection.Delete")).Succeeded)
+                    {
+                        <i class="fa-solid fa-trash-can ms-2 " data-bs-toggle="modal" data-bs-target="#DeleteTableModal"
+                            data-id="@item.TableId" onclick=GetIdForDeleteTable(this)></i>
+                    }
+                </td>
+            }
         </tr>
 
     }

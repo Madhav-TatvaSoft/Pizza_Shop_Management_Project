@@ -1,0 +1,57 @@
+@using DAL.ViewModels
+@model OrderAppTableMainViewModel;
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title fs-5 fw-bold text-secondary">Waiting Token Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form id="waitingListFormId">
+        <div class="modal-body row">
+            <div class="form-floating col-12 mb-3">
+                <input type="text" class="form-control" id="Email" asp-for="@Model.waitingTokenDetailViewModel.Email"
+                    placeholder="Email*">
+                <span asp-validation-for="@Model.waitingTokenDetailViewModel.Email" class="text-danger validate"
+                    ></span>
+                <label for="Email" class="text-secondary"> &nbsp; Email*</label>
+            </div>
+            <div class="form-floating col-12 mb-3">
+                <input type="text" class="form-control" id="Name"
+                    asp-for="@Model.waitingTokenDetailViewModel.CustomerName" placeholder="Name*">
+                <span asp-validation-for="@Model.waitingTokenDetailViewModel.CustomerName" class="text-danger validate"
+                    ></span>
+                <label for="Name" class="text-secondary"> &nbsp; Name*</label>
+            </div>
+            <div class="form-floating col-12 mb-3">
+                <input type="text" class="form-control" id="mobile" asp-for="@Model.waitingTokenDetailViewModel.PhoneNo"
+                    placeholder="Mobile Number*">
+                <span asp-validation-for="@Model.waitingTokenDetailViewModel.PhoneNo" class="text-danger validate"
+                    ></span>
+                <label for="Mobile" class="text-secondary"> &nbsp; Mobile Number*</label>
+            </div>
+            <div class="form-floating col-md-6 col-12 mb-3">
+                <input type="number" class="form-control" id="persons"
+                    asp-for="@Model.waitingTokenDetailViewModel.NoOfPerson" placeholder="Mobile Number*">
+                <span asp-validation-for="@Model.waitingTokenDetailViewModel.NoOfPerson" class="text-danger validate"
+                    ></span>
+                <label for="persons" class="text-secondary"> &nbsp; No. of Persons*</label>
+            </div>
+            <div class="form-floating col-md-6 col-12 mb-3">
+                <input type="hidden" id="sectionid" asp-for="@Model.waitingTokenDetailViewModel.SectionId">
+                <select class="form-select" asp-for="@Model.waitingTokenDetailViewModel.SectionId"
+                    id="selectSectionIdDropDown" aria-label="Floating label select example" disabled>
+                    <option value="@Model.waitingTokenDetailViewModel.SectionId">
+                        @Model.waitingTokenDetailViewModel.SectionName</option>
+                </select>
+                <label for="sectionName"> &nbsp; Section*</label>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" class="btn solid-btn">Save</button>
+            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<partial name="_ValidationScriptsPartial" />

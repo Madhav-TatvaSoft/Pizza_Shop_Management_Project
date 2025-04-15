@@ -116,8 +116,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJBcHBUYWJsZVxPcmRlckFwcFRhYmxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/OrderAppTable/_SectionList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJBcHBUYWJsZVxfU2VjdGlvbkxpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/OrderAppTable/_TableList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJBcHBUYWJsZVxfVGFibGVMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/OrderAppTable/_WaitingListModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJBcHBUYWJsZVxfV2FpdGluZ0xpc3RNb2RhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/T30_Pizza_Shop_Project/Pizza_Shop_Project/Views/OrderAppWaitingList/OrderAppWaitingList.cshtml]

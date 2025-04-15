@@ -389,7 +389,6 @@ namespace Pizza_Shop_Project.Controllers
 
         #region Pagination-Menu-Modifier
         [PermissionAuthorize("Menu.View")]
-
         public async Task<IActionResult> PaginationMenuModifiersByModGroups(long? modgrpid, string search = "", int pageNumber = 1, int pageSize = 3)
         {
             try
@@ -413,7 +412,6 @@ namespace Pizza_Shop_Project.Controllers
 
         #region Existing-Pagination-Menu-Modifier
         [PermissionAuthorize("Menu.View")]
-
         public async Task<IActionResult> ExistingPaginationMenuModifiersByModGroups(string search = "", int pageNumber = 1, int pageSize = 3)
         {
             try
@@ -460,7 +458,6 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Edit Modifier Group 
-
         [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> GetModifierGroupByModifierGroupId(long modgrpid)
         {

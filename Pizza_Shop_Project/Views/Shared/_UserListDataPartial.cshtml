@@ -1,5 +1,7 @@
 @using DAL.ViewModels
 @model PaginationViewModel<User>
+@using Microsoft.AspNetCore.Authorization
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
 
 
 @if (Model.Items.Count == 0)
@@ -26,35 +28,37 @@ else
                 <td class="text-start d-flex justify-content-start">
                     @if (item.Status == true)
                     {
-                        <div class="text-start text-white bg-success rounded-pill validate ps-3 pe-3 p-1" style="max-width: fit-content;">
+                        <div class="text-start text-white bg-success rounded-pill validate ps-3 pe-3 p-1"
+                            style="max-width: fit-content;">
                             Active</div>
                     }
                     else
                     {
-                        <div class="text-start text-white bg-danger rounded-pill validate ps-3 pe-3 p-1" style="max-width: fit-content;">
+                        <div class="text-start text-white bg-danger rounded-pill validate ps-3 pe-3 p-1"
+                            style="max-width: fit-content;">
                             Inactive</div>
                     }
                 </td>
-                <td>
-                    @* @if (item.Userlogin.Email == ViewBag.emailid)
-        { *@
-                    @* <i class="fa-solid fa-pen text-black-50 me-3"></i>
-        <i class="fa-solid fa-trash-can text-black-50"></i> *@
-                    @* }
-        else
-        { *@
-                    <a asp-action="EditUser" asp-route-Email="@item.Userlogin.Email" class="text-dark pe-3 text-decoration-none">
-                        <i class="fa-solid fa-pen"></i>
-                    </a>
-                    <i class="fa-solid fa-trash-can" data-bs-toggle="modal" data-bs-target="#delete-user"
-                        data-email="@item.Userlogin.Email"></i>
-                    @* } *@
-                </td>
+                @if ((await AuthorizationService.AuthorizeAsync(User, "Users.AddEdit")).Succeeded)
+                {
+                    <td>
+                        <a asp-action="EditUser" asp-route-Email="@item.Userlogin.Email" class="text-dark pe-3 text-decoration-none">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "Users.Delete")).Succeeded)
+                        {
+                            <i class="fa-solid fa-trash-can" data-bs-toggle="modal" data-bs-target="#delete-user"
+                                data-email="@item.Userlogin.Email"></i>
+                        }
+
+                    </td>
+                }
             </tr>
         }
         else
         {
-            <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1" style="background-color: rgb(202, 236, 255);">
+            <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1"
+                style="background-color: rgb(202, 236, 255);">
                 <td class="text-nowrap align-content-center d-flex"><img src="@item.ProfileImage" class="rounded-circle "
                         width="25px" height="25px" alt="" />
                     <p class="ps-2 pt-1">@item.FirstName
@@ -66,30 +70,29 @@ else
                 <td class="text-start d-flex justify-content-start">
                     @if (item.Status == true)
                     {
-                        <div class="text-start text-white bg-success rounded-pill validate ps-3 pe-3 p-1" style="max-width: fit-content;">
+                        <div class="text-start text-white bg-success rounded-pill validate ps-3 pe-3 p-1"
+                            style="max-width: fit-content;">
                             Active</div>
                     }
                     else
                     {
-                        <div class="text-start text-white bg-danger rounded-pill validate ps-3 pe-3 p-1" style="max-width: fit-content;">
+                        <div class="text-start text-white bg-danger rounded-pill validate ps-3 pe-3 p-1"
+                            style="max-width: fit-content;">
                             Inactive</div>
                     }
                 </td>
-                <td>
-                    @* @if (item.Userlogin.Email == ViewBag.emailid)
-        { *@
-                    <i class="fa-solid fa-pen text-black-50 me-3"></i>
-                    <i class="fa-solid fa-trash-can text-black-50"></i>
-                    @* }
-        else
-        { *@
-                    @* <a asp-action="EditUser" asp-route-Email="@item.Userlogin.Email" class="text-dark me-3 text-decoration-none">
-        <i class="fa-solid fa-pen"></i>
-        </a>
-        <i class="fa-solid fa-trash-can" data-bs-toggle="modal" data-bs-target="#delete-user"
-        data-email="@item.Userlogin.Email"></i> *@
-                    @* } *@
-                </td>
+                @if ((await AuthorizationService.AuthorizeAsync(User, "Users.AddEdit")).Succeeded)
+                {
+                    <td>
+
+                        <i class="fa-solid fa-pen text-black-50 me-3"></i>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "Users.Delete")).Succeeded)
+                        {
+                            <i class="fa-solid fa-trash-can text-black-50"></i>
+                        }
+
+                    </td>
+                }
             </tr>
         }
     }
