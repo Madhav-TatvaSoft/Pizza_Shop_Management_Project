@@ -1,5 +1,5 @@
 @using DAL.ViewModels
-@model OrderAppTableMainViewModel;
+@model WaitingTokenDetailViewModel;
 
 <div class="modal-content">
     <div class="modal-header">
@@ -9,39 +9,35 @@
     <form id="waitingListFormId">
         <div class="modal-body row">
             <div class="form-floating col-12 mb-3">
-                <input type="text" class="form-control" id="Email" asp-for="@Model.waitingTokenDetailViewModel.Email"
-                    placeholder="Email*">
-                <span asp-validation-for="@Model.waitingTokenDetailViewModel.Email" class="text-danger validate"
-                    ></span>
+                <input type="email" class="form-control" id="Email" asp-for="@Model.Email" placeholder="Email*"
+                    list="emailSuggestions" autocomplete="off">
+                <datalist id="emailSuggestions"></datalist>
+                <span asp-validation-for="@Model.Email" class="text-danger "></span>
                 <label for="Email" class="text-secondary"> &nbsp; Email*</label>
             </div>
             <div class="form-floating col-12 mb-3">
-                <input type="text" class="form-control" id="Name"
-                    asp-for="@Model.waitingTokenDetailViewModel.CustomerName" placeholder="Name*">
-                <span asp-validation-for="@Model.waitingTokenDetailViewModel.CustomerName" class="text-danger validate"
-                    ></span>
+                <input type="text" class="form-control" id="Name" asp-for="@Model.CustomerName" placeholder="Name*">
+                <span asp-validation-for="@Model.CustomerName" class="text-danger validate"></span>
                 <label for="Name" class="text-secondary"> &nbsp; Name*</label>
             </div>
             <div class="form-floating col-12 mb-3">
-                <input type="text" class="form-control" id="mobile" asp-for="@Model.waitingTokenDetailViewModel.PhoneNo"
+                <input type="text" class="form-control" id="Mobile" asp-for="@Model.PhoneNo"
                     placeholder="Mobile Number*">
-                <span asp-validation-for="@Model.waitingTokenDetailViewModel.PhoneNo" class="text-danger validate"
-                    ></span>
+                <span asp-validation-for="@Model.PhoneNo" class="text-danger validate"></span>
                 <label for="Mobile" class="text-secondary"> &nbsp; Mobile Number*</label>
             </div>
             <div class="form-floating col-md-6 col-12 mb-3">
-                <input type="number" class="form-control" id="persons"
-                    asp-for="@Model.waitingTokenDetailViewModel.NoOfPerson" placeholder="Mobile Number*">
-                <span asp-validation-for="@Model.waitingTokenDetailViewModel.NoOfPerson" class="text-danger validate"
-                    ></span>
+                <input type="number" class="form-control" id="persons" asp-for="@Model.NoOfPerson"
+                    placeholder="Mobile Number*">
+                <span asp-validation-for="@Model.NoOfPerson" class="text-danger validate"></span>
                 <label for="persons" class="text-secondary"> &nbsp; No. of Persons*</label>
             </div>
             <div class="form-floating col-md-6 col-12 mb-3">
-                <input type="hidden" id="sectionid" asp-for="@Model.waitingTokenDetailViewModel.SectionId">
-                <select class="form-select" asp-for="@Model.waitingTokenDetailViewModel.SectionId"
-                    id="selectSectionIdDropDown" aria-label="Floating label select example" disabled>
-                    <option value="@Model.waitingTokenDetailViewModel.SectionId">
-                        @Model.waitingTokenDetailViewModel.SectionName</option>
+                <input type="hidden" id="sectionid" asp-for="@Model.SectionId">
+                <select class="form-select" asp-for="@Model.SectionId" id="selectSectionIdDropDown"
+                    aria-label="Floating label select example" disabled>
+                    <option value="@Model.SectionId">
+                        @Model.SectionName</option>
                 </select>
                 <label for="sectionName"> &nbsp; Section*</label>
             </div>
@@ -55,3 +51,89 @@
 </div>
 
 <partial name="_ValidationScriptsPartial" />
+
+<script>
+
+    $(document).on("keyup", "#Email", function () {
+
+        var query = $(this).val();
+        
+        if (query.length > 2) {
+        
+            console.log(query, "query");
+        
+            $.ajax({
+                url: "/OrderAppTable/GetCustomerEmail",
+                type: "GET",
+                data: { searchTerm: query },
+                success: function (data) {
+        
+                    console.log(data, "reached");
+        
+                    $("#emailSuggestions").empty();
+
+                    $.each(data, function (index, item) {
+                        $("#emailSuggestions").append(
+                            `<option value="${item.email}" data-name="${item.customerName}" data-phone="${item.phoneNo}">${item.email} - ${item.customerName} (${item.phoneNo})</option>`
+                        );
+                    });
+        
+                },
+                error: function () {
+                    console.log("Error fetching customer emails.");
+                }
+            });
+        } else {
+            $("#emailSuggestions").empty();
+        }
+    });
+
+    $(document).on("change", "#Email", function () {
+        var selectedOption = $("#emailSuggestions option[value='" + $(this).val() + "']");
+        if (selectedOption.length) {
+            $("#Name").val(selectedOption.data("name"));
+            $("#Mobile").val(selectedOption.data("phone"));
+        }
+    });
+
+    // Waiting Token POST Method
+    $(document).on("submit", "#waitingListFormId", function (e) {
+
+        e.preventDefault();
+
+        var form = $(this);
+
+        if (form.valid()) {
+
+            console.log("Form is valid");
+
+            let formData = new FormData(this);
+            console.log("FormData entries:", [...formData.entries()]); // Log form data for debugging
+
+            $.ajax({
+                url: "/OrderAppTable/WaitingTokenDetails",
+                type: "POST",
+                data: formData,
+                processData: false, // Prevent jQuery from processing FormData
+                contentType: false, // Let browser set correct content type
+                success: function (res) {
+                    console.log("Response:", res);
+                    if (res.success) {
+                        callSuccessToaster(res.text);
+                    } else {
+                        callErrorToaster(res.text);
+                    }
+                    $(".btn-close").click(); // Close modal
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX error:", status, error, xhr.responseText);
+                    callErrorToaster("An error occurred while saving the token details.");
+                    $(".btn-close").click();
+                }
+            });
+        } else {
+            console.log("Form validation failed");
+        }
+    });
+
+</script>

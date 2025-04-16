@@ -189,6 +189,7 @@ namespace Pizza_Shop_Project.Controllers
             Response.Cookies.Delete("email");
             Response.Cookies.Delete("profileImage");
             Response.Cookies.Delete("username");
+            Response.Headers["Clear-Site-Data"] = "\"cache\", \"cookies\", \"storage\"";
             TempData["SuccessMessage"] = NotificationMessage.LogoutSuccess;
             return RedirectToAction("VerifyUserLogin", "UserLogin");
         }
@@ -206,6 +207,8 @@ namespace Pizza_Shop_Project.Controllers
         [PermissionAuthorize("Users.View")]
         public IActionResult PaginatedData(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5)
         {
+            string? token = Request.Cookies["AuthToken"];
+            ViewBag.roleName = _JWTService.GetClaimValue(token, "role");
             ViewBag.emailid = Request.Cookies["email"];
             PaginationViewModel<User>? users = _userService.GetUserList(search, sortColumn, sortDirection, pageNumber, pageSize);
             return PartialView("_UserListDataPartial", users);
@@ -218,10 +221,19 @@ namespace Pizza_Shop_Project.Controllers
         [PermissionAuthorize("Users.AddEdit")]
         public IActionResult AddUser()
         {
+            string? token = Request.Cookies["AuthToken"];
+            string roleName = _JWTService.GetClaimValue(token, "role");
+
             List<Role>? Roles = _userService.GetRole();
             List<Country>? Countries = _userService.GetCountry();
             List<State>? States = _userService.GetState(-1);
             List<City>? Cities = _userService.GetCity(-1);
+
+            if (roleName == "Account Manager")
+            {
+                Roles.RemoveAt(0);
+            }
+
             ViewBag.Roles = new SelectList(Roles, "RoleId", "RoleName");
             ViewBag.Countries = new SelectList(Countries, "CountryId", "CountryName");
             ViewBag.States = new SelectList(States, "StateId", "StateName");
@@ -331,6 +343,17 @@ namespace Pizza_Shop_Project.Controllers
         public IActionResult EditUser(string Email)
         {
             List<AddUserViewModel>? user = _userService.GetUserByEmail(Email);
+
+            string? token = Request.Cookies["AuthToken"];
+            string roleName = _JWTService.GetClaimValue(token, "role");
+
+
+            if (user[0].RoleId == 1 && roleName != "Admin")
+            {
+                TempData["ErrorMessage"] = "You don't have permission to edit this user!";
+                return RedirectToAction("UserListData", "User");
+            }
+
             List<Role>? Roles = _userService.GetRole();
             List<Country>? Countries = _userService.GetCountry();
             List<State>? States = _userService.GetState(user[0].CountryId);
@@ -414,14 +437,27 @@ namespace Pizza_Shop_Project.Controllers
         public async Task<IActionResult> DeleteUser(string Email)
         {
             bool isDeleted = await _userService.DeleteUser(Email);
+            List<AddUserViewModel>? user = _userService.GetUserByEmail(Email);
 
-            if (!isDeleted)
+            string? token = Request.Cookies["AuthToken"];
+            string roleName = _JWTService.GetClaimValue(token, "role");
+
+            if (user[0].RoleId == 1 && roleName != "Admin")
             {
-                ViewBag.Message = NotificationMessage.EntityDeletedFailed.Replace("{0}", "User");
+                TempData["ErrorMessage"] = "You don't have permission to delete this user!";
                 return RedirectToAction("UserListData", "User");
             }
-            TempData["SuccessMessage"] = NotificationMessage.EntityDeleted.Replace("{0}", "User");
-            return RedirectToAction("UserListData", "User");
+            else
+            {
+
+                if (!isDeleted)
+                {
+                    ViewBag.Message = NotificationMessage.EntityDeletedFailed.Replace("{0}", "User");
+                    return RedirectToAction("UserListData", "User");
+                }
+                TempData["SuccessMessage"] = NotificationMessage.EntityDeleted.Replace("{0}", "User");
+                return RedirectToAction("UserListData", "User");
+            }
         }
         #endregion
 

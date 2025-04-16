@@ -9,9 +9,7 @@ else
 {
     @foreach (var table in Model)
     {
-        <div class="table-card card border border-1 rounded-2 " style="width: 270px;" data-sec="@table.SectionId"
-            
-            onclick="SelectTable(this,'@table.Status')">
+        <div class="table-card card border border-1 rounded-2 " style="width: 270px;" data-sec="@table.SectionId" @(table.Status == "Available" ? "onclick=SelectTable(this)" : "") >
             <div
                 class=" card-body rounded-1  d-flex flex-column bg-light text-secondary @(table.Status == "Assigned" || table.Status == "Occupied" ? "table-Assigned": table.Status == "Running"? "table-Running" : "table-Available")">
                 <div class="d-flex justify-content-between align-items-center mx-1">
@@ -41,12 +39,10 @@ else
                         <div><i class="bi bi-stopwatch"></i></div>
                         @if (table.Status == "Running" || table.Status == "Assigned" || table.Status == "Occupied")
                         {
-
                             <div class="pt-2">@table.TableTime</div>
                         }
                         else
                         {
-
                             <div class="text-center pt-2">0 <br> min</div>
                         }
                     </div>
@@ -58,5 +54,4 @@ else
 
 <script>
     var IsEnable = 0;
-
 </script>

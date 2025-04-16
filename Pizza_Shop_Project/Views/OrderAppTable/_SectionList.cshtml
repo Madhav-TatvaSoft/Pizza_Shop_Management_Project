@@ -10,7 +10,8 @@
                     @* accordian button *@
                     <button class="accordion-button col-auto w-auto collapsed" id="Accordion-Btn-@sec.SectionId"
                         type="button" data-bs-toggle="collapse" data-bs-target="#SectionMainDiv-@sec.SectionId"
-                        aria-expanded="false" aria-controls="#SectionMainDiv-@sec.SectionId" data-id="@sec.SectionId" data-name="@sec.SectionName">
+                        aria-expanded="false" aria-controls="#SectionMainDiv-@sec.SectionId" data-id="@sec.SectionId"
+                        data-name="@sec.SectionName">
                     </button>
                     @* accordian button *@
                     <div class="d-flex flex-sm-row flex-column justify-content-between flex-wrap w-100">
@@ -48,19 +49,29 @@
                 @* Fill Table list *@
             </div>
             <div class="d-flex justify-content-end pe-3 pt-3">
-                <button class="btn solid-btn" id="Assign-btn-@sec.SectionId" disabled>Assign</button>
+                <button class="btn solid-btn" id="Assign-btn-@sec.SectionId" data-bs-toggle="offcanvas"
+                    data-bs-target="#AssignTableButtonOffcanvas" aria-controls="AssignTableButtonOffcanvas"
+                    data-id="@sec.SectionId" onclick="OpenFilledCanvas(this)" disabled>Assign</button>
             </div>
         </div>
     </div>
 }
 
-<!----------------------- modal -------------------->
+<!---------------------------------------------- modal ---------------------------------------->
 
 <div id="WaitingListModal" class="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" id="WaitingListModal-Div">
 
     </div>
 </div>
+
+<!--------------------------------------------- offCanvas ---------------------------------------------->
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="AssignTableButtonOffcanvas" aria-labelledby="offcanvasRightLabel" >
+
+</div>
+
+<partial name="_ValidationScriptsPartial" />
 
 <script>
 
@@ -83,12 +94,12 @@
     });
 
     // Select Table
-    function SelectTable(tag, tableStatus) {
+    function SelectTable(tag) {
 
         var sectionId = tag.getAttribute("data-sec");
         var Assign_btn = document.getElementById(`Assign-btn-${sectionId}`);
 
-        if (tableStatus == "Available" && !tag.classList.contains("table-Selected")) {
+        if (!tag.classList.contains("table-Selected")) {
             tag.classList.toggle("table-Selected");
             tag.classList.toggle("table-Available");
             IsEnable++;
@@ -115,52 +126,49 @@
         $.ajax({
             url: "/OrderAppTable/WaitingTokenDetails",
             type: "GET",
-            data: { sectionid: sectionid ,sectionname : sectionname},
+            data: { sectionid: sectionid, sectionname: sectionname },
             success: function (data) {
                 $("#WaitingListModal-Div").html(data);
             }
         });
     }
 
-    $("#waitingListFormId").on("submit", function (e) {
+    function OpenFilledCanvas(tag) {
 
-        e.preventDefault();
+        $("#AssignTableButtonOffcanvas").show("offcanvas");
 
-        let form = $("#waitingListFormId");
+        var sectionid = tag.getAttribute("data-id");
+        @* console.log(sectionid, "sec"); *@
 
-        if (form.valid()) {
+        $.ajax({
+            url: "/OrderAppTable/GetWaitingListAndCustomerDetails",
+            type: "GET",
+            data: { sectionid },
+            success: function (data) {
+                console.log(data,"-Data");
+                console.log("done");
+                $("#AssignTableButtonOffcanvas").html(data);
+            }
+        })
 
-            let formData = new FormData(this);
 
-            $.ajax({
-                url: "/OrderAppTable/WaitingTokenDetails",
-                type: "POST",
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (res) {
-                    if (res.success) {
-                        callSuccessToaster(res.text);
-                    } else {
-                        callErrorToaster(res.text);
-                    }
-                    $(".btn-close").click();
-                }
-            })
-        }
-    })
 
-    @*function fillDetailOfModal(tag, secId) {
-            console.log(tag.children[1].innerText);
-            document.getElementById("sectionName").value = tag.children[1].innerText;
-            document.getElementById("sectionId").value = secId;
-            document.getElementById("Email").value = "";
-            document.getElementById("Name").value = "";
-            document.getElementById("mobile").value = "";
-            document.getElementById("persons").value = "";
-        }*@
+    }
+
+    function FillOffcanvasDetails(sectionId) {
+        console.log(sectionId);
+        $.ajax({
+            url: "/OrderAppTable/GetWaitingListAndCustomerDetails",
+            type: "GET",
+            data: { sectionId },
+            success: function (data) {
+    @* cosnole.log("done"); *@
+                    $("#AssignTableOffcanvas").html(data);
+            }
+        })
+    }
+
 
 
 
 </script>
-@* onclick="fillDetailOfModal(this,@sec.SectionId)" *@

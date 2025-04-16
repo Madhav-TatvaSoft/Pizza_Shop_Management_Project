@@ -53,8 +53,9 @@
             </div>
             <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 pt-3">
                 <div class="form-floating d-flex flex-column">
+                    <input type="hidden" asp-for="RoleId">
                     <select class="form-select" asp-for="RoleId" asp-items="@ViewBag.Roles" id="Roles"
-                        aria-label="Floating label select example">
+                        aria-label="Floating label select example" disabled>
                     </select>
                     <label for="floatingSelect text-secondary">Role</label>
                 </div>

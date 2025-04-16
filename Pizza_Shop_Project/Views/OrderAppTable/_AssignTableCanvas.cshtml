@@ -1,0 +1,144 @@
+@using DAL.ViewModels;
+@model OrderAppTableMainViewModel
+
+@if (Model.WaitingTokenVMList.Count == 0)
+{
+    <div class="fw-bold fs-4 p-3">There is no one in Waiting List</div>
+}
+else
+{
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel" class="user-text fs-4 fw-bold">Waiting List</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="border border-end-0 border-start-0 border-top-0 border-bottom-1 border-dark fw-bold">
+                    <th class="text-center">&nbsp</th>
+                    <th class="text-start">ID</th>
+                    <th class="text-nowrap text-start">Name</th>
+                    <th class="text-start">No. of Person</th>
+                </thead>
+                <tbody>
+                    @foreach (var waiting in Model.WaitingTokenVMList)
+                    {
+                        <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1 text-secondary">
+                            <td class="text-start"><input type="radio" class="waitingListOffcanvasCheckbox"
+                                    id="waitingListCheckbod-@waiting.WaitingId" name="demo"
+                                    onclick="FillCustomerDetailsByRadio(@waiting.WaitingId)"></td>
+                            <td class="text-start">#@waiting.WaitingId</td>
+                            <td class="text-nowrap text-start">@waiting.CustomerName</td>
+                            <td class="text-start">@waiting.NoOfPerson</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="customerDetails row">
+            <div class="user-text fs-4 fw-bold mb-3">Customer Details</div>
+            <div class="form-floating  col-12 mb-3">
+                <input type="text" class="form-control" id="Email" placeholder="Email*" onkeyup="FillCustomerDetails(this)">
+                <label for="Email" class="text-secondary"> &nbsp; Email*</label>
+            </div>
+            <div class="form-floating  col-12 mb-3">
+                <input type="text" class="form-control" id="Name" placeholder="Name*" disabled>
+                <label for="Name" class="text-secondary"> &nbsp; Name*</label>
+            </div>
+            <div class="form-floating  col-12 mb-3">
+                <input type="text" class="form-control" id="mobile" placeholder="Mobile Number*" disabled>
+                <label for="Mobile" class="text-secondary"> &nbsp; Mobile Number*</label>
+            </div>
+            <div class="form-floating  col-md-6 col-12 mb-3">
+                <input type="text" class="form-control" id="persons" placeholder="No of Persons*" disabled>
+                <label for="persons" class="text-secondary"> &nbsp; No of Persons*</label>
+            </div>
+            <div class="form-floating  col-md-6 col-12 mb-3">
+                <input type="text" class="form-control" id="sectionName" placeholder="Section*" disabled>
+                <label for="sectionName" class="text-secondary"> &nbsp; Section*</label>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn solid-btn me-2" onclick="AssignTableToCustomer()">Assign</button>
+            <button type="button" class="btn hollow-btn" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+        </div>
+    </div>
+}
+
+<script>
+
+    var data = @Html.Raw(Json.Serialize(Model.WaitingTokenVMList));
+    /* var listOfTableID = [];
+    function FillCustomerDetails(tag) {
+        console.log(data);
+        for (i = 0; i < data.length; i++) {
+            if (tag.value == data[i].customerDetails.email) {
+                document.getElementById(`waitingListCheckbod-${data[i].id}`).checked = true;
+                document.getElementById("Name").value = data[i].name;
+                document.getElementById("mobile").value = data[i].customerDetails.mobileno;
+                document.getElementById("persons").value = data[i].noOfPerson;
+                document.getElementById("sectionName").value = data[i].customerDetails.sectionName;
+                break;
+            } else {
+                document.getElementById(`waitingListCheckbod-${data[i].id}`).checked = false;
+                document.getElementById("Name").value = "";
+                document.getElementById("mobile").value = "";
+                document.getElementById("persons").value = "";
+                document.getElementById("sectionName").value = "";
+            }
+        }
+    }
+    function FillCustomerDetailsByRadio(waitingId) {
+
+        for (i = 0; i < data.length; i++) {
+            console.log(waitingId == data[i].id)
+            if (waitingId == data[i].id) {
+                document.getElementById("Email").value = data[i].customerDetails.email;
+                document.getElementById("Name").value = data[i].name;
+                document.getElementById("mobile").value = data[i].customerDetails.mobileno;
+                document.getElementById("persons").value = data[i].noOfPerson;
+                document.getElementById("sectionName").value = data[i].customerDetails.sectionName;
+            }
+        }
+    }
+
+    function AssignTableToCustomer() {
+        var selectedclass = document.getElementsByClassName("TableSelected");
+        var waitingListRadio = document.getElementsByClassName("waitingListOffcanvasCheckbox");
+        var flag = false;
+        var totalPerson = 0;
+        for (i = 0; i < selectedclass.length; i++) {
+            totalPerson += parseInt(selectedclass[i].children[1].children[0].children[1].innerHTML);
+
+        }
+        // console.log("total",totalPerson) 
+        for (i = 0; i < waitingListRadio.length; i++) {
+            if (waitingListRadio[i].checked) {
+                flag = true;
+                if (parseInt(waitingListRadio[i].parentElement.parentElement.children[3].innerHTML) > totalPerson) {
+                    errorToaster("Number of person is greater than Total Capacity of selected tables");
+                    break;
+                }
+                for (i = 0; i < selectedclass.length; i++) {
+                    listOfTableID.push(parseInt(selectedclass[i].parentElement.children[0].innerHTML));
+                }
+                $.ajax({
+                    url: "/OrderAppTable/AssignTable",
+                    type: "POST",
+                    data: { Email: document.getElementById("Email").value, TableIds: listOfTableID },
+                    success: function (data) {
+                        $(".btn-close").click();
+                        getSectionList();
+                    }
+                })
+                break;
+            }
+        } if (!flag) {
+            errorToaster("Select a customer First")
+        } else {
+
+      }
+    } */
+
+</script>
