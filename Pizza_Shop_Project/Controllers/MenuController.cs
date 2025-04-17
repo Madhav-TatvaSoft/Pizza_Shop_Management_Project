@@ -233,7 +233,7 @@ namespace Pizza_Shop_Project.Controllers
                 if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                    string fileName = ImageTemplate.UploadImage(MenuVm.addItems.ItemFormImage,path);
+                    string fileName = ImageTemplate.UploadImage(MenuVm.addItems.ItemFormImage, path);
                     MenuVm.addItems.ItemImage = $"/uploads/{fileName}";
                 }
                 else
@@ -327,7 +327,7 @@ namespace Pizza_Shop_Project.Controllers
                 if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                    string fileName = ImageTemplate.UploadImage(MenuVm.addItems.ItemFormImage,path);
+                    string fileName = ImageTemplate.UploadImage(MenuVm.addItems.ItemFormImage, path);
                     MenuVm.addItems.ItemImage = $"/uploads/{fileName}";
                 }
                 else
@@ -352,14 +352,20 @@ namespace Pizza_Shop_Project.Controllers
         {
             if (itemid == null)
             {
-                return Json(new { success = false, text = NotificationMessage.DoesNotExists.Replace("{0}", "Item") });
+                TempData["ErrorMessage"] = NotificationMessage.DoesNotExists.Replace("{0}", "Item");
+                return RedirectToAction("Menu", "Menu");
             }
-
-            if (await _itemService.DeleteItem(itemid))
+            else
             {
-                return Json(new { success = true, text = NotificationMessage.EntityDeleted.Replace("{0}", "Item") });
+
+                if (await _itemService.DeleteItem(itemid))
+                {
+                    TempData["SuccessMessage"] = NotificationMessage.EntityDeleted.Replace("{0}", "Item");
+                    return RedirectToAction("Menu", "Menu");
+                }
+                TempData["ErrorMessage"] = NotificationMessage.EntityDeletedFailed.Replace("{0}", "Item");
+                return RedirectToAction("Menu", "Menu");
             }
-            return Json(new { success = false, text = NotificationMessage.EntityDeletedFailed.Replace("{0}", "Item") });
 
         }
         #endregion

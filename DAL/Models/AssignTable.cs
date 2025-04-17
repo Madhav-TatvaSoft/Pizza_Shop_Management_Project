@@ -21,7 +21,7 @@ public partial class AssignTable
 
     public long TableId { get; set; }
 
-    public long OrderId { get; set; }
+    public long? OrderId { get; set; }
 
     public int NoOfPerson { get; set; }
 
@@ -31,7 +31,7 @@ public partial class AssignTable
 
     public virtual User? ModifiedByNavigation { get; set; }
 
-    public virtual Order Order { get; set; } = null!;
+    public virtual Order? Order { get; set; }
 
     public virtual Table Table { get; set; } = null!;
 }

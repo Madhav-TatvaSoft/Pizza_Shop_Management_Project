@@ -70,6 +70,12 @@ public class OrderController : Controller
     public async Task<IActionResult> GenerateInvoicePDF(long orderid)
     {
         OrderDetailViewModel orderDetails = await _orderService.GetOrderDetails(orderid);
+
+        if (orderDetails == null)
+        {
+            TempData["ErrorMessage"] = "Order not found.";
+            return RedirectToAction("Order");
+        }
         //   return PartialView("Invoice", orderDetails);
         ViewAsPdf PDF = new ViewAsPdf("Invoice", orderDetails)
         {

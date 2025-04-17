@@ -1436,11 +1436,11 @@
                             url: `/Menu/DeleteItem?itemID=${itemID}`,
                             type: "GET",
                             success: function (data) {
-                                if (data.success) {
+                                @* if (data.success) {
                                     callSuccessToaster(data.text);
                                 } else {
                                     callErrorToaster(data.text);
-                                }
+                                } *@
                                 $("#MassDeleteItemsBtn").prop("disabled", true);
                                 currentPage = 1;
                                 PaginatedItemTable(catid, searchText, currentPage, pageSize);

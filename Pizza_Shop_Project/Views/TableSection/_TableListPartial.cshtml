@@ -25,7 +25,7 @@ else
             </td>
             <td class="text-center">@item.Capacity</td>
             <td class="text-center d-flex justify-content-center">
-                @if (item.Status == "Occupied" || item.Status == "Running")
+                @if (item.Status == "Occupied" || item.Status == "Running" || item.Status == "Assigned" )
                 {
                     <div class="text-center text-white bg-secondary rounded-pill validate p-1" style="max-width: fit-content;">
                         Occupied</div>

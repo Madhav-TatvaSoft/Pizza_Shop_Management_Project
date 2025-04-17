@@ -119,13 +119,13 @@ public class ModifierGroupService : IModifierGroupService
         }
 
         Modifiergroup modifiergroup = new();
-        modifiergroup.ModifierGrpId = addModifierGroupVM.ModifierGrpId;
+        // modifiergroup.ModifierGrpId = addModifierGroupVM.ModifierGrpId;
         modifiergroup.ModifierGrpName = addModifierGroupVM.ModifierGrpName;
         modifiergroup.Desciption = addModifierGroupVM.Desciption;
         modifiergroup.CreatedBy = userId;
 
         await _context.AddAsync(modifiergroup);
-        // await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
         if (addModifierGroupVM.Temp_Ids != null)
         {

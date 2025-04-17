@@ -43,7 +43,7 @@
                 <div class="form-floating col-6 p-1">
                     <input type="hidden" asp-for="@Model.tablesVM.Status" id="Status_Table_Add">
                     <select class="form-select" asp-for="@Model.tablesVM.Status" id="selectGrpIdDropDown" disabled>
-                        @if(Model.tablesVM.Status == "Occupied")
+                        @if(Model.tablesVM.Status == "Occupied" || Model.tablesVM.Status == "Assigned" || Model.tablesVM.Status == "Running")
                         {
                             <option selected >Occupied</option>
                             @* <option value="false">Available</option> *@

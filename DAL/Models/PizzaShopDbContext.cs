@@ -120,7 +120,6 @@ public partial class PizzaShopDbContext : DbContext
 
             entity.HasOne(d => d.Order).WithMany(p => p.AssignTables)
                 .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("assignTable_order_id_fkey");
 
             entity.HasOne(d => d.Table).WithMany(p => p.AssignTables)
@@ -909,7 +908,6 @@ public partial class PizzaShopDbContext : DbContext
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
             entity.Property(e => e.SectionId).HasColumnName("section_id");
             entity.Property(e => e.Status)
-                .HasDefaultValueSql("false")
                 .HasColumnType("character varying")
                 .HasColumnName("status");
             entity.Property(e => e.TableName)

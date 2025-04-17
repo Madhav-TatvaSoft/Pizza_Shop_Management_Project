@@ -1,7 +1,78 @@
+@using DAL.ViewModels;
+@model OrderAppWaitingViewModel;
 
 @{
     ViewData["Title"] = "Order App Waiting List";
     Layout = "~/Views/Shared/_OrderAppLayout.cshtml";
 }
 
-<strong class="p-2">Waiting List</strong>
+<div class="d-flex justify-content-between pb-3">
+    <p class="fs-3 fw-bold user-text pb-3">Waiting List</p>
+    <button class="btn hollow-btn" data-bs-toggle="modal" data-bs-target="#AddEditWaitingListModal"
+        id="Waiting_Token_id">
+        + Waiting Token
+    </button>
+</div>
+
+<!-- List of Item and Modifier -->
+<div class="d-flex bg-white shadow-lg rounded p-2 pb-0" style="overflow: auto; scrollbar-width: thin;">
+    <div class="section-click fs-5 d-flex justify-content-center gap-2 align-content-center fw-bold text-black-50 p-3 pe-2 text-nowrap WaitingSectionActive"
+        id="0"><span class="mt-1">All</span>
+        <div class="bg-secondary text-center" style="border-radius: 50%; width: 28px;"><span
+                class="d-flex justify-content-center align-content-center text-white fw-bold p-1">2</span></div>
+    </div>
+
+    @foreach (var sec in Model.sectionVMList)
+    {
+        <div class="section-click fs-5 d-flex justify-content-center gap-2 align-content-center fw-bold text-black-50 p-3 pe-2 text-nowrap"
+            id="@sec.SectionId"><span class="mt-1">@sec.SectionName</span>
+            <div class="bg-secondary text-center" style="border-radius: 50%; width: 28px;"><span
+                    class="d-flex justify-content-center align-content-center text-white fw-bold p-1">2</span></div>
+        </div>
+    }
+</div>
+
+<div class="bg-white mt-3 shadow-lg rounded p-3" style="height: fit-content;">
+
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        let secid = 0;
+
+        function SectionClick(secid) {
+            
+            var element = document.getElementById(secid);
+
+            $(element).addClass("KOTCategoryActive");
+            $(element).siblings().removeClass("KOTCategoryActive");
+
+            $.ajax({
+                url: "/OrderAppWaitingList/GetWaitingList",
+                type: "GET",
+                data: { sectionid : secid },
+                success: function (data) {
+                    $("#KOT-Card-Items").html(data);
+                    $(".heading-category").text($(element).text());
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching KOT items:", error);
+                }
+            });
+        }
+
+        // Category Click
+        $(".section-click").on("click", function () {
+            secid = $(this).attr("id");
+            SectionClick(secid);
+        });
+
+        $(document).ready(function () {
+            SectionClick(secid);
+        })
+
+
+    </script>
+}
