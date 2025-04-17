@@ -19,10 +19,10 @@ public class OrderService : IOrderService
     }
     #endregion
 
-    #region Pagination - Get Order List
-    public PaginationViewModel<OrdersViewModel> GetOrderList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5, string orderStatus = "", string fromDate = "", string toDate = "", string selectRange = "")
+    #region Get Data
+    public IQueryable<OrdersViewModel> GetAllOrders()
     {
-        IQueryable<OrdersViewModel>? query = _context.Orders
+        return _context.Orders
             .Include(u => u.Customer)
             .Include(u => u.Rating)
             .Include(u => u.Paymentmethod)
@@ -41,6 +41,13 @@ public class OrderService : IOrderService
                 rating = (int)Math.Ceiling(((double)u.Rating.Ambience + (double)u.Rating.Food + (double)u.Rating.Service) / 3),
             })
             .AsQueryable();
+    }
+    #endregion
+
+    #region Pagination - Get Order List
+    public PaginationViewModel<OrdersViewModel> GetOrderList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5, string orderStatus = "", string fromDate = "", string toDate = "", string selectRange = "")
+    {
+        IQueryable<OrdersViewModel>? query = GetAllOrders();
 
         // Apply search 
         if (!string.IsNullOrEmpty(search))
@@ -121,25 +128,7 @@ public class OrderService : IOrderService
     #region Export Order Data To Excel
     public Task<byte[]> ExportData(string search = "", string orderStatus = "", string selectRange = "")
     {
-        IQueryable<OrdersViewModel>? query = _context.Orders
-            .Include(u => u.Customer)
-            .Include(u => u.Rating)
-            .Include(u => u.Paymentmethod)
-            .Where(u => u.Isdelete == false).OrderBy(u => u.OrderId)
-            .Select(u => new OrdersViewModel
-            {
-                OrderId = u.OrderId,
-                OrderDate = System.DateOnly.FromDateTime(u.OrderDate.Date),
-                CustomerId = u.Customer.CustomerId,
-                CustomerName = u.Customer.CustomerName,
-                Status = u.Status,
-                TotalAmount = u.TotalAmount,
-                PaymentmethodId = u.Paymentmethod.PaymentMethodId,
-                PaymentMethodName = u.Paymentmethod.PaymentType,
-                RatingId = u.Rating.RatingId,
-                rating = (int)Math.Ceiling(((double)u.Rating.Ambience + (double)u.Rating.Food + (double)u.Rating.Service) / 3),
-            })
-            .AsQueryable();
+        IQueryable<OrdersViewModel>? query = GetAllOrders();
 
         // Apply search 
         if (!string.IsNullOrEmpty(search))
@@ -432,7 +421,7 @@ public class OrderService : IOrderService
         {
             Invoice? orderdetails = _context.Invoices.Include(x => x.Order).ThenInclude(x => x.Table).ThenInclude(x => x.Section).Include(x => x.Customer).ThenInclude(x => x.Waitinglists).FirstOrDefault(x => x.OrderId == orderid);
 
-            if(orderdetails == null)
+            if (orderdetails == null)
             {
                 return null;
             }

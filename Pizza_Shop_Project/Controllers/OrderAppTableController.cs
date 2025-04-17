@@ -15,13 +15,15 @@ public class OrderAppTableController : Controller
     private readonly IOrderAppTableService _orderAppTableService;
     private readonly IUserService _userService;
     private readonly IUserLoginService _userLoginService;
+    private readonly ICustomerService _customerService;
 
     #region Constructor
-    public OrderAppTableController(IUserService userService, IUserLoginService userLoginService, IOrderAppTableService orderAppTableService)
+    public OrderAppTableController(IUserService userService, IUserLoginService userLoginService, IOrderAppTableService orderAppTableService, ICustomerService customerService)
     {
         _userService = userService;
         _userLoginService = userLoginService;
         _orderAppTableService = orderAppTableService;
+        _customerService = customerService;
     }
     #endregion
 
@@ -69,7 +71,7 @@ public class OrderAppTableController : Controller
             return Json(new List<object>());
         }
 
-        var Emails = _orderAppTableService.GetCustomerEmail(searchTerm);
+        var Emails = _customerService.GetCustomerEmail(searchTerm);
 
         return Json(Emails);
     }
@@ -83,11 +85,11 @@ public class OrderAppTableController : Controller
         List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-        long customerIdIfPresent = _orderAppTableService.IsCustomerPresent(WaitingTokenVM.Email);
+        long customerIdIfPresent = _customerService.IsCustomerPresent(WaitingTokenVM.Email);
 
         if (customerIdIfPresent == 0)
         {
-            bool createCustomer = await _orderAppTableService.AddCustomer(WaitingTokenVM, userId);
+            bool createCustomer = await _customerService.AddCustomer(WaitingTokenVM, userId);
 
             if (!createCustomer)
             {
@@ -115,6 +117,21 @@ public class OrderAppTableController : Controller
     }
     #endregion
 
+    // #region AssignTable POST
+    // [HttpPost]
+    // public async Task<IActionResult> AssignTable(string Email, int [] TableIds){
+    //    string token = Request.Cookies["AuthToken"];
+    //    List<User>? userData = _userService.getUserFromEmail(token);
+    //    long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+    //    bool tableAssignStatus =await _orderAppTableService.Assigntable(Email, TableIds, userId);
+    //    if(tableAssignStatus){
+    //        return Json(new{ success = true, text = "Table Assigned "});
+    //       }
+    //    return Json(new { success = false, text = "Something Went wrong, Try Again!" });
+    //}
+    // #endregion
+
+
 }
 
 
@@ -141,21 +158,3 @@ public class OrderAppTableController : Controller
 
 
 
-//  #region  GetWaitingListAndCustomerDetails
-    // public IActionResult GetWaitingListAndCustomerDetails(long sectionId){
-    //     OrderAppTableViewModel orderAppTablevm = new();
-    //     orderAppTablevm.waitinglistdetails = _orderAppTableService.GetListOfCustomerWaiting(sectionId);
-    //     return PartialView("_WaitingListOffcanvasPartial", orderAppTablevm);
-    // }
-    // #endregion
-
-    // #region AssignTable
-    // [HttpPost]
-    // public async Task<IActionResult> AssignTable(string Email, int [] TableIds){
-    //     string token = Request.Cookies["AuthToken"];
-    //     var userData = _userService.getUserFromEmail(token);
-    //     long userId = _userLoginSerivce.GetUserId(userData[0].Userlogin.Email);
-    //     bool tableAssignStatus =await _orderAppTableService.Assigntable(Email, TableIds, userId);
-    //     return Json("ok");
-    // }
-    // #endregion

@@ -4,8 +4,11 @@ namespace BLL.Interface;
 
 public interface ICustomerService
 {
-    public PaginationViewModel<CustomerViewModel> GetCustomerList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5, string fromDate = "", string toDate = "", string selectRange = "");
-    public Task<byte[]> ExportData(string search = "", string fromDate = "", string toDate = "", string selectRange = "");
-    public CustomerHistoryViewModel GetCustomerHistory(long customerid);
-
+    PaginationViewModel<CustomerViewModel> GetCustomerList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5, string fromDate = "", string toDate = "", string selectRange = "");
+    Task<byte[]> ExportData(string search = "", string fromDate = "", string toDate = "", string selectRange = "");
+    CustomerHistoryViewModel GetCustomerHistory(long customerid);
+    long IsCustomerPresent(string Email);
+    List<CustomerViewModel> GetCustomerEmail(string searchTerm);
+    Task<bool> AddCustomer(WaitingTokenDetailViewModel waitingTokenVM, long userId);
+    IQueryable<CustomerViewModel> GetAllCustomers();
 }

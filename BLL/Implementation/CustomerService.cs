@@ -19,10 +19,10 @@ public class CustomerService : ICustomerService
     }
     #endregion
 
-    #region Pagination - Get Order List
-    public PaginationViewModel<CustomerViewModel> GetCustomerList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5, string fromDate = "", string toDate = "", string selectRange = "")
+    #region Get Data
+    public IQueryable<CustomerViewModel> GetAllCustomers()
     {
-        IQueryable<CustomerViewModel>? query = _context.Customers
+        return _context.Customers
             .Include(u => u.Orders)
             .Where(u => !u.Isdelete).OrderBy(u => u.CustomerId)
             .Select(u => new CustomerViewModel
@@ -35,6 +35,13 @@ public class CustomerService : ICustomerService
                 totalOrder = u.Orders.Count()
             })
             .AsQueryable();
+    }
+    #endregion
+
+    #region Pagination - Get Order List
+    public PaginationViewModel<CustomerViewModel> GetCustomerList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5, string fromDate = "", string toDate = "", string selectRange = "")
+    {
+        var query = GetAllCustomers();
 
         // IQueryable<CustomerViewModel>? query2 = from c in _context.Customers.Where(i => !i.Isdelete)
         //                                         join o in _context.Orders.Where(i => !i.Isdelete)
@@ -119,19 +126,7 @@ public class CustomerService : ICustomerService
     #region Export Order Data To Excel
     public Task<byte[]> ExportData(string search = "", string fromDate = "", string toDate = "", string selectRange = "")
     {
-        IQueryable<CustomerViewModel>? query = _context.Customers
-            .Include(u => u.Orders)
-            .Where(u => u.Isdelete == false).OrderBy(u => u.CustomerId)
-            .Select(u => new CustomerViewModel
-            {
-                CustomerId = u.CustomerId,
-                CustomerName = u.CustomerName,
-                Email = u.Email,
-                PhoneNo = u.PhoneNo,
-                CreatedAt = System.DateOnly.FromDateTime((DateTime)u.CreatedAt),
-                totalOrder = u.Orders.Count()
-            })
-            .AsQueryable();
+        var query = GetAllCustomers();
 
         // Apply search 
         if (!string.IsNullOrEmpty(search))
@@ -413,6 +408,8 @@ public class CustomerService : ICustomerService
         }
     }
     #endregion
+
+    #region Customer History
     public CustomerHistoryViewModel GetCustomerHistory(long customerid)
     {
         CustomerHistoryViewModel? customerDetails = _context.Customers.
@@ -430,7 +427,7 @@ public class CustomerService : ICustomerService
             CreatedAt = (DateTime)x.CreatedAt,
             visits = x.Orders.Count(),
             MaxOrder = x.Orders.Max(x => x.TotalAmount),
-            AvgBill = Math.Round(x.Orders.Average(x => x.TotalAmount),2),
+            AvgBill = Math.Round(x.Orders.Average(x => x.TotalAmount), 2),
             orderList = x.Orders.Select(x => new OrderListViewModel
             {
                 OrderDate = DateOnly.FromDateTime(x.OrderDate),
@@ -443,6 +440,48 @@ public class CustomerService : ICustomerService
 
         return customerDetails;
     }
+    #endregion
+
+    #region IsCustomerPresent
+    public long IsCustomerPresent(string Email)
+    {
+        Customer customer = _context.Customers.FirstOrDefault(x => x.Email == Email && !x.Isdelete);
+        if (customer != null) return customer.CustomerId;
+        else return 0;
+    }
+    #endregion
+
+    #region Get Customer Email
+    public List<CustomerViewModel> GetCustomerEmail(string searchTerm)
+    {
+        List<CustomerViewModel>? Emails = _context.Customers
+        .Where(c => c.Email.Contains(searchTerm))
+        .Select(c => new CustomerViewModel
+        {
+            Email = c.Email,
+            CustomerName = c.CustomerName ?? "",
+            PhoneNo = c.PhoneNo
+        })
+        .Take(10)
+        .ToList();
+
+        return Emails;
+    }
+    #endregion
+
+    #region AddCustomer
+    public async Task<bool> AddCustomer(WaitingTokenDetailViewModel waitingTokenVM, long userId)
+    {
+        Customer customer = new();
+        customer.CustomerName = waitingTokenVM.CustomerName;
+        customer.Email = waitingTokenVM.Email;
+        customer.PhoneNo = waitingTokenVM.PhoneNo;
+        customer.CreatedBy = userId;
+        await _context.AddAsync(customer);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+    #endregion
 
 
 }

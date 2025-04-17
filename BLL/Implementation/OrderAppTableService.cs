@@ -8,11 +8,13 @@ namespace BLL.Implementation;
 public class OrderAppTableService : IOrderAppTableService
 {
     private readonly PizzaShopDbContext _context;
+    private readonly ICustomerService _customerService;
 
     #region Constructor
-    public OrderAppTableService(PizzaShopDbContext context)
+    public OrderAppTableService(PizzaShopDbContext context, ICustomerService customerService)
     {
         _context = context;
+        _customerService = customerService;
     }
     #endregion
 
@@ -63,53 +65,12 @@ public class OrderAppTableService : IOrderAppTableService
     }
     #endregion
 
-    #region IsCustomerPresent
-    public long IsCustomerPresent(string Email)
-    {
-        Customer customer = _context.Customers.FirstOrDefault(x => x.Email == Email && !x.Isdelete);
-        if (customer != null) return customer.CustomerId;
-        else return 0;
-    }
-    #endregion
-
-    #region AddCustomer
-    public async Task<bool> AddCustomer(WaitingTokenDetailViewModel waitingTokenVM, long userId)
-    {
-        Customer customer = new();
-        customer.CustomerName = waitingTokenVM.CustomerName;
-        customer.Email = waitingTokenVM.Email;
-        customer.PhoneNo = waitingTokenVM.PhoneNo;
-        customer.CreatedBy = userId;
-        await _context.AddAsync(customer);
-        await _context.SaveChangesAsync();
-        return true;
-    }
-    #endregion
-
-    #region Get Customer Email
-    public List<CustomerViewModel> GetCustomerEmail(string searchTerm)
-    {
-        List<CustomerViewModel>? Emails = _context.Customers
-        .Where(c => c.Email.Contains(searchTerm))
-        .Select(c => new CustomerViewModel
-        {
-            Email = c.Email,
-            CustomerName = c.CustomerName ?? "",
-            PhoneNo = c.PhoneNo
-        })
-        .Take(10)
-        .ToList();
-
-        return Emails;
-    }
-    #endregion
-
     #region AddCustomerToWaitingList
     public async Task<bool> AddCustomerToWaitingList(WaitingTokenDetailViewModel waitingTokenVM, long userId)
     {
         try
         {
-            long customerId = IsCustomerPresent(waitingTokenVM.Email);
+            long customerId = _customerService.IsCustomerPresent(waitingTokenVM.Email);
             Waitinglist waitinglist = new();
 
             Waitinglist? CustomerPresent = _context.Waitinglists.FirstOrDefault(waiting => waiting.CustomerId == customerId);
@@ -241,33 +202,6 @@ public class OrderAppTableService : IOrderAppTableService
 
 
 
-
-
-
-// #region GetListOfCustomerWaiting
-// public List<OrderAppTableWaitingDetails> GetListOfCustomerWaiting(long sectionId)
-// {
-//     List<OrderAppTableWaitingDetails> customerWaiting = _context.Waitinglists.Include(x => x.Customer).Include(x => x.Section)
-//                 .Where(x => x.Isdelete == false && x.Isassign == false && x.SectionId == sectionId)
-//                 .Select(w => new OrderAppTableWaitingDetails
-//                 {
-//                     ID = w.WaitingId,
-//                     Name = w.Customer.CustomerName,
-//                     NoOfPerson = w.NoOfPerson,
-//                     customerDetails = new WaitingTokenDetailsViewModel
-//                     {
-//                         Email = w.Customer.Email,
-//                         Name = w.Customer.CustomerName,
-//                         Mobileno = (int)w.Customer.Phoneno,
-//                         NoOfPerson = w.NoOfPerson,
-//                         SectionID = w.SectionId,
-//                         SectionName = w.Section.SectionName
-//                     }
-//                 }).ToList();
-//     if (customerWaiting != null) return customerWaiting;
-//     else return null;
-// }
-// #endregion
 
 // #region Assigntable
 // public async Task<bool> Assigntable(string Email, int[] TableIds, long userId)

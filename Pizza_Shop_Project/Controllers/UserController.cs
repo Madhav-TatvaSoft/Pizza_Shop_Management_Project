@@ -92,18 +92,7 @@ namespace Pizza_Shop_Project.Controllers
                 if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-
-                    //create folder if not exist
-                    if (!Directory.Exists(path))
-                        Directory.CreateDirectory(path);
-
-                    string fileName = $"{Guid.NewGuid()}_{user.ProfileImage.FileName}";
-                    string fileNameWithPath = Path.Combine(path, fileName);
-
-                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-                    {
-                        user.ProfileImage.CopyTo(stream);
-                    }
+                    string fileName = BLL.common.ImageTemplate.UploadImage(user.ProfileImage,path);
                     user.Image = $"/uploads/{fileName}";
                 }
                 else
@@ -269,18 +258,7 @@ namespace Pizza_Shop_Project.Controllers
                 if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-
-                    //create folder if not exist
-                    if (!Directory.Exists(path))
-                        Directory.CreateDirectory(path);
-
-                    string fileName = $"{Guid.NewGuid()}_{user.ProfileImage.FileName}";
-                    string fileNameWithPath = Path.Combine(path, fileName);
-
-                    using (FileStream stream = new FileStream(fileNameWithPath, FileMode.Create))
-                    {
-                        user.ProfileImage.CopyTo(stream);
-                    }
+                    string fileName = ImageTemplate.UploadImage(user.ProfileImage,path);
                     user.Image = $"/uploads/{fileName}";
                 }
                 else
@@ -369,57 +347,46 @@ namespace Pizza_Shop_Project.Controllers
 
         [PermissionAuthorize("Users.AddEdit")]
         [HttpPost]
-        public async Task<IActionResult> EditUser(AddUserViewModel adduser)
+        public async Task<IActionResult> EditUser(AddUserViewModel edituser)
         {
-            string? Email = adduser.Email;
+            string? Email = edituser.Email;
 
-            if (adduser.CountryId == null)
+            if (edituser.CountryId == null)
             {
                 TempData["CountryError"] = "Please select a country";
             }
-            if (adduser.StateId == null)
+            if (edituser.StateId == null)
             {
                 TempData["StateError"] = "Please select a state";
             }
-            if (adduser.CityId == null)
+            if (edituser.CityId == null)
             {
                 TempData["CityError"] = "Please select a city";
             }
 
-            if (adduser.ProfileImage != null)
+             if (edituser.ProfileImage != null)
             {
-                string[]? extension = adduser.ProfileImage.FileName.Split(".");
+                string[]? extension = edituser.ProfileImage.FileName.Split(".");
                 if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-
-                    //create folder if not exist
-                    if (!Directory.Exists(path))
-                        Directory.CreateDirectory(path);
-
-                    string fileName = $"{Guid.NewGuid()}_{adduser.ProfileImage.FileName}";
-                    string fileNameWithPath = Path.Combine(path, fileName);
-
-                    using (FileStream stream = new FileStream(fileNameWithPath, FileMode.Create))
-                    {
-                        adduser.ProfileImage.CopyTo(stream);
-                    }
-                    adduser.Image = $"/uploads/{fileName}";
+                    string fileName = ImageTemplate.UploadImage(edituser.ProfileImage,path);
+                    edituser.Image = $"/uploads/{fileName}";
                 }
                 else
                 {
                     TempData["ErrorMessage"] = NotificationMessage.ImageFormat;
-                    return RedirectToAction("EditUser", "User", new { Email = adduser.Email });
+                    return RedirectToAction("AddUser", "User", new { Email = edituser .Email });
                 }
             }
 
-            if (_userService.IsUserNameExistsForEdit(adduser.Username, Email))
+            if (_userService.IsUserNameExistsForEdit(edituser.Username, Email))
             {
                 TempData["ErrorMessage"] = NotificationMessage.AlreadyExists.Replace("{0}", "UserName");
-                return RedirectToAction("EditUser", "User", new { Email = adduser.Email });
+                return RedirectToAction("EditUser", "User", new { Email = edituser.Email });
             }
 
-            if (await _userService.EditUser(adduser, Email))
+            if (await _userService.EditUser(edituser, Email))
             {
                 TempData["SuccessMessage"] = NotificationMessage.EntityUpdated.Replace("{0}", "User");
                 return RedirectToAction("UserListData", "User");
@@ -427,7 +394,7 @@ namespace Pizza_Shop_Project.Controllers
             else
             {
                 TempData["ErrorMessage"] = NotificationMessage.EntityUpdatedFailed.Replace("{0}", "User");
-                return RedirectToAction("EditUser", "User", new { Email = adduser.Email });
+                return RedirectToAction("EditUser", "User", new { Email = edituser.Email });
             }
         }
         #endregion

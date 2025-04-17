@@ -226,24 +226,14 @@ namespace Pizza_Shop_Project.Controllers
             }
 
             // Code For image upload
+
             if (MenuVm.addItems.ItemFormImage != null)
             {
                 string[]? extension = MenuVm.addItems.ItemFormImage.FileName.Split(".");
                 if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-
-                    //create folder if not exist
-                    if (!Directory.Exists(path))
-                        Directory.CreateDirectory(path);
-
-                    string fileName = $"{Guid.NewGuid()}_{MenuVm.addItems.ItemFormImage.FileName}";
-                    string fileNameWithPath = Path.Combine(path, fileName);
-
-                    using (FileStream stream = new FileStream(fileNameWithPath, FileMode.Create))
-                    {
-                        MenuVm.addItems.ItemFormImage.CopyTo(stream);
-                    }
+                    string fileName = ImageTemplate.UploadImage(MenuVm.addItems.ItemFormImage,path);
                     MenuVm.addItems.ItemImage = $"/uploads/{fileName}";
                 }
                 else
@@ -337,18 +327,7 @@ namespace Pizza_Shop_Project.Controllers
                 if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-
-                    //create folder if not exist
-                    if (!Directory.Exists(path))
-                        Directory.CreateDirectory(path);
-
-                    string fileName = $"{Guid.NewGuid()}_{MenuVm.addItems.ItemFormImage.FileName}";
-                    string fileNameWithPath = Path.Combine(path, fileName);
-
-                    using (FileStream stream = new FileStream(fileNameWithPath, FileMode.Create))
-                    {
-                        MenuVm.addItems.ItemFormImage.CopyTo(stream);
-                    }
+                    string fileName = ImageTemplate.UploadImage(MenuVm.addItems.ItemFormImage,path);
                     MenuVm.addItems.ItemImage = $"/uploads/{fileName}";
                 }
                 else
