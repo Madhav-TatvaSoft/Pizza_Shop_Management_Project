@@ -9,4 +9,5 @@ public class OrderAppSectionVM
     public int AvailableCount { get; set; }
     public int AssignedCount { get; set; }
     public int RunningCount { get; set; }
+    public int WaitingCount { get; set; }
 }

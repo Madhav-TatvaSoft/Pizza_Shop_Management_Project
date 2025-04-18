@@ -56,10 +56,11 @@ public class OrderAppTableController : Controller
     #region WaitingTokenDetail GET
     public IActionResult WaitingTokenDetails(long sectionid, string sectionName)
     {
-        WaitingTokenDetailViewModel WaitingTokenVM = new();
-        WaitingTokenVM.SectionId = sectionid;
-        WaitingTokenVM.SectionName = sectionName;
-        return PartialView("_WaitingListModal", WaitingTokenVM);
+        OrderAppTableMainViewModel TableMainVM = new();
+        TableMainVM.waitingTokenDetailViewModel = new();
+        TableMainVM.waitingTokenDetailViewModel.SectionId = sectionid;
+        TableMainVM.waitingTokenDetailViewModel.SectionName = sectionName;
+        return PartialView("_WaitingListModal", TableMainVM);
     }
     #endregion
 
@@ -79,25 +80,25 @@ public class OrderAppTableController : Controller
 
     #region WaitingTokenDetail POST
     [HttpPost]
-    public async Task<IActionResult> WaitingTokenDetails([FromForm] WaitingTokenDetailViewModel WaitingTokenVM)
+    public async Task<IActionResult> WaitingTokenDetails([FromForm] OrderAppTableMainViewModel TableMainVM)
     {
         string token = Request.Cookies["AuthToken"];
         List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-        long customerIdIfPresent = _customerService.IsCustomerPresent(WaitingTokenVM.Email);
+        // long customerIdIfPresent = _customerService.IsCustomerPresent(TableMainVM.waitingTokenDetailViewModel.Email);
 
-        if (customerIdIfPresent == 0)
+        // if (customerIdIfPresent == 0)
+        // {
+        bool createCustomer = await _customerService.AddEditCustomer(TableMainVM.waitingTokenDetailViewModel, userId);
+
+        if (!createCustomer)
         {
-            bool createCustomer = await _customerService.AddCustomer(WaitingTokenVM, userId);
-
-            if (!createCustomer)
-            {
-                return Json(new { success = false, text = NotificationMessage.EntityCreatedFailed.Replace("{0}", "Customer") });
-            }
+            return Json(new { success = false, text = NotificationMessage.EntityCreatedFailed.Replace("{0}", "Customer") });
         }
+        // }
 
-        bool customerAddToWaitingList = await _orderAppTableService.AddCustomerToWaitingList(WaitingTokenVM, userId);
+        bool customerAddToWaitingList = await _orderAppTableService.AddCustomerToWaitingList(TableMainVM.waitingTokenDetailViewModel, userId);
 
         if (customerAddToWaitingList)
         {

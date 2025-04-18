@@ -470,8 +470,23 @@ public class CustomerService : ICustomerService
     #endregion
 
     #region AddCustomer
-    public async Task<bool> AddCustomer(WaitingTokenDetailViewModel waitingTokenVM, long userId)
+    public async Task<bool> AddEditCustomer(WaitingTokenDetailViewModel waitingTokenVM, long userId)
     {
+        var existingCustomer = await _context.Customers.FirstOrDefaultAsync(c => c.Email == waitingTokenVM.Email && !c.Isdelete);
+
+        if (existingCustomer != null)
+        {
+            // Update existing customer
+            existingCustomer.CustomerName = waitingTokenVM.CustomerName;
+            existingCustomer.Email = waitingTokenVM.Email;
+            existingCustomer.PhoneNo = waitingTokenVM.PhoneNo;
+            existingCustomer.ModifiedBy = userId;
+            existingCustomer.ModifiedAt = DateTime.Now;
+            _context.Update(existingCustomer);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         Customer customer = new();
         customer.CustomerName = waitingTokenVM.CustomerName;
         customer.Email = waitingTokenVM.Email;

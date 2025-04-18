@@ -180,7 +180,7 @@ public class TableSectionService : ITableSectionService
 
     public async Task<bool> IsTableOccupiedinSection(long sectionid)
     {
-        return _context.Tables.Any(x => x.SectionId == sectionid && !x.Isdelete && (x.Status == "Occupied" || x.Status == "Running"));
+        return _context.Tables.Any(x => x.SectionId == sectionid && !x.Isdelete && (x.Status != "Available"));
     }
     #endregion
 
@@ -299,7 +299,7 @@ public class TableSectionService : ITableSectionService
 
     public async Task<bool> IsTableOccupied(long tableId)
     {
-        return _context.Tables.Any(x => x.TableId == tableId && !x.Isdelete &&  (x.Status == "Occupied" || x.Status == "Running"));
+        return _context.Tables.Any(x => x.TableId == tableId && !x.Isdelete &&  (x.Status != "Available"));
     }
     #endregion
 

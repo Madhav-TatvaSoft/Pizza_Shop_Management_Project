@@ -31,6 +31,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICustomerService,CustomerService>();
 builder.Services.AddScoped<IOrderAppKOTService,OrderAppKOTService>();
 builder.Services.AddScoped<IOrderAppTableService,OrderAppTableService>();
+builder.Services.AddScoped<IOrderAppWaitingListService,OrderAppWaitingListService>();
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 

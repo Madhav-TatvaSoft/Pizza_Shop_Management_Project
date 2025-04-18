@@ -8,71 +8,87 @@
 
 <div class="d-flex justify-content-between pb-3">
     <p class="fs-3 fw-bold user-text pb-3">Waiting List</p>
-    <button class="btn hollow-btn" data-bs-toggle="modal" data-bs-target="#AddEditWaitingListModal"
-        id="Waiting_Token_id">
+    <button class="btn hollow-btn Waiting_Token_id" data-bs-toggle="modal" data-bs-target="#AddEditWaitingTokenModal">
         + Waiting Token
     </button>
 </div>
 
 <!-- List of Item and Modifier -->
-<div class="d-flex bg-white shadow-lg rounded p-2 pb-0" style="overflow: auto; scrollbar-width: thin;">
-    <div class="section-click fs-5 d-flex justify-content-center gap-2 align-content-center fw-bold text-black-50 p-3 pe-2 text-nowrap WaitingSectionActive"
-        id="0"><span class="mt-1">All</span>
-        <div class="bg-secondary text-center" style="border-radius: 50%; width: 28px;"><span
-                class="d-flex justify-content-center align-content-center text-white fw-bold p-1">2</span></div>
-    </div>
+<div class="d-flex bg-white shadow-lg rounded p-2 pb-0" id="FillSectionList"
+    style="overflow: auto; scrollbar-width: thin;">
 
-    @foreach (var sec in Model.sectionVMList)
-    {
-        <div class="section-click fs-5 d-flex justify-content-center gap-2 align-content-center fw-bold text-black-50 p-3 pe-2 text-nowrap"
-            id="@sec.SectionId"><span class="mt-1">@sec.SectionName</span>
-            <div class="bg-secondary text-center" style="border-radius: 50%; width: 28px;"><span
-                    class="d-flex justify-content-center align-content-center text-white fw-bold p-1">2</span></div>
-        </div>
-    }
 </div>
 
 <div class="bg-white mt-3 shadow-lg rounded p-3" style="height: fit-content;">
-
+    <div class="table-responsive">
+        <table class="table ">
+            <thead>
+                <tr class="border border-bottom-2 border-top-0 border-end-0 border-start-0 border-dark fw-bold">
+                    <th class="text-nowrap"># Token No.</th>
+                    <th class="text-nowrap">Created At</th>
+                    <th class="text-nowrap">Waiting Time</th>
+                    <th class="text-nowrap">Name</th>
+                    <th class="text-nowrap">No. Of Persons</th>
+                    <th class="text-nowrap">Phone No.</th>
+                    <th class="text-nowrap">Email</th>
+                    <th class="text-center text-nowrap">Action</th>
+                </tr>
+            </thead>
+            <tbody id="WaitingListBody">
+                @* partialview *@
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<!------------------------------------------Modal------------------------------------------------>
+
+<div id="AddEditWaitingTokenModal" class="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" id="AddEditWaitingTokenModal-Content">
+
+    </div>
+</div>
+
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
 
-        let secid = 0;
-
-        function SectionClick(secid) {
-            
-            var element = document.getElementById(secid);
-
-            $(element).addClass("KOTCategoryActive");
-            $(element).siblings().removeClass("KOTCategoryActive");
-
+        function GetSectionList() {
             $.ajax({
-                url: "/OrderAppWaitingList/GetWaitingList",
+                url: "/OrderAppWaitingList/GetSectionList",
                 type: "GET",
-                data: { sectionid : secid },
                 success: function (data) {
-                    $("#KOT-Card-Items").html(data);
-                    $(".heading-category").text($(element).text());
+                    $("#FillSectionList").html(data);
                 },
                 error: function (xhr, status, error) {
-                    console.error("Error fetching KOT items:", error);
+                    console.error("Error fetching Data:", error);
                 }
             });
         }
 
-        // Category Click
-        $(".section-click").on("click", function () {
-            secid = $(this).attr("id");
-            SectionClick(secid);
+        // Add Edit Waiting Token Modal
+        $(document).on('click', ".Waiting_Token_id", function (event) {
+            var button = event.target
+            var waitingid = $(button).data("id");
+            console.log(waitingid, "waitingid");
+            $.ajax({
+                url: "/OrderAppWaitingList/GetWaitingToken",
+                type: "GET",
+                data: { waitingid: waitingid },
+                success: function (data) {
+                    console.log(data);
+                    console.log("Start");
+                    $("#AddEditWaitingTokenModal-Content").html(data);
+                    console.log("End");
+
+                }
+            });
         });
 
         $(document).ready(function () {
-            SectionClick(secid);
+            GetSectionList();
         })
-
 
     </script>
 }

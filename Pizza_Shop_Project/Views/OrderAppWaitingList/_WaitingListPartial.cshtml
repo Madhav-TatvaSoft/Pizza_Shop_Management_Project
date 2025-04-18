@@ -1,0 +1,30 @@
+@using DAL.ViewModels
+@model OrderAppWaitingViewModel;
+
+@if (Model.WaitingTokenVMList.Count == 0)
+{
+    <tr class="text-danger fw-bold text-center">
+        <td colspan="8" class="text-center pt-2">No Waiting Token Found</td>
+    </tr>
+}
+else
+{
+    foreach (var item in Model.WaitingTokenVMList)
+    {
+        <tr class="border border-bottom-2 border-top-0 border-end-0 border-start-0 fw-bold text-black-50">
+            <td class="text-nowrap "># @item.WaitingId</td>
+            <td class="text-nowrap ">@item.CreatedAt</td>
+            <td class="text-nowrap ">0hr 4min</td>
+            <td class="text-nowrap ">@item.CustomerName</td>
+            <td class="text-nowrap ">@item.NoOfPerson</td>
+            <td class="text-nowrap">@item.PhoneNo</td>
+            <td class="text-nowrap ">@item.Email</td>
+            <td class="text-center text-nowrap">
+                <i class="fa-solid fa-pen me-2 mt-2 Waiting_Token_id" data-bs-toggle="modal" data-bs-target="#AddEditWaitingTokenModal" data-id="@item.WaitingId"></i>
+                <i class="fa-solid fa-trash-can me-2" data-bs-toggle="modal" data-bs-target="#DeleteWaitingTokenModal" data-id="@item.WaitingId"></i>
+                <i class="fa-solid fa-user-plus" data-bs-toggle="modal" data-bs-target="#AssignTableToWaitingModal"
+                    onclick="getSectionListAndTables(@item.SectionId,@item.WaitingId)"></i>
+            </td>
+        </tr>
+    }
+}

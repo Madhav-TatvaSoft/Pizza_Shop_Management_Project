@@ -1,0 +1,54 @@
+@using DAL.ViewModels;
+@model OrderAppWaitingViewModel;
+
+<div class="section-click fs-5 d-flex justify-content-center gap-2 align-content-center fw-bold text-black-50 p-3 pe-2 text-nowrap WaitingSectionActive"
+    id="0"><span class="mt-1">All</span>
+    <div class="bg-secondary text-center" style="border-radius: 50%; width: 28px;"><span
+            class="d-flex justify-content-center align-content-center text-white fw-bold p-1">@Model.sectionVMList.Sum(x
+            => x.WaitingCount)</span></div>
+</div>
+
+@foreach (var sec in Model.sectionVMList)
+{
+    <div class="section-click fs-5 d-flex justify-content-center gap-2 align-content-center fw-bold text-black-50 p-3 pe-2 text-nowrap"
+        id="@sec.SectionId"><span class="mt-1">@sec.SectionName</span>
+        <div class="bg-secondary text-center" style="border-radius: 50%; width: 28px;"><span
+                class="d-flex justify-content-center align-content-center text-white fw-bold p-1 ">@sec.WaitingCount</span>
+        </div>
+    </div>
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    let secid = 0;
+
+    function SectionClick(secid) {
+
+        var element = document.getElementById(secid);
+
+        $(element).addClass("KOTCategoryActive");
+        $(element).siblings().removeClass("KOTCategoryActive");
+
+        $.ajax({
+            url: "/OrderAppWaitingList/GetWaitingList",
+            type: "GET",
+            data: { sectionid: secid },
+            success: function (data) {
+                $("#WaitingListBody").html(data);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching Data:", error);
+            }
+        });
+    }
+    // Category Click
+    $(".section-click").on("click", function () {
+        secid = $(this).attr("id");
+        SectionClick(secid);
+    });
+
+    $(document).ready(function () {
+        SectionClick(secid);
+    })
+</script>

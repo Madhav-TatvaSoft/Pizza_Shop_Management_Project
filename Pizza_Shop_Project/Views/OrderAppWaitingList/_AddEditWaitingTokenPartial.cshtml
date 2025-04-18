@@ -1,47 +1,51 @@
 @using DAL.ViewModels
-@model OrderAppTableMainViewModel;
+@model OrderAppWaitingViewModel;
 
 <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title fs-5 fw-bold text-secondary">Waiting Token Details</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
-    <form id="waitingListFormId">
+    <form id="AddEditWaitingFormId">
         <div class="modal-body row">
+
+            <input type="hidden" asp-for="@Model.WaitingTokenDetailVM.WaitingId" />
+
             <div class="form-floating col-12 mb-3">
-                <input type="email" class="form-control" id="Email" asp-for="@Model.waitingTokenDetailViewModel.Email"
+                <input type="email" class="form-control" id="Email" asp-for="@Model.WaitingTokenDetailVM.Email"
                     placeholder="Email*" list="emailSuggestions" autocomplete="off">
                 <datalist id="emailSuggestions"></datalist>
-                <span asp-validation-for="@Model.waitingTokenDetailViewModel.Email" class="text-danger "></span>
+                <span asp-validation-for="@Model.WaitingTokenDetailVM.Email" class="text-danger "></span>
                 <label for="Email" class="text-secondary"> &nbsp; Email*</label>
             </div>
             <div class="form-floating col-12 mb-3">
-                <input type="text" class="form-control" id="Name"
-                    asp-for="@Model.waitingTokenDetailViewModel.CustomerName" placeholder="Name*">
-                <span asp-validation-for="@Model.waitingTokenDetailViewModel.CustomerName"
-                    class="text-danger validate"></span>
+                <input type="text" class="form-control" id="Name" asp-for="@Model.WaitingTokenDetailVM.CustomerName"
+                    placeholder="Name*">
+                <span asp-validation-for="@Model.WaitingTokenDetailVM.CustomerName" class="text-danger validate"></span>
                 <label for="Name" class="text-secondary"> &nbsp; Name*</label>
             </div>
             <div class="form-floating col-12 mb-3">
-                <input type="text" class="form-control" id="Mobile" asp-for="@Model.waitingTokenDetailViewModel.PhoneNo"
+                <input type="text" class="form-control" id="Mobile" asp-for="@Model.WaitingTokenDetailVM.PhoneNo"
                     placeholder="Mobile Number*">
-                <span asp-validation-for="@Model.waitingTokenDetailViewModel.PhoneNo"
-                    class="text-danger validate"></span>
+                <span asp-validation-for="@Model.WaitingTokenDetailVM.PhoneNo" class="text-danger validate"></span>
                 <label for="Mobile" class="text-secondary"> &nbsp; Mobile Number*</label>
             </div>
             <div class="form-floating col-md-6 col-12 mb-3">
-                <input type="number" class="form-control" id="persons"
-                    asp-for="@Model.waitingTokenDetailViewModel.NoOfPerson" placeholder="Mobile Number*">
-                <span asp-validation-for="@Model.waitingTokenDetailViewModel.NoOfPerson"
-                    class="text-danger validate"></span>
+                <input type="number" class="form-control" id="persons" asp-for="@Model.WaitingTokenDetailVM.NoOfPerson"
+                    placeholder="Mobile Number*">
+                <span asp-validation-for="@Model.WaitingTokenDetailVM.NoOfPerson" class="text-danger validate"></span>
                 <label for="persons" class="text-secondary"> &nbsp; No. of Persons*</label>
             </div>
             <div class="form-floating col-md-6 col-12 mb-3">
-                <input type="hidden" id="sectionid" asp-for="@Model.waitingTokenDetailViewModel.SectionId">
-                <select class="form-select" asp-for="@Model.waitingTokenDetailViewModel.SectionId"
-                    id="selectSectionIdDropDown" aria-label="Floating label select example" disabled>
-                    <option value="@Model.waitingTokenDetailViewModel.SectionId">
-                        @Model.waitingTokenDetailViewModel.SectionName</option>
+                @* <input type="hidden" id="sectionid" asp-for="@Model.WaitingTokenDetailVM.SectionId"> *@
+                <select class="form-select" asp-for="@Model.WaitingTokenDetailVM.SectionId" id="selectSectionIdDropDown"
+                    aria-label="Floating label select example">
+                    @foreach (var sec in Model.sectionVMList)
+                    {
+                        @* selected="@((sec.SectionId == Model.WaitingTokenDetailVM.SectionId).ToString().ToLower())" *@
+                        <option value="@sec.SectionId"> @sec.SectionName</option>
+                    }
+
                 </select>
                 <label for="sectionName"> &nbsp; Section*</label>
             </div>
@@ -92,7 +96,6 @@
         }
     });
 
-
     $(document).on("change", "#Email", function () {
         var selectedOption = $("#emailSuggestions option[value='" + $(this).val() + "']");
         if (selectedOption.length) {
@@ -102,7 +105,7 @@
     });
 
     // Waiting Token POST Method
-    $(document).on("submit", "#waitingListFormId", function (e) {
+    $(document).on("submit", "#AddEditWaitingFormId", function (e) {
 
         e.preventDefault();
         $(this).submit(function () {
@@ -115,14 +118,14 @@
             console.log("Form is valid");
 
             let formData = new FormData(this);
-            console.log("FormData entries:", [...formData.entries()]); // Log form data for debugging
+            console.log("FormData entries:", [...formData.entries()]);
 
             $.ajax({
-                url: "/OrderAppTable/WaitingTokenDetails",
+                url: "/OrderAppWaitingList/SaveWaitingToken",
                 type: "POST",
                 data: formData,
-                processData: false, // Prevent jQuery from processing FormData
-                contentType: false, // Let browser set correct content type
+                processData: false,
+                contentType: false,
                 success: function (res) {
                     console.log("Response:", res);
                     if (res.success) {
@@ -130,10 +133,11 @@
                     } else {
                         callErrorToaster(res.text);
                     }
-                    $(".btn-close").click(); // Close modal
+                    $(".btn-close").click();
+                    GetSectionList();
+                    SectionClick(secid);
                 },
                 error: function (xhr, status, error) {
-                    console.error("AJAX error:", status, error, xhr.responseText);
                     callErrorToaster("An error occurred while saving the token details.");
                     $(".btn-close").click();
                 }
