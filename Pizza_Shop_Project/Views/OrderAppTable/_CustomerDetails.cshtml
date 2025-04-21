@@ -1,0 +1,111 @@
+@using DAL.ViewModels
+@model OrderAppTableMainViewModel
+
+<form id="AssignTableForm">
+    <div class="customerDetails row pt-3">
+        <div class="user-text fs-4 fw-bold mb-3">Customer Details</div>
+
+        <input type="hidden" id="customerId" asp-for="@Model.waitingTokenDetailViewModel.CustomerId" value="@Model.waitingTokenDetailViewModel.CustomerId" />
+        <input type="hidden" id="waitingId" asp-for="@Model.waitingTokenDetailViewModel.WaitingId" value="@Model.waitingTokenDetailViewModel.WaitingId" />
+
+        <div class="form-floating  col-12 mb-3">
+            <input type="text" asp-for="@Model.waitingTokenDetailViewModel.Email" class="form-control" id="Email"
+                placeholder="Email*" onkeyup="CheckEmailRadio(this)"
+                data-email="@Model.waitingTokenDetailViewModel.Email">
+            <label for="Email" class="text-secondary"> &nbsp; Email*</label>
+            <span class="text-danger validate" asp-validation-for="@Model.waitingTokenDetailViewModel.Email"></span>
+        </div>
+        <div class="form-floating  col-12 mb-3">
+            <input type="text" asp-for="@Model.waitingTokenDetailViewModel.CustomerName" class="form-control" id="Name"
+                placeholder="Name*">
+            <label for="Name" class="text-secondary"> &nbsp; Name*</label>
+            <span class="text-danger validate"
+                asp-validation-for="@Model.waitingTokenDetailViewModel.CustomerName"></span>
+
+        </div>
+        <div class="form-floating  col-12 mb-3">
+            <input type="text" asp-for="@Model.waitingTokenDetailViewModel.PhoneNo" class="form-control" id="Mobile"
+                placeholder="Mobile Number*">
+            <label for="Mobile" class="text-secondary"> &nbsp; Mobile Number*</label>
+            <span class="text-danger validate" asp-validation-for="@Model.waitingTokenDetailViewModel.PhoneNo"></span>
+
+        </div>
+        <div class="form-floating  col-md-6 col-12 mb-3">
+            <input type="text" asp-for="@Model.waitingTokenDetailViewModel.NoOfPerson" class="form-control" id="Persons"
+                placeholder="No of Persons*">
+            <label for="Persons" class="text-secondary"> &nbsp; No of Persons*</label>
+            <span class="text-danger validate"
+                asp-validation-for="@Model.waitingTokenDetailViewModel.NoOfPerson"></span>
+        </div>
+        <div class="form-floating  col-md-6 col-12 mb-3">
+            <input type="hidden" id="sectionId"
+                asp-for="@Model.waitingTokenDetailViewModel.SectionId" />
+            <input type="text" asp-for="@Model.waitingTokenDetailViewModel.SectionId"
+                value="@Model.waitingTokenDetailViewModel.SectionName" class="form-control" id="sectionName"
+                placeholder="Section*" disabled>
+            <label for="sectionName" class="text-secondary"> &nbsp; Section*</label>
+        </div>
+    </div>
+    <!-- Assign Cancel Button -->
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn solid-btn me-2">Assign</button>
+        <button type="button" class="btn hollow-btn" data-bs-dismiss="offcanvas" aria-label="Close">Cancel</button>
+    </div>
+</form>
+
+<partial name="_ValidationScriptsPartial" />
+
+
+<script>
+
+    var TableIds = [];
+
+    $("#AssignTableForm").on("submit", function (e) {
+
+        e.preventDefault();
+
+        var selectedClass = document.getElementsByClassName("table-Selected");
+        var NoOfPerson = $("#Persons").val();
+        var capacity = 0;
+
+        for (i = 0; i < selectedClass.length; i++) {
+
+            if (selectedClass[i].classList.contains("table-Selected")) {
+
+                capacity += parseInt(selectedClass[i].getAttribute("data-capacity"));
+                TableIds.push(selectedClass[i].children[0].innerHTML);
+            }
+        }
+
+        if (NoOfPerson > capacity) {
+            callErrorToaster("Number of person is greater than Total Capacity of selected tables");
+        } 
+        else 
+        {
+            var formData = new FormData(this);
+
+            formData.append("TableIds", JSON.stringify(TableIds));
+
+            $.ajax({
+                url: "/OrderAppTable/AssignTable",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        callSuccessToaster(response.message);
+                    } else {
+                        callErrorToaster(response.message);
+                    }
+                    $(".btn-close").click();
+                    @* DisplaySections(); *@
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+    });
+
+</script>

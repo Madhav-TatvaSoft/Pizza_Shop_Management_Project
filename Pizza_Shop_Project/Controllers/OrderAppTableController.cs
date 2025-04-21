@@ -110,52 +110,70 @@ public class OrderAppTableController : Controller
     #endregion
 
     #region AssignTable GET
-    public async Task<IActionResult> GetWaitingListAndCustomerDetails(long sectionid)
+    public async Task<IActionResult> GetWaitingListAndCustomerDetails(long sectionid, string sectionName)
     {
         OrderAppTableMainViewModel TableMainVM = new();
         TableMainVM.WaitingTokenVMList = await _orderAppTableService.GetWaitingCustomerList(sectionid);
+        TableMainVM.SectionId = sectionid;
+        TableMainVM.SectionName = sectionName;
         return PartialView("_AssignTableCanvas", TableMainVM);
     }
     #endregion
 
-    // #region AssignTable POST
-    // [HttpPost]
-    // public async Task<IActionResult> AssignTable(string Email, int [] TableIds){
-    //    string token = Request.Cookies["AuthToken"];
-    //    List<User>? userData = _userService.getUserFromEmail(token);
-    //    long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
-    //    bool tableAssignStatus =await _orderAppTableService.Assigntable(Email, TableIds, userId);
-    //    if(tableAssignStatus){
-    //        return Json(new{ success = true, text = "Table Assigned "});
-    //       }
-    //    return Json(new { success = false, text = "Something Went wrong, Try Again!" });
-    //}
-    // #endregion
+    public async Task<IActionResult> GetCustomerDetails(long waitingId, long sectionId, string sectionName)
+    {
+        OrderAppTableMainViewModel TableMainVM = new();
+        if (waitingId == 0)
+        {
+            TableMainVM.waitingTokenDetailViewModel = new();
+            TableMainVM.waitingTokenDetailViewModel.SectionId = sectionId;
+            TableMainVM.waitingTokenDetailViewModel.SectionName = sectionName;
+            return PartialView("_CustomerDetails", TableMainVM);
+        }
+        TableMainVM.waitingTokenDetailViewModel = await _orderAppTableService.GetCustomerDetails(waitingId);
+        return PartialView("_CustomerDetails", TableMainVM);
+    }
 
+    #region AssignTable POST
+    [HttpPost]
+    public async Task<IActionResult> AssignTable([FromForm] OrderAppTableMainViewModel TableMainVM)
+    {
+        string token = Request.Cookies["AuthToken"];
+        List<User>? userData = _userService.getUserFromEmail(token);
+        long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
+        bool createCustomer = await _customerService.AddEditCustomer(TableMainVM.waitingTokenDetailViewModel, userId);
+
+        if (!createCustomer)
+        {
+            return Json(new { success = false, text = NotificationMessage.EntityCreatedFailed.Replace("{0}", "Customer") });
+        }
+
+        bool TableAssignStatus = await _orderAppTableService.AssignTable(TableMainVM ,userId);
+        if (TableAssignStatus)
+        {
+            return Json(new { success = true, text = "Table Assigned" });
+        }
+        return Json(new { success = false, text = "Something Went wrong, Try Again!" });
+    }
+    #endregion
 
 }
 
 
 
+//     string Email = TableMainVM.waitingTokenDetailViewModel.Email;
+//     string TableIds = TableMainVM.TableIds;
 
+//     if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(TableIds))
+//     {
+//         return Json(new { success = false, text = "Please Select Customer and Table" });
+//     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//     // Check If Customer is Already Assigned
+//     bool isCustomerAssigned = _orderAppTableService.IsCustomerAlreadyAssigned(Email);
+//     if (isCustomerAssigned)
+//     {
+//         return Json(new { success = false, text = "Customer Already Assigned to a Table" });
+//     }
+// {

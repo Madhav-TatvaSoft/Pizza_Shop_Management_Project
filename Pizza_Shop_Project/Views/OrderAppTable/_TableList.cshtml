@@ -9,7 +9,7 @@ else
 {
     @foreach (var table in Model)
     {
-        <div class="table-card card border border-1 rounded-2 " style="width: 270px;" data-sec="@table.SectionId" @(table.Status
+        <div class="table-card card border border-1 rounded-2 " style="width: 270px;" data-capacity="@table.Capacity" data-sec="@table.SectionId" @(table.Status
     == "Available" ? "onclick=SelectTable(this)" : "")>
             <div class="d-none">@table.TableId</div>
             <div class="d-none">@table.SectionId</div>

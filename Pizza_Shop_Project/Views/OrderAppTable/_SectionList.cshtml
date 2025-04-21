@@ -51,7 +51,7 @@
             <div class="d-flex justify-content-end pe-3 pt-3">
                 <button class="btn solid-btn" id="Assign-btn-@sec.SectionId" data-bs-toggle="offcanvas"
                     data-bs-target="#AssignTableButtonOffcanvas" aria-controls="AssignTableButtonOffcanvas"
-                    data-id="@sec.SectionId" onclick="OpenFilledCanvas(this)" disabled>Assign</button>
+                    data-id="@sec.SectionId" data-name="@sec.SectionName" onclick="OpenFilledCanvas(this)" disabled>Assign</button>
             </div>
         </div>
     </div>
@@ -138,15 +138,14 @@
         $("#AssignTableButtonOffcanvas").show("offcanvas");
 
         var sectionid = tag.getAttribute("data-id");
+        var sectionName = tag.getAttribute("data-name");
         @* console.log(sectionid, "sec"); *@
 
         $.ajax({
             url: "/OrderAppTable/GetWaitingListAndCustomerDetails",
             type: "GET",
-            data: { sectionid },
+            data: { sectionid , sectionName},
             success: function (data) {
-                console.log(data,"-Data");
-                console.log("done");
                 $("#AssignTableButtonOffcanvas").html(data);
             }
         });
@@ -157,15 +156,11 @@
         $.ajax({
             url: "/OrderAppTable/GetWaitingListAndCustomerDetails",
             type: "GET",
-            data: { sectionId },
+            data: { sectionId , sectionName},
             success: function (data) {
-    @* cosnole.log("done"); *@
                     $("#AssignTableOffcanvas").html(data);
             }
         })
     }
-
-
-
 
 </script>

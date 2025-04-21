@@ -1,3 +1,6 @@
+using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
@@ -135,6 +138,8 @@ public class OrderAppTableService : IOrderAppTableService
             SectionName = w.Section.SectionName
         }).ToListAsync();
 
+        // var tableData =     
+
         if (WaitingCustomer != null)
         {
             return WaitingCustomer;
@@ -145,78 +150,93 @@ public class OrderAppTableService : IOrderAppTableService
 
     #endregion
 
+    #region Get Waiting Customer List By Id
+
+    public async Task<WaitingTokenDetailViewModel> GetCustomerDetails(long waitingId)
+    {
+        try
+        {
+            WaitingTokenDetailViewModel? waitingCustomer = await _context.Waitinglists.Include(w => w.Customer).Include(c => c.Section)
+            .Where(w => !w.Isdelete && w.WaitingId == waitingId)
+            .Select(w => new WaitingTokenDetailViewModel
+            {
+                WaitingId = w.WaitingId,
+                CustomerId = w.Customer.CustomerId,
+                CustomerName = w.Customer.CustomerName,
+                PhoneNo = w.Customer.PhoneNo,
+                Email = w.Customer.Email,
+                NoOfPerson = w.NoOfPerson,
+                SectionId = w.Section.SectionId,
+                SectionName = w.Section.SectionName
+            }).FirstOrDefaultAsync();
+
+            if (waitingCustomer == null) return null;
+
+            return waitingCustomer;
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+
+    #endregion
+
+    #region Assign Table
+
+    public async Task<bool> AssignTable(OrderAppTableMainViewModel TableMainVM, long userId)
+    {
+
+        var tableIds = JsonSerializer.Deserialize<JsonArray>(TableMainVM.TableIds);
+        var tableIdList = tableIds.Select(id => id.GetValue<int>()).ToList();
+
+        var waitinglist = await _context.Waitinglists.Include(x => x.Customer).FirstOrDefaultAsync(x => x.WaitingId == TableMainVM.waitingTokenDetailViewModel.WaitingId && !x.Isdelete && !x.Isassign);
+
+        if (waitinglist != null)
+        {
+            waitinglist.Isassign = true;
+            waitinglist.AssignedAt = DateTime.Now;
+            waitinglist.ModifiedAt = DateTime.Now;
+            waitinglist.ModifiedBy = userId;
+            _context.Waitinglists.Update(waitinglist);
+        }
+
+        var tables = _context.Tables.Where(t => tableIdList.Contains((int)t.TableId) && !t.Isdelete).ToList();
+
+        if (tables != null)
+        {
+
+            for (int i = 0; i < TableMainVM.TableIds.Length; i++)
+            {
+                AssignTable assignTable = new();
+                assignTable.CustomerId = TableMainVM.waitingTokenDetailViewModel.CustomerId;
+                assignTable.TableId = tableIdList[i];
+                assignTable.NoOfPerson = TableMainVM.waitingTokenDetailViewModel.NoOfPerson;
+                assignTable.CreatedAt = DateTime.Now;
+                assignTable.ModifiedAt = DateTime.Now;
+                assignTable.ModifiedBy = userId;
+                await _context.AddAsync(assignTable);
+                Table? table = await _context.Tables.FirstOrDefaultAsync(x => x.TableId == TableMainVM.TableIds[i] && !x.Isdelete);
+                if (table != null)
+                {
+                    table.Status = "Assigned";
+                    table.ModifiedAt = DateTime.Now;
+                    table.ModifiedBy = userId;
+                    _context.Tables.Update(table);
+                }
+            }
+        }
+
+        _context.Update(waitinglist);
+        await _context.SaveChangesAsync();
+
+        return true;
+
+    }
+
+    #endregion
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

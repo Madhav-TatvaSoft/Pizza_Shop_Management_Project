@@ -15,14 +15,12 @@ public class TableSectionController : Controller
     private readonly IUserService _userService;
     private readonly IUserLoginService _userLoginService;
 
-    #region Table Section Constructor
     public TableSectionController(ITableSectionService tableSectionService, IUserService userService, IUserLoginService userLoginService)
     {
         _tableSectionService = tableSectionService;
         _userService = userService;
         _userLoginService = userLoginService;
     }
-    #endregion
 
     #region Main Table Section View
     [PermissionAuthorize("TableSection.View")]
@@ -69,7 +67,6 @@ public class TableSectionController : Controller
 
     #region Section CRUD
 
-    #region Add Section
     // [PermissionAuthorize("TableSection.AddEdit")]
     public IActionResult AddSection()
     {
@@ -92,9 +89,7 @@ public class TableSectionController : Controller
         }
         return Json(new { success = false, text = "Failed to Add Section" });
     }
-    #endregion
 
-    #region Edit Section
     [PermissionAuthorize("TableSection.AddEdit")]
     public IActionResult GetSectionById(long sectionId)
     {
@@ -118,9 +113,7 @@ public class TableSectionController : Controller
         }
         return Json(new { success = false, text = "Failed to Update Section" });
     }
-    #endregion
 
-    #region Delete Section
     [PermissionAuthorize("TableSection.Delete")]
     // [HttpPost]
     public async Task<IActionResult> DeleteSection(long sectionid)
@@ -144,7 +137,6 @@ public class TableSectionController : Controller
         }
         return Json(new { success = false, text = "Failed to Delete Section" });
     }
-    #endregion
 
     #endregion
 
@@ -160,7 +152,6 @@ public class TableSectionController : Controller
 
     #region Table CRUD
 
-    #region Add Table
     [PermissionAuthorize("TableSection.AddEdit")]
     public IActionResult AddTable(long sectionid)
     {
@@ -186,9 +177,7 @@ public class TableSectionController : Controller
         }
         return Json(new { success = false, text = "Failed to Add Table" });
     }
-    #endregion
 
-    #region Edit Table
     [PermissionAuthorize("TableSection.AddEdit")]
     public async Task<IActionResult> GetTableById(long tableId, long sectionId)
     {
@@ -214,9 +203,7 @@ public class TableSectionController : Controller
         }
         return Json(new { success = false, text = "Failed to Update Table" });
     }
-    #endregion
 
-    #region Delete Table
     [PermissionAuthorize("TableSection.Delete")]
     [HttpPost]
     public async Task<IActionResult> DeleteTable(long tableid)
@@ -234,7 +221,6 @@ public class TableSectionController : Controller
         }
         return Json(new { success = false, text = "Failed to Delete Table" });
     }
-    #endregion
 
     #endregion
 

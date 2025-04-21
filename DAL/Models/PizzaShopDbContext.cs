@@ -79,7 +79,7 @@ public partial class PizzaShopDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Database=Pizza_Shop_DB;Username=postgres;     password=tatva123");
+        => optionsBuilder.UseNpgsql("Host=localhost;Database=Pizza_Shop_DB;Username=postgres;         password=tatva123");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -690,7 +690,9 @@ public partial class PizzaShopDbContext : DbContext
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
             entity.Property(e => e.OrderId).HasColumnName("order_id");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
-            entity.Property(e => e.ReadyQuantity).HasColumnName("readyQuantity");
+            entity.Property(e => e.ReadyQuantity)
+                .HasDefaultValueSql("0")
+                .HasColumnName("readyQuantity");
             entity.Property(e => e.Status)
                 .HasMaxLength(20)
                 .HasColumnName("status");

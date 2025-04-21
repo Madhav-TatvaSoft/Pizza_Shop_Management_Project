@@ -66,8 +66,8 @@ public class TableSectionService : ITableSectionService
     #region Add Section
     public async Task<bool> AddSection(SectionViewModel addsection, long userId)
     {
-        Section? isSectionExist = await _context.Sections.FirstOrDefaultAsync(x => x.SectionName.ToLower().Trim() == addsection.SectionName.ToLower().Trim() && x.Isdelete == false);
-        if (isSectionExist != null)
+        Section? sections = await _context.Sections.FirstOrDefaultAsync(x => x.SectionName.ToLower().Trim() == addsection.SectionName.ToLower().Trim() && !x.Isdelete);
+        if (sections != null)
         {
             return false;
         }

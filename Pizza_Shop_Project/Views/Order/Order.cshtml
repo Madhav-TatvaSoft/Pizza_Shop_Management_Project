@@ -324,7 +324,27 @@
 
             });
 
-        
+            $("#from-order-date").on("change", function () {
+                fromDate = document.getElementById("from-order-date").value;
+                toDate = document.getElementById("to-order-date").value;
+                @* console.log(fromDate)
+                console.log(toDate); *@
+                if (toDate == "") return
+                if (toDate < fromDate) {
+                    callErrorToaster("To-date should be greater than From-date. Reset To-date");
+                    document.getElementById("to-order-date").value = "";
+                }
+            })
+            $("#to-order-date").on("change", function () {
+                fromDate = document.getElementById("from-order-date").value;
+                toDate = document.getElementById("to-order-date").value;
+                @* console.log(fromDate)
+                console.log(toDate); *@
+                if (toDate < fromDate) {
+                    callErrorToaster("To-date should be greater than From-date. Reset To-date");
+                    document.getElementById("to-order-date").value = "";
+                }
+            })
 
             loadTable();
             // End of Ready

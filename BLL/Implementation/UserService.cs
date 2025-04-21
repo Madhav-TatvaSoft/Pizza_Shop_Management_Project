@@ -16,7 +16,6 @@ public class UserService : IUserService
     private readonly IUserLoginService _userLoginService;
     private readonly IConfiguration _configuration;
 
-    #region User Service Constructor
     public UserService(PizzaShopDbContext context, IJWTService jwtService, IUserLoginService userLoginService, IConfiguration configuration)
     {
         _context = context;
@@ -24,7 +23,6 @@ public class UserService : IUserService
         _userLoginService = userLoginService;
         _configuration = configuration;
     }
-    #endregion
 
     #region GetCountry
     public List<Country> GetCountry()
