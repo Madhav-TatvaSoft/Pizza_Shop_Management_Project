@@ -3,7 +3,7 @@
 
 <div class="section-click fs-5 d-flex justify-content-center gap-2 align-content-center fw-bold text-black-50 p-3 pe-2 text-nowrap WaitingSectionActive"
     id="0"><span class="mt-1">All</span>
-    <div class="bg-secondary text-center" style="border-radius: 50%; width: 28px; height: 28px;"><span
+    <div class=" text-center" style="border-radius: 50%; width: 28px; height: 28px; background-color: rgb(146, 146, 146);"><span
             class="d-flex justify-content-center align-content-center text-white fw-bold p-1">@Model.sectionVMList.Sum(x
             => x.WaitingCount)</span></div>
 </div>
@@ -12,7 +12,7 @@
 {
     <div class="section-click fs-5 d-flex justify-content-center gap-2 align-content-center fw-bold text-black-50 p-3 pe-2 text-nowrap"
         id="@sec.SectionId"><span class="mt-1">@sec.SectionName</span>
-        <div class="bg-secondary text-center" style="border-radius: 50%; width: 28px; height: 28px;"><span
+        <div class=" text-center" style="border-radius: 50%; width: 28px; height: 28px;  background-color: rgb(146, 146, 146);"><span
                 class="d-flex justify-content-center align-content-center text-white fw-bold p-1 ">@sec.WaitingCount</span>
         </div>
     </div>
@@ -21,8 +21,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
-    let secid = 0;
+    var secid = 0;
 
+    // Section Click Function
     function SectionClick(secid) {
 
         var element = document.getElementById(secid);
@@ -42,13 +43,16 @@
             }
         });
     }
-    // Category Click
+
+    // Section Click
     $(".section-click").on("click", function () {
         secid = $(this).attr("id");
         SectionClick(secid);
     });
 
+    // READY
     $(document).ready(function () {
         SectionClick(secid);
-    })
+    });
+
 </script>

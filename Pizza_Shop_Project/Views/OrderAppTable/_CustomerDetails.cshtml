@@ -94,12 +94,12 @@
                 data: formData,
                 success: function (response) {
                     if (response.success) {
-                        callSuccessToaster(response.message);
+                        callSuccessToaster(response.text);
                     } else {
-                        callErrorToaster(response.message);
+                        callErrorToaster(response.text);
                     }
                     $(".btn-close").click();
-                    @* DisplaySections(); *@
+                    DisplaySections();
                 },
                 error: function (xhr, status, error) {
                     console.error(xhr.responseText);

@@ -98,9 +98,9 @@ public class OrderAppTableController : Controller
         }
         // }
 
-        bool customerAddToWaitingList = await _orderAppTableService.AddCustomerToWaitingList(TableMainVM.waitingTokenDetailViewModel, userId);
+        bool IsCustomerAddedToWaiting = await _orderAppTableService.AddCustomerToWaitingList(TableMainVM.waitingTokenDetailViewModel, userId);
 
-        if (customerAddToWaitingList)
+        if (IsCustomerAddedToWaiting)
         {
             return Json(new { success = true, text = "Customer Added In Waiting List" });
         }
@@ -149,7 +149,7 @@ public class OrderAppTableController : Controller
             return Json(new { success = false, text = NotificationMessage.EntityCreatedFailed.Replace("{0}", "Customer") });
         }
 
-        bool TableAssignStatus = await _orderAppTableService.AssignTable(TableMainVM ,userId);
+        bool TableAssignStatus = await _orderAppTableService.AssignTable(TableMainVM, userId);
         if (TableAssignStatus)
         {
             return Json(new { success = true, text = "Table Assigned" });
@@ -159,21 +159,3 @@ public class OrderAppTableController : Controller
     #endregion
 
 }
-
-
-
-//     string Email = TableMainVM.waitingTokenDetailViewModel.Email;
-//     string TableIds = TableMainVM.TableIds;
-
-//     if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(TableIds))
-//     {
-//         return Json(new { success = false, text = "Please Select Customer and Table" });
-//     }
-
-//     // Check If Customer is Already Assigned
-//     bool isCustomerAssigned = _orderAppTableService.IsCustomerAlreadyAssigned(Email);
-//     if (isCustomerAssigned)
-//     {
-//         return Json(new { success = false, text = "Customer Already Assigned to a Table" });
-//     }
-// {

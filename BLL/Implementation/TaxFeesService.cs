@@ -188,7 +188,7 @@ public class TaxFeesService : ITaxFeesService
     #region Delete Tax
     public async Task<bool> DeleteTax(long taxid)
     {
-        Tax? tax = _context.Taxes.FirstOrDefault(x => x.TaxId == taxid && x.Isdelete == false);
+        Tax? tax = _context.Taxes.FirstOrDefault(x => x.TaxId == taxid && !x.Isdelete);
         if (tax != null)
         {
             tax.TaxName = tax.TaxName + DateTime.Now;

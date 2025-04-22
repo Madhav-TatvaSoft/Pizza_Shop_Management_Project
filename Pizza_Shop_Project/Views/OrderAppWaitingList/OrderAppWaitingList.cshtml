@@ -43,9 +43,44 @@
 
 <!------------------------------------------Modal------------------------------------------------>
 
-<div id="AddEditWaitingTokenModal" class="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+<!-- Add Edit Token modal -->
+<div id="AddEditWaitingTokenModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" id="AddEditWaitingTokenModal-Content">
 
+    </div>
+</div>
+
+<!-- Assign Table modal -->
+<div id="AssignTableModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" id="AssignTable-Content">
+
+    </div>
+</div>
+
+
+<!-- Delete Token modal -->
+<div class="modal fade" id="DeleteWaitingTokenModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5 fw-bold text-secondary">Delete Conformation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div class="d-flex justify-content-center mb-3"><img
+                        src="../images/toppng.com-warning-icon-2400x2400.png" style="width: 30px;" alt=""></div>
+                <p class="fw-semibold text-secondary text-center mb-3">Are you sure you want to delete this Token ?
+                </p>
+                <form id="DeleteTokenForm">
+                    <input type="hidden" asp-for="@Model.WaitingTokenDetailVM.WaitingId" id="DeleteTokenId"
+                        name="waitingid">
+                    <div class="modal-footer mt-3 d-flex justify-content-center">
+                        <button type="submit" class="btn solid-btn" data-bs-dismiss="modal">Yes</button>
+                        <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">No</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -54,6 +89,38 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
 
+        // Get ID fro Delete
+        function GetIdForDeleteToken(tag) {
+            let waitingid = $(tag).data("id");
+            $("#DeleteTokenId").val(waitingid);
+        }
+
+        // Delete Token Modal POST
+        $(document).on("submit", "#DeleteTokenForm", function (e) {
+
+            e.preventDefault();
+
+            let waitingid = $("#DeleteTokenId").val();
+            console.log(waitingid, "--waitingid");
+
+            $.ajax({
+                url: "/OrderAppWaitingList/DeleteWaitingToken",
+                type: "POST",
+                data: { waitingid: waitingid },
+                success: function (data) {
+                    if (data.success) {
+                        callSuccessToaster(data.text);
+                    } else {
+                        callErrorToaster(data.text);
+                    }
+                    $(".btn-close").click();
+                    GetSectionList();
+                    SectionClick();
+                }
+            });
+        });
+
+        // Get all Section List
         function GetSectionList() {
             $.ajax({
                 url: "/OrderAppWaitingList/GetSectionList",
@@ -70,22 +137,40 @@
         // Add Edit Waiting Token Modal
         $(document).on('click', ".Waiting_Token_id", function (event) {
             var button = event.target
+            console.log(button);
             var waitingid = $(button).data("id");
-            console.log(waitingid, "waitingid");
             $.ajax({
                 url: "/OrderAppWaitingList/GetWaitingToken",
                 type: "GET",
                 data: { waitingid: waitingid },
                 success: function (data) {
-                    console.log(data);
-                    console.log("Start");
                     $("#AddEditWaitingTokenModal-Content").html(data);
-                    console.log("End");
-
                 }
             });
         });
 
+        $(document).on("click", ".AssignTableModal", function (event) {
+
+            event.preventDefault();
+
+            var button = event.target;
+            var waitingid = $(button).data("id");
+            var sectionid = $(button).data("secid");
+            var sectionname = $(button).data("secname");
+
+            $.ajax({
+                url: "/OrderAppWaitingList/GetAssignTableModal",
+                type: "GET",
+                data: { waitingid: waitingid, sectionid: sectionid, sectionname: sectionname },
+                success: function (data) {
+                    $("#AssignTable-Content").html(data);
+                    $("#Section_id_Table").val(sectionid);
+                    $("#SectionList").val(sectionname);
+                }
+            });
+        });
+
+        // READY
         $(document).ready(function () {
             GetSectionList();
         })

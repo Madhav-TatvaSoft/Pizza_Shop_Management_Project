@@ -33,6 +33,7 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
                             NoOfPerson = waiting.NoOfPerson,
                             CreatedAt = waiting.CreatedAt,
                             SectionId = waiting.SectionId,
+                            SectionName = waiting.Section.SectionName
                         }).ToList();
                 if (waiting == null)
                 {
@@ -58,6 +59,7 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
                     NoOfPerson = waiting.NoOfPerson,
                     CreatedAt = waiting.CreatedAt,
                     SectionId = waiting.SectionId,
+                    SectionName = waiting.Section.SectionName
                 }).ToList();
 
             if (waitingList == null)
@@ -136,5 +138,40 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
     //         return false;
     //     }
     // }
+
+    public async Task<bool> DeleteWaitingToken(long waitingid)
+    {
+        try
+        {
+            var waiting = await _context.Waitinglists.FirstOrDefaultAsync(w => w.WaitingId == waitingid && !w.Isdelete && !w.Isassign);
+            if (waiting != null)
+            {
+                waiting.Isdelete = true;
+                // waiting.ModifiedAt = DateTime.Now;
+                _context.Waitinglists.Update(waiting);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+    public List<OrderAppTableVM> GetAvailableTables(long sectionid)
+    {
+        List<OrderAppTableVM>? tables = _context.Tables
+           .Where(t => t.SectionId == sectionid && !t.Isdelete && t.Status == "Available")
+           .Select(t => new OrderAppTableVM
+           {
+               TableId = t.TableId,
+               TableName = t.TableName,
+               SectionId = t.SectionId,
+               Capacity = t.Capacity,
+           }).ToList();
+        return tables;
+    }
 
 }

@@ -8,4 +8,8 @@ public interface IOrderAppWaitingListService
     WaitingTokenDetailViewModel GetWaitingToken(long waitingid);
     // Task<bool> AddCustomerToWaitingList(WaitingTokenDetailViewModel waitingTokenVM, long userId);
 
+    Task<bool> DeleteWaitingToken(long waitingid);
+     List<OrderAppTableVM> GetAvailableTables(long sectionid);
+
+
 }

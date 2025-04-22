@@ -74,6 +74,7 @@
 <!-- AddEdit Tax modal -->
 <div id="AddEditTaxModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" id="AddEditTax-Content">
+        
 
     </div>
 </div>
@@ -156,17 +157,12 @@
         $(document).on('click', ".AddEditTaxId", function (event) {
             var button = event.target
             var taxid = $(button).data("id");
-            console.log(taxid, "Taxid");
             $.ajax({
                 url: "/TaxFees/AddEditTax",
                 type: "GET",
                 data: { taxid: taxid },
                 success: function (data) {
-                    console.log(data);
-                    console.log("Start");
                     $("#AddEditTax-Content").html(data);
-                    console.log("End");
-
                 }
             });
         });
@@ -191,9 +187,7 @@
                 let rightarrow = !$(this).prop("disabled");
                 if (rightarrow) {
                     currentPage++;
-        @* console.log("ayy",currentPage); *@
-        @* console.log(rightarrow,"bhai"); *@
-                        PaginationForTax(currentPage, searchText, pageSize);
+                    PaginationForTax(currentPage, searchText, pageSize);
                 }
             });
 

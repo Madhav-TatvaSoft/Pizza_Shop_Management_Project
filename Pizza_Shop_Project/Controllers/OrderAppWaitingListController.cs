@@ -28,7 +28,6 @@ public class OrderAppWaitingListController : Controller
     }
     public IActionResult OrderAppWaitingList()
     {
-
         ViewData["orderApp-Active"] = "WaitingList";
         ViewData["Icon"] = "fa-clock";
         return View();
@@ -84,9 +83,9 @@ public class OrderAppWaitingListController : Controller
         }
 
         // Add Customer to Waiting List
-        bool customerAddToWaitingList = await _orderAppTableService.AddCustomerToWaitingList(WaitingVM.WaitingTokenDetailVM, userId);
+        bool IsCustomerAddedToWaiting = await _orderAppTableService.AddCustomerToWaitingList(WaitingVM.WaitingTokenDetailVM, userId);
 
-        if (customerAddToWaitingList)
+        if (IsCustomerAddedToWaiting)
         {
             return Json(new { success = true, text = "Customer Added In Waiting List" });
         }
@@ -96,27 +95,22 @@ public class OrderAppWaitingListController : Controller
         }
     }
 
+    [HttpPost]
+    public async Task<IActionResult> DeleteWaitingToken(long waitingid)
+    {
+        bool deleteTokenStatus = await _orderAppWaitingListService.DeleteWaitingToken(waitingid);
+        if (deleteTokenStatus)
+        {
+            return Json(new { success = true, text = NotificationMessage.EntityDeleted.Replace("{0}", "Waiting Token")  });
+        }
+        return Json(new { success = false, text = NotificationMessage.EntityDeletedFailed.Replace("{0}", "Waiting Token") });
+    }
+
+    public IActionResult GetAssignTableModal(long sectionid)
+    {
+        OrderAppWaitingViewModel WaitingVM = new();
+        WaitingVM.tableVMList = _orderAppWaitingListService.GetAvailableTables(sectionid);
+        return PartialView("_AssignTableModal", WaitingVM);
+    }
+
 }
-
-
-
-
-
-
-
-
-
-// function ValidateDates() {
-//             var today = new Date().toISOString().split("T")[0];
-//             $("#customerFromDate, #customerToDate").attr("max", today);
-
-//             $("#customerFromDate").on("change", function () {
-//                 var fromDate = $(this).val();
-//                 $("#customerToDate").attr("min", fromDate);
-//             });
-
-//             $("#customerToDate").on("change", function () {
-//                 var toDate = $(this).val();
-//                 $("#customerFromDate").attr("max", toDate);
-//             });
-//         }

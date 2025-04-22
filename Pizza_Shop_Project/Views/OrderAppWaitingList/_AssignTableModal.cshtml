@@ -1,0 +1,55 @@
+@using DAL.ViewModels
+@model OrderAppWaitingViewModel;
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title fs-5 fw-bold text-secondary">Assign Table </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body ">
+        <div class="d-flex flex-sm-row flex-column gap-sm-3 gap-0">
+            <div class="form-floating col mb-3">
+                <input type="hidden" id="Section_id_Table">
+                <input type="text" class="form-control" id="SectionList" disabled />
+                <label for="SectionList">Section*</label>
+            </div>
+            <div class="form-floating col mb-3">
+                <div class="form-control" id="TableList" aria-label="Floating label select example">
+                </div>
+                <div class="TableDisplay d-none border border-2 p-2 bg-white shadow-lg">
+                    @if (Model.tableVMList.Count() != 0)
+                    {
+                        foreach (var table in Model.tableVMList)
+                        {
+                            <div class="d-flex justify-content-between text-nowrap ">
+                                <div class="p-1">
+                                    <input type="checkbox" />
+                                    <span class="ps-2">@table.TableName</span>
+                                </div>
+
+                                <span class="validate p-1">(@table.Capacity)</span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="d-flex justify-content-between ">
+                            <span class="text-danger">No Table Available</span>
+                        </div>
+                    }
+                </div>
+                <label for="TableList">Table* <span class="text-danger">(Required)</span></label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn solid-btn">Assign</button>
+            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#TableList').on('click', function () {
+        $('.TableDisplay').toggleClass('d-none');
+    });
+</script>

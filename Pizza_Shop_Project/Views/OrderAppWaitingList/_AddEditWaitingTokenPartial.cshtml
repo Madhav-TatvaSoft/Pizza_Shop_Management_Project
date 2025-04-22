@@ -61,6 +61,7 @@
 <partial name="_ValidationScriptsPartial" />
 
 <script>
+
     //Email suggestion on KeyUp
     $(document).on("keyup", "#Email", function () {
 
@@ -96,6 +97,7 @@
         }
     });
 
+    // Add Email Suggestion
     $(document).on("change", "#Email", function () {
         var selectedOption = $("#emailSuggestions option[value='" + $(this).val() + "']");
         if (selectedOption.length) {
@@ -118,7 +120,6 @@
             console.log("Form is valid");
 
             let formData = new FormData(this);
-            console.log("FormData entries:", [...formData.entries()]);
 
             $.ajax({
                 url: "/OrderAppWaitingList/SaveWaitingToken",
@@ -127,7 +128,6 @@
                 processData: false,
                 contentType: false,
                 success: function (res) {
-                    console.log("Response:", res);
                     if (res.success) {
                         callSuccessToaster(res.text);
                     } else {
@@ -135,7 +135,7 @@
                     }
                     $(".btn-close").click();
                     GetSectionList();
-                    SectionClick(secid);
+                    SectionClick();
                 },
                 error: function (xhr, status, error) {
                     callErrorToaster("An error occurred while saving the token details.");
