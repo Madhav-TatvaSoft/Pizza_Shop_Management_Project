@@ -1,7 +1,165 @@
+@using DAL.ViewModels
+@model OrderAppMenuViewModel
 
 @{
     ViewData["Title"] = "Order App Menu";
     Layout = "~/Views/Shared/_OrderAppLayout.cshtml";
 }
 
-<strong class="p-2">Menu</strong>
+<div class="d-flex">
+
+    <div class="overlay-category" onclick="toggleSidebarCategory()"></div>
+
+    <div class="bg-white category-toggle-active category-toggle " style="min-height: 887px; width:250px !important;">
+        <div class="fs-3 fw-bold   ">
+            <div class="p-3 fs-4">Category</div>
+        </div>
+        <div class="text-secondary fw-bold">
+            <div class="category-click orderAppActive favorite-item-class p-3" data-id="-1"
+                onclick="categorySelected(this)">
+                <div class="">Favorite Items </div>
+            </div>
+            <div class=" category-click p-3" data-id="0" onclick="categorySelected(this)">
+                <div class="">All</div>
+            </div>
+            @foreach (var cat in Model.categoryList)
+            {
+                <div class="category-click p-3" data-id="@cat.CategoryId" onclick="categorySelected(this)">
+                    <div class="">@cat.CategoryName</div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="p-sm-3 p-1 w-100" style="background-color: rgb(242, 242, 242);">
+        <div class="btn d-md-none" onclick="toggleSidebarCategory()"><i class="fa-solid fa-bars-staggered"></i></div>
+
+        <div class="col  d-flex flex-xl-row flex-column p-2">
+            <div class="col-xl-7 col-12 p-2">
+                <div class="d-md-flex col-12 flex-xxl-row flex-column  justify-content-between mb-3">
+                    <!-- search btn-->
+                    <div class="search-button-orders col-12 col-sm-6 ">
+
+                        <input type="text" id="searchbtn" placeholder="Search" class="p-3 border rounded w-100"
+                            onkeyup="searchItem(this.value)">
+                        <i class="fa-solid fa-magnifying-glass search-icon-style"
+                            style="position: absolute; margin-left: -30px; margin-top: 22px;"></i>
+
+                    </div>
+                    <!-- icons-->
+                    <div
+                        class="d-flex row justify-content-start justify-content-xl-end align-items-center gap-3 pt-xxl-0 pt-3">
+
+                        <div class="d-flex align-items-center justify-content-center col-auto gap-1 text-nowrap">
+                            <div class="rounded-circle bg-success" style="width: 10px; height: 10px;">
+                            </div>
+                            Vegetarian
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center col-auto gap-1 text-nowrap">
+                            <div class="rounded-circle bg-danger" style="width: 10px; height: 10px;">
+                            </div>
+                            Non-Vegetarian
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center col-auto gap-1 text-nowrap">
+                            <div class="rounded-circle bg-warning" style="width: 10px; height: 10px;">
+                            </div>
+                            Vegan
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="ItemCards d-flex flex-wrap justify-content-center justify-content-sm-start gap-3"
+                    id="ItemCards">
+
+                    <!-- cards-->
+                </div>
+
+            </div>
+
+            <div class="col-xl-5 col-12 bg-secondary p-2 pt-3" id="OrderDetailsWithTablePartial">
+                @* @await Html.PartialAsync("_MenuItemsWithOrderDetails") *@
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+<partial name="_Toaster" />
+
+@section scripts {
+    <script>
+        var categoryid;
+
+        function toggleSidebarCategory() {
+            document.getElementsByClassName("overlay-category")[0].classList.toggle("overlay-category-active");
+            document.getElementsByClassName("category-toggle")[0].classList.toggle("category-toggle-active")
+            document.getElementsByClassName("category-toggle")[0].classList.toggle("category-toggle-position")
+        }
+
+        function categorySelected(tag) {
+
+            categoryid = tag.getAttribute("data-id");
+
+            var categoryclick = document.getElementsByClassName("category-click");
+
+            for (i = 0; i < categoryclick.length; i++) {
+                categoryclick[i].classList.remove("orderAppActive");
+            }
+
+            tag.classList.add("orderAppActive");
+
+            $.ajax({
+                url: "/OrderAppMenu/GetItems",
+                type: "GET",
+                data: { categoryid },
+                success: function (data) {
+                    $("#ItemCards").html(data);
+                }
+            })
+        }
+
+        function searchItem(searchText) {
+            console.log(searchText);
+            $.ajax({
+                url: "/OrderAppMenu/GetItems",
+                type: "GET",
+                data: { searchText, categoryid },
+                success: function (data) {
+                    $("#ItemCards").html(data);
+                }
+            })
+        }
+
+        function FavouriteItem(event, tag) {
+            event.stopPropagation();
+            var itemId = tag.getAttribute("data-itemId");
+            var classes = tag.classList;
+            $.ajax({
+                url: "/OrderAppMenu/FavouriteItem",
+                type: "POST",
+                data: { itemId, IsFavourite: classes.contains("fa-regular") ? true : false },
+                success: function (res) {
+                }
+            });
+            if (categoryid == -1) {
+                setTimeout(() => {
+                    $(".favorite-item-class").click();
+                }, 100)
+            } else {
+                classes.toggle("fa-regular");
+                classes.toggle("fa-solid");
+                classes.toggle("user-text");
+            }
+        }
+
+        $(document).ready(function () {
+
+            categorySelected(document.getElementsByClassName("category-click")[1], 0);
+
+        });
+    </script>
+
+}

@@ -50,7 +50,7 @@ public class OrderAppTableService : IOrderAppTableService
     {
         List<OrderAppTableVM>? tableListVM = _context.Tables
         .Include(table => table.AssignTables).ThenInclude(At => At.Order)
-        .Where(table => table.Section.SectionId == SectionId && !table.Isdelete )
+        .Where(table => table.Section.SectionId == SectionId && !table.Isdelete)
         .Select(table => new OrderAppTableVM
         {
             TableId = table.TableId,
@@ -82,7 +82,10 @@ public class OrderAppTableService : IOrderAppTableService
             {
                 Waitinglist waitinglist = new();
 
-                // Waitinglist? CustomerPresent = _context.Waitinglists.FirstOrDefault(waiting => waiting.CustomerId == customerId);
+                Waitinglist? CustomerPresent = _context.Waitinglists.FirstOrDefault(waiting => waiting.CustomerId == customerId);
+                if(CustomerPresent != null){
+                    return false;
+                }
 
                 // if (CustomerPresent != null)
                 // {
@@ -97,8 +100,6 @@ public class OrderAppTableService : IOrderAppTableService
                 waitinglist.CreatedAt = DateTime.Now;
                 await _context.Waitinglists.AddAsync(waitinglist);
                 // }
-
-
             }
             else
             {
@@ -186,10 +187,10 @@ public class OrderAppTableService : IOrderAppTableService
 
     public async Task<bool> AssignTable(OrderAppTableMainViewModel TableMainVM, long userId)
     {
-        var tableIds = JsonSerializer.Deserialize<JsonArray>(TableMainVM.TableIds);
+        JsonArray? tableIds = JsonSerializer.Deserialize<JsonArray>(TableMainVM.TableIds);
         // var tableIdList = tableIds.Select(id => id.GetValue<int>()).ToList();
-        var tableIdList = tableIds.Select(id => int.Parse(id.GetValue<string>())).ToList();
-        var waitinglist = await _context.Waitinglists.Include(x => x.Customer).FirstOrDefaultAsync(x => x.WaitingId == TableMainVM.waitingTokenDetailViewModel.WaitingId && !x.Isdelete && !x.Isassign);
+        List<int>? tableIdList = tableIds.Select(id => int.Parse(id.GetValue<string>())).ToList();
+        Waitinglist? waitinglist = await _context.Waitinglists.Include(x => x.Customer).FirstOrDefaultAsync(x => x.WaitingId == TableMainVM.waitingTokenDetailViewModel.WaitingId && !x.Isdelete && !x.Isassign);
 
         if (waitinglist != null)
         {
@@ -206,7 +207,7 @@ public class OrderAppTableService : IOrderAppTableService
         if (tables != null)
         {
 
-            for (int i = 0; i < tableIdList.Count() ; i++)
+            for (int i = 0; i < tableIdList.Count(); i++)
             {
                 AssignTable assignTable = new();
                 assignTable.CustomerId = _customerService.IsCustomerPresent(TableMainVM.waitingTokenDetailViewModel.Email);

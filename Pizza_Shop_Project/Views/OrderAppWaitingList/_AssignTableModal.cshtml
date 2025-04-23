@@ -9,21 +9,28 @@
     <div class="modal-body ">
         <div class="d-flex flex-sm-row flex-column gap-sm-3 gap-0">
             <div class="form-floating col mb-3">
+                <!-- hidden fields -->
                 <input type="hidden" id="Section_id_Table">
+                <input type="hidden" id="WaitingId" />
+                <input type="hidden" id="Persons" />
+                <input type="hidden" id="CustomerId" />
+
                 <input type="text" class="form-control" id="SectionList" disabled />
                 <label for="SectionList">Section*</label>
             </div>
             <div class="form-floating col mb-3">
-                <div class="form-control" id="TableList" aria-label="Floating label select example">
+                <div class="form-control" id="TableList" aria-label="Floating label select example"><i
+                        class="bi bi-chevron-down d-flex justify-content-end"></i>
                 </div>
-                <div class="TableDisplay d-none border border-2 p-2 bg-white shadow-lg">
+                <div class="TableDisplay d-none border border-2 p-2 bg-white shadow-lg w-100 rounded-2">
                     @if (Model.tableVMList.Count() != 0)
                     {
                         foreach (var table in Model.tableVMList)
                         {
                             <div class="d-flex justify-content-between text-nowrap ">
                                 <div class="p-1">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" class="checkbox_table" data-id="@table.TableId"
+                                        onclick="CheckBoxTables(this)" />
                                     <span class="ps-2">@table.TableName</span>
                                 </div>
 
@@ -42,14 +49,84 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn solid-btn">Assign</button>
+            <button type="submit" class="btn solid-btn" id="AssignBtn" onclick="AssignTableBtn(this)"
+                disabled>Assign</button>
             <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Cancel</button>
         </div>
     </div>
 </div>
 
 <script>
+
+    var TableIds = [];
+    var capacity = 0;
+
+    // Toggle the Div
     $('#TableList').on('click', function () {
         $('.TableDisplay').toggleClass('d-none');
     });
+
+    // Checkbox tick Manage
+    function CheckBoxTables(tag) {
+        var tableId = tag.getAttribute("data-id");
+        if (tag.checked) {
+            TableIds.push(tableId);
+            capacity += parseInt(tag.parentElement.nextElementSibling.innerHTML.replace("(", "").replace(")", ""));
+        }
+        else {
+            TableIds.splice(TableIds.indexOf(tableId), 1);
+            capacity -= parseInt(tag.parentElement.nextElementSibling.innerHTML.replace("(", "").replace(")", ""));
+        }
+        if (TableIds.length > 0) {
+            $("#AssignBtn").removeAttr("disabled");
+        }
+        else {
+            $("#AssignBtn").attr("disabled", "disabled");
+        }
+    }
+
+    // Assign Table Button onClick
+    function AssignTableBtn(tag) {
+
+        $(tag).submit(function () {
+            return false;
+        });
+
+        var waitingId = $("#WaitingId").val();
+        var sectionId = $("#Section_id_Table").val();
+        var customerid = $("#CustomerId").val();
+        var persons = $("#Persons").val();
+
+        if (persons > capacity) {
+            callErrorToaster("Capacity is less than No of Persons!");
+            return;
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/OrderAppWaitingList/AssignTableInWaiting",
+                data: {
+                    waitingId: waitingId,
+                    sectionId: sectionId,
+                    tableIds: TableIds,
+                    customerid: customerid,
+                    persons: persons
+                },
+                success: function (res) {
+                    if (res.success) {
+                        callSuccessToaster(res.text);
+                    }
+                    else {
+                        callErrorToaster(res.text);
+                    }
+                    $(".btn-close").click();
+                    GetSectionList();
+                    SectionClick();
+                },
+                error: function () {
+                    callErrorToaster("Error in Assigning Table!");
+                }
+            });
+        }
+    }
 </script>

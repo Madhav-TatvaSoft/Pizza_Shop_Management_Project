@@ -69,15 +69,11 @@
 
         if (query.length > 2) {
 
-            console.log(query, "query");
-
             $.ajax({
                 url: "/OrderAppTable/GetCustomerEmail",
                 type: "GET",
                 data: { searchTerm: query },
                 success: function (data) {
-
-                    console.log(data, "reached");
 
                     $("#emailSuggestions").empty();
 
@@ -116,8 +112,6 @@
         var form = $(this);
 
         if (form.valid()) {
-
-            console.log("Form is valid");
 
             let formData = new FormData(this);
 

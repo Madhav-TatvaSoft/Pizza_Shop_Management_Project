@@ -38,14 +38,16 @@
                     <div class="header-line nav-header d-flex justify-content-between">
                         <div class="left-elements d-flex">
                             <!-- logo text-->
-                            <div class="logo-main-div d-flex gap-2 pt-2 pb-2 ">
-                                <div class="logo-image bg-white d-flex">
-                                    <img src="~/images/logos/pizzashop_logo.png" width="50px" alt="">
+                            @* <a asp-action="Dashboard" asp-controller="User"> *@
+                                <div class="logo-main-div d-flex gap-2 pt-2 pb-2 ">
+                                    <div class="logo-image bg-white d-flex">
+                                        <img src="~/images/logos/pizzashop_logo.png" width="50px" alt="">
 
+                                    </div>
+                                    <div class="logo-text text-white fs-5 pt-2 fw-semibold d-none d-sm-block">PIZZASHOP
+                                    </div>
                                 </div>
-                                <div class="logo-text text-white fs-5 pt-2 fw-semibold d-none d-sm-block">PIZZASHOP
-                                </div>
-                            </div>
+                            @* </a> *@
                         </div>
 
 
@@ -144,9 +146,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="container ps-md-4 ps-lg-5 pe-lg-5 pe-md-4 pt-3 pb-3">
-                        @RenderBody()
-                    </div>
+                    @if (ViewData["orderApp-Active"]?.ToString() == "Menu")
+                    {
+                        <div class="container p-0">
+                            @RenderBody()
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="container ps-md-4 ps-lg-5 pe-lg-5 pe-md-4 pt-3 pb-3">
+                            @RenderBody()
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -194,7 +205,7 @@
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
-                "timeOut": "2000"
+                "timeOut": "3000"
             };
             if (successMessage) {
                 toastr.success(successMessage);

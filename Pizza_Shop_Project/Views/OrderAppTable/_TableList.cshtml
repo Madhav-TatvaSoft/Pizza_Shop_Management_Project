@@ -9,8 +9,8 @@ else
 {
     @foreach (var table in Model)
     {
-        <div class="table-card card border border-1 rounded-2 " style="width: 270px;" data-capacity="@table.Capacity" data-sec="@table.SectionId" @(table.Status
-    == "Available" ? "onclick=SelectTable(this)" : "")>
+        <div class="table-card card border border-1 rounded-2 " style="width: 270px;" data-capacity="@table.Capacity"
+            data-sec="@table.SectionId" @(table.Status == "Available" ? "onclick=SelectTable(this)" : "")>
             <div class="d-none">@table.TableId</div>
             <div class="d-none">@table.SectionId</div>
             <div
@@ -42,7 +42,10 @@ else
                         <div><i class="bi bi-stopwatch"></i></div>
                         @if (table.Status == "Running" || table.Status == "Assigned" || table.Status == "Occupied")
                         {
-                            <div class="pt-2">@table.TableTime</div>
+                            <div class="pt-2 order-time" data-time="@table.TableTime.ToString("yyyy-MM-ddTHH:mm:ss")">
+
+                            <span class="time-difference validate"></span>
+                            </div>
                         }
                         else
                         {
@@ -57,4 +60,35 @@ else
 
 <script>
     var IsEnable = 0;
+
+    $(document).ready(function () {
+        setInterval(updateTimeDifference, 1000);
+        updateTimeDifference();
+    });
+
+    function updateTimeDifference() {
+        document.querySelectorAll(".order-time").forEach(element => {
+
+            const orderTime = element.getAttribute("data-time");
+            const now = new Date();
+            const diffInSeconds = Math.floor((now - new Date(element.getAttribute("data-time"))) / 1000);
+
+            if (diffInSeconds < 0) {
+                element.querySelector(".time-difference").textContent = "Just now";
+                return;
+            }
+
+            let days = Math.floor(diffInSeconds / (24 * 3600));
+            let hours = Math.floor((diffInSeconds % (24 * 3600)) / 3600);
+            let minutes = Math.floor((diffInSeconds % 3600) / 60);
+            let seconds = diffInSeconds % 60;
+
+            element.querySelector(".time-difference").textContent = `${days}days ${hours}hours ${minutes}min ${seconds}sec`;
+
+            @* if (orderTime === "0001-01-01T00:00:00") {
+                element.querySelector(".time-difference").textContent = "0 min";
+            } *@
+        });
+    }
+
 </script>

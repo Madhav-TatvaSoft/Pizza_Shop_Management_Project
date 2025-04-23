@@ -101,7 +101,7 @@ public class OrderAppWaitingListController : Controller
         bool deleteTokenStatus = await _orderAppWaitingListService.DeleteWaitingToken(waitingid);
         if (deleteTokenStatus)
         {
-            return Json(new { success = true, text = NotificationMessage.EntityDeleted.Replace("{0}", "Waiting Token")  });
+            return Json(new { success = true, text = NotificationMessage.EntityDeleted.Replace("{0}", "Waiting Token") });
         }
         return Json(new { success = false, text = NotificationMessage.EntityDeletedFailed.Replace("{0}", "Waiting Token") });
     }
@@ -112,5 +112,22 @@ public class OrderAppWaitingListController : Controller
         WaitingVM.tableVMList = _orderAppWaitingListService.GetAvailableTables(sectionid);
         return PartialView("_AssignTableModal", WaitingVM);
     }
+
+    #region AssignTable POST
+    [HttpPost]
+    public async Task<IActionResult> AssignTableInWaiting(long waitingId, long sectionId, long customerid, int persons, int[] tableIds)
+    {
+        string token = Request.Cookies["AuthToken"];
+        List<User>? userData = _userService.getUserFromEmail(token);
+        long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
+        bool TableAssignStatus = await _orderAppWaitingListService.AssignTableInWaiting(waitingId, sectionId, customerid, persons, tableIds, userId);
+        if (TableAssignStatus)
+        {
+            return Json(new { success = true, text = "Table Assigned Successfully" });
+        }
+        return Json(new { success = false, text = "Something Went wrong, Try Again!" });
+    }
+    #endregion
 
 }

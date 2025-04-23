@@ -311,6 +311,7 @@ public partial class PizzaShopDbContext : DbContext
                 .HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.IsFavourite).HasColumnName("isFavourite");
             entity.Property(e => e.Isavailable)
                 .IsRequired()
                 .HasDefaultValueSql("true")

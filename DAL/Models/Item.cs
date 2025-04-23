@@ -41,6 +41,8 @@ public partial class Item
 
     public string? ShortCode { get; set; }
 
+    public bool IsFavourite { get; set; }
+
     public virtual Category Category { get; set; } = null!;
 
     public virtual User? CreatedByNavigation { get; set; }

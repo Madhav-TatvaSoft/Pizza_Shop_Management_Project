@@ -54,9 +54,7 @@
 
     function GetCustomerDetails(waitingId) {
         let sectionId = $("#sectionId").val();
-        console.log(sectionId);
         let sectionName = $("#sectionName").val();
-        console.log(sectionName);
         $.ajax({
             url: "/OrderAppTable/GetCustomerDetails",
             type: "GET",
@@ -70,10 +68,8 @@
     function CheckEmailRadio(tag) {
 
         var waitingListRadio = document.getElementsByClassName("waitingListOffCanvasRadio");
-        console.log("this is", waitingListRadio[0].getAttribute("data-email"));
 
         var radioEmail = $(tag).val();
-        console.log("radio", radioEmail);
 
         for (i = 0; i < waitingListRadio.length; i++) {
             if (waitingListRadio[i].getAttribute("data-email") == radioEmail) {

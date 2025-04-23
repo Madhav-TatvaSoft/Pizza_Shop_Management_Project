@@ -15,4 +15,6 @@ public class ItemModifierViewModel
 
     public List<Modifier> modifiersList { get; set; }
 
+    public long ModifierType { get; set; }
+
 }

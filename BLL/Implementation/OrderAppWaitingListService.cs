@@ -22,7 +22,7 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
         {
             try
             {
-                var waiting = _context.Waitinglists.Include(x => x.Customer).Where(waiting => !waiting.Isdelete && !waiting.Isassign)
+                List<WaitingTokenDetailViewModel>? waiting = _context.Waitinglists.Include(x => x.Customer).Where(waiting => !waiting.Isdelete && !waiting.Isassign)
                         .Select(waiting => new WaitingTokenDetailViewModel
                         {
                             WaitingId = waiting.WaitingId,
@@ -34,7 +34,7 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
                             CreatedAt = waiting.CreatedAt,
                             SectionId = waiting.SectionId,
                             SectionName = waiting.Section.SectionName
-                        }).ToList();
+                        }).OrderBy(w => w.WaitingId).ToList();
                 if (waiting == null)
                 {
                     return null;
@@ -173,5 +173,53 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
            }).ToList();
         return tables;
     }
+
+    public async Task<bool> AssignTableInWaiting(long waitingId, long sectionId, long customerid, int persons, int[] tableIds, long userId)
+    {
+        List<int>? tableIdsList = tableIds.ToList();
+        Waitinglist? waitinglist = await _context.Waitinglists.Include(x => x.Customer).FirstOrDefaultAsync(x => x.WaitingId == waitingId && !x.Isdelete && !x.Isassign);
+
+        if (waitinglist == null)
+        {
+            return false;
+        }
+
+        waitinglist.Isassign = true;
+        waitinglist.AssignedAt = DateTime.Now;
+        waitinglist.ModifiedAt = DateTime.Now;
+        waitinglist.ModifiedBy = userId;
+        _context.Waitinglists.Update(waitinglist);
+
+        List<Table>? tables = _context.Tables.Where(t => tableIdsList.Contains((int)t.TableId) && !t.Isdelete && t.Status == "Available").ToList();
+
+        if (tables != null)
+        {
+
+            for (int i = 0; i < tables.Count(); i++)
+            {
+                AssignTable assignTable = new();
+                assignTable.CustomerId = customerid;
+                assignTable.TableId = tableIdsList[i];
+                assignTable.NoOfPerson = persons;
+                assignTable.CreatedAt = DateTime.Now;
+                assignTable.CreatedBy = userId;
+                await _context.AddAsync(assignTable);
+
+                Table? table = await _context.Tables.FirstOrDefaultAsync(x => x.TableId == tableIdsList[i] && !x.Isdelete);
+                if (table != null)
+                {
+                    table.Status = "Assigned";
+                    table.ModifiedAt = DateTime.Now;
+                    table.ModifiedBy = userId;
+                    _context.Tables.Update(table);
+                }
+            }
+        }
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+
+
 
 }

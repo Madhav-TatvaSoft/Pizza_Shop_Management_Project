@@ -101,7 +101,6 @@
             e.preventDefault();
 
             let waitingid = $("#DeleteTokenId").val();
-            console.log(waitingid, "--waitingid");
 
             $.ajax({
                 url: "/OrderAppWaitingList/DeleteWaitingToken",
@@ -137,7 +136,6 @@
         // Add Edit Waiting Token Modal
         $(document).on('click', ".Waiting_Token_id", function (event) {
             var button = event.target
-            console.log(button);
             var waitingid = $(button).data("id");
             $.ajax({
                 url: "/OrderAppWaitingList/GetWaitingToken",
@@ -149,6 +147,7 @@
             });
         });
 
+        // Assign Table Modal
         $(document).on("click", ".AssignTableModal", function (event) {
 
             event.preventDefault();
@@ -157,6 +156,8 @@
             var waitingid = $(button).data("id");
             var sectionid = $(button).data("secid");
             var sectionname = $(button).data("secname");
+            var persons = $(button).data("person");
+            var customerid = $(button).data("cusid");
 
             $.ajax({
                 url: "/OrderAppWaitingList/GetAssignTableModal",
@@ -165,7 +166,10 @@
                 success: function (data) {
                     $("#AssignTable-Content").html(data);
                     $("#Section_id_Table").val(sectionid);
+                    $("#WaitingId").val(waitingid);
                     $("#SectionList").val(sectionname);
+                    $("#Persons").val(persons);
+                    $("#CustomerId").val(customerid);
                 }
             });
         });

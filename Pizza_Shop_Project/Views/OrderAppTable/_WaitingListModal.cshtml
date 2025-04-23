@@ -64,15 +64,11 @@
 
         if (query.length > 2) {
 
-            console.log(query, "query");
-
             $.ajax({
                 url: "/OrderAppTable/GetCustomerEmail",
                 type: "GET",
                 data: { searchTerm: query },
                 success: function (data) {
-
-                    console.log(data, "reached");
 
                     $("#emailSuggestions").empty();
 
@@ -91,7 +87,6 @@
             $("#emailSuggestions").empty();
         }
     });
-
 
     $(document).on("change", "#Email", function () {
         var selectedOption = $("#emailSuggestions option[value='" + $(this).val() + "']");
@@ -112,10 +107,7 @@
 
         if (form.valid()) {
 
-            console.log("Form is valid");
-
             let formData = new FormData(this);
-            console.log("FormData entries:", [...formData.entries()]); 
 
             $.ajax({
                 url: "/OrderAppTable/WaitingTokenDetails",
