@@ -8,4 +8,8 @@ public interface IOrderAppMenuService
 
     Task<bool> FavouriteItem(long itemId, bool IsFavourite);
 
+    List<ItemModifierViewModel> GetModifiersByItemId(long itemId);
+
+    OrderDetailViewModel GetOrderDetailsByCustomerId(long customerId);
+
 }

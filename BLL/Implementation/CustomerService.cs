@@ -451,6 +451,8 @@ public class CustomerService : ICustomerService
     }
     #endregion
 
+
+
     #region Get Customer Email
     public List<CustomerViewModel> GetCustomerEmail(string searchTerm)
     {
@@ -498,5 +500,10 @@ public class CustomerService : ICustomerService
     }
     #endregion
 
+    public async Task<long> GetCustomerIdByTableId(long tableId)
+    {
+        var customer = await _context.AssignTables.FirstOrDefaultAsync(x => x.TableId == tableId && !x.Isdelete);
+        return customer?.CustomerId ?? 0;
+    }
 
 }

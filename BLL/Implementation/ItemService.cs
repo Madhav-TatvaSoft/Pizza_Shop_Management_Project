@@ -164,7 +164,7 @@ public class ItemService : IItemService
         item.Isdefaulttax = editItemVM.Isdefaulttax;
         item.TaxValue = editItemVM.TaxValue;
         item.Description = editItemVM.Description;
-        if (item.ItemImage != null)
+        if (item.ItemImage == null)
         {
             item.ItemImage = editItemVM.ItemImage;
         }

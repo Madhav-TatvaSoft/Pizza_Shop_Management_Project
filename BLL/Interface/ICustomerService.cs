@@ -11,4 +11,6 @@ public interface ICustomerService
     List<CustomerViewModel> GetCustomerEmail(string searchTerm);
     Task<bool> AddEditCustomer(WaitingTokenDetailViewModel waitingTokenVM, long userId);
     IQueryable<CustomerViewModel> GetAllCustomers();
+    Task<long> GetCustomerIdByTableId(long tableId);
+
 }

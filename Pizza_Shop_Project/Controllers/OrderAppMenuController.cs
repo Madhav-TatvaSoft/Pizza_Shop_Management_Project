@@ -17,12 +17,19 @@ public class OrderAppMenuController : Controller
         _categoryService = categoryService;
         _orderAppMenuService = orderAppMenuService;
     }
-    public async Task<IActionResult> OrderAppMenu()
+    public async Task<IActionResult> OrderAppMenu(long customerId = 0)
     {
         OrderAppMenuViewModel OrderAppMenuVM = new();
         OrderAppMenuVM.categoryList = await _categoryService.GetAllCategories();
         ViewData["orderApp-Active"] = "Menu";
         ViewData["Icon"] = "fa-burger";
+
+        ViewData["customerId"] = customerId;
+        if (customerId != 0)
+        {
+            // OrderAppMenuVM.orderdetails= GetOrderDetailsBycustId(customerId);
+        }
+
         return View(OrderAppMenuVM);
     }
 
@@ -33,7 +40,6 @@ public class OrderAppMenuController : Controller
         return PartialView("_ItemCardsPartial", OrderAppMenuVM.itemList);
     }
 
-    #region FavouriteItemManage
     public async Task<IActionResult> FavouriteItem(long itemId, bool IsFavourite)
     {
         bool status = await _orderAppMenuService.FavouriteItem(itemId, IsFavourite);
@@ -53,5 +59,23 @@ public class OrderAppMenuController : Controller
             return Json(new { success = false, text = "Something Went Wrong! Try Again!" });
         }
     }
+
+    public IActionResult GetModifiersByItemId(long itemId)
+    {
+        OrderAppMenuViewModel OrderAppMenuVM = new();
+        OrderAppMenuVM.modifirsByItemList = new List<ItemModifierViewModel>();
+        OrderAppMenuVM.modifirsByItemList = _orderAppMenuService.GetModifiersByItemId(itemId);
+        return PartialView("_ModifiersByItemModalPartial", OrderAppMenuVM);
+    }
+
+    #region GetOrderDetailsBycustId
+    public IActionResult GetOrderDetailsByCustomerId(long customerId)
+    {
+        OrderDetailViewModel orderDetailVM = new();
+        _orderAppMenuService.GetOrderDetailsByCustomerId(customerId);
+        return PartialView("_MenuItemsOrderDetailPartial", orderDetailVM);
+    }
     #endregion
+
+
 }

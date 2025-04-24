@@ -1,0 +1,244 @@
+@using DAL.ViewModels;
+@model OrderDetailViewModel
+
+@if (Model != null)
+{
+    <div class="d-flex justify-content-between">
+        <div class="d-flex">
+            <img src="/images/tables.png" width="40px" height="40px" alt="">
+            <span class="d-flex flex-column fs-6 ms-2"><span style="max-width: fit-content;">@Model.SectionName </span><span
+                    class="fw-bold" style="max-width: fit-content;">Table:
+                    @for (int i = 0; i < Model.tableList.Count; i++)
+                    {
+                        <span> @Model.tableList[i].TableName</span>
+                        if (i < Model.tableList.Count - 1)
+                        {
+                            <span>,</span>
+                        }
+                    }
+                </span>
+            </span>
+        </div>
+        <div>
+            <div class="btn hollow-btn px-2" onclick="showQrCodeModal()" data-bs-toggle="modal"
+                data-bs-target="#QRCodeModal"><i class="fa-solid fa-qrcode mt-1"></i></div>
+            <div class="btn hollow-btn px-2 ms-2" data-bs-toggle="modal" data-bs-target="#CustomerDetails"><i
+                    class="fa-solid fa-user mt-1"></i></div>
+            <div class="btn hollow-btn px-2 ms-2" data-bs-toggle="modal" data-bs-target="#orderComment"><i
+                    class="fa-solid fa-message mt-1"></i></div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table" style="border-collapse: separate; border-spacing: 0px 10px;">
+            <thead>
+                <tr>
+                    <td>Item</td>
+                    <td>Quantity</td>
+                    <td>Amount</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.itemOrderVM)
+                {
+                    <tr class="border-secondary  ">
+                        <td class="border-1 border-end-0"
+                            style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
+                            <div class="accordion-item border-0 rounded-0 ">
+                                <div class="accordion">
+                                    <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between">
+                                        <div class="d-flex align-items-center w-100 me-4 me-sm-0">
+                                            <button class="accordion-button col-auto w-auto collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#TableMainBodyID-@item.ItemId"
+                                                aria-expanded="false" aria-controls="TableMainBodyID-@item.ItemId"
+                                                style="margin: 0px !important">
+                                            </button>
+                                            <div class="d-flex justify-content-between align-items-center w-100 text-nowrap ps-2"
+                                                style="overflow: auto;">
+                                                <div class="">@item.ItemName</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="TableMainBodyID-@item.ItemId" class="accordion-collapse collapse my-3">
+                                @foreach (var modifier in item.modifierOrderVM)
+                                {
+                                    <li>@modifier.ModifierName</li>
+                                }
+                            </div>
+                        </td>
+                        <td class="border-1 border-end-0 border-start-0">
+                            <div class="p-2 border rounded d-flex align-items-center"
+                                style="max-width: fit-content; height: 30px;">
+                                <div class="me-4" style="cursor: pointer;">-</div>
+                                <span>1</span>
+                                <div class="ms-4" style="cursor: pointer;">+</div>
+                            </div>
+                        </td>
+                        <td class="border-1 border-start-0 border-end-0">
+                            <div class="d-flex align-items-center mb-3" style="height: 30px;">
+                                <div>₹@item.TotalItemAmount</div>
+
+                            </div>
+                            @foreach (var modifier in item.modifierOrderVM)
+                            {
+                                <div id="TableMainBodyID-@item.ItemId" class="accordion-collapse collapse ">
+                                    ₹@modifier.TotalModifierAmount
+                                </div>
+                            }
+                        </td>
+                        <td class="border-1 border-start-0 "
+                            style="border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
+                            <div class=" ps-5">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <div>Accordians</div>
+
+    <div>
+        <div class="d-flex justify-content-between ">
+            <div class="fs-5">SubTotal</div>
+            <div class="fs-5">₹@Model.SubTotalAmountOrder</div>
+        </div>
+
+        @foreach (var tax in Model.taxInvoiceVM)
+        {
+            <div class="d-flex justify-content-between ">
+                <div>@tax.TaxName</div>
+                <div>₹@tax.TaxValue</div>
+            </div>
+        }
+        <div class="d-flex justify-content-between ">
+            <div>GST</div>
+            <div>123.00</div>
+        </div>
+
+        <div class="d-flex justify-content-between ">
+            <div>Other</div>
+            <div>123.00</div>
+        </div>
+
+        <div class="d-flex justify-content-between ">
+            <div><input type="checkbox" name="" id="">SGST</div>
+        </div>
+
+        <div class="d-flex justify-content-between ">
+            <div class="fs-5"> Total</div>
+            <div class="fs-5">@Model.TotalAmountOrder</div>
+        </div>
+
+        <div class="d-flex justify-content-between flex-column flex-sm-row">
+            <div class=""> Payment Method</div>
+            <div class="d-flex justify-content-end text-nowrap">
+                <input type="radio" name="payment" class="" id="" checked>&nbsp; Cash &nbsp;
+                <input type="radio" name="payment" class="ms-2" id="">&nbsp; Card &nbsp;
+                <input type="radio" name="payment" class="ms-2" id="">&nbsp; UPI &nbsp;
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-sm-end align-items-end  mt-2 flex-column flex-sm-row">
+            <div class="btn solid-btn me-sm-3 mt-2 " style="width: 150px;">Save</div>
+            <div class="btn hollow-btn me-sm-3 mt-2" style="width: 150px;">Complete</div>
+            <div class="btn hollow-btn text-nowrap mt-2" style="width: 150px;">Generate Invoice</div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-2">
+            <div class="btn hollow-btn " style="width: 150px;">Cancel</div>
+        </div>
+    </div>
+
+}
+
+<!-- modal-->
+<!--QR code modal -->
+<div id="QRCodeModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Menu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div class="text-center">
+                    <img src="/images/QR.png" alt="">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="btn hollow-btn  mt-3 ">Done</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- customer details-->
+<div id="CustomerDetails" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Customer Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row">
+                <div class="form-floating  col-12 mb-3">
+                    <input type="text" class="form-control" id="Name" list="emailDatalist" placeholder="Name*">
+                    <span class="text-danger RemoveValidations" id="RemoveValidations"></span>
+                    <label for="Name"> &nbsp; Name*</label>
+                </div>
+                <div class="form-floating  col-6 mb-3">
+                    <input type="text" class="form-control" id="MobileNumber" placeholder="MobileNumber*">
+                    <span class="text-danger RemoveValidations" id="RemoveValidations"></span>
+                    <label for="MobileNumber"> &nbsp; Mobile Number*</label>
+                </div>
+                <div class="form-floating  col-6 mb-3">
+                    <input type="text" class="form-control" id="NoofPersons" placeholder="NoofPersons*">
+                    <span class="text-danger RemoveValidations" id="RemoveValidations"></span>
+                    <label for="NoofPersons"> &nbsp; No of Persons*</label>
+                </div>
+                <div class="form-floating  col-12 mb-3">
+                    <input type="text" class="form-control" id="Email" placeholder="Email*">
+                    <span class="text-danger RemoveValidations" id="RemoveValidations"></span>
+                    <label for="Email"> &nbsp; Email*</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn solid-btn">save</button>
+                <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--- comment--->
+<div id="orderComment" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Order Wise Comment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row">
+                <div class="form-floating  col-12 mb-3">
+                    <textarea class="form-control" id="Comment" cols="33"></textarea>
+                    <label for="Comment"> &nbsp; Comment*</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn solid-btn">save</button>
+                <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showQrCodeModal(){}
+</script>

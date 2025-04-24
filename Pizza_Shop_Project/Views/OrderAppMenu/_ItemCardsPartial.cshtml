@@ -5,18 +5,20 @@
 {
     @foreach (var item in Model)
     {
-         <div class="d-flex mt-2 " data-itemId="@item.ItemId" style=" width: 270px !important;">
-            <div 
-                style="max-width: fit-content;  border-radius: 0.7rem !important; z-index: 3; ">
-                <div class="d-flex justify-content-center align-items-center" style="height: 65px; width: 65px; ">
-                    <img src="@item.ItemImage" width="100%" height="100%" style=" border-radius: 0.7rem !important;" class=" bg-white">
+        <div class="d-flex mt-2 bg-white shadow-sm"  onclick="ModifiersByItemSelected(this)" data-itemname="@item.ItemName"
+            data-itemId="@item.ItemId" style=" width: 260px !important; border-radius: 0.7rem !important;">
+            <div style="max-width: fit-content;  border-radius: 0.7rem !important; z-index: 3; ">
+                <div class="d-flex justify-content-center align-items-center shadow-lg"
+                    style="height: 65px; width: 65px; border-radius: 0.7rem !important;">
+                    <img src="@item.ItemImage" width="100%" height="100%" style=" border-radius: 0.7rem !important;"
+                        class=" bg-white">
                 </div>
             </div>
             <div style="z-index:2; height: 65px; min-width: 200px; border-top-right-radius: 0.7rem !important; border-bottom-right-radius: 0.7rem !important;"
                 class="bg-white d-flex justify-content-between">
                 <div class="ps-2 py-1 d-flex flex-column justify-content-between">
                     <span>@item.ItemName</span>
-                    <span class="text-black-50 validate pb-1">₹@item.Rate</span>
+                    <span class="text-secondary validate pb-1">₹@item.Rate</span>
                 </div>
                 <div class="d-flex flex-column justify-content-between">
                     <span
@@ -36,26 +38,28 @@ else
     </div>
 }
 
-<!--------modifiers by itemId modal---------- -->
-@* <div id="ModifiersByItemId" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-<div class="modal-dialog modal-dialog-centered modal-lg">
-
+<!-------- Modifiers Modal---------- -->
+<div id="ModifiersByItemId" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" id="ModifiersByItemId-Content">
+    </div>
 </div>
-</div> *@
 
-@* <script>
-function ModifiersByItemSeleted(tag) {
-var itemId = tag.getAttribute("data-itemId");
-console.log(tag.children[1].children[0].children[0].innerHTML);
-$.ajax({
-url: "/OrderAppMenu/GetModifiersByItemId",
-type: "GET",
-data: { itemId: itemId },
-success: function (data) {
-$("#ModifiersByItemId .modal-dialog").html(data);
-document.getElementById("itemName").innerHTML = tag.children[1].children[0].children[0].innerHTML;
-$("#ModifiersByItemId").modal("show");
-}
-});
-}
-</script> *@
+<script>
+    function ModifiersByItemSelected(tag) {
+
+        var itemId = tag.getAttribute("data-itemId");
+        var itemName = tag.getAttribute("data-itemname");
+
+        $.ajax({
+            url: "/OrderAppMenu/GetModifiersByItemId",
+            type: "GET",
+            data: { itemId: itemId },
+            success: function (data) {
+                console.log(data);
+                $("#ModifiersByItemId-Content").html(data);
+                $("#itemName").html(itemName);
+                $("#ModifiersByItemId").modal("show");
+            }
+        });
+    }
+</script>

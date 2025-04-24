@@ -70,7 +70,7 @@
                                         class="btn solid-btn text-white border  rounded-pill p-1 px-3 me-2 @((ViewData["orderApp-Active"] as string) == "Table" ? "orderApp-active-div" : "")"><i
                                             class="fa-solid fa-table me-1"></i>Tables</a>
 
-                                    <a asp-action="OrderAppMenu" asp-controller="OrderAppMenu"
+                                    <a asp-action="OrderAppMenu" asp-controller="OrderAppMenu" id="MenuButtonOrderApp"
                                         class="btn solid-btn text-white border  rounded-pill p-1 px-3 me-2 @((ViewData["orderApp-Active"] as string) == "Menu" ? "orderApp-active-div" : "")"><i
                                             class="fa-solid fa-burger me-1"></i>Menu</a>
                                 </div>
@@ -128,7 +128,7 @@
                                         <div class="d-flex border border-bottom-black border-top-0 pb-2">
                                             <img src="@(HttpContextAccessor.HttpContext.Request.Cookies["ProfileImage"])"
                                                 class="ms-3" width="35px" height="35px" />
-                                            <div class="fs-6 fw-bold ps-2 pe-1 align-content-center">
+                                            <div class="fs-6 fw-bold ps-2 pe-3 align-content-center">
                                                 @(HttpContextAccessor.HttpContext.Request.Cookies["username"])</div>
                                         </div>
                                     </li>
@@ -205,7 +205,7 @@
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
-                "timeOut": "3000"
+                "timeOut": "2000"
             };
             if (successMessage) {
                 toastr.success(successMessage);

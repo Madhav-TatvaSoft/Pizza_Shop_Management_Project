@@ -9,8 +9,9 @@ else
 {
     @foreach (var table in Model)
     {
-        <div class="table-card card border border-1 rounded-2 " style="width: 270px;" data-capacity="@table.Capacity"
-            data-sec="@table.SectionId" @(table.Status == "Available" ? "onclick=SelectTable(this)" : "")>
+        <div class="table-card card border border-1 rounded-2" style="width: 270px;" data-capacity="@table.Capacity"
+            data-sec="@table.SectionId" @(table.Status == "Available" ? "onclick=SelectTable(this)" :
+    "onclick=OpenMenuFromTable(this)")>
             <div class="d-none">@table.TableId</div>
             <div class="d-none">@table.SectionId</div>
             <div
@@ -44,7 +45,7 @@ else
                         {
                             <div class="pt-2 order-time" data-time="@table.TableTime.ToString("yyyy-MM-ddTHH:mm:ss")">
 
-                            <span class="time-difference validate"></span>
+                                <span class="time-difference validate"></span>
                             </div>
                         }
                         else
@@ -60,12 +61,15 @@ else
 
 <script>
     var IsEnable = 0;
+    var customerId;
 
+    // READY
     $(document).ready(function () {
         setInterval(updateTimeDifference, 1000);
         updateTimeDifference();
     });
 
+    // Time Difference
     function updateTimeDifference() {
         document.querySelectorAll(".order-time").forEach(element => {
 
@@ -85,9 +89,35 @@ else
 
             element.querySelector(".time-difference").textContent = `${days}days ${hours}hours ${minutes}min ${seconds}sec`;
 
-            @* if (orderTime === "0001-01-01T00:00:00") {
+    @* if (orderTime === "0001-01-01T00:00:00") {
                 element.querySelector(".time-difference").textContent = "0 min";
-            } *@
+                } *@
+        });
+    }
+
+    // Function to call menu after table assigned
+    function OpenMenuFromTable(tag) {
+
+        var tableId = tag.children[0].innerHTML;
+        var sectionId = tag.children[1].innerHTML;
+
+        console.log("tableId", tableId);
+        console.log("sectionId", sectionId);
+
+        $.ajax({
+            url: "/OrderAppTable/GetCustomerIdByTableId",
+            type: "GET",
+            data: { tableId },
+            success: function (data) {
+                console.log(data.customerId);
+                customerId = data.customerId;
+                console.log("cust", customerId);
+                var MenuBtn = document.getElementById("MenuButtonOrderApp")
+                console.log("pela", MenuBtn);
+                MenuBtn.setAttribute("href", `/OrderAppMenu/OrderAppMenu?customerId=${customerId}`)
+                console.log("pachi", MenuBtn);
+                MenuBtn.click();
+            }
         });
     }
 

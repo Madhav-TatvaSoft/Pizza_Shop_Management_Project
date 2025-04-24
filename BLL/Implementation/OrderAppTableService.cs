@@ -83,7 +83,8 @@ public class OrderAppTableService : IOrderAppTableService
                 Waitinglist waitinglist = new();
 
                 Waitinglist? CustomerPresent = _context.Waitinglists.FirstOrDefault(waiting => waiting.CustomerId == customerId);
-                if(CustomerPresent != null){
+                if (CustomerPresent != null)
+                {
                     return false;
                 }
 
@@ -234,5 +235,7 @@ public class OrderAppTableService : IOrderAppTableService
     }
 
     #endregion
+
+    
 
 }

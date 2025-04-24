@@ -149,13 +149,21 @@ public class OrderAppTableController : Controller
             return Json(new { success = false, text = NotificationMessage.EntityCreatedFailed.Replace("{0}", "Customer") });
         }
 
+        long customerId = await _customerService.GetCustomerIdByTableId(TableMainVM.TableIds[0]);
+
         bool TableAssignStatus = await _orderAppTableService.AssignTable(TableMainVM, userId);
         if (TableAssignStatus)
         {
-            return Json(new { success = true, text = "Table Assigned" });
+            return Json(new { success = true, text = "Table Assigned", customerid = customerId });
         }
         return Json(new { success = false, text = "Something Went wrong, Try Again!" });
     }
     #endregion
+
+    public async Task<IActionResult> GetCustomerIdByTableId(long tableId)
+    {
+        var CustomerId = _customerService.GetCustomerIdByTableId(tableId);
+        return Json(new { customerId = CustomerId });
+    }
 
 }

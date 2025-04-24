@@ -100,44 +100,6 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
         }
     }
 
-    // public async Task<bool> AddCustomerToWaitingList(WaitingTokenDetailViewModel waitingTokenVM, long userId)
-    // {
-    //     try
-    //     {
-    //         if (waitingTokenVM.WaitingTokenDetailVM.WaitingId == 0)
-    //         {
-    //             Waitinglist waiting = new Waitinglist
-    //             {
-    //                 CustomerId = waitingTokenVM.WaitingTokenDetailVM.CustomerId,
-    //                 NoOfPerson = WaitingVM.WaitingTokenDetailVM.NoOfPerson,
-    //                 SectionId = waitingTokenVM.WaitingTokenDetailVM.SectionId,
-    //                 Isdelete = false,
-    //                 Isassign = false,
-    //                 CreatedAt = DateTime.Now,
-    //             };
-    //             await _context.Waitinglists.AddAsync(waiting);
-    //         }
-    //         else
-    //         {
-    //             Waitinglist waiting = await _context.Waitinglists.FirstOrDefaultAsync(x => x.WaitingId == WaitingVM.WaitingTokenDetailVM.WaitingId && !x.Isdelete);
-    //             if (waiting != null)
-    //             {
-    //                 waiting.CustomerId = WaitingVM.WaitingTokenDetailVM.CustomerId;
-    //                 waiting.NoOfPerson = WaitingVM.WaitingTokenDetailVM.NoOfPerson;
-    //                 waiting.SectionId = WaitingVM.WaitingTokenDetailVM.SectionId;
-    //                 waiting.ModifiedAt = DateTime.Now;
-    //                 waiting.ModifiedBy = Use
-    //             }
-    //         }
-    //         await _context.SaveChangesAsync();
-    //         return true;
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         Console.WriteLine(e.Message);
-    //         return false;
-    //     }
-    // }
 
     public async Task<bool> DeleteWaitingToken(long waitingid)
     {

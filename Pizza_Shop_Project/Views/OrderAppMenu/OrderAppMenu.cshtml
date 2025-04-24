@@ -4,13 +4,15 @@
 @{
     ViewData["Title"] = "Order App Menu";
     Layout = "~/Views/Shared/_OrderAppLayout.cshtml";
+    @* var custId = ; *@
+
 }
 
 <div class="d-flex">
 
     <div class="overlay-category" onclick="toggleSidebarCategory()"></div>
 
-    <div class="bg-white category-toggle-active category-toggle " style="min-height: 887px; width:250px !important;">
+    <div class="bg-white category-toggle-active category-toggle " style="min-height: 885px; width:250px !important;">
         <div class="fs-3 fw-bold   ">
             <div class="p-3 fs-4">Category</div>
         </div>
@@ -31,11 +33,15 @@
         </div>
     </div>
 
-    <div class="p-sm-3 p-1 w-100" style="background-color: rgb(242, 242, 242);">
+    <div class="p-sm-3 p-1 w-100">
         <div class="btn d-md-none" onclick="toggleSidebarCategory()"><i class="fa-solid fa-bars-staggered"></i></div>
 
         <div class="col  d-flex flex-xl-row flex-column p-2">
-            <div class="col-xl-7 col-12 p-2">
+
+            <div class="col-12 p-2 @((long)ViewData["customerId"] != 0 ? "col-xl-7":"col-12")">
+
+                @* <div class="col-xl-7 col-12 p-2"> *@
+
                 <div class="d-md-flex col-12 flex-xxl-row flex-column  justify-content-between mb-3">
                     <!-- search btn-->
                     <div class="search-button-orders col-12 col-sm-6 ">
@@ -69,17 +75,20 @@
                     </div>
 
                 </div>
-                <div class="ItemCards d-flex flex-wrap justify-content-center justify-content-sm-start gap-3"
-                    id="ItemCards">
+                <div class="ItemCards d-flex flex-wrap justify-content-start gap-3" id="ItemCards">
 
                     <!-- cards-->
                 </div>
 
             </div>
 
-            <div class="col-xl-5 col-12 bg-secondary p-2 pt-3" id="OrderDetailsWithTablePartial">
-                @* @await Html.PartialAsync("_MenuItemsWithOrderDetails") *@
-            </div>
+            @if ((long)ViewData["customerId"] != 0)
+            {
+                <div class="d-none" id="customerId">@ViewData["customerId"]</div>
+                <div class="col-xl-5 col-12 bg-white p-2 mt-3" id="OrderDetails-Content">
+                    @* @await Html.PartialAsync("_MenuItemsWithOrderDetails", Model.orderdetails) *@
+                </div>
+            }
         </div>
     </div>
 
@@ -93,12 +102,14 @@
     <script>
         var categoryid;
 
+        // Toggle Sidebar Category
         function toggleSidebarCategory() {
             document.getElementsByClassName("overlay-category")[0].classList.toggle("overlay-category-active");
             document.getElementsByClassName("category-toggle")[0].classList.toggle("category-toggle-active")
             document.getElementsByClassName("category-toggle")[0].classList.toggle("category-toggle-position")
         }
 
+        // Category Selected
         function categorySelected(tag) {
 
             categoryid = tag.getAttribute("data-id");
@@ -116,11 +127,13 @@
                 type: "GET",
                 data: { categoryid },
                 success: function (data) {
+                    $("#searchbtn").val("");
                     $("#ItemCards").html(data);
                 }
             })
         }
 
+        // Search By Item
         function searchItem(searchText) {
             console.log(searchText);
             $.ajax({
@@ -133,6 +146,7 @@
             })
         }
 
+        // Favourite Item
         function FavouriteItem(event, tag) {
             event.stopPropagation();
             var itemId = tag.getAttribute("data-itemId");
@@ -155,9 +169,24 @@
             }
         }
 
+        // Get OrderDetails By Customer Id
+        function GetOrderDetailsByCustomerId() {
+            var customerId = document.getElementById("customerId").innerHTML;
+            console.log(customerId);
+            $.ajax({
+                url: "/OrderAppMenu/GetOrderDetailsByCustomerId",
+                type: "GET",
+                data: { customerId: customerId },
+                success: function (data) {
+                    $("#OrderDetails-Content").html(data);
+                }
+            })
+        }
+
         $(document).ready(function () {
 
-            categorySelected(document.getElementsByClassName("category-click")[1], 0);
+            categorySelected(document.getElementsByClassName("category-click")[0], -1);
+            GetOrderDetailsByCustomerId();
 
         });
     </script>

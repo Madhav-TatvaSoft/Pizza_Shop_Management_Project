@@ -1,0 +1,77 @@
+@using DAL.ViewModels;
+@model OrderAppMenuViewModel;
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title fs-4 fw-bold text-dark" id="itemName">item</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body row">
+        @if (Model.modifirsByItemList.Count == 0)
+        {
+            <div class="col-12 d-flex justify-content-center align-items-center mt-3">
+                <span class="fw-bold text-danger fs-5 pb-3">No Modifiers Found</span>
+            </div>
+        }
+        else
+        {
+            @foreach (var modgrp in Model.modifirsByItemList)
+            {
+                <div class="pb-4 ">
+                    <div class="pb-3">
+                        <span class="fs-5 fw-bold text-secondary">@modgrp.ModifierGrpName</span>
+                        <span class="text-black-50">&nbsp;(You can choose Minimum - @modgrp.Minmodifier & Maximum -
+                            @modgrp.Maxmodifier options)</span>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2 pb-1">
+
+                        @foreach (var modifier in modgrp.modifiersList)
+                        {
+                            <div class="col-auto d-flex gap-2 modifiers"
+                                onclick="ModifierSelected(this,@modgrp.Maxmodifier,@modgrp.ModifierGrpId)">
+                                <div style=" height: 65px; min-width: 150px; border-radius: 0.7rem !important;  border:1px solid rgb(197, 197, 197)"
+                                    class="bg-white d-flex justify-content-between">
+
+                                    <div class="ps-2 py-2 d-flex flex-column justify-content-between">
+                                        <span class="text-nowrap text-dark">@modifier.ModifierName</span>
+                                        <span class="text-secondary">₹@modifier.Rate</span>
+                                    </div>
+
+                                    <div class="d-flex flex-column justify-content-between">
+                                        <span
+                                            style="clip-path: polygon(0% 0%, 100% 100%, 100% 0%); height: 30px; width: 30px; border-top-right-radius: 0.7rem; "
+                                            class="bg-warning"></span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <span class="text-danger validate d-none maximumValidation-@modgrp.ModifierGrpId">You can select maximum
+                        @modgrp.Maxmodifier modifiers</span>
+                </div>
+            }
+        }
+
+        <div class="modal-footer d-flex justify-content-end">
+            <button type="submit" class="btn solid-btn">Add</button>
+            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+
+
+    <script>
+        function ModifierSelected(tag, maxval, modGrpId) {
+            $(`.maximumValidation-${modGrpId}`).addClass("d-none");
+
+            var selectedClass = document.getElementsByClassName(`modifierSelected-${modGrpId}`);
+            var count = selectedClass.length;
+            if (count >= maxval && !tag.children[0].classList.contains("modifierSelected")) {
+                $(`.maximumValidation-${modGrpId}`).removeClass("d-none");
+                return;
+            } else {
+                tag.children[0].classList.toggle("modifierSelected");
+                tag.children[0].classList.toggle(`modifierSelected-${modGrpId}`);
+            }
+        }
+    </script>
