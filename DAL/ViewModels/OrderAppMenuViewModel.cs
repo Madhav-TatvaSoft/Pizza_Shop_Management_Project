@@ -9,5 +9,7 @@ public class OrderAppMenuViewModel
     public List<ItemsViewModel> itemList { get; set; }
 
     public List<ItemModifierViewModel> modifirsByItemList { get; set; }
+
+    public OrderDetailViewModel orderDetails { get; set; }
     
 }

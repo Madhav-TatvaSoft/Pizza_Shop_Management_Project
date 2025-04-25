@@ -12,14 +12,11 @@ public class CustomerService : ICustomerService
 {
     private readonly PizzaShopDbContext _context;
 
-    #region Customer Service Constructor
     public CustomerService(PizzaShopDbContext context)
     {
         _context = context;
     }
-    #endregion
 
-    #region Get Data
     public IQueryable<CustomerViewModel> GetAllCustomers()
     {
         return _context.Customers
@@ -36,9 +33,7 @@ public class CustomerService : ICustomerService
             })
             .AsQueryable();
     }
-    #endregion
 
-    #region Pagination - Get Order List
     public PaginationViewModel<CustomerViewModel> GetCustomerList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5, string fromDate = "", string toDate = "", string selectRange = "")
     {
         var query = GetAllCustomers();
@@ -121,9 +116,7 @@ public class CustomerService : ICustomerService
 
         return new PaginationViewModel<CustomerViewModel>(items, totalCount, pageNumber, pageSize);
     }
-    #endregion
 
-    #region Export Order Data To Excel
     public Task<byte[]> ExportData(string search = "", string fromDate = "", string toDate = "", string selectRange = "")
     {
         var query = GetAllCustomers();
@@ -407,9 +400,7 @@ public class CustomerService : ICustomerService
             return Task.FromResult(package.GetAsByteArray());
         }
     }
-    #endregion
 
-    #region Customer History
     public CustomerHistoryViewModel GetCustomerHistory(long customerid)
     {
         CustomerHistoryViewModel? customerDetails = _context.Customers.
@@ -440,20 +431,14 @@ public class CustomerService : ICustomerService
 
         return customerDetails;
     }
-    #endregion
 
-    #region IsCustomerPresent
     public long IsCustomerPresent(string Email)
     {
         Customer customer = _context.Customers.FirstOrDefault(x => x.Email == Email && !x.Isdelete);
         if (customer != null) return customer.CustomerId;
         else return 0;
     }
-    #endregion
 
-
-
-    #region Get Customer Email
     public List<CustomerViewModel> GetCustomerEmail(string searchTerm)
     {
         List<CustomerViewModel>? Emails = _context.Customers
@@ -469,9 +454,7 @@ public class CustomerService : ICustomerService
 
         return Emails;
     }
-    #endregion
 
-    #region AddCustomer
     public async Task<bool> AddEditCustomer(WaitingTokenDetailViewModel waitingTokenVM, long userId)
     {
         var existingCustomer = await _context.Customers.FirstOrDefaultAsync(c => c.Email == waitingTokenVM.Email && !c.Isdelete);
@@ -498,12 +481,11 @@ public class CustomerService : ICustomerService
         await _context.SaveChangesAsync();
         return true;
     }
-    #endregion
 
     public async Task<long> GetCustomerIdByTableId(long tableId)
     {
-        var customer = await _context.AssignTables.FirstOrDefaultAsync(x => x.TableId == tableId && !x.Isdelete);
-        return customer?.CustomerId ?? 0;
+        AssignTable? customer = _context.AssignTables.FirstOrDefault(x => x.TableId == tableId && !x.Isdelete);
+        return (customer !=null) ? customer.CustomerId : 0;
     }
 
 }

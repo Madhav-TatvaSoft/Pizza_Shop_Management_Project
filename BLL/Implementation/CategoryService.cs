@@ -9,22 +9,16 @@ public class CategoryService : ICategoryService
 {
     private readonly PizzaShopDbContext _context;
 
-    #region Constructor
     public CategoryService(PizzaShopDbContext context)
     {
         _context = context;
     }
-    #endregion
-
-    #region Get List
 
     public async Task<List<Category>> GetAllCategories()
     {
         return await _context.Categories.Where(x => !x.Isdelete).OrderBy(x => x.CategoryId).ToListAsync();
     }
-    #endregion
 
-    #region Add 
     public async Task<bool> AddCategory(Category category, long userId)
     {
         if (category == null) return false;
@@ -39,9 +33,7 @@ public class CategoryService : ICategoryService
         await _context.SaveChangesAsync();
         return true;
     }
-    #endregion
 
-    #region Edit 
     public async Task<bool> EditCategory(Category category, long Cat_Id, long userId)
     {
         if (category == null || Cat_Id == null)
@@ -62,9 +54,7 @@ public class CategoryService : ICategoryService
         await _context.SaveChangesAsync();
         return true;
     }
-    #endregion
 
-    #region Delete 
     public async Task<bool> DeleteCategory(long Cat_Id)
     {
         Category category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == Cat_Id && !x.Isdelete);
@@ -103,9 +93,7 @@ public class CategoryService : ICategoryService
         await _context.SaveChangesAsync();
         return true;
     }
-    #endregion
 
-    #region Check Category Exist
     public bool IsCategoryExistForAdd(Category category)
     {
         return _context.Categories.Any(x => !x.Isdelete && x.CategoryName.ToLower().Trim() == category.CategoryName.ToLower().Trim());
@@ -116,6 +104,4 @@ public class CategoryService : ICategoryService
         return _context.Categories.Any(x => x.CategoryId != category.CategoryId && x.CategoryName.ToLower().Trim() == category.CategoryName.ToLower().Trim() && !x.Isdelete);
 
     }
-    #endregion
-
 }

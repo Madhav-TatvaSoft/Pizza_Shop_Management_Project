@@ -31,7 +31,8 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
                             PhoneNo = waiting.Customer.PhoneNo,
                             Email = waiting.Customer.Email,
                             NoOfPerson = waiting.NoOfPerson,
-                            CreatedAt = waiting.CreatedAt,
+                            CreatedAt = (DateTime)waiting.CreatedAt,
+                            WaitingTime = TimeOnly.FromTimeSpan((TimeSpan)(DateTime.Now - waiting.CreatedAt)),
                             SectionId = waiting.SectionId,
                             SectionName = waiting.Section.SectionName
                         }).OrderBy(w => w.WaitingId).ToList();
@@ -57,7 +58,7 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
                     PhoneNo = waiting.Customer.PhoneNo,
                     Email = waiting.Customer.Email,
                     NoOfPerson = waiting.NoOfPerson,
-                    CreatedAt = waiting.CreatedAt,
+                    CreatedAt = (DateTime)waiting.CreatedAt,
                     SectionId = waiting.SectionId,
                     SectionName = waiting.Section.SectionName
                 }).ToList();
@@ -87,7 +88,7 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
                     NoOfPerson = waitingList.NoOfPerson,
                     SectionName = waitingList.Section.SectionName,
                     SectionId = waitingList.Section.SectionId,
-                    CreatedAt = waitingList.CreatedAt
+                    CreatedAt = (DateTime)waitingList.CreatedAt
                 };
                 return WaitingListVM;
             }

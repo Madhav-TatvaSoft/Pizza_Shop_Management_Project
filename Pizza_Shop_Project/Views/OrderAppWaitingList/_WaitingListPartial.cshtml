@@ -13,8 +13,8 @@ else
     {
         <tr class="border border-bottom-2 border-top-0 border-end-0 border-start-0 fw-bold text-black-50">
             <td class="text-nowrap "># @item.WaitingId</td>
-            <td class="text-nowrap">@(item.CreatedAt.HasValue ? item.CreatedAt.Value.ToString("MMM dd, yyyy hh:mmtt") : "N/A")</td>
-            <td class="text-nowrap ">0hr 4min</td>
+            <td class="text-nowrap">@item.CreatedAt.ToString("MMM dd, yyyy h:mm tt")</td>
+            <td class="text-nowrap ">@item.WaitingTime.Hour hrs @item.WaitingTime.Minute min</td>
             <td class="text-nowrap ">@item.CustomerName</td>
             <td class="text-nowrap ">@item.NoOfPerson</td>
             <td class="text-nowrap">@item.PhoneNo</td>

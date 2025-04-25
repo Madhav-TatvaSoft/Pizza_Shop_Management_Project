@@ -68,14 +68,118 @@ public class OrderAppMenuController : Controller
         return PartialView("_ModifiersByItemModalPartial", OrderAppMenuVM);
     }
 
-    #region GetOrderDetailsBycustId
     public IActionResult GetOrderDetailsByCustomerId(long customerId)
     {
         OrderDetailViewModel orderDetailVM = new();
-        _orderAppMenuService.GetOrderDetailsByCustomerId(customerId);
+        orderDetailVM = _orderAppMenuService.GetOrderDetailsByCustomerId(customerId);
         return PartialView("_MenuItemsOrderDetailPartial", orderDetailVM);
     }
-    #endregion
-
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // #region UpdateOrderDetailPartialView
+    // public async Task<IActionResult> UpdateOrderDetailPartialView(string ItemList, string orderDetails){
+    //     List<List<int>> itemList = JsonConvert.DeserializeObject<List<List<int>>>(ItemList);
+    //     OrderDetaIlsInvoiceViewModel orderDetailvm = JsonConvert.DeserializeObject<OrderDetaIlsInvoiceViewModel>(orderDetails);
+    //     OrderDetaIlsInvoiceViewModel orderDetailsvm =await _orderAppMenuService.UpdateOrderDetailPartialView(itemList,orderDetailvm );
+
+    //     return PartialView("_MenuItemsWithOrderDetails",orderDetailsvm);
+    // }
+    // #endregion
+
+    // #region RemoveItemfromOrderDetailPartialView
+    // public async Task<IActionResult> RemoveItemfromOrderDetailPartialView(string ItemList, int count, string orderDetails){
+    //     List<List<int>> itemList = JsonConvert.DeserializeObject<List<List<int>>>(ItemList);
+    //     OrderDetaIlsInvoiceViewModel orderDetailvm = JsonConvert.DeserializeObject<OrderDetaIlsInvoiceViewModel>(orderDetails);
+    //     OrderDetaIlsInvoiceViewModel orderDetailsvm =await _orderAppMenuService.RemoveItemfromOrderDetailPartialView(itemList, count ,orderDetailvm);
+
+    //     return PartialView("_MenuItemsWithOrderDetails",orderDetailsvm);
+    // }
+    // #endregion

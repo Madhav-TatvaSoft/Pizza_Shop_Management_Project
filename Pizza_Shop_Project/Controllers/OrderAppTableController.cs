@@ -119,7 +119,6 @@ public class OrderAppTableController : Controller
         return PartialView("_AssignTableCanvas", TableMainVM);
     }
     #endregion
-
     public async Task<IActionResult> GetCustomerDetails(long waitingId, long sectionId, string sectionName)
     {
         OrderAppTableMainViewModel TableMainVM = new();
@@ -159,11 +158,10 @@ public class OrderAppTableController : Controller
         return Json(new { success = false, text = "Something Went wrong, Try Again!" });
     }
     #endregion
-
     public async Task<IActionResult> GetCustomerIdByTableId(long tableId)
     {
-        var CustomerId = _customerService.GetCustomerIdByTableId(tableId);
-        return Json(new { customerId = CustomerId });
+        long  CustomerId = await _customerService.GetCustomerIdByTableId(tableId);
+        return Json(new { customerId = CustomerId});
     }
 
 }

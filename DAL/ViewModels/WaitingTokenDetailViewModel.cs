@@ -25,5 +25,6 @@ public class WaitingTokenDetailViewModel
     public int NoOfPerson { get; set; }
     public long SectionId { get; set; }
     public string SectionName { get; set; }
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public TimeOnly WaitingTime { get; set; }
 }

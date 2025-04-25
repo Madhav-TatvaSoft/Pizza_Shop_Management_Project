@@ -9,6 +9,7 @@ public class ItemOrderViewModel
     public int? Quantity { get; set; }
     public string? ExtraInstruction { get; set; }
     public decimal TotalItemAmount { get; set; }
+    public string status {get; set;}
 
     public List<ModifierorderViewModel> modifierOrderVM { get; set; }
 

@@ -85,14 +85,12 @@
             @if ((long)ViewData["customerId"] != 0)
             {
                 <div class="d-none" id="customerId">@ViewData["customerId"]</div>
-                <div class="col-xl-5 col-12 bg-white p-2 mt-3" id="OrderDetails-Content">
+                <div class="col-xl-5 col-12 bg-white p-2 mt-2" id="OrderDetails-Content">
                     @* @await Html.PartialAsync("_MenuItemsWithOrderDetails", Model.orderdetails) *@
                 </div>
             }
         </div>
     </div>
-
-
 </div>
 
 <partial name="_ValidationScriptsPartial" />

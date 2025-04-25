@@ -1,38 +1,40 @@
 @using DAL.ViewModels;
-@model OrderDetailViewModel
+@model OrderDetailViewModel;
 
-@if (Model != null)
-{
-    <div class="d-flex justify-content-between">
+@{
+    var count = 0;
+
+    <div class="d-flex justify-content-between p-1">
         <div class="d-flex">
-            <img src="/images/tables.png" width="40px" height="40px" alt="">
-            <span class="d-flex flex-column fs-6 ms-2"><span style="max-width: fit-content;">@Model.SectionName </span><span
-                    class="fw-bold" style="max-width: fit-content;">Table:
+            <img src="../images/icons/dinner-table.svg" width="40px" height="40px" alt="Image" style="background-color: #cbe4f3 !important;" class="p-1 rounded-1" >
+            <span class="d-flex flex-column fs-6 ms-2">
+                <span style="max-width: fit-content;">@Model.SectionName </span>
+                <span class="fw-bold pt-2" style="max-width: fit-content;">Table : 
                     @for (int i = 0; i < Model.tableList.Count; i++)
                     {
-                        <span> @Model.tableList[i].TableName</span>
+                        <span class="fw-normal text-secondary"> @Model.tableList[i].TableName</span>
                         if (i < Model.tableList.Count - 1)
                         {
-                            <span>,</span>
+                            <span class="fw-normal text-secondary">,</span>
                         }
                     }
                 </span>
             </span>
         </div>
-        <div>
-            <div class="btn hollow-btn px-2" onclick="showQrCodeModal()" data-bs-toggle="modal"
-                data-bs-target="#QRCodeModal"><i class="fa-solid fa-qrcode mt-1"></i></div>
-            <div class="btn hollow-btn px-2 ms-2" data-bs-toggle="modal" data-bs-target="#CustomerDetails"><i
-                    class="fa-solid fa-user mt-1"></i></div>
-            <div class="btn hollow-btn px-2 ms-2" data-bs-toggle="modal" data-bs-target="#orderComment"><i
-                    class="fa-solid fa-message mt-1"></i></div>
+        <div class="d-flex gap-2">
+            <div class="btn hollow-btn px-2" data-bs-toggle="modal" style="width: 38px !important;"
+                data-bs-target="#QRCodeModal"><i class="fa-solid fa-qrcode pt-1 fs-5"></i></div>
+            <div class="btn hollow-btn px-2" data-bs-toggle="modal" data-bs-target="#CustomerDetails" style="width: 38px !important;"><i
+                    class="fa-solid fa-user pt-1 fs-5"></i></div>
+            <div class="btn hollow-btn px-2" data-bs-toggle="modal" data-bs-target="#orderComment" style="width: 38px !important;"><i
+                    class="fa-solid fa-message pt-1 fs-5"></i></div>
         </div>
     </div>
 
     <div class="table-responsive">
         <table class="table" style="border-collapse: separate; border-spacing: 0px 10px;">
             <thead>
-                <tr>
+                <tr class="fw-bold text-black-50 fs-6">
                     <td>Item</td>
                     <td>Quantity</td>
                     <td>Amount</td>
@@ -40,92 +42,115 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.itemOrderVM)
+                @if (Model.itemOrderVM == null)
                 {
-                    <tr class="border-secondary  ">
-                        <td class="border-1 border-end-0"
-                            style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
-                            <div class="accordion-item border-0 rounded-0 ">
-                                <div class="accordion">
-                                    <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between">
-                                        <div class="d-flex align-items-center w-100 me-4 me-sm-0">
-                                            <button class="accordion-button col-auto w-auto collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#TableMainBodyID-@item.ItemId"
-                                                aria-expanded="false" aria-controls="TableMainBodyID-@item.ItemId"
-                                                style="margin: 0px !important">
-                                            </button>
-                                            <div class="d-flex justify-content-between align-items-center w-100 text-nowrap ps-2"
-                                                style="overflow: auto;">
-                                                <div class="">@item.ItemName</div>
+                    <tr>
+                        <td colspan="4" class="text-center">No Order Found</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model.itemOrderVM)
+                    {
+                        <tr class="border">
+                            <td class="border border-1 border-end-0"
+                                style="border-top-left-radius: 10px !important; border-bottom-left-radius: 10px !important;">
+                                <div class="accordion-item border-0 rounded-0 ">
+                                    <div class="accordion">
+                                        <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between">
+                                            <div class="d-flex align-items-center w-100 me-4 me-sm-0">
+                                                <button class="accordion-button col-auto w-auto collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#TableMainBodyID-@item.ItemId-@count"
+                                                    aria-expanded="false" aria-controls="TableMainBodyID-@item.ItemId-@count"
+                                                    style="margin: 0px !important">
+                                                </button>
+                                                <div class="d-flex justify-content-between align-items-center w-100 text-nowrap ps-2">
+                                                    <div class="">@item.ItemName</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div id="TableMainBodyID-@item.ItemId" class="accordion-collapse collapse my-3">
+                                <div id="TableMainBodyID-@item.ItemId-@count" class="accordion-collapse collapse my-3">
+                                    @foreach (var modifier in item.modifierOrderVM)
+                                    {
+                                        <li>@modifier.ModifierName</li>
+                                    }
+                                </div>
+                            </td>
+                            <td class="border border-1 border-end-0 border-start-0">
+                                <div class="p-2 border rounded d-flex align-items-center"
+                                    style="max-width: fit-content; height: 30px;">
+                                    @if (item.status == "Pending")
+                                    {
+                                        <div class="me-4 minus" onclick="Minus(this)" style="cursor: pointer;">-</div>
+                                        <span>@item.Quantity</span>
+                                        <div class="ms-4 plus" onclick="Plus(this)" style="cursor: pointer;">+</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="me-4" style="cursor: pointer;" onclick="PrintToaster()">-</div>
+                                        <span>@item.Quantity</span>
+                                        <div class="ms-4" style="cursor: pointer;" onclick="PrintToaster()">+</div>
+                                    }
+
+                                </div>
+                            </td>
+                            <td class="border border-1 border-start-0 border-end-0">
+                                <div class="d-flex align-items-center mb-3" style="height: 30px;">
+                                    <div>₹@item.TotalItemAmount</div>
+
+                                </div>
                                 @foreach (var modifier in item.modifierOrderVM)
                                 {
-                                    <li>@modifier.ModifierName</li>
+                                    <div id="TableMainBodyID-@item.ItemId-@count" class="accordion-collapse collapse ">
+                                        ₹@modifier.TotalModifierAmount
+                                    </div>
                                 }
-                            </div>
-                        </td>
-                        <td class="border-1 border-end-0 border-start-0">
-                            <div class="p-2 border rounded d-flex align-items-center"
-                                style="max-width: fit-content; height: 30px;">
-                                <div class="me-4" style="cursor: pointer;">-</div>
-                                <span>1</span>
-                                <div class="ms-4" style="cursor: pointer;">+</div>
-                            </div>
-                        </td>
-                        <td class="border-1 border-start-0 border-end-0">
-                            <div class="d-flex align-items-center mb-3" style="height: 30px;">
-                                <div>₹@item.TotalItemAmount</div>
-
-                            </div>
-                            @foreach (var modifier in item.modifierOrderVM)
-                            {
-                                <div id="TableMainBodyID-@item.ItemId" class="accordion-collapse collapse ">
-                                    ₹@modifier.TotalModifierAmount
+                            </td>
+                            <td class="border border-1 border-start-0 "
+                                style="border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
+                                <div class=" ps-5">
+                                    @if (item.status == "Pending")
+                                    {
+                                        <i class="fa-solid fa-trash-can" onclick="RemoveItemFromOrder(@item.ItemId,@count)"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-solid fa-trash-can text-secondary" onclick="PrintToaster()"></i>
+                                    }
                                 </div>
-                            }
-                        </td>
-                        <td class="border-1 border-start-0 "
-                            style="border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
-                            <div class=" ps-5">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                        count++;
+                    }
                 }
             </tbody>
         </table>
     </div>
 
 
-    <div>Accordians</div>
+    @* <div>Accordians</div> *@
 
-    <div>
-        <div class="d-flex justify-content-between ">
-            <div class="fs-5">SubTotal</div>
-            <div class="fs-5">₹@Model.SubTotalAmountOrder</div>
-        </div>
-
-        @foreach (var tax in Model.taxInvoiceVM)
-        {
+    <div class="p-1">
+        @if(Model.itemOrderVM != null){
             <div class="d-flex justify-content-between ">
-                <div>@tax.TaxName</div>
-                <div>₹@tax.TaxValue</div>
+                <div class="fs-5">SubTotal</div>
+                <div class="fs-5">₹@Model.SubTotalAmountOrder</div>
             </div>
         }
-        <div class="d-flex justify-content-between ">
-            <div>GST</div>
-            <div>123.00</div>
-        </div>
+        
+        @if (Model.taxInvoiceVM != null)
+        {
+            @foreach (var tax in Model.taxInvoiceVM)
+            {
+                <div class="d-flex justify-content-between ">
+                    <div>@tax.TaxName</div>
+                    <div>₹@tax.TaxValue</div>
+                </div>
+            }
+        
 
-        <div class="d-flex justify-content-between ">
-            <div>Other</div>
-            <div>123.00</div>
-        </div>
 
         <div class="d-flex justify-content-between ">
             <div><input type="checkbox" name="" id="">SGST</div>
@@ -133,9 +158,9 @@
 
         <div class="d-flex justify-content-between ">
             <div class="fs-5"> Total</div>
-            <div class="fs-5">@Model.TotalAmountOrder</div>
+            <div class="fs-5"> ₹@Model.TotalAmountOrder</div>
         </div>
-
+}
         <div class="d-flex justify-content-between flex-column flex-sm-row">
             <div class=""> Payment Method</div>
             <div class="d-flex justify-content-end text-nowrap">
@@ -155,8 +180,8 @@
             <div class="btn hollow-btn " style="width: 150px;">Cancel</div>
         </div>
     </div>
-
 }
+
 
 <!-- modal-->
 <!--QR code modal -->
@@ -239,6 +264,54 @@
     </div>
 </div>
 
+
+
+
 <script>
-    function showQrCodeModal(){}
+    @* var AllItemsArray = []; *@
+        function showQrCodeModal() {
+
+        }
+
+    @* function FillAlreadySavedDataInArray(orderDetails){
+        var AllItems = orderDetails.itemsInOrderDetails;
+        for(i=0; i<AllItems.length; i++){
+            var item = [];
+            item.push(parseInt(AllItems[i].itemId));
+            item.push(parseInt(AllItems[i].quantity));
+
+            for(j=0; j<AllItems[i].modifiersInItemInvoice.length; j++){
+                item.push(parseInt(AllItems[i].modifiersInItemInvoice[j].modifierId));
+            }
+            console.log(item);
+            AllItemsArray.push(item);
+        }
+        console.log("all",AllItemsArray)
+    }*@
+
+        function PrintToaster() {
+            errorToaster("Sorry order is almost Ready");
+        }
+
+    function Minus(tag) {
+        console.log(tag.nextElementSibling.innerHTML, "askjdhakshgash");
+        tag.nextElementSibling.innerHTML = parseInt(tag.nextElementSibling.innerHTML) - 1;
+        if (parseInt(tag.nextElementSibling.innerHTML) < 0) {
+            tag.nextElementSibling.innerHTML = 0;
+        }
+    }
+
+    function Plus(tag) {
+        tag.previousElementSibling.innerHTML = parseInt(tag.previousElementSibling.innerHTML) + 1;
+    }
+
+
+    $(document).ready(function () {
+        var orderDetails = @Html.Raw(Json.Serialize(Model));
+        console.log(orderDetails);
+        FillAlreadySavedDataInArray(orderDetails);
+    })
+
+
+
 </script>

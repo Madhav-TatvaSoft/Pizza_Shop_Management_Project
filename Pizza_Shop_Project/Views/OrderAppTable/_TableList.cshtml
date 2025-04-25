@@ -10,8 +10,7 @@ else
     @foreach (var table in Model)
     {
         <div class="table-card card border border-1 rounded-2" style="width: 270px;" data-capacity="@table.Capacity"
-            data-sec="@table.SectionId" @(table.Status == "Available" ? "onclick=SelectTable(this)" :
-    "onclick=OpenMenuFromTable(this)")>
+            data-sec="@table.SectionId" @(table.Status == "Available" ? "onclick=SelectTable(this)" : "onclick=OpenMenuFromTable(this)")>
             <div class="d-none">@table.TableId</div>
             <div class="d-none">@table.SectionId</div>
             <div
@@ -109,13 +108,9 @@ else
             type: "GET",
             data: { tableId },
             success: function (data) {
-                console.log(data.customerId);
                 customerId = data.customerId;
-                console.log("cust", customerId);
                 var MenuBtn = document.getElementById("MenuButtonOrderApp")
-                console.log("pela", MenuBtn);
                 MenuBtn.setAttribute("href", `/OrderAppMenu/OrderAppMenu?customerId=${customerId}`)
-                console.log("pachi", MenuBtn);
                 MenuBtn.click();
             }
         });

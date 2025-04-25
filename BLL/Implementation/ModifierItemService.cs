@@ -9,15 +9,11 @@ public class ModifierItemService : IModifierItemService
 {
     private readonly PizzaShopDbContext _context;
 
-    #region Constructor
     public ModifierItemService(PizzaShopDbContext context)
     {
         _context = context;
     }
 
-    #endregion
-
-    #region Add Modifier
     public async Task<bool> AddModifierItem(AddModifierViewModel addModifierVM, long userId)
     {
         if (addModifierVM == null)
@@ -39,9 +35,7 @@ public class ModifierItemService : IModifierItemService
         return true;
 
     }
-    #endregion
 
-    #region Get Modifiers By ModifierId
     public AddModifierViewModel GetModifiersByModifierId(long modid)
     {
         Modifier? modifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.Isdelete == false);
@@ -57,9 +51,7 @@ public class ModifierItemService : IModifierItemService
         }
         return addModifierVM;
     }
-    #endregion
 
-    #region Edit Modifier
     public async Task<bool> EditModifierItem(AddModifierViewModel editModifierVM, long userId)
     {
         if (editModifierVM.ModifierGrpId == null)
@@ -88,9 +80,7 @@ public class ModifierItemService : IModifierItemService
             return true;
         }
     }
-    #endregion
 
-    #region Delete Modifier
     public async Task<bool> DeleteModifier(long modid)
     {
         Modifier? modofierToDelete = _context.Modifiers.FirstOrDefault(x => x.ModifierId == modid && x.Isdelete == false);
@@ -104,9 +94,7 @@ public class ModifierItemService : IModifierItemService
         }
         return false;
     }
-    #endregion
 
-    #region Check If Exists
     public bool IsModifierExistForAdd(AddModifierViewModel ModifierVM)
     {
         return _context.Modifiers.Any(x => x.ModifierName.ToLower().Trim() == ModifierVM.ModifierName.ToLower().Trim() && x.ModifierGrpId == ModifierVM.ModifierGrpId && !x.Isdelete);
@@ -116,5 +104,4 @@ public class ModifierItemService : IModifierItemService
         return _context.Modifiers.Any(x => x.ModifierId != ModifierVM.ModifierId && x.ModifierName.ToLower().Trim() == ModifierVM.ModifierName.ToLower().Trim() && x.ModifierGrpId == ModifierVM.ModifierGrpId && !x.Isdelete);
     }
 
-    #endregion
 }
