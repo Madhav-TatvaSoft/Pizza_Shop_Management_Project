@@ -5,7 +5,7 @@
 {
     @foreach (var item in Model)
     {
-        <div class="d-flex mt-2 bg-white shadow-sm"  onclick="ModifiersByItemSelected(this)" data-itemname="@item.ItemName"
+        <div class="d-flex mt-2 bg-white shadow-sm" onclick="ModifiersByItemSelected(this)" data-itemname="@item.ItemName"
             data-itemId="@item.ItemId" style=" width: 260px !important; border-radius: 0.7rem !important;">
             <div style="max-width: fit-content;  border-radius: 0.7rem !important; z-index: 3; ">
                 <div class="d-flex justify-content-center align-items-center shadow-lg"
@@ -55,7 +55,9 @@ else
             type: "GET",
             data: { itemId: itemId },
             success: function (data) {
-                console.log(data);
+                @* console.log(data); *@
+                data += `<input type="hidden" id="itemIdForOrderDetails" value=${itemId}>`
+
                 $("#ModifiersByItemId-Content").html(data);
                 $("#itemName").html(itemName);
                 $("#ModifiersByItemId").modal("show");

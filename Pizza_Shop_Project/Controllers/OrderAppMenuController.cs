@@ -2,6 +2,7 @@ using BLL.Interface;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Pizza_Shop_Project.Authorization;
 
 namespace Pizza_Shop_Project.Controllers;
@@ -73,6 +74,24 @@ public class OrderAppMenuController : Controller
         OrderDetailViewModel orderDetailVM = new();
         orderDetailVM = _orderAppMenuService.GetOrderDetailsByCustomerId(customerId);
         return PartialView("_MenuItemsOrderDetailPartial", orderDetailVM);
+    }
+
+    public async Task<IActionResult> UpdateOrderDetailPartialView(string ItemList, string orderDetails)
+    {
+        List<List<int>> itemList = JsonConvert.DeserializeObject<List<List<int>>>(ItemList);
+        OrderDetailViewModel orderDetailvm = JsonConvert.DeserializeObject<OrderDetailViewModel>(orderDetails);
+        OrderDetailViewModel orderDetailsvm = await _orderAppMenuService.UpdateOrderDetailPartialView(itemList, orderDetailvm);
+
+        return PartialView("_MenuItemsOrderDetailPartial", orderDetailsvm);
+    }
+
+    public async Task<IActionResult> RemoveItemfromOrderDetailPartialView(string ItemList, int count, string orderDetails)
+    {
+        List<List<int>> itemList = JsonConvert.DeserializeObject<List<List<int>>>(ItemList);
+        OrderDetailViewModel orderDetailvm = JsonConvert.DeserializeObject<OrderDetailViewModel>(orderDetails);
+        OrderDetailViewModel orderDetailsvm = await _orderAppMenuService.RemoveItemfromOrderDetailPartialView(itemList, count, orderDetailvm);
+
+        return PartialView("_MenuItemsOrderDetailPartial", orderDetailsvm);
     }
 
 }
@@ -164,22 +183,22 @@ public class OrderAppMenuController : Controller
 
 
 
-    // #region UpdateOrderDetailPartialView
-    // public async Task<IActionResult> UpdateOrderDetailPartialView(string ItemList, string orderDetails){
-    //     List<List<int>> itemList = JsonConvert.DeserializeObject<List<List<int>>>(ItemList);
-    //     OrderDetaIlsInvoiceViewModel orderDetailvm = JsonConvert.DeserializeObject<OrderDetaIlsInvoiceViewModel>(orderDetails);
-    //     OrderDetaIlsInvoiceViewModel orderDetailsvm =await _orderAppMenuService.UpdateOrderDetailPartialView(itemList,orderDetailvm );
+// #region UpdateOrderDetailPartialView
+// public async Task<IActionResult> UpdateOrderDetailPartialView(string ItemList, string orderDetails){
+//     List<List<int>> itemList = JsonConvert.DeserializeObject<List<List<int>>>(ItemList);
+//     OrderDetaIlsInvoiceViewModel orderDetailvm = JsonConvert.DeserializeObject<OrderDetaIlsInvoiceViewModel>(orderDetails);
+//     OrderDetaIlsInvoiceViewModel orderDetailsvm =await _orderAppMenuService.UpdateOrderDetailPartialView(itemList,orderDetailvm );
 
-    //     return PartialView("_MenuItemsWithOrderDetails",orderDetailsvm);
-    // }
-    // #endregion
+//     return PartialView("_MenuItemsWithOrderDetails",orderDetailsvm);
+// }
+// #endregion
 
-    // #region RemoveItemfromOrderDetailPartialView
-    // public async Task<IActionResult> RemoveItemfromOrderDetailPartialView(string ItemList, int count, string orderDetails){
-    //     List<List<int>> itemList = JsonConvert.DeserializeObject<List<List<int>>>(ItemList);
-    //     OrderDetaIlsInvoiceViewModel orderDetailvm = JsonConvert.DeserializeObject<OrderDetaIlsInvoiceViewModel>(orderDetails);
-    //     OrderDetaIlsInvoiceViewModel orderDetailsvm =await _orderAppMenuService.RemoveItemfromOrderDetailPartialView(itemList, count ,orderDetailvm);
+// #region RemoveItemfromOrderDetailPartialView
+// public async Task<IActionResult> RemoveItemfromOrderDetailPartialView(string ItemList, int count, string orderDetails){
+//     List<List<int>> itemList = JsonConvert.DeserializeObject<List<List<int>>>(ItemList);
+//     OrderDetaIlsInvoiceViewModel orderDetailvm = JsonConvert.DeserializeObject<OrderDetaIlsInvoiceViewModel>(orderDetails);
+//     OrderDetaIlsInvoiceViewModel orderDetailsvm =await _orderAppMenuService.RemoveItemfromOrderDetailPartialView(itemList, count ,orderDetailvm);
 
-    //     return PartialView("_MenuItemsWithOrderDetails",orderDetailsvm);
-    // }
-    // #endregion
+//     return PartialView("_MenuItemsWithOrderDetails",orderDetailsvm);
+// }
+// #endregion

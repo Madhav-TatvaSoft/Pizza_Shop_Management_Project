@@ -171,7 +171,7 @@ public class OrderAppMenuService : IOrderAppMenuService
             foreach (var tax in taxedetails)
             {
 
-                if (tax.Tax.TaxType == "Fix Amount")
+                if (tax.Tax.TaxType == "Flat Amount")
                 {
                     orderDetailsvm.taxInvoiceVM.Add(
                         new TaxInvoiceViewModel
@@ -202,4 +202,132 @@ public class OrderAppMenuService : IOrderAppMenuService
         }
         return orderDetailsvm;
     }
+
+    #region UpdateOrderDetailPartialView
+    public async Task<OrderDetailViewModel> UpdateOrderDetailPartialView(List<List<int>> itemList, OrderDetailViewModel orderDetailsvm)
+    {
+        OrderDetailViewModel orderdetails = orderDetailsvm;
+
+        if (orderdetails.itemOrderVM == null)
+        {
+            orderdetails.itemOrderVM = new();
+        }
+        for (int k = orderdetails.itemOrderVM.Count; k < itemList.Count; k++)
+        {
+            long itemId = itemList[k][0];
+
+            ItemOrderViewModel? itemdata = _context.Items.Where(x => x.ItemId == itemId && x.Isdelete == false)
+                                                    .Select(i => new ItemOrderViewModel
+                                                    {
+                                                        ItemId = i.ItemId,
+                                                        ItemName = i.ItemName,
+                                                        Rate = i.Rate,
+                                                        status = "Pending",
+                                                        Quantity = itemList[k][1] >= 1 ? itemList[k][1] : 1,
+                                                        TotalItemAmount = Math.Round((decimal)(i.Rate * i.Quantity), 2)
+                                                    }).First();
+            itemdata.modifierOrderVM = new();
+            for (int j = 2; j < itemList[k].Count; j++)
+            {
+                Modifier modifier = await _context.Modifiers.FirstOrDefaultAsync(x => x.ModifierId == itemList[k][j] && x.Isdelete == false);
+                ModifierorderViewModel mod = new();
+                mod.ModifierId = modifier.ModifierId;
+                mod.ModifierName = modifier.ModifierName;
+                mod.Rate = modifier.Rate;
+                mod.TotalModifierAmount = Math.Round((decimal)(modifier.Rate * itemdata.Quantity), 2);
+                itemdata.modifierOrderVM.Add(mod);
+            }
+            orderdetails.itemOrderVM.Add(itemdata);
+
+        }
+        orderdetails.SubTotalAmountOrder = Math.Round((decimal)orderdetails.itemOrderVM
+                                                   .Sum(x => x.TotalItemAmount + x.modifierOrderVM.Sum(x => x.TotalModifierAmount)), 2);
+        var taxedetails = _context.Taxes
+        .Where(x => x.Isdelete == false).ToList();
+
+        orderdetails.taxInvoiceVM = new List<TaxInvoiceViewModel>();
+        foreach (var tax in taxedetails)
+        {
+            if (tax.TaxType == "Flat Amount")
+            {
+                orderdetails.taxInvoiceVM.Add(
+                    new TaxInvoiceViewModel
+                    {
+                        TaxId = tax.TaxId,
+                        TaxName = tax.TaxName,
+                        TaxType = tax.TaxType,
+                        TaxValue = tax.TaxValue
+                    }
+                );
+            }
+            else
+            {
+                orderdetails.taxInvoiceVM.Add(
+                    new TaxInvoiceViewModel
+                    {
+                        TaxId = tax.TaxId,
+                        TaxName = tax.TaxName,
+                        TaxType = tax.TaxType,
+                        TaxValue = Math.Round(tax.TaxValue / 100 * orderdetails.SubTotalAmountOrder, 2)
+                    }
+                );
+            }
+        }
+        orderdetails.TotalAmountOrder = orderdetails.SubTotalAmountOrder + orderdetails.taxInvoiceVM.Sum(x => x.TaxValue);
+        return orderdetails;
+    }
+    #endregion
+
+    #region RemoveItemfromOrderDetailPartialView
+    public async Task<OrderDetailViewModel> RemoveItemfromOrderDetailPartialView(List<List<int>> itemList, int count, OrderDetailViewModel orderDetails)
+    {
+        OrderDetailViewModel orderdetails = orderDetails;
+        ItemOrderViewModel item = orderDetails.itemOrderVM[count];
+        orderDetails.itemOrderVM.Remove(item);
+        orderdetails.SubTotalAmountOrder = Math.Round((decimal)orderdetails.itemOrderVM
+                                                   .Sum(x => x.TotalItemAmount + x.modifierOrderVM.Sum(x => x.TotalModifierAmount)), 2);
+        if (orderDetails.SubTotalAmountOrder == 0)
+        {
+            orderDetails.itemOrderVM = null;
+            orderDetails.taxInvoiceVM = null;
+            orderDetails.TotalAmountOrder = orderdetails.SubTotalAmountOrder + orderdetails.taxInvoiceVM.Sum(x => x.TaxValue);
+            return orderDetails;
+        }
+        var taxedetails = _context.Taxes
+        .Where(x => x.Isdelete == false).ToList();
+
+        orderdetails.taxInvoiceVM = new List<TaxInvoiceViewModel>();
+        foreach (var tax in taxedetails)
+        {
+            if (tax.TaxType == "Flat Amount")
+            {
+                orderdetails.taxInvoiceVM.Add(
+                    new TaxInvoiceViewModel
+                    {
+                        TaxId = tax.TaxId,
+                        TaxName = tax.TaxName,
+                        TaxType = tax.TaxType,
+                        TaxValue = tax.TaxValue
+                    }
+                );
+            }
+            else
+            {
+                orderdetails.taxInvoiceVM.Add(
+                    new TaxInvoiceViewModel
+                    {
+                        TaxId = tax.TaxId,
+                        TaxName = tax.TaxName,
+                        TaxType = tax.TaxType,
+                        TaxValue = Math.Round(tax.TaxValue / 100 * orderdetails.SubTotalAmountOrder, 2)
+                    }
+                );
+            }
+        }
+        orderdetails.TotalAmountOrder = orderdetails.SubTotalAmountOrder + orderdetails.taxInvoiceVM.Sum(x => x.TaxValue);
+        return orderdetails;
+    }
+    #endregion
+
+
 }

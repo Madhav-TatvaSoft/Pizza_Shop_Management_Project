@@ -152,9 +152,7 @@
         
 
 
-        <div class="d-flex justify-content-between ">
-            <div><input type="checkbox" name="" id="">SGST</div>
-        </div>
+        
 
         <div class="d-flex justify-content-between ">
             <div class="fs-5"> Total</div>
@@ -268,32 +266,11 @@
 
 
 <script>
-    @* var AllItemsArray = []; *@
-        function showQrCodeModal() {
-
+     function PrintToaster() {
+            callErrorToaster("Sorry order is almost Ready");
         }
 
-    @* function FillAlreadySavedDataInArray(orderDetails){
-        var AllItems = orderDetails.itemsInOrderDetails;
-        for(i=0; i<AllItems.length; i++){
-            var item = [];
-            item.push(parseInt(AllItems[i].itemId));
-            item.push(parseInt(AllItems[i].quantity));
-
-            for(j=0; j<AllItems[i].modifiersInItemInvoice.length; j++){
-                item.push(parseInt(AllItems[i].modifiersInItemInvoice[j].modifierId));
-            }
-            console.log(item);
-            AllItemsArray.push(item);
-        }
-        console.log("all",AllItemsArray)
-    }*@
-
-        function PrintToaster() {
-            errorToaster("Sorry order is almost Ready");
-        }
-
-    function Minus(tag) {
+    @* function Minus(tag) {
         console.log(tag.nextElementSibling.innerHTML, "askjdhakshgash");
         tag.nextElementSibling.innerHTML = parseInt(tag.nextElementSibling.innerHTML) - 1;
         if (parseInt(tag.nextElementSibling.innerHTML) < 0) {
@@ -303,15 +280,13 @@
 
     function Plus(tag) {
         tag.previousElementSibling.innerHTML = parseInt(tag.previousElementSibling.innerHTML) + 1;
-    }
+    } *@
 
 
     $(document).ready(function () {
         var orderDetails = @Html.Raw(Json.Serialize(Model));
-        console.log(orderDetails);
+        @* console.log(orderDetails); *@
         FillAlreadySavedDataInArray(orderDetails);
     })
-
-
 
 </script>

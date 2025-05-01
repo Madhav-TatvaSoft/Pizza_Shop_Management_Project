@@ -97,6 +97,10 @@
 <partial name="_Toaster" />
 
 @section scripts {
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
     <script>
         var categoryid;
 
@@ -170,15 +174,79 @@
         // Get OrderDetails By Customer Id
         function GetOrderDetailsByCustomerId() {
             var customerId = document.getElementById("customerId").innerHTML;
-            console.log(customerId);
-            $.ajax({
-                url: "/OrderAppMenu/GetOrderDetailsByCustomerId",
-                type: "GET",
-                data: { customerId: customerId },
-                success: function (data) {
-                    $("#OrderDetails-Content").html(data);
+        @* console.log(customerId); *@
+                $.ajax({
+                    url: "/OrderAppMenu/GetOrderDetailsByCustomerId",
+                    type: "GET",
+                    data: { customerId: customerId },
+                    success: function (data) {
+                        $("#OrderDetails-Content").html(data);
+                    }
+                })
+        }
+
+        //backend order items save in array
+        function FillAlreadySavedDataInArray(orderDetails) {
+            orderDetailsModel = orderDetails;
+        @* console.log(orderDetailsModel,"details") *@
+                var AllItems = [];
+            AllItemsArray = [];
+            AllItems = orderDetails.itemOrderVM == null ? [] : orderDetails.itemOrderVM;
+        @* console.log(AllItems.length,"allitems array") *@
+                for (i = 0; i < AllItems.length; i++) {
+                var item = [];
+                item.push(parseInt(AllItems[i].itemId));
+                item.push(parseInt(AllItems[i].quantity));
+
+                for (j = 0; j < AllItems[i].modifierOrderVM.length; j++) {
+                    item.push(parseInt(AllItems[i].modifierOrderVM[j].modifierId));
                 }
-            })
+        console.log(item,"items");
+                    AllItemsArray.push(item);
+            }
+        console.log("all", AllItemsArray)
+            }
+
+        function AddItemModifierToList() {
+            var selectedModifiers = document.getElementsByClassName("modifierSelected");
+            console.log(selectedModifiers[0].getAttribute("data-modifierId"));
+        @* console.log("yes") *@
+        @* console.log(selectedModifiers) *@
+                var itemId = document.getElementById("itemIdForOrderDetails").value;
+        @* console.log("itemid", itemId) *@
+                var item = [];
+
+            for (i = 0; i < selectedModifiers.length; i++) {
+                item.push(parseInt(selectedModifiers[i].getAttribute("data-modifierId")));
+            }
+            item.sort();
+            item.unshift(1);
+            item.unshift(parseInt(itemId))
+        console.log(item,"addedded")
+                AllItemsArray.push(item)
+        console.log("allitem", AllItemsArray)
+                $.ajax({
+                    url: "/OrderAppMenu/UpdateOrderDetailPartialView",
+                    type: "GET",
+                    data: { ItemList: JSON.stringify(AllItemsArray), orderDetails: JSON.stringify(orderDetailsModel) },
+                    success: function (data) {
+                        $("#OrderDetails-Content").html(data);
+                    }
+                })
+            $(".btn-close").click();
+        }
+
+        function RemoveItemFromOrder(itemId, count) {
+            AllItemsArray.splice(count, 1);
+        @* console.log(AllItemsArray) *@
+                $.ajax({
+                    url: "/OrderAppMenu/RemoveItemfromOrderDetailPartialView",
+                    type: "GET",
+                    data: { ItemList: JSON.stringify(AllItemsArray), count, orderDetails: JSON.stringify(orderDetailsModel) },
+                    success: function (data) {
+                        $("#OrderDetails-Content").html(data);
+                    }
+                })
         }
 
         $(document).ready(function () {
@@ -188,5 +256,4 @@
 
         });
     </script>
-
 }

@@ -28,9 +28,9 @@
 
                             @foreach (var modifier in modgrp.modifiersList)
                             {
-                                <div class="col-auto d-flex gap-2 modifiers"
+                                <div class="col-auto d-flex gap-2 modifiers" 
                                     onclick="ModifierSelected(this,@modgrp.Maxmodifier,@modgrp.ModifierGrpId)">
-                                    <div style=" height: 65px; min-width: 150px; border-radius: 0.7rem !important;  border:1px solid rgb(197, 197, 197)"
+                                    <div style=" height: 65px; min-width: 150px; border-radius: 0.7rem !important;  border:1px solid rgb(197, 197, 197)" data-modifierId="@modifier.ModifierId"
                                         class="bg-white d-flex justify-content-between">
 
                                         <div class="ps-2 py-2 d-flex flex-column justify-content-between">
@@ -57,7 +57,7 @@
         </div>
     </div>
     <div class="modal-footer d-flex justify-content-end">
-        <button type="submit" class="btn solid-btn">Add</button>
+        <button type="submit" class="btn solid-btn" onclick="AddItemModifierToList()">Add</button>
         <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Close</button>
     </div>
 </div>
