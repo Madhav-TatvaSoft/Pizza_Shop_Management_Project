@@ -11,5 +11,7 @@ public class OrderAppMenuViewModel
     public List<ItemModifierViewModel> modifirsByItemList { get; set; }
 
     public OrderDetailViewModel orderDetails { get; set; }
+
+    public CustomerViewModel customerDetails { get; set; }
     
 }

@@ -6,10 +6,11 @@
 
     <div class="d-flex justify-content-between p-1">
         <div class="d-flex">
-            <img src="../images/icons/dinner-table.svg" width="40px" height="40px" alt="Image" style="background-color: #cbe4f3 !important;" class="p-1 rounded-1" >
+            <img src="../images/icons/dinner-table.svg" width="40px" height="40px" alt="Image"
+                style="background-color: #cbe4f3 !important;" class="p-1 rounded-1">
             <span class="d-flex flex-column fs-6 ms-2">
                 <span style="max-width: fit-content;">@Model.SectionName </span>
-                <span class="fw-bold pt-2" style="max-width: fit-content;">Table : 
+                <span class="fw-bold pt-2" style="max-width: fit-content;">Table :
                     @for (int i = 0; i < Model.tableList.Count; i++)
                     {
                         <span class="fw-normal text-secondary"> @Model.tableList[i].TableName</span>
@@ -24,10 +25,10 @@
         <div class="d-flex gap-2">
             <div class="btn hollow-btn px-2" data-bs-toggle="modal" style="width: 38px !important;"
                 data-bs-target="#QRCodeModal"><i class="fa-solid fa-qrcode pt-1 fs-5"></i></div>
-            <div class="btn hollow-btn px-2" data-bs-toggle="modal" data-bs-target="#CustomerDetails" style="width: 38px !important;"><i
-                    class="fa-solid fa-user pt-1 fs-5"></i></div>
-            <div class="btn hollow-btn px-2" data-bs-toggle="modal" data-bs-target="#orderComment" style="width: 38px !important;"><i
-                    class="fa-solid fa-message pt-1 fs-5"></i></div>
+            <div class="btn hollow-btn px-2" data-bs-toggle="modal" data-bs-target="#CustomerDetails"
+                style="width: 38px !important;"><i class="fa-solid fa-user pt-1 fs-5"></i></div>
+            <div class="btn hollow-btn px-2" data-bs-toggle="modal" data-bs-target="#orderComment"
+                style="width: 38px !important;"><i class="fa-solid fa-message pt-1 fs-5"></i></div>
         </div>
     </div>
 
@@ -53,6 +54,7 @@
                     @foreach (var item in Model.itemOrderVM)
                     {
                         <tr class="border">
+
                             <td class="border border-1 border-end-0"
                                 style="border-top-left-radius: 10px !important; border-bottom-left-radius: 10px !important;">
                                 <div class="accordion-item border-0 rounded-0 ">
@@ -64,7 +66,9 @@
                                                     aria-expanded="false" aria-controls="TableMainBodyID-@item.ItemId-@count"
                                                     style="margin: 0px !important">
                                                 </button>
-                                                <div class="d-flex justify-content-between align-items-center w-100 text-nowrap ps-2">
+                                                <div class="d-flex justify-content-between align-items-center w-100 text-nowrap ps-2"
+                                                    onclick="ShowItemInstruction(this,@count)" data-bs-toggle="modal"
+                                                    data-bs-target="#ItemInstructionModal">
                                                     <div class="">@item.ItemName</div>
                                                 </div>
                                             </div>
@@ -72,9 +76,16 @@
                                     </div>
                                 </div>
                                 <div id="TableMainBodyID-@item.ItemId-@count" class="accordion-collapse collapse my-3">
-                                    @foreach (var modifier in item.modifierOrderVM)
+                                    @if (item.modifierOrderVM.Count == 0)
                                     {
-                                        <li>@modifier.ModifierName</li>
+                                        <div class="text-black-50 validate ps-4">No modifiers added</div>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var modifier in item.modifierOrderVM)
+                                        {
+                                            <li>@modifier.ModifierName</li>
+                                        }
                                     }
                                 </div>
                             </td>
@@ -83,9 +94,9 @@
                                     style="max-width: fit-content; height: 30px;">
                                     @if (item.status == "Pending")
                                     {
-                                        <div class="me-4 minus" onclick="Minus(this)" style="cursor: pointer;">-</div>
+                                        <div class="me-4 minus" onclick="MinusQuantity(this,@count)" style="cursor: pointer;">-</div>
                                         <span>@item.Quantity</span>
-                                        <div class="ms-4 plus" onclick="Plus(this)" style="cursor: pointer;">+</div>
+                                        <div class="ms-4 plus" onclick="PlusQuantity(this,@count)" style="cursor: pointer;">+</div>
                                     }
                                     else
                                     {
@@ -121,6 +132,7 @@
                                     }
                                 </div>
                             </td>
+
                         </tr>
                         count++;
                     }
@@ -133,13 +145,14 @@
     @* <div>Accordians</div> *@
 
     <div class="p-1">
-        @if(Model.itemOrderVM != null){
+        @if (Model.itemOrderVM != null)
+        {
             <div class="d-flex justify-content-between ">
                 <div class="fs-5">SubTotal</div>
                 <div class="fs-5">₹@Model.SubTotalAmountOrder</div>
             </div>
         }
-        
+
         @if (Model.taxInvoiceVM != null)
         {
             @foreach (var tax in Model.taxInvoiceVM)
@@ -149,16 +162,11 @@
                     <div>₹@tax.TaxValue</div>
                 </div>
             }
-        
-
-
-        
-
-        <div class="d-flex justify-content-between ">
-            <div class="fs-5"> Total</div>
-            <div class="fs-5"> ₹@Model.TotalAmountOrder</div>
-        </div>
-}
+            <div class="d-flex justify-content-between ">
+                <div class="fs-5"> Total</div>
+                <div class="fs-5"> ₹@Model.TotalAmountOrder</div>
+            </div>
+        }
         <div class="d-flex justify-content-between flex-column flex-sm-row">
             <div class=""> Payment Method</div>
             <div class="d-flex justify-content-end text-nowrap">
@@ -205,88 +213,48 @@
 <!-- customer details-->
 <div id="CustomerDetails" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Customer Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body row">
-                <div class="form-floating  col-12 mb-3">
-                    <input type="text" class="form-control" id="Name" list="emailDatalist" placeholder="Name*">
-                    <span class="text-danger RemoveValidations" id="RemoveValidations"></span>
-                    <label for="Name"> &nbsp; Name*</label>
-                </div>
-                <div class="form-floating  col-6 mb-3">
-                    <input type="text" class="form-control" id="MobileNumber" placeholder="MobileNumber*">
-                    <span class="text-danger RemoveValidations" id="RemoveValidations"></span>
-                    <label for="MobileNumber"> &nbsp; Mobile Number*</label>
-                </div>
-                <div class="form-floating  col-6 mb-3">
-                    <input type="text" class="form-control" id="NoofPersons" placeholder="NoofPersons*">
-                    <span class="text-danger RemoveValidations" id="RemoveValidations"></span>
-                    <label for="NoofPersons"> &nbsp; No of Persons*</label>
-                </div>
-                <div class="form-floating  col-12 mb-3">
-                    <input type="text" class="form-control" id="Email" placeholder="Email*">
-                    <span class="text-danger RemoveValidations" id="RemoveValidations"></span>
-                    <label for="Email"> &nbsp; Email*</label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn solid-btn">save</button>
-                <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">cancel</button>
-            </div>
-        </div>
+        @Html.Partial("_CustomerDetailOrderPartial", Model);
     </div>
 </div>
 
-<!--- comment--->
+<!--- Order comment--->
 <div id="orderComment" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        @Html.Partial("_OrderCommentPartial", Model);
+    </div>
+</div>
+
+<!--- Item comment--->
+<div id="ItemInstructionModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-md" id="ItemInsructionModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Order Wise Comment</h5>
+                <h5 class="modal-title fs-5 fw-bold text-secondary">Special Instruction</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body row">
-                <div class="form-floating  col-12 mb-3">
-                    <textarea class="form-control" id="Comment" cols="33"></textarea>
-                    <label for="Comment"> &nbsp; Comment*</label>
+                <input type="hidden" id="ItemInstructionCount">
+                <div class="form-floating col-12 mb-3">
+                    <input type="text" class="form-control" id="ItemInstructionText" cols="33"></input>
+                    <label for="ItemInstruction" class="fw-normal"> &nbsp; Item Instruction*</label>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn solid-btn">save</button>
-                <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">cancel</button>
+                <button type="submit" class="btn solid-btn" onclick="StoreItemInstruction()">Save</button>
+                <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
 </div>
-
-
-
 
 <script>
-     function PrintToaster() {
-            callErrorToaster("Sorry order is almost Ready");
-        }
-
-    @* function Minus(tag) {
-        console.log(tag.nextElementSibling.innerHTML, "askjdhakshgash");
-        tag.nextElementSibling.innerHTML = parseInt(tag.nextElementSibling.innerHTML) - 1;
-        if (parseInt(tag.nextElementSibling.innerHTML) < 0) {
-            tag.nextElementSibling.innerHTML = 0;
-        }
+    function PrintToaster() {
+        callErrorToaster("Sorry order is almost Ready");
     }
-
-    function Plus(tag) {
-        tag.previousElementSibling.innerHTML = parseInt(tag.previousElementSibling.innerHTML) + 1;
-    } *@
-
 
     $(document).ready(function () {
         var orderDetails = @Html.Raw(Json.Serialize(Model));
-        @* console.log(orderDetails); *@
         FillAlreadySavedDataInArray(orderDetails);
-    })
+    });
 
 </script>

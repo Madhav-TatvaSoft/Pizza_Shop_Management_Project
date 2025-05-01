@@ -103,6 +103,8 @@
 
     <script>
         var categoryid;
+        var AllItemsArray = [];
+        var orderDetailsModel;
 
         // Toggle Sidebar Category
         function toggleSidebarCategory() {
@@ -188,12 +190,12 @@
         //backend order items save in array
         function FillAlreadySavedDataInArray(orderDetails) {
             orderDetailsModel = orderDetails;
-        @* console.log(orderDetailsModel,"details") *@
-                var AllItems = [];
+            console.log(orderDetailsModel,"OrderDetails");
+
+            var AllItems = [];
             AllItemsArray = [];
             AllItems = orderDetails.itemOrderVM == null ? [] : orderDetails.itemOrderVM;
-        @* console.log(AllItems.length,"allitems array") *@
-                for (i = 0; i < AllItems.length; i++) {
+            for (i = 0; i < AllItems.length; i++) {
                 var item = [];
                 item.push(parseInt(AllItems[i].itemId));
                 item.push(parseInt(AllItems[i].quantity));
@@ -201,20 +203,14 @@
                 for (j = 0; j < AllItems[i].modifierOrderVM.length; j++) {
                     item.push(parseInt(AllItems[i].modifierOrderVM[j].modifierId));
                 }
-        console.log(item,"items");
-                    AllItemsArray.push(item);
+                AllItemsArray.push(item);
             }
-        console.log("all", AllItemsArray)
-            }
+        }
 
         function AddItemModifierToList() {
             var selectedModifiers = document.getElementsByClassName("modifierSelected");
-            console.log(selectedModifiers[0].getAttribute("data-modifierId"));
-        @* console.log("yes") *@
-        @* console.log(selectedModifiers) *@
-                var itemId = document.getElementById("itemIdForOrderDetails").value;
-        @* console.log("itemid", itemId) *@
-                var item = [];
+            var itemId = document.getElementById("itemIdForOrderDetails").value;
+            var item = [];
 
             for (i = 0; i < selectedModifiers.length; i++) {
                 item.push(parseInt(selectedModifiers[i].getAttribute("data-modifierId")));
@@ -222,9 +218,36 @@
             item.sort();
             item.unshift(1);
             item.unshift(parseInt(itemId))
-        console.log(item,"addedded")
-                AllItemsArray.push(item)
-        console.log("allitem", AllItemsArray)
+            AllItemsArray.push(item)
+            $.ajax({
+                url: "/OrderAppMenu/UpdateOrderDetailPartialView",
+                type: "GET",
+                data: { ItemList: JSON.stringify(AllItemsArray), orderDetails: JSON.stringify(orderDetailsModel) },
+                success: function (data) {
+                    $("#OrderDetails-Content").html(data);
+                }
+            })
+            $(".btn-close").click();
+        }
+
+        function RemoveItemFromOrder(itemId, count) {
+            AllItemsArray.splice(count, 1);
+            $.ajax({
+                url: "/OrderAppMenu/RemoveItemfromOrderDetailPartialView",
+                type: "GET",
+                data: { ItemList: JSON.stringify(AllItemsArray), count, orderDetails: JSON.stringify(orderDetailsModel) },
+                success: function (data) {
+                    $("#OrderDetails-Content").html(data);
+                }
+            })
+        }
+
+        function MinusQuantity(tag, count) {
+            var quantity = parseInt(tag.nextElementSibling.innerText);
+            if (quantity > 1) {
+                quantity--;
+                tag.nextElementSibling.innerText = quantity;
+                AllItemsArray[count][1] = quantity;
                 $.ajax({
                     url: "/OrderAppMenu/UpdateOrderDetailPartialView",
                     type: "GET",
@@ -232,21 +255,40 @@
                     success: function (data) {
                         $("#OrderDetails-Content").html(data);
                     }
-                })
-            $(".btn-close").click();
+                });
+            }
         }
 
-        function RemoveItemFromOrder(itemId, count) {
-            AllItemsArray.splice(count, 1);
-        @* console.log(AllItemsArray) *@
+        function PlusQuantity(tag, count) {
+            var quantity = parseInt(tag.previousElementSibling.innerText);
+            if (quantity < 10) {
+                quantity++;
+                tag.previousElementSibling.innerText = quantity;
+                AllItemsArray[count][1] = quantity;
+                console.log(AllItemsArray);
                 $.ajax({
-                    url: "/OrderAppMenu/RemoveItemfromOrderDetailPartialView",
+                    url: "/OrderAppMenu/UpdateOrderDetailPartialView",
                     type: "GET",
-                    data: { ItemList: JSON.stringify(AllItemsArray), count, orderDetails: JSON.stringify(orderDetailsModel) },
+                    data: { ItemList: JSON.stringify(AllItemsArray), orderDetails: JSON.stringify(orderDetailsModel) },
                     success: function (data) {
                         $("#OrderDetails-Content").html(data);
                     }
-                })
+                });
+            } else {
+                callErrorToaster("You can select maximum 10 quantity");
+            }
+        }
+
+        function ShowItemInstruction(tag,count){
+            $("#ItemInstructionCount").val(count);
+            document.getElementById("ItemInstructionText").value = orderDetailsModel.itemOrderVM[count].extraInstruction == null ? "" : orderDetailsModel.itemOrderVM[count].extraInstruction;
+        }
+
+        function StoreItemInstruction(){
+            var count = parseInt($("#ItemInstructionCount").val());
+            var instruction = document.getElementById("ItemInstructionText").value;
+            orderDetailsModel.itemOrderVM[count].extraInstruction = instruction;
+            $(".btn-close").click();
         }
 
         $(document).ready(function () {

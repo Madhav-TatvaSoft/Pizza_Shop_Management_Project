@@ -10,6 +10,7 @@ public class OrderDetailViewModel
     public long OrderId { get; set; }
     public DateTime OrderDate { get; set; }
     public string Status { get; set; } = null!;
+    public string? OrderInstruction { get; set; }
 
     // Customer Details
     public long CustomerId { get; set; }

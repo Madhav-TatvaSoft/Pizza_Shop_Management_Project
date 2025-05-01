@@ -114,6 +114,7 @@ public class OrderAppMenuService : IOrderAppMenuService
           .Select(od => new OrderDetailViewModel
           {
               OrderId = orderId,
+              OrderInstruction = od.Orders.FirstOrDefault().ExtraInstruction,
 
               // Table Details
               SectionId = AssignTableList[0].Table.SectionId,
@@ -122,6 +123,7 @@ public class OrderAppMenuService : IOrderAppMenuService
               {
                   TableId = t.TableId,
                   TableName = t.Table.TableName,
+                  Capacity = t.Table.Capacity,
                   SectionId = t.Table.SectionId
               }).ToList(),
 
@@ -129,9 +131,12 @@ public class OrderAppMenuService : IOrderAppMenuService
               CustomerId = od.CustomerId,
               CustomerName = od.CustomerName,
               PhoneNo = od.PhoneNo,
-              Email = od.Email
+              Email = od.Email,
+              NoOfPerson = od.AssignTables.FirstOrDefault().NoOfPerson
           }).ToList()[0];
-        // //orderDetails
+
+        //orderDetails
+
         if (orderId != 0)
         {
             var orderDetails = _context.Orderdetails.Include(od => od.Item)
@@ -146,6 +151,7 @@ public class OrderAppMenuService : IOrderAppMenuService
                             Rate = i.Item.Rate,
                             status = "In Progress",
                             Quantity = i.Quantity,
+                            ExtraInstruction = i.ExtraInstruction,
                             TotalItemAmount = Math.Round(i.Quantity * i.Item.Rate, 2),
                             modifierOrderVM = _context.Modifierorders.Include(m => m.Modifier).Include(m => m.Orderdetail).ThenInclude(m => m.Item)
                                 .Where(m => m.Orderdetail.ItemId == i.ItemId)
@@ -154,8 +160,8 @@ public class OrderAppMenuService : IOrderAppMenuService
                                     ModifierId = m.ModifierId,
                                     ModifierName = m.Modifier.ModifierName,
                                     Rate = m.Modifier.Rate,
-                                    Quantity = m.ModifierQuantity,
-                                    TotalModifierAmount = Math.Round(m.ModifierQuantity * (decimal)m.Modifier.Rate, 2),
+                                    Quantity = i.Quantity,
+                                    TotalModifierAmount = Math.Round(i.Quantity * (decimal)m.Modifier.Rate, 2),
                                 }).ToList()
 
                         }).ToList();
@@ -203,16 +209,18 @@ public class OrderAppMenuService : IOrderAppMenuService
         return orderDetailsvm;
     }
 
-    #region UpdateOrderDetailPartialView
     public async Task<OrderDetailViewModel> UpdateOrderDetailPartialView(List<List<int>> itemList, OrderDetailViewModel orderDetailsvm)
     {
         OrderDetailViewModel orderdetails = orderDetailsvm;
+        List<ItemOrderViewModel> itemOrderVM = new();
+        itemOrderVM = orderDetailsvm.itemOrderVM;
+        // OrderDetailViewModel orderdetails = orderDetailsvm;
 
-        if (orderdetails.itemOrderVM == null)
-        {
-            orderdetails.itemOrderVM = new();
-        }
-        for (int k = orderdetails.itemOrderVM.Count; k < itemList.Count; k++)
+        // if (orderdetails.itemOrderVM == null)
+        // {
+        orderdetails.itemOrderVM = new();
+        // }
+        for (int k = 0; k < itemList.Count; k++)
         {
             long itemId = itemList[k][0];
 
@@ -222,9 +230,10 @@ public class OrderAppMenuService : IOrderAppMenuService
                                                         ItemId = i.ItemId,
                                                         ItemName = i.ItemName,
                                                         Rate = i.Rate,
-                                                        status = "Pending",
+                                                        status = k >= _context.Orderdetails.Where(x => x.OrderId == orderdetails.OrderId).Count() ? "Pending" : "In Progress",
                                                         Quantity = itemList[k][1] >= 1 ? itemList[k][1] : 1,
-                                                        TotalItemAmount = Math.Round((decimal)(i.Rate * i.Quantity), 2)
+                                                        ExtraInstruction = k >= itemOrderVM.Count() ? "" : itemOrderVM[k].ExtraInstruction,
+                                                        TotalItemAmount = Math.Round((decimal)(i.Rate * (itemList[k][1] >= 1 ? itemList[k][1] : 1)), 2)
                                                     }).First();
             itemdata.modifierOrderVM = new();
             for (int j = 2; j < itemList[k].Count; j++)
@@ -276,9 +285,7 @@ public class OrderAppMenuService : IOrderAppMenuService
         orderdetails.TotalAmountOrder = orderdetails.SubTotalAmountOrder + orderdetails.taxInvoiceVM.Sum(x => x.TaxValue);
         return orderdetails;
     }
-    #endregion
 
-    #region RemoveItemfromOrderDetailPartialView
     public async Task<OrderDetailViewModel> RemoveItemfromOrderDetailPartialView(List<List<int>> itemList, int count, OrderDetailViewModel orderDetails)
     {
         OrderDetailViewModel orderdetails = orderDetails;
@@ -327,7 +334,47 @@ public class OrderAppMenuService : IOrderAppMenuService
         orderdetails.TotalAmountOrder = orderdetails.SubTotalAmountOrder + orderdetails.taxInvoiceVM.Sum(x => x.TaxValue);
         return orderdetails;
     }
-    #endregion
 
+    public async Task<OrderDetailViewModel> UpdateCustomerDetails(OrderDetailViewModel orderDetailVM, long userId)
+    {
+        Customer? customer = await _context.Customers.SingleOrDefaultAsync(x => x.CustomerId == orderDetailVM.CustomerId && !x.Isdelete);
+
+        if (customer == null)
+        {
+            return null;
+        }
+        customer.CustomerName = orderDetailVM.CustomerName;
+        customer.PhoneNo = orderDetailVM.PhoneNo;
+        customer.Email = orderDetailVM.Email;
+        customer.ModifiedBy = userId;
+        _context.Customers.Update(customer);
+
+       var AssignTable = _context.AssignTables.Where(x => x.CustomerId == orderDetailVM.CustomerId && !x.Isdelete).ToList();
+
+       foreach(var table in AssignTable){
+            table.NoOfPerson = orderDetailVM.NoOfPerson;
+            table.ModifiedBy = userId;
+            _context.AssignTables.Update(table);
+       }
+
+        await _context.SaveChangesAsync();
+        return orderDetailVM;
+    }
+
+    public async Task<OrderDetailViewModel> UpdateOrderComment(OrderDetailViewModel orderDetailVM, long userId)
+    {
+        Order? order = await _context.Orders.FirstOrDefaultAsync(x => x.OrderId == orderDetailVM.OrderId && !x.Isdelete);
+
+        if (order == null)
+        {
+            return null;
+        }
+
+        order.ExtraInstruction = orderDetailVM.OrderInstruction;
+        order.ModifiedBy = userId;
+        _context.Orders.Update(order);
+        await _context.SaveChangesAsync();
+        return orderDetailVM;
+    }
 
 }

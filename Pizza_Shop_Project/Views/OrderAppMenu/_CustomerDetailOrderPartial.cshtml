@@ -1,0 +1,87 @@
+@using DAL.ViewModels
+@model OrderDetailViewModel;
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title fs-5 fw-bold text-secondary">Customer Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form id="EditCustomerForm">
+        <div class="modal-body row">
+            <input type="hidden" id="customerId" asp-for="@Model.CustomerId" value="@Model.CustomerId" />
+            <div class="form-floating col-12 mb-3">
+                <input type="text" class="form-control" id="Name" asp-for="@Model.CustomerName" placeholder="Name*">
+                <span asp-validation-for="@Model.CustomerName" class="text-danger "></span>
+                <label for="Name"> &nbsp; Name*</label>
+            </div>
+            <div class="form-floating col-6 mb-3">
+                <input type="text" class="form-control" id="MobileNumber" asp-for="@Model.PhoneNo"
+                    placeholder="MobileNumber*">
+                <span asp-validation-for="@Model.PhoneNo" class="text-danger "></span>
+                <label for="MobileNumber"> &nbsp; Mobile Number*</label>
+            </div>
+            <div class="form-floating col-6 mb-3">
+                <input type="text" class="form-control" id="NoofPersons" asp-for="@Model.NoOfPerson"
+                    placeholder="NoofPersons*">
+                <span asp-validation-for="@Model.NoOfPerson" class="text-danger "></span>
+                <label for="NoofPersons"> &nbsp; No of Persons*</label>
+            </div>
+            <div class="form-floating col-12 mb-3">
+                <input type="hidden" id="Email" asp-for="@Model.Email" value="@Model.Email" />
+                <input type="text" class="form-control" id="Email" asp-for="@Model.Email" placeholder="Email*" disabled>
+                <label for="Email"> &nbsp; Email*</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn solid-btn">Save</button>
+            <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+
+@* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
+<script>
+    var capacity = 0;
+
+    $(document).on('submit', '#EditCustomerForm', function (event) {
+
+        event.preventDefault();
+
+        let formData = new FormData(this);
+
+        orderDetailsModel.tableList.forEach(function (table) {
+            capacity += table.capacity;
+        });
+
+        var Persons = $("#NoofPersons").val();
+
+        if (capacity < Persons) {
+            callErrorToaster(`Sorry, Table capacity is ${capacity}`);
+            capacity = 0;
+            return;
+        }
+        else {
+            capacity = 0;
+            $.ajax({
+                type: "POST",
+                url: "/OrderAppMenu/UpdateCustomerDetails",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    console.log(response, "response");
+                    if (response.success) {
+                        $('#customerId').val(response.customerId);
+                        callSuccessToaster(response.text);
+                    }
+                    else {
+                        callErrorToaster(response.text);
+                    }
+                    $('.btn-close').click();
+                }
+            });
+        }
+    });
+</script>

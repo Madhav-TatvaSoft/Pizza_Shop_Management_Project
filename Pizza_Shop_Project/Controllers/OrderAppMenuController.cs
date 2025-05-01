@@ -1,4 +1,5 @@
 using BLL.Interface;
+using DAL.Models;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +13,14 @@ public class OrderAppMenuController : Controller
 {
     private readonly ICategoryService _categoryService;
     private readonly IOrderAppMenuService _orderAppMenuService;
+    private readonly IUserService _userService;
+    private readonly IUserLoginService _userLoginService;
 
-    public OrderAppMenuController(ICategoryService categoryService, IOrderAppMenuService orderAppMenuService)
+
+    public OrderAppMenuController(ICategoryService categoryService, IOrderAppMenuService orderAppMenuService, IUserService userService, IUserLoginService userLoginService)
     {
+        _userService = userService;
+        _userLoginService = userLoginService;
         _categoryService = categoryService;
         _orderAppMenuService = orderAppMenuService;
     }
@@ -94,6 +100,40 @@ public class OrderAppMenuController : Controller
         return PartialView("_MenuItemsOrderDetailPartial", orderDetailsvm);
     }
 
+    public async Task<IActionResult> UpdateCustomerDetails([FromForm] OrderDetailViewModel orderDetailVM)
+    {
+        string token = Request.Cookies["AuthToken"];
+        List<User>? userData = _userService.getUserFromEmail(token);
+        long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+    
+        OrderDetailViewModel? data = await _orderAppMenuService.UpdateCustomerDetails(orderDetailVM,userId);
+        if (data != null)
+        {
+            return Json(new { success = true, text = "Customer Details Updated Successfully",data });
+        }
+        else
+        {
+            return Json(new { success = false, text = "Something Went Wrong! Try Again!" });
+        }
+    }
+
+    public async Task<IActionResult> UpdateOrderComment([FromForm] OrderDetailViewModel orderDetailVM){
+
+        string token = Request.Cookies["AuthToken"];
+        List<User>? userData = _userService.getUserFromEmail(token);
+        long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+    
+        OrderDetailViewModel? data = await _orderAppMenuService.UpdateOrderComment(orderDetailVM,userId);
+        
+        if (data != null)
+        {
+            return Json(new { success = true, text = "Order Comment Updated Successfully",data });
+        }
+        else
+        {
+            return Json(new { success = false, text = "Something Went Wrong! Try Again!" });
+        }
+    }
 }
 
 
