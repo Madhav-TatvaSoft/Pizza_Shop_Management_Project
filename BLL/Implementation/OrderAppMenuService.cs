@@ -1,3 +1,4 @@
+
 using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
@@ -103,20 +104,21 @@ public class OrderAppMenuService : IOrderAppMenuService
 
     public OrderDetailViewModel GetOrderDetailsByCustomerId(long customerId)
     {
-        List<Customer>? customerList = _context.Customers.Include(cus => cus.AssignTables).ThenInclude(at => at.Table).ThenInclude(t => t.Section)
+        List<Customer> customerList = _context.Customers.Include(cus => cus.AssignTables).ThenInclude(at => at.Table).ThenInclude(t => t.Section)
                     .Include(sec => sec.AssignTables).ThenInclude(at => at.Order).ThenInclude(o => o.Orderdetails)
                     .Where(od => od.CustomerId == customerId && !od.Isdelete).ToList();
 
         long orderId = _context.AssignTables.FirstOrDefault(at => at.CustomerId == customerId && !at.Isdelete)?.OrderId ?? 0;
-        List<AssignTable>? AssignTableList = customerList[0].AssignTables.Where(at => !at.Isdelete).ToList();
+        List<AssignTable> AssignTableList = customerList[0].AssignTables.Where(at => !at.Isdelete).ToList();
 
         OrderDetailViewModel orderDetailsvm = customerList
           .Select(od => new OrderDetailViewModel
           {
               OrderId = orderId,
-              OrderInstruction = od.Orders.FirstOrDefault().ExtraInstruction,
+              OrderInstruction = od.Orders.FirstOrDefault() == null ? "" : od.Orders.FirstOrDefault().ExtraInstruction,
 
               // Table Details
+
               SectionId = AssignTableList[0].Table.SectionId,
               SectionName = AssignTableList[0].Table.Section.SectionName,
               tableList = AssignTableList.Select(t => new Table
@@ -152,6 +154,7 @@ public class OrderAppMenuService : IOrderAppMenuService
                             status = "In Progress",
                             Quantity = i.Quantity,
                             ExtraInstruction = i.ExtraInstruction,
+                            OrderdetailId = i.OrderdetailId,
                             TotalItemAmount = Math.Round(i.Quantity * i.Item.Rate, 2),
                             modifierOrderVM = _context.Modifierorders.Include(m => m.Modifier).Include(m => m.Orderdetail).ThenInclude(m => m.Item)
                                 .Where(m => m.Orderdetail.ItemId == i.ItemId)
@@ -162,7 +165,7 @@ public class OrderAppMenuService : IOrderAppMenuService
                                     Rate = m.Modifier.Rate,
                                     Quantity = i.Quantity,
                                     TotalModifierAmount = Math.Round(i.Quantity * (decimal)m.Modifier.Rate, 2),
-                                }).ToList()
+                                }).OrderBy(x => x.ModifierId).ToList()
 
                         }).ToList();
 
@@ -297,7 +300,7 @@ public class OrderAppMenuService : IOrderAppMenuService
         {
             orderDetails.itemOrderVM = null;
             orderDetails.taxInvoiceVM = null;
-            orderDetails.TotalAmountOrder = orderdetails.SubTotalAmountOrder + orderdetails.taxInvoiceVM.Sum(x => x.TaxValue);
+            orderDetails.TotalAmountOrder = 0;
             return orderDetails;
         }
         var taxedetails = _context.Taxes
@@ -349,13 +352,14 @@ public class OrderAppMenuService : IOrderAppMenuService
         customer.ModifiedBy = userId;
         _context.Customers.Update(customer);
 
-       var AssignTable = _context.AssignTables.Where(x => x.CustomerId == orderDetailVM.CustomerId && !x.Isdelete).ToList();
+        var AssignTable = _context.AssignTables.Where(x => x.CustomerId == orderDetailVM.CustomerId && !x.Isdelete).ToList();
 
-       foreach(var table in AssignTable){
+        foreach (var table in AssignTable)
+        {
             table.NoOfPerson = orderDetailVM.NoOfPerson;
             table.ModifiedBy = userId;
             _context.AssignTables.Update(table);
-       }
+        }
 
         await _context.SaveChangesAsync();
         return orderDetailVM;
@@ -375,6 +379,78 @@ public class OrderAppMenuService : IOrderAppMenuService
         _context.Orders.Update(order);
         await _context.SaveChangesAsync();
         return orderDetailVM;
+    }
+
+    public async Task<OrderDetailViewModel> SaveOrder(List<int> orderDetailIds, OrderDetailViewModel orderDetailsVM)
+    {
+        try
+        {
+            long orderId;
+            if (orderDetailsVM.OrderId == 0)
+            {
+                Order newOrder = new Order
+                {
+                    CustomerId = orderDetailsVM.CustomerId,
+                    OrderDate = DateTime.Now,
+                    Status = "Pending",
+                    TotalAmount = orderDetailsVM.TotalAmountOrder,
+                    PaymentmethodId = 1,
+                    PaymentStatusId = 1,
+                    SectionId = orderDetailsVM.SectionId,
+                    ExtraInstruction = orderDetailsVM.OrderInstruction,
+                    CreatedAt = DateTime.Now,
+                    OrderType = "Dine In",
+                };
+                await _context.Orders.AddAsync(newOrder);
+                await _context.SaveChangesAsync();
+                orderId = newOrder.OrderId;
+            }
+            else
+            {
+                Order? ExistOrder = await _context.Orders.FirstOrDefaultAsync(x => x.OrderId == orderDetailsVM.OrderId && !x.Isdelete);
+                ExistOrder.TotalAmount = orderDetailsVM.TotalAmountOrder;
+                ExistOrder.ExtraInstruction = orderDetailsVM.OrderInstruction;
+                _context.Orders.Update(ExistOrder);
+                await _context.SaveChangesAsync();
+                orderId = ExistOrder.OrderId;
+            }
+            orderDetailsVM.OrderId = orderId;
+            
+            for (int i = orderDetailIds.Count; i < orderDetailsVM.itemOrderVM.Count; i++)
+            {
+                Orderdetail orderdetail = new Orderdetail
+                {
+                    OrderId = orderId,
+                    ItemId = orderDetailsVM.itemOrderVM[i].ItemId,
+                    Quantity = (int)orderDetailsVM.itemOrderVM[i].Quantity,
+                    ExtraInstruction = orderDetailsVM.itemOrderVM[i].ExtraInstruction,
+                    Status = "Pending",
+                    CreatedAt = DateTime.Now,
+                };
+                await _context.Orderdetails.AddAsync(orderdetail);
+                // await _context.SaveChangesAsync();
+            }
+
+            for (int i = 0; i < orderDetailIds.Count; i++)
+            {
+                Orderdetail? orderdetail = await _context.Orderdetails.FirstOrDefaultAsync(od => od.OrderdetailId == orderDetailIds[i] && !od.Isdelete);
+                if (orderdetail != null)
+                {
+                    orderdetail.Quantity = (int)orderDetailsVM.itemOrderVM[i].Quantity;
+                    orderdetail.ExtraInstruction = orderDetailsVM.itemOrderVM[i].ExtraInstruction;
+                    _context.Orderdetails.Update(orderdetail);
+                    // await _context.SaveChangesAsync();
+                }
+            }
+
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Excpetion is = ", e.Message);
+            return null;
+        }
+
     }
 
 }

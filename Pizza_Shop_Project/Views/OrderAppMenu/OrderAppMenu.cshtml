@@ -5,7 +5,6 @@
     ViewData["Title"] = "Order App Menu";
     Layout = "~/Views/Shared/_OrderAppLayout.cshtml";
     @* var custId = ; *@
-
 }
 
 <div class="d-flex">
@@ -17,11 +16,10 @@
             <div class="p-3 fs-4">Category</div>
         </div>
         <div class="text-secondary fw-bold">
-            <div class="category-click orderAppActive favorite-item-class p-3" data-id="-1"
-                onclick="categorySelected(this)">
+            <div class="category-click  favorite-item-class p-3" data-id="-1" onclick="categorySelected(this)">
                 <div class="">Favorite Items </div>
             </div>
-            <div class=" category-click p-3" data-id="0" onclick="categorySelected(this)">
+            <div class=" category-click orderAppActive p-3" data-id="0" onclick="categorySelected(this)">
                 <div class="">All</div>
             </div>
             @foreach (var cat in Model.categoryList)
@@ -38,7 +36,7 @@
 
         <div class="col  d-flex flex-xl-row flex-column p-2">
 
-            <div class="col-12 p-2 @((long)ViewData["customerId"] != 0 ? "col-xl-7":"col-12")">
+            <div class="col-12 p-2 @(Model.customerId != 0 ? "col-xl-7":"col-12")">
 
                 @* <div class="col-xl-7 col-12 p-2"> *@
 
@@ -82,11 +80,11 @@
 
             </div>
 
-            @if ((long)ViewData["customerId"] != 0)
+            <div class="d-none" id="customerId">@Model.customerId</div>
+            @if (Model.customerId != 0)
             {
-                <div class="d-none" id="customerId">@ViewData["customerId"]</div>
-                <div class="col-xl-5 col-12 bg-white p-2 mt-2" id="OrderDetails-Content">
-                    @* @await Html.PartialAsync("_MenuItemsWithOrderDetails", Model.orderdetails) *@
+                <div class="col-xl-5 col-12 bg-white p-2 mt-2 rounded-2 shadow-sm" id="OrderDetails-Content">
+
                 </div>
             }
         </div>
@@ -97,14 +95,15 @@
 <partial name="_Toaster" />
 
 @section scripts {
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 
     <script>
         var categoryid;
-        var AllItemsArray = [];
+        var MainItem = [];
         var orderDetailsModel;
+        var ItemQuantity = [];
+        var OrderDetailIds = [];
+        var ItemQuantityUpdateFlag = true;
 
         // Toggle Sidebar Category
         function toggleSidebarCategory() {
@@ -176,37 +175,57 @@
         // Get OrderDetails By Customer Id
         function GetOrderDetailsByCustomerId() {
             var customerId = document.getElementById("customerId").innerHTML;
-        @* console.log(customerId); *@
-                $.ajax({
-                    url: "/OrderAppMenu/GetOrderDetailsByCustomerId",
-                    type: "GET",
-                    data: { customerId: customerId },
-                    success: function (data) {
-                        $("#OrderDetails-Content").html(data);
-                    }
-                })
+            $.ajax({
+                url: "/OrderAppMenu/GetOrderDetailsByCustomerId",
+                type: "GET",
+                data: { customerId: customerId },
+                success: function (data) {
+                    $("#OrderDetails-Content").html(data);
+                }
+            });
         }
 
-        //backend order items save in array
+        // Backend order items save in array
         function FillAlreadySavedDataInArray(orderDetails) {
+
             orderDetailsModel = orderDetails;
-            console.log(orderDetailsModel,"OrderDetails");
 
-            var AllItems = [];
-            AllItemsArray = [];
-            AllItems = orderDetails.itemOrderVM == null ? [] : orderDetails.itemOrderVM;
-            for (i = 0; i < AllItems.length; i++) {
+            var SubItems = [];
+            MainItem = [];
+            SubItems = orderDetails.itemOrderVM == null ? [] : orderDetails.itemOrderVM;
+
+            for (i = 0; i < SubItems.length; i++) {
+
                 var item = [];
-                item.push(parseInt(AllItems[i].itemId));
-                item.push(parseInt(AllItems[i].quantity));
 
-                for (j = 0; j < AllItems[i].modifierOrderVM.length; j++) {
-                    item.push(parseInt(AllItems[i].modifierOrderVM[j].modifierId));
+                for (j = 0; j < SubItems[i].modifierOrderVM.length; j++) {
+                    item.push(parseInt(SubItems[i].modifierOrderVM[j].modifierId));
                 }
-                AllItemsArray.push(item);
+                item.sort();
+                item.unshift(parseInt(SubItems[i].quantity))
+                item.unshift(parseInt(SubItems[i].itemId))
+
+                MainItem.push(item);
+            }
+            if (ItemQuantityUpdateFlag) {
+                fillItemQuantity();
+                ItemQuantityUpdateFlag = false;
             }
         }
 
+        // Fill Item Quantity
+        function fillItemQuantity() {
+            ItemQuantity = [];
+            OrderDetailIds = [];
+            if (orderDetailsModel.itemOrderVM != null) {
+                for (i = 0; i < orderDetailsModel.itemOrderVM.length; i++) {
+                    ItemQuantity.push(parseInt(orderDetailsModel.itemOrderVM[i].quantity))
+                    OrderDetailIds.push(parseInt(orderDetailsModel.itemOrderVM[i].orderDetailId))
+                }
+            }
+        }
+
+        // Add Item To Order
         function AddItemModifierToList() {
             var selectedModifiers = document.getElementsByClassName("modifierSelected");
             var itemId = document.getElementById("itemIdForOrderDetails").value;
@@ -218,11 +237,32 @@
             item.sort();
             item.unshift(1);
             item.unshift(parseInt(itemId))
-            AllItemsArray.push(item)
+
+            var ItemCheckFlag = true;
+
+            MainItem.forEach((x) => {
+
+                if (x.toString().substr(0, x[0].toString().length + 1) + x.toString().substr(4) == item.toString().substr(0,
+                    item[0].toString().length + 1) + item.toString().substr(4) && x[1] < 10) {
+                    x[1]++;
+                    console.log("x", x[1]);
+                    ItemCheckFlag = false;
+                }
+                else if (x[1] == 10) {
+                    ItemCheckFlag = false;
+                    callErrorToaster("Maximum quantity already added");
+                }
+
+            });
+
+            if (ItemCheckFlag) MainItem.push(item);
+
+            console.log("AllItems = ", MainItem);
+
             $.ajax({
                 url: "/OrderAppMenu/UpdateOrderDetailPartialView",
                 type: "GET",
-                data: { ItemList: JSON.stringify(AllItemsArray), orderDetails: JSON.stringify(orderDetailsModel) },
+                data: { ItemList: JSON.stringify(MainItem), orderDetails: JSON.stringify(orderDetailsModel) },
                 success: function (data) {
                     $("#OrderDetails-Content").html(data);
                 }
@@ -230,28 +270,34 @@
             $(".btn-close").click();
         }
 
+        // Remove Item from Order
         function RemoveItemFromOrder(itemId, count) {
-            AllItemsArray.splice(count, 1);
+            MainItem.splice(count, 1);
             $.ajax({
                 url: "/OrderAppMenu/RemoveItemfromOrderDetailPartialView",
                 type: "GET",
-                data: { ItemList: JSON.stringify(AllItemsArray), count, orderDetails: JSON.stringify(orderDetailsModel) },
+                data: { ItemList: JSON.stringify(MainItem), count, orderDetails: JSON.stringify(orderDetailsModel) },
                 success: function (data) {
                     $("#OrderDetails-Content").html(data);
                 }
             })
         }
 
+        // Minus quantity
         function MinusQuantity(tag, count) {
             var quantity = parseInt(tag.nextElementSibling.innerText);
+            if (parseInt(tag.nextElementSibling.innerText) <= ItemQuantity[count]) {
+                callErrorToaster("Sorry Item is almost ready!");
+                return;
+            }
             if (quantity > 1) {
                 quantity--;
                 tag.nextElementSibling.innerText = quantity;
-                AllItemsArray[count][1] = quantity;
+                MainItem[count][1] = quantity;
                 $.ajax({
                     url: "/OrderAppMenu/UpdateOrderDetailPartialView",
                     type: "GET",
-                    data: { ItemList: JSON.stringify(AllItemsArray), orderDetails: JSON.stringify(orderDetailsModel) },
+                    data: { ItemList: JSON.stringify(MainItem), orderDetails: JSON.stringify(orderDetailsModel) },
                     success: function (data) {
                         $("#OrderDetails-Content").html(data);
                     }
@@ -259,17 +305,17 @@
             }
         }
 
+        // Plus quantity
         function PlusQuantity(tag, count) {
             var quantity = parseInt(tag.previousElementSibling.innerText);
             if (quantity < 10) {
                 quantity++;
                 tag.previousElementSibling.innerText = quantity;
-                AllItemsArray[count][1] = quantity;
-                console.log(AllItemsArray);
+                MainItem[count][1] = quantity;
                 $.ajax({
                     url: "/OrderAppMenu/UpdateOrderDetailPartialView",
                     type: "GET",
-                    data: { ItemList: JSON.stringify(AllItemsArray), orderDetails: JSON.stringify(orderDetailsModel) },
+                    data: { ItemList: JSON.stringify(MainItem), orderDetails: JSON.stringify(orderDetailsModel) },
                     success: function (data) {
                         $("#OrderDetails-Content").html(data);
                     }
@@ -279,21 +325,44 @@
             }
         }
 
-        function ShowItemInstruction(tag,count){
+        // Show Item instruction
+        function ShowItemInstruction(tag, count) {
             $("#ItemInstructionCount").val(count);
             document.getElementById("ItemInstructionText").value = orderDetailsModel.itemOrderVM[count].extraInstruction == null ? "" : orderDetailsModel.itemOrderVM[count].extraInstruction;
         }
 
-        function StoreItemInstruction(){
+        // Save Item Instruction
+        function StoreItemInstruction() {
             var count = parseInt($("#ItemInstructionCount").val());
             var instruction = document.getElementById("ItemInstructionText").value;
             orderDetailsModel.itemOrderVM[count].extraInstruction = instruction;
             $(".btn-close").click();
         }
 
+        // Save Order
+        function SaveOrder() {
+
+            @* $.ajax({
+                url: "/OrderAppMenu/SaveOrder",
+                type: "POST",
+                data: { OrderDetailIds: JSON.stringify(OrderDetailIds) orderDetails: JSON.stringify(orderDetailsModel) },
+                success: function (data) {
+                    $("#OrderDetails-Content").html(data);
+                    ItemQuantityUpdateFlag = true;
+                    if (data.success) {
+                        callSuccessToaster(data.text);
+                    }
+                    else {
+                        callErrorToaster(data.text);
+                    }
+                }
+            }); *@
+        }
+
+        // READY
         $(document).ready(function () {
 
-            categorySelected(document.getElementsByClassName("category-click")[0], -1);
+            categorySelected(document.getElementsByClassName("category-click")[1], 0);
             GetOrderDetailsByCustomerId();
 
         });

@@ -12,24 +12,24 @@
             <div class="form-floating col-12 mb-3">
                 <input type="text" class="form-control" id="Name" asp-for="@Model.CustomerName" placeholder="Name*">
                 <span asp-validation-for="@Model.CustomerName" class="text-danger "></span>
-                <label for="Name"> &nbsp; Name*</label>
+                    <label for="Name" class="text-black-50"> &nbsp; Name*</label>
             </div>
             <div class="form-floating col-6 mb-3">
                 <input type="text" class="form-control" id="MobileNumber" asp-for="@Model.PhoneNo"
                     placeholder="MobileNumber*">
                 <span asp-validation-for="@Model.PhoneNo" class="text-danger "></span>
-                <label for="MobileNumber"> &nbsp; Mobile Number*</label>
+                    <label for="MobileNumber" class="text-black-50"> &nbsp; Mobile Number*</label>
             </div>
             <div class="form-floating col-6 mb-3">
                 <input type="text" class="form-control" id="NoofPersons" asp-for="@Model.NoOfPerson"
                     placeholder="NoofPersons*">
                 <span asp-validation-for="@Model.NoOfPerson" class="text-danger "></span>
-                <label for="NoofPersons"> &nbsp; No of Persons*</label>
+                    <label for="NoofPersons" class="text-black-50"> &nbsp; No of Persons*</label>
             </div>
             <div class="form-floating col-12 mb-3">
                 <input type="hidden" id="Email" asp-for="@Model.Email" value="@Model.Email" />
                 <input type="text" class="form-control" id="Email" asp-for="@Model.Email" placeholder="Email*" disabled>
-                <label for="Email"> &nbsp; Email*</label>
+                    <label for="Email" class="text-black-50"> &nbsp; Email*</label>
             </div>
         </div>
         <div class="modal-footer">
@@ -60,7 +60,7 @@
         if (capacity < Persons) {
             callErrorToaster(`Sorry, Table capacity is ${capacity}`);
             capacity = 0;
-            return;
+            
         }
         else {
             capacity = 0;

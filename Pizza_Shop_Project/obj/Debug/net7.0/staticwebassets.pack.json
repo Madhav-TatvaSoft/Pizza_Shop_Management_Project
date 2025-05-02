@@ -117,6 +117,10 @@
       "PackagePath": "staticwebassets\\images\\qr-code.png"
     },
     {
+      "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\qrcode_localhost.png",
+      "PackagePath": "staticwebassets\\images\\qrcode_localhost.png"
+    },
+    {
       "Id": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\wwwroot\\images\\toppng.com-warning-icon-2400x2400.png",
       "PackagePath": "staticwebassets\\images\\toppng.com-warning-icon-2400x2400.png"
     },

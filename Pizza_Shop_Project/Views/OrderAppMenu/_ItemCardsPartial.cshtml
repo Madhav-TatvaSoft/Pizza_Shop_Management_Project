@@ -49,15 +49,15 @@ else
 
         var itemId = tag.getAttribute("data-itemId");
         var itemName = tag.getAttribute("data-itemname");
+        
 
         $.ajax({
             url: "/OrderAppMenu/GetModifiersByItemId",
             type: "GET",
-            data: { itemId: itemId },
+            data: { itemId: itemId, customerId: document.getElementById("customerId").innerHTML ?? 0 },
             success: function (data) {
-                @* console.log(data); *@
                 data += `<input type="hidden" id="itemIdForOrderDetails" value=${itemId}>`
-
+                @* console.log(data); *@
                 $("#ModifiersByItemId-Content").html(data);
                 $("#itemName").html(itemName);
                 $("#ModifiersByItemId").modal("show");

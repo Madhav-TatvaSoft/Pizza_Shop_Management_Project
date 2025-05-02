@@ -4,6 +4,7 @@ namespace DAL.ViewModels;
 
 public class OrderAppMenuViewModel
 {
+    public long customerId { get; set; }
     public List<Category> categoryList { get; set; }
 
     public List<ItemsViewModel> itemList { get; set; }
@@ -13,5 +14,5 @@ public class OrderAppMenuViewModel
     public OrderDetailViewModel orderDetails { get; set; }
 
     public CustomerViewModel customerDetails { get; set; }
-    
+
 }

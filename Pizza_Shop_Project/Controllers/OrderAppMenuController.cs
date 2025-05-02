@@ -16,7 +16,6 @@ public class OrderAppMenuController : Controller
     private readonly IUserService _userService;
     private readonly IUserLoginService _userLoginService;
 
-
     public OrderAppMenuController(ICategoryService categoryService, IOrderAppMenuService orderAppMenuService, IUserService userService, IUserLoginService userLoginService)
     {
         _userService = userService;
@@ -24,6 +23,7 @@ public class OrderAppMenuController : Controller
         _categoryService = categoryService;
         _orderAppMenuService = orderAppMenuService;
     }
+
     public async Task<IActionResult> OrderAppMenu(long customerId = 0)
     {
         OrderAppMenuViewModel OrderAppMenuVM = new();
@@ -31,7 +31,7 @@ public class OrderAppMenuController : Controller
         ViewData["orderApp-Active"] = "Menu";
         ViewData["Icon"] = "fa-burger";
 
-        ViewData["customerId"] = customerId;
+        OrderAppMenuVM.customerId = customerId;
         if (customerId != 0)
         {
             // OrderAppMenuVM.orderdetails= GetOrderDetailsBycustId(customerId);
@@ -67,10 +67,11 @@ public class OrderAppMenuController : Controller
         }
     }
 
-    public IActionResult GetModifiersByItemId(long itemId)
+    public IActionResult GetModifiersByItemId(long itemId, long customerId)
     {
         OrderAppMenuViewModel OrderAppMenuVM = new();
         OrderAppMenuVM.modifirsByItemList = new List<ItemModifierViewModel>();
+        OrderAppMenuVM.customerId = customerId;
         OrderAppMenuVM.modifirsByItemList = _orderAppMenuService.GetModifiersByItemId(itemId);
         return PartialView("_ModifiersByItemModalPartial", OrderAppMenuVM);
     }
@@ -85,19 +86,19 @@ public class OrderAppMenuController : Controller
     public async Task<IActionResult> UpdateOrderDetailPartialView(string ItemList, string orderDetails)
     {
         List<List<int>> itemList = JsonConvert.DeserializeObject<List<List<int>>>(ItemList);
-        OrderDetailViewModel orderDetailvm = JsonConvert.DeserializeObject<OrderDetailViewModel>(orderDetails);
-        OrderDetailViewModel orderDetailsvm = await _orderAppMenuService.UpdateOrderDetailPartialView(itemList, orderDetailvm);
+        OrderDetailViewModel orderDetailVM = JsonConvert.DeserializeObject<OrderDetailViewModel>(orderDetails);
+        OrderDetailViewModel orderDetailsVM = await _orderAppMenuService.UpdateOrderDetailPartialView(itemList, orderDetailVM);
 
-        return PartialView("_MenuItemsOrderDetailPartial", orderDetailsvm);
+        return PartialView("_MenuItemsOrderDetailPartial", orderDetailsVM);
     }
 
     public async Task<IActionResult> RemoveItemfromOrderDetailPartialView(string ItemList, int count, string orderDetails)
     {
         List<List<int>> itemList = JsonConvert.DeserializeObject<List<List<int>>>(ItemList);
-        OrderDetailViewModel orderDetailvm = JsonConvert.DeserializeObject<OrderDetailViewModel>(orderDetails);
-        OrderDetailViewModel orderDetailsvm = await _orderAppMenuService.RemoveItemfromOrderDetailPartialView(itemList, count, orderDetailvm);
+        OrderDetailViewModel orderDetailVM = JsonConvert.DeserializeObject<OrderDetailViewModel>(orderDetails);
+        OrderDetailViewModel orderDetailsVM = await _orderAppMenuService.RemoveItemfromOrderDetailPartialView(itemList, count, orderDetailVM);
 
-        return PartialView("_MenuItemsOrderDetailPartial", orderDetailsvm);
+        return PartialView("_MenuItemsOrderDetailPartial", orderDetailsVM);
     }
 
     public async Task<IActionResult> UpdateCustomerDetails([FromForm] OrderDetailViewModel orderDetailVM)
@@ -105,11 +106,11 @@ public class OrderAppMenuController : Controller
         string token = Request.Cookies["AuthToken"];
         List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
-    
-        OrderDetailViewModel? data = await _orderAppMenuService.UpdateCustomerDetails(orderDetailVM,userId);
+
+        OrderDetailViewModel? data = await _orderAppMenuService.UpdateCustomerDetails(orderDetailVM, userId);
         if (data != null)
         {
-            return Json(new { success = true, text = "Customer Details Updated Successfully",data });
+            return Json(new { success = true, text = "Customer Details Updated Successfully", data });
         }
         else
         {
@@ -117,128 +118,31 @@ public class OrderAppMenuController : Controller
         }
     }
 
-    public async Task<IActionResult> UpdateOrderComment([FromForm] OrderDetailViewModel orderDetailVM){
+    public async Task<IActionResult> UpdateOrderComment([FromForm] OrderDetailViewModel orderDetailVM)
+    {
 
         string token = Request.Cookies["AuthToken"];
         List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
-    
-        OrderDetailViewModel? data = await _orderAppMenuService.UpdateOrderComment(orderDetailVM,userId);
-        
+
+        OrderDetailViewModel? data = await _orderAppMenuService.UpdateOrderComment(orderDetailVM, userId);
+
         if (data != null)
         {
-            return Json(new { success = true, text = "Order Comment Updated Successfully",data });
+            return Json(new { success = true, text = "Order Comment Updated Successfully", data });
         }
         else
         {
             return Json(new { success = false, text = "Something Went Wrong! Try Again!" });
         }
     }
+
+    public async Task<IActionResult> SaveOrder(string orderDetailIds, string orderDetails)
+    {
+        List<int> orderDetailId = JsonConvert.DeserializeObject<List<int>>(orderDetailIds);
+        OrderDetailViewModel orderDetailVM = JsonConvert.DeserializeObject<OrderDetailViewModel>(orderDetails);
+        OrderDetailViewModel orderDetailsVM = await _orderAppMenuService.SaveOrder(orderDetailId, orderDetailVM);
+
+        return PartialView("_MenuItemsOrderDetailPartial", orderDetailsVM);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// #region UpdateOrderDetailPartialView
-// public async Task<IActionResult> UpdateOrderDetailPartialView(string ItemList, string orderDetails){
-//     List<List<int>> itemList = JsonConvert.DeserializeObject<List<List<int>>>(ItemList);
-//     OrderDetaIlsInvoiceViewModel orderDetailvm = JsonConvert.DeserializeObject<OrderDetaIlsInvoiceViewModel>(orderDetails);
-//     OrderDetaIlsInvoiceViewModel orderDetailsvm =await _orderAppMenuService.UpdateOrderDetailPartialView(itemList,orderDetailvm );
-
-//     return PartialView("_MenuItemsWithOrderDetails",orderDetailsvm);
-// }
-// #endregion
-
-// #region RemoveItemfromOrderDetailPartialView
-// public async Task<IActionResult> RemoveItemfromOrderDetailPartialView(string ItemList, int count, string orderDetails){
-//     List<List<int>> itemList = JsonConvert.DeserializeObject<List<List<int>>>(ItemList);
-//     OrderDetaIlsInvoiceViewModel orderDetailvm = JsonConvert.DeserializeObject<OrderDetaIlsInvoiceViewModel>(orderDetails);
-//     OrderDetaIlsInvoiceViewModel orderDetailsvm =await _orderAppMenuService.RemoveItemfromOrderDetailPartialView(itemList, count ,orderDetailvm);
-
-//     return PartialView("_MenuItemsWithOrderDetails",orderDetailsvm);
-// }
-// #endregion
