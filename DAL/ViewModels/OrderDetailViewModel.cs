@@ -9,8 +9,12 @@ public class OrderDetailViewModel
     public string InvoiceNo { get; set; } = null!;
     public long OrderId { get; set; }
     public DateTime OrderDate { get; set; }
+
+    // New Added
     public string Status { get; set; } = null!;
     public string? OrderInstruction { get; set; }
+    public int ReadyQuantity { get; set; }
+    public long PaymentmethodId { get; set; }
 
     // Customer Details
     public long CustomerId { get; set; }

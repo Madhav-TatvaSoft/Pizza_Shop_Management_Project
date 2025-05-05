@@ -37,8 +37,8 @@ public class OrderService : IOrderService
                 TotalAmount = u.TotalAmount,
                 PaymentmethodId = u.Paymentmethod.PaymentMethodId,
                 PaymentMethodName = u.Paymentmethod.PaymentType,
-                RatingId = u.Rating.RatingId,
-                rating = (int)Math.Ceiling(((double)u.Rating.Ambience + (double)u.Rating.Food + (double)u.Rating.Service) / 3),
+                RatingId = u.RatingId ?? 0,
+                rating = (int)Math.Ceiling(((u.Rating.Ambience != 0 ? (double)u.Rating.Ambience : 0) + (u.Rating.Food != 0 ?(double)u.Rating.Food : 0) + (u.Rating.Service != 0 ?(double)u.Rating.Service : 0)) / 3),
             })
             .AsQueryable();
     }

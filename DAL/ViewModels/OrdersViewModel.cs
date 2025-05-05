@@ -14,7 +14,7 @@ public class OrdersViewModel
 
     public long? RatingId { get; set; }
 
-    public int rating { get; set; }
+    public int? rating { get; set; }
 
     public decimal TotalAmount { get; set; }
 

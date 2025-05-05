@@ -42,13 +42,21 @@
                             <li class="ps-2 pt-2 validate">@modifier.ModifierName</li>
                         }
                     </div>
-                    <div class="p-2 pb-0" style="color: #00c9e4;">Instruction : <span class="text-secondary">@itemList.ExtraInstruction</span></div>
+                    @if (itemList.ExtraInstruction != null)
+                    {
+                        <div class="p-2 pb-0" style="color: #00c9e4;">Instruction : <span
+                                class="text-secondary">@itemList.ExtraInstruction</span></div>
+                    }
                 </div>
             }
         </div>
-        <div class="d-flex p-2 border border-top-5" style="background-color: rgb(238, 238, 238); height: 64px;">
-            <span class="text-nowrap" style="color: #00c9e4;">Order Instruction : </span><span class="text-dark ps-1">@item.ExtraInstruction</span>
-        </div>
+        @if (item.ExtraInstruction != null)
+        {
+            <div class="d-flex p-2 border border-top-5" style="background-color: rgb(238, 238, 238); height: 64px;">
+                <span class="text-nowrap" style="color: #00c9e4;">Order Instruction : </span><span
+                    class="text-dark ps-1">@item.ExtraInstruction</span>
+            </div>
+        }
     </div>
 }
 <input type="hidden" id="totalRecords" value="@Model.TotalCount" />
@@ -160,7 +168,7 @@
         console.log(checkboxes.nextElementSibling);
     @* console.log(checkboxes.parentElement.parentElement.children[1].children[0].children[1].innerText); *@
 
-            for (var i = 0; i < checkboxes.length; i++) {
+                for (var i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].checked) {
                 id.push(checkboxes[i].parentElement.parentElement.children[2].value);
                 quantity.push(checkboxes[i].parentElement.parentElement.children[1].children[0].children[1].innerText);
