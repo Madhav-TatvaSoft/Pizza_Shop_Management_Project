@@ -27,7 +27,7 @@ else
                     <i class="bi bi-star text-warning"></i>
                 }
             </td>
-            <td class="text-start" class="text-end text-nowrap">@item.TotalAmount</td>
+            <td class="text-start" class="text-end text-nowrap">₹ @item.TotalAmount</td>
             <td class="text-center text-nowrap">
                 <a asp-action="GenerateInvoicePDF" asp-controller="Order" asp-route-orderid="@item.OrderId"  class="text-decoration-none text-dark"><i class="fa-regular fa-file-pdf me-2"></i></a>
                 <a asp-action="OrderDetails" asp-controller="Order" asp-route-orderid="@item.OrderId" class="text-decoration-none text-dark"><i

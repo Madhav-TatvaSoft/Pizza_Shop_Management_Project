@@ -58,8 +58,8 @@ public class OrderAppTableService : IOrderAppTableService
             TableName = table.TableName,
             Capacity = table.Capacity,
             Status = table.Status,
-            TableTime = (DateTime)((table.AssignTables.FirstOrDefault() != null) ? table.AssignTables.FirstOrDefault().CreatedAt : DateTime.Now),
-            OrderAmount = (table.AssignTables.FirstOrDefault() != null && table.AssignTables.FirstOrDefault().Order != null) ? table.AssignTables.FirstOrDefault().Order.TotalAmount : 0
+            // TableTime = (DateTime)((table.AssignTables.LastOrDefault() != null) ? table.AssignTables.LastOrDefault().CreatedAt : DateTime.Now),
+            // OrderAmount = (table.AssignTables.LastOrDefault() != null && table.AssignTables.LastOrDefault().Order != null) ? table.AssignTables.LastOrDefault().Order.TotalAmount : 0
         }).ToList();
 
         if (tableListVM == null)

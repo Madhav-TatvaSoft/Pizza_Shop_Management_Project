@@ -334,7 +334,9 @@
                     callErrorToaster("To-date should be greater than From-date. Reset To-date");
                     document.getElementById("to-order-date").value = "";
                 }
-            })
+            });
+
+
             $("#to-order-date").on("change", function () {
                 fromDate = document.getElementById("from-order-date").value;
                 toDate = document.getElementById("to-order-date").value;

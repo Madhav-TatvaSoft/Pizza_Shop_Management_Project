@@ -79,7 +79,7 @@ public partial class PizzaShopDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=Pizza_Shop_DB;Username=postgres;         password=tatva123");
+        => optionsBuilder.UseNpgsql("Host=localhost;Database=Pizza_Shop_DB;Username=postgres;         password=tatva123");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -979,7 +979,14 @@ public partial class PizzaShopDbContext : DbContext
 
             entity.Property(e => e.TaxInvoiceId).HasColumnName("tax_invoice_id");
             entity.Property(e => e.InvoiceId).HasColumnName("invoice_id");
+            entity.Property(e => e.IsDelete).HasColumnName("is_Delete");
+            entity.Property(e => e.TaxAmount)
+                .HasPrecision(10, 2)
+                .HasColumnName("Tax_Amount");
             entity.Property(e => e.TaxId).HasColumnName("tax_id");
+            entity.Property(e => e.TaxName)
+                .HasMaxLength(20)
+                .HasColumnName("Tax_Name");
 
             entity.HasOne(d => d.Invoice).WithMany(p => p.TaxInvoiceMappings)
                 .HasForeignKey(d => d.InvoiceId)

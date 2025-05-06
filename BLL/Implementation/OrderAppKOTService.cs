@@ -28,7 +28,7 @@ public class OrderAppKOTService : IOrderAppKOTService
             .Include(x => x.AssignTables)
                 .ThenInclude(x => x.Table)
             .Include(x => x.Section)
-            .Where(x => !x.Isdelete);
+            .Where(x => !x.Isdelete && x.Status != "Completed" && x.Status != "Cancelled");
 
         // && (x.OrderDate.Date > DateTime.Now.Date.AddDays(-6)) && (x.OrderDate.Date < DateTime.Now.Date)
 

@@ -16,6 +16,9 @@ public class OrderDetailViewModel
     public int ReadyQuantity { get; set; }
     public long PaymentmethodId { get; set; }
 
+    // new one 
+    public long RatingId { get; set; }
+
     // Customer Details
     public long CustomerId { get; set; }
     public string CustomerName { get; set; } = null!;
@@ -35,5 +38,8 @@ public class OrderDetailViewModel
     // Extra Fields
     public decimal SubTotalAmountOrder { get; set; }
     public decimal TotalAmountOrder { get; set; }
+
+    // Rating
+    public RatingsViewModel ratingVM { get; set; }
 
 }

@@ -25,7 +25,8 @@
                                 Maximum -
                                 @modgrp.Maxmodifier options)</span>
                         </div>
-                        <div class="d-flex flex-wrap gap-2 pb-1">
+                        <div class="d-flex flex-wrap gap-2 pb-1 ModifierGroup" data-modgrpid="@modgrp.ModifierGrpId"
+                            data-minmodifier="@modgrp.Minmodifier">
 
                             @foreach (var modifier in modgrp.modifiersList)
                             {
@@ -43,15 +44,15 @@
                                             <span
                                                 style="clip-path: polygon(0% 0%, 100% 100%, 100% 0%); height: 30px; width: 30px; border-top-right-radius: 0.7rem; "
                                                 class="bg-warning"></span>
-
                                         </div>
                                     </div>
                                 </div>
                             }
                         </div>
                         <span class="text-danger validate d-none maximumValidation-@modgrp.ModifierGrpId">You can select maximum
-                    @modgrp.Maxmodifier modifiers</span>
-                        <span class="text-danger validate d-none minimumValidation-@modgrp.ModifierGrpId">You have to select at least @modgrp.Minmodifier modifiers</span>
+                            @modgrp.Maxmodifier modifiers</span>
+                        <span class="text-danger validate d-none minimumValidation-@modgrp.ModifierGrpId">You have to select at
+                            least @modgrp.Minmodifier modifiers</span>
                     </div>
                 }
             }
@@ -69,6 +70,7 @@
 <script>
     function ModifierSelected(tag, maxval, modGrpId) {
         $(`.maximumValidation-${modGrpId}`).addClass("d-none");
+        $(`.minimumValidation-${modGrpId}`).addClass("d-none");
 
         var selectedClass = document.getElementsByClassName(`modifierSelected-${modGrpId}`);
         var count = selectedClass.length;

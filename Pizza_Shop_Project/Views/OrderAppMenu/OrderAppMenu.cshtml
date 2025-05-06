@@ -109,7 +109,7 @@
         var IsAllItemSaved = false;
         var PaymentmethodId = 1;
         var IsFirst = true;
-
+        var comment;
 
         // Toggle Sidebar Category
         function toggleSidebarCategory() {
@@ -232,7 +232,7 @@
             document.getElementById("OrderCompleteBtn").setAttribute("disabled", "disabled");
             document.getElementById("OrderCancelBtn").setAttribute("disabled", "disabled");
             } *@
-                }
+                                                                    }
 
         // Fill Item Quantity
         function fillItemQuantity() {
@@ -248,11 +248,37 @@
 
         // Add Item To Order
         function AddItemModifierToList() {
+            var AllValid = true;
+
             if (IsOrderCompleted) {
                 callErrorToaster("Order is already completed");
                 return;
             }
             else {
+
+                $(".ModifierGroup").each(function () {
+                    var modGrpId = $(this).data("modgrpid");
+                    var MinModifier = $(this).data("minmodifier");
+                    console.log(modGrpId, "modgr");
+                    console.log(MinModifier, "min")
+
+                    $(`.minimumValidation-${modGrpId}`).addClass("d-none");
+
+                    var selectedClass = document.getElementsByClassName(`modifierSelected-${modGrpId}`);
+                    console.log(selectedClass, "selectedClass");
+                    var count = selectedClass.length;
+                    console.log(count, "count")
+                    if (count < MinModifier) {
+                        $(`.minimumValidation-${modGrpId}`).removeClass("d-none");
+                        AllValid = false;
+                    }
+                });
+
+                if (!AllValid) {
+                    return;
+                }
+                console.log("reached")
+
                 IsAllItemSaved = false;
                 var selectedModifiers = document.getElementsByClassName("modifierSelected");
                 var itemId = document.getElementById("itemIdForOrderDetails").value;
@@ -405,26 +431,25 @@
                 return;
             }
             else {
-                @* console.log("MainItem", MainItem);
+        @* console.log("MainItem", MainItem);
                 console.log("orderDetailsModel", orderDetailsModel);
                 console.log("ItemQuantity", ItemQuantity);
                 console.log("OrderDetailIds", OrderDetailIds); *@
 
-                $.ajax({
-                    url: "/OrderAppMenu/SaveOrder",
-                    type: "POST",
-                    data: { OrderDetailIds: JSON.stringify(OrderDetailIds), orderDetails: JSON.stringify(orderDetailsModel) },
-                    success: function (data) {
-                        $("#OrderDetails-Content").html(data);
-                        ItemQuantityUpdateFlag = true;
-                        IsAllItemSaved = true;
-                        callSuccessToaster("Order Saved Successfully");
-                    },
-                    error: function (data) {
-                        @* console.log(data); *@
-                        callErrorToaster("Something went wrong !");
-                    }
-                });
+                    $.ajax({
+                        url: "/OrderAppMenu/SaveOrder",
+                        type: "POST",
+                        data: { OrderDetailIds: JSON.stringify(OrderDetailIds), orderDetails: JSON.stringify(orderDetailsModel) },
+                        success: function (data) {
+                            $("#OrderDetails-Content").html(data);
+                            ItemQuantityUpdateFlag = true;
+                            IsAllItemSaved = true;
+                            callSuccessToaster("Order Saved Successfully");
+                        },
+                        error: function (data) {
+                            callErrorToaster("Something went wrong !");
+                        }
+                    });
             }
         }
 
@@ -448,7 +473,7 @@
                 return;
             }
 
-            console.log("ids",OrderDetailIds)
+            console.log("ids", OrderDetailIds)
 
             $.ajax({
                 url: "/OrderAppMenu/CompleteOrder",
@@ -465,54 +490,49 @@
             });
         }
 
-        //complete order details 
-        function CompleteOrder() {
-
-            var foodreview = document.getElementsByClassName("food-review-active").length;
+        // Save Rating In DB
+        function SaveRating() {
+            var foodReview = document.getElementsByClassName("food-review-active").length;
             var serviceReview = document.getElementsByClassName("service-review-active").length;
             var ambienceReview = document.getElementsByClassName("ambience-review-active").length;
-            var reviewtext = document.getElementById("ReviewText").value;
 
-            console.log(foodreview, "food");
-
-            var paymentmethod = document.getElementsByClassName("payment-type");
-
-            console.log(paymentmethod, "paymentmethod");
-
-            for (i = 0; i < paymentmethod.length; i++) {
-                if (paymentmethod[i].checked) {
-                    PaymentmethodId = paymentmethod[i].value;
-                }
-            }
+            console.log(orderDetailsModel, "Orders");
+            orderDetailsModel.ratingVM.food = foodReview;
+            orderDetailsModel.ratingVM.service = serviceReview;
+            orderDetailsModel.ratingVM.ambience = ambienceReview;
+            orderDetailsModel.ratingVM.review = comment;
+            console.log(orderDetailsModel, "After Review");
 
             $.ajax({
-                url: "/OrderAppMenu/SaveRatings",
+                url: "/OrderAppMenu/SaveRating",
                 type: "POST",
-                data: { customerId: orderDetailsModel.customerId, foodreview, serviceReview, ambienceReview, reviewtext },
+                data: orderDetailsModel,
                 success: function (data) {
-                    orderDetailsModel.RatingId = data;
-                    $.ajax({
-                        url: "/OrderAppMenu/CompleteOrder",
-                        type: "POST",
-                        data: { orderDetails: JSON.stringify(orderDetailsModel), PaymentmethodId },
-                        success: function (data) {
-                            $("#OrderDetails-Content").html(data);
-                            ItemQuantityUpdateFlag = true;
-                            $(".btn-close").click();
-                            IsOrderCompleted = true;
-                            callSuccessToaster("Order Completed.")
-                            window.location.href = "/OrderAppTable/OrderAppTable"
+                    if (data.success) {
+                        callSuccessToaster("Thank you for your feedback");
+                        $("#CustomerReviewModal").modal("hide");
+                        window.location.href = "/OrderAppTable/OrderAppTable";
+                    }
+                }
+            });
+        }
 
-                        },
-                        error: function (data) {
-        @* console.log(data); *@
-                                callErrorToaster("Something went wrong in inner ho!");
-                        }
-                    });
-                },
-                error: function (data) {
-        @* console.log(data); *@
-                        callErrorToaster("Something went wrong in outer ho!");
+        // Cancel Order
+        function CancelOrder() {
+            console.log("ajax start", orderDetailsModel);
+            $.ajax({
+                url: "/OrderAppMenu/CancelOrder",
+                type: "POST",
+                data: orderDetailsModel,
+                success: function (data) {
+                    if (data.success) {
+                        callSuccessToaster(data.text);
+                        ItemQuantityUpdateFlag = true;
+                        IsAllItemSaved = true;
+                        window.location.href = "/OrderAppTable/OrderAppTable";
+                    } else {
+                        callErrorToaster(data.text);
+                    }
                 }
             });
         }
@@ -520,44 +540,37 @@
         // Edit Review
         function EditReview(type, number) {
 
-            if (IsOrderCompleted) {
-                callErrorToaster("Order is already completed");
-                return;
-            }
-            else {
+            var StarTags = document.getElementsByClassName(`${type}-review-class`);
+            var CheckStarFlag = true;
 
-                var StarTags = document.getElementsByClassName(`${type}-review-class`);
-                var CheckStarFlag = true;
-
-                for (i = 1; i < StarTags.length; i++) {
-                    if (StarTags[i].classList.contains(`${type}-review-active`)) {
-                        CheckStarFlag = false;
-                        StarTags[i].classList.add("fa-regular");
-                        StarTags[i].classList.remove("fa-solid");
-                        StarTags[i].classList.remove(`${type}-review-active`);
-                    }
+            for (i = 1; i < StarTags.length; i++) {
+                if (StarTags[i].classList.contains(`${type}-review-active`)) {
+                    CheckStarFlag = false;
+                    StarTags[i].classList.add("fa-regular");
+                    StarTags[i].classList.remove("fa-solid");
+                    StarTags[i].classList.remove(`${type}-review-active`);
                 }
+            }
 
-                if (number == 1) {
-                    var FirstStarTag = document.getElementById(`${type}-review-1`);
-                    if (FirstStarTag.classList.contains(`${type}-review-active`) && CheckStarFlag) {
-                        FirstStarTag.classList.add("fa-regular");
-                        FirstStarTag.classList.remove("fa-solid");
-                        FirstStarTag.classList.remove(`${type}-review-active`);
-                    }
-                    else {
-                        FirstStarTag.classList.remove("fa-regular");
-                        FirstStarTag.classList.add("fa-solid");
-                        FirstStarTag.classList.add(`${type}-review-active`);
-                    }
+            if (number == 1) {
+                var FirstStarTag = document.getElementById(`${type}-review-1`);
+                if (FirstStarTag.classList.contains(`${type}-review-active`) && CheckStarFlag) {
+                    FirstStarTag.classList.add("fa-regular");
+                    FirstStarTag.classList.remove("fa-solid");
+                    FirstStarTag.classList.remove(`${type}-review-active`);
                 }
                 else {
-                    for (i = 1; i <= number; i++) {
-                        var StartTag = document.getElementById(`${type}-review-${i}`);
-                        StartTag.classList.remove("fa-regular");
-                        StartTag.classList.add("fa-solid");
-                        StartTag.classList.add(`${type}-review-active`);
-                    }
+                    FirstStarTag.classList.remove("fa-regular");
+                    FirstStarTag.classList.add("fa-solid");
+                    FirstStarTag.classList.add(`${type}-review-active`);
+                }
+            }
+            else {
+                for (i = 1; i <= number; i++) {
+                    var StartTag = document.getElementById(`${type}-review-${i}`);
+                    StartTag.classList.remove("fa-regular");
+                    StartTag.classList.add("fa-solid");
+                    StartTag.classList.add(`${type}-review-active`);
                 }
             }
         }

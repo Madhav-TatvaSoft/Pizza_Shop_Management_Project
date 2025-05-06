@@ -15,7 +15,8 @@ public interface IOrderAppMenuService
     Task<OrderDetailViewModel> SaveOrder(List<int> orderDetailIds, OrderDetailViewModel orderDetailsVM);
     Task<bool> IsItemsReady(List<int> orderDetailId,OrderDetailViewModel orderDetailsVM);
     Task<bool> CompleteOrder(OrderDetailViewModel orderDetailsVM);
+    Task<bool> SaveRatings(OrderDetailViewModel orderDetailVM);
+    Task<bool> IsAnyItemReady(OrderDetailViewModel orderDetailsVM);
+    Task<bool> CancelOrder(OrderDetailViewModel orderDetailsVM);
 
-
-    // Task<long> SaveRatings(long customerId, int foodreview, int serviceReview, int ambienceReview, string reviewtext);
 }

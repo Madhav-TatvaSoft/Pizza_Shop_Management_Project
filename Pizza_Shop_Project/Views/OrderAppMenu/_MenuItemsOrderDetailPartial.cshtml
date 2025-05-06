@@ -215,15 +215,18 @@
                 <div>Payment Method</div>
                 <div class="d-flex gap-2 justify-content-between align-items-center">
                     <div class="form-check d-flex align-items-center">
-                        <input class="form-check-input payment-type" type="radio" name="payment" value="1" @(Model.PaymentmethodId == 1 ? "checked=\"checked\"" : "") >
+                        <input class="form-check-input payment-type" type="radio" name="payment" value="1"
+                        @(Model.PaymentmethodId == 1 ? "checked=\"checked\"" : "")>
                         <label class="form-check-label ps-2 pt-1" for="radioDefault1">Cash</label>
                     </div>
                     <div class="form-check d-flex align-items-center">
-                        <input class="form-check-input payment-type" type="radio" name="payment" value="2" @(Model.PaymentmethodId == 2 ? "checked=\"checked\"" : "")>
+                        <input class="form-check-input payment-type" type="radio" name="payment" value="2"
+                        @(Model.PaymentmethodId == 2 ? "checked=\"checked\"" : "")>
                         <label class="form-check-label ps-2 pt-1" for="radioDefault1">Card</label>
                     </div>
                     <div class="form-check d-flex align-items-center">
-                        <input class="form-check-input payment-type" type="radio" name="payment" value="3" @(Model.PaymentmethodId == 3 ? "checked=\"checked\"" : "")>
+                        <input class="form-check-input payment-type" type="radio" name="payment" value="3"
+                        @(Model.PaymentmethodId == 3 ? "checked=\"checked\"" : "")>
                         <label class="form-check-label ps-2 pt-1" for="radioDefault1">UPI</label>
                     </div>
                 </div>
@@ -231,13 +234,15 @@
 
             @* Order Status *@
             <div class="py-4 d-flex flex-wrap justify-content-end gap-3">
-                <button id="OrderSaveBtn" class="btn solid-btn order-OrderSaveBtn" style="width: 180px;" onclick="SaveOrder()">Save</button>
-                <button id="OrderCompleteBtn" class="btn hollow-btn" style="width: 180px;" onclick="CompleteOrder()">Complete</button>
-                <button id="OrderGenerateInvoiceBtn" class="btn hollow-btn" style="width: 180px;" >Generate Invoice</button>
+                <button id="OrderSaveBtn" class="btn solid-btn order-OrderSaveBtn" style="width: 180px;"
+                    onclick="SaveOrder()">Save</button>
+                <button id="OrderCompleteBtn" class="btn hollow-btn" style="width: 180px;"
+                    onclick="CompleteOrder()">Complete</button>
+                <button id="OrderGenerateInvoiceBtn" class="btn hollow-btn" style="width: 180px;">Generate Invoice</button>
             </div>
 
             <div class="text-end">
-                <button id="OrderCancelBtn" class="btn hollow-btn" style="width: 180px;" >Cancel</button>
+                <button id="OrderCancelBtn" class="btn hollow-btn" style="width: 180px;" data-bs-toggle="modal" data-bs-target="#CancelOrderModal">Cancel</button>
             </div>
         </div>
 
@@ -306,7 +311,7 @@
 </div>
 
 <!-- Customer review after complete-->
-<div id="CustomerReviewModal" class="modal fade"  tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+<div id="CustomerReviewModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog-centered modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -344,53 +349,84 @@
                         }
                     </span>
                 </div>
-                <hr class="text-warning col-12" style="height: 3px;"/>
+                <hr class="text-warning col-12" style="height: 3px;" />
                 <div class="form-floating col-12 mt-3">
-                    <textarea class="form-control"
-                        placeholder="Leave a comment here" id="ReviewText" style="height: 100px"></textarea>
+                    <textarea class="form-control" placeholder="Leave a comment here" id="ReviewText"
+                        style="height: 100px"></textarea>
                     <label for="ReviewText" class="text-secondary">Comment</label>
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn solid-btn me-2 fw-normal" id="SaveCustomerReview" onclick="CompleteOrder()">Save</button>
+                <button type="button" class="btn solid-btn me-2 fw-normal" id="SaveCustomerReview"
+                    onclick="SaveRating()" disabled>Save</button>
                 <button type="button" class="btn hollow-btn fw-normal" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Cancel Order Conformation -->
+<div class="modal fade" id="CancelOrderModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5 fw-bold text-secondary">Cancel Conformation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div class="d-flex justify-content-center mb-3"><img
+                        src="../images/toppng.com-warning-icon-2400x2400.png" style="width: 30px;" alt=""></div>
+                <p class="fw-semibold text-secondary text-center mb-3">Are you sure you want to Cancel this Order ?
+                </p>
+                <div class="modal-footer mt-3 d-flex justify-content-center">
+                    <button type="submit" class="btn solid-btn" data-bs-dismiss="modal"
+                        onclick="CancelOrder()">Yes</button>
+                    <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
 
 <script>
+
+    $("#ReviewText").on('keyup', function () {
+        comment = $(this).val();
+        console.log(comment, "comment")
+        if (comment.length > 0) {
+            $("#SaveCustomerReview").removeAttr("disabled");
+        } else {
+            $("#SaveCustomerReview").attr("disabled", "disabled");
+        }
+    });
+
     function PrintToaster() {
         callErrorToaster("Sorry order is almost Ready!");
     }
-
-
 
     $(document).ready(function () {
         var orderDetails = @Html.Raw(Json.Serialize(Model));
         FillAlreadySavedDataInArray(orderDetails);
 
-        if(JSON.stringify(TempItem) == JSON.stringify(MainItem)){
+        if (JSON.stringify(TempItem) == JSON.stringify(MainItem)) {
             $('#OrderSaveBtn').attr('disabled', true);
-            $('#OrderCompleteBtn').attr('disabled', false); 
-            $('#OrderGenerateInvoiceBtn').attr('disabled',false);
-            $('#OrderCancelBtn').attr('disabled',false);
-        }else{
+            $('#OrderCompleteBtn').attr('disabled', false);
+            $('#OrderGenerateInvoiceBtn').attr('disabled', false);
+            $('#OrderCancelBtn').attr('disabled', false);
+        } else {
             $('#OrderSaveBtn').attr('disabled', false);
             $('#OrderCompleteBtn').attr('disabled', true);
-            $('#OrderGenerateInvoiceBtn').attr('disabled',true);
-            $('#OrderCancelBtn').attr('disabled',false);
- 
+            $('#OrderGenerateInvoiceBtn').attr('disabled', true);
+            $('#OrderCancelBtn').attr('disabled', false);
+
         }
- 
-        if(orderDetails.status == "Completed"){
+        if (orderDetails.status == "Completed") {
             $('#OrderSaveBtn').attr('disabled', true);
             $('#OrderCompleteBtn').attr('disabled', true);
-            $('#OrderCancelBtn').attr('disabled',true);
-            $('#OrderGenerateInvoiceBtn').attr('disabled',false);
+            $('#OrderCancelBtn').attr('disabled', true);
+            $('#OrderGenerateInvoiceBtn').attr('disabled', false);
         }
     });
 </script>
