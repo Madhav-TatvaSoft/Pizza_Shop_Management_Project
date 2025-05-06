@@ -30,7 +30,7 @@ public class OrderService : IOrderService
             .Select(u => new OrdersViewModel
             {
                 OrderId = u.OrderId,
-                OrderDate = System.DateOnly.FromDateTime(u.OrderDate.Date),
+                OrderDate = DateOnly.FromDateTime(u.OrderDate.Date),
                 CustomerId = u.Customer.CustomerId,
                 CustomerName = u.Customer.CustomerName,
                 Status = u.Status,
