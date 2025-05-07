@@ -242,7 +242,8 @@
             </div>
 
             <div class="text-end">
-                <button id="OrderCancelBtn" class="btn hollow-btn" style="width: 180px;" data-bs-toggle="modal" data-bs-target="#CancelOrderModal">Cancel</button>
+                <button id="OrderCancelBtn" class="btn hollow-btn" style="width: 180px;" data-bs-toggle="modal"
+                    data-bs-target="#CancelOrderModal">Cancel</button>
             </div>
         </div>
 
@@ -420,7 +421,6 @@
             $('#OrderCompleteBtn').attr('disabled', true);
             $('#OrderGenerateInvoiceBtn').attr('disabled', true);
             $('#OrderCancelBtn').attr('disabled', false);
-
         }
         if (orderDetails.status == "Completed") {
             $('#OrderSaveBtn').attr('disabled', true);

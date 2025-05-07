@@ -35,7 +35,21 @@ namespace Pizza_Shop_Project.Controllers
             ViewData["sidebar-active"] = "Dashboard";
             return View();
         }
+
+        public IActionResult GetDashboardDetails(string Range = "", string startDate = "", string endDate = "")
+        {
+            DashboardViewModel dashboard = _userService.GetDashboardDetails(Range, startDate, endDate);
+            return PartialView("_DashboardDataPartial", dashboard);
+        }
+
+        public IActionResult GetRevenueAndCustomer(string Range = "Today", string startDate = "", string endDate = "")
+        {
+            var (RevenueList, CustomerList) = _userService.GetRevenueAndCustomer(Range, startDate, endDate);
+            return Json(new { RevenueList, CustomerList });
+        }
+
         #endregion
+
 
         #region State,City
         public JsonResult GetStates(long? countryId)
@@ -92,7 +106,7 @@ namespace Pizza_Shop_Project.Controllers
                 if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                    string fileName = BLL.common.ImageTemplate.UploadImage(user.ProfileImage,path);
+                    string fileName = BLL.common.ImageTemplate.UploadImage(user.ProfileImage, path);
                     user.Image = $"/uploads/{fileName}";
                 }
                 else
@@ -258,7 +272,7 @@ namespace Pizza_Shop_Project.Controllers
                 if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                    string fileName = ImageTemplate.UploadImage(user.ProfileImage,path);
+                    string fileName = ImageTemplate.UploadImage(user.ProfileImage, path);
                     user.Image = $"/uploads/{fileName}";
                 }
                 else
@@ -364,19 +378,19 @@ namespace Pizza_Shop_Project.Controllers
                 TempData["CityError"] = "Please select a city";
             }
 
-             if (edituser.ProfileImage != null)
+            if (edituser.ProfileImage != null)
             {
                 string[]? extension = edituser.ProfileImage.FileName.Split(".");
                 if (extension[extension.Length - 1] == "jpg" || extension[extension.Length - 1] == "jpeg" || extension[extension.Length - 1] == "png")
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                    string fileName = ImageTemplate.UploadImage(edituser.ProfileImage,path);
+                    string fileName = ImageTemplate.UploadImage(edituser.ProfileImage, path);
                     edituser.Image = $"/uploads/{fileName}";
                 }
                 else
                 {
                     TempData["ErrorMessage"] = NotificationMessage.ImageFormat;
-                    return RedirectToAction("AddUser", "User", new { Email = edituser .Email });
+                    return RedirectToAction("AddUser", "User", new { Email = edituser.Email });
                 }
             }
 

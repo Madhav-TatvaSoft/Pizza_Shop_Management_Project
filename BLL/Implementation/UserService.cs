@@ -24,6 +24,185 @@ public class UserService : IUserService
         _configuration = configuration;
     }
 
+    public DashboardViewModel GetDashboardDetails(string Range = "", string startDate = "", string endDate = "")
+    {
+        try
+        {
+            DashboardViewModel dashboard = new DashboardViewModel();
+
+            if (Range == "Today")
+            {
+                startDate = DateTime.Now.ToString("yyyy-MM-dd");
+                endDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+            }
+            else if (Range == "Last 7 days")
+            {
+                startDate = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd");
+                endDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+            }
+            else if (Range == "Last 30 days")
+            {
+                startDate = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
+                endDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+            }
+            else if (Range == "Current Month")
+            {
+                startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).ToString("yyyy-MM-dd");
+                endDate = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+            else if (Range == "Custom Date")
+            {
+                startDate = startDate;
+                endDate = endDate;
+            }
+
+            dashboard.TotalSales = _context.Orders
+                                    .Where(x => !x.Isdelete && x.Status != "Cancelled" && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
+                                    .Sum(x => x.TotalAmount);
+            dashboard.TotalOrders = _context.Orders
+                                    .Where(x => !x.Isdelete && x.Status != "Cancelled" && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
+                                    .Count();
+            dashboard.AvgOrderValue = Math.Round(_context.Orders
+                                        .Where(x => !x.Isdelete && x.Status != "Cancelled" && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
+                                        .AsEnumerable()
+                                        .Select(x => x.TotalAmount)
+                                        .DefaultIfEmpty(0)
+                                        .Average(), 2);
+
+            dashboard.AvgWaitingTime = Math.Round(_context.Waitinglists
+                .Where(w => !w.Isdelete && w.CreatedAt.HasValue && w.AssignedAt.HasValue && w.CreatedAt >= DateTime.Parse(startDate) && w.CreatedAt <= DateTime.Parse(endDate))
+                .AsEnumerable()
+                .Select(w => (w.AssignedAt.Value - w.CreatedAt.Value).TotalMinutes)
+                .DefaultIfEmpty(0)
+                .Average(), 2);
+
+            dashboard.TopSellingItems = _context.Orderdetails.Include(x => x.Item).Where(x => !x.Isdelete && x.Status != "Cancelled" && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
+                .GroupBy(x => x.ItemId)
+                .Select(g => new SellingItemViewModel
+                {
+                    ItemId = g.Key,
+                    ItemImage = _context.Items.FirstOrDefault(i => i.ItemId == g.Key).ItemImage,
+                    ItemName = _context.Items.FirstOrDefault(i => i.ItemId == g.Key).ItemName,
+                    ItemCount = g.Count()
+                })
+                .OrderByDescending(x => x.ItemCount)
+                .Take(2)
+                .ToList();
+
+            dashboard.LeastSellingItems = _context.Orderdetails.Include(x => x.Item).Where(x => !x.Isdelete && x.Status != "Cancelled" && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
+                .GroupBy(x => x.ItemId)
+                .Select(g => new SellingItemViewModel
+                {
+                    ItemId = g.Key,
+                    ItemImage = _context.Items.FirstOrDefault(i => i.ItemId == g.Key).ItemImage,
+                    ItemName = _context.Items.FirstOrDefault(i => i.ItemId == g.Key).ItemName,
+                    ItemCount = g.Count()
+                })
+                .OrderBy(x => x.ItemCount)
+                .Take(2)
+                .ToList();
+
+            dashboard.WaitingListCount = _context.Waitinglists.Where(x => !x.Isdelete && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate)).Count();
+
+            dashboard.NewCustomerCount = _context.Customers
+                .Where(x => !x.Isdelete && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
+                .Count();
+
+            return dashboard;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return null;
+        }
+    }
+
+    public (List<decimal?>, List<int>) GetRevenueAndCustomer(string Range, string startDate, string endDate)
+    {
+        List<Order> orders = _context.Orders.Where(o => !o.Isdelete && o.Status == "Completed").ToList();
+        List<Customer> customers = _context.Customers.Where(c => !c.Isdelete).ToList();
+        List<decimal?> RevenueList = new();
+        List<int> CustomerList = new();
+   
+        switch (Range)
+        {
+            case "Today":
+                for (int i = 0; i <= 23; i++)
+                {
+                    CustomerList.Add(customers.Where(x => x.CreatedAt.Value.Date == DateTime.Now.Date && x.CreatedAt.Value.Hour == i).ToList().Count);
+                    RevenueList.Add(orders.Where(x => x.CreatedAt.Value.Date == DateTime.Now.Date && x.CreatedAt.Value.Hour == i).Sum(x => x.TotalAmount));
+                }
+                break;
+            case "Last 7 days":
+                for (int i = -1 * 7; i <= 0; i++)
+                {
+                    CustomerList.Add(customers.Where(x => x.CreatedAt.Value.Date == DateTime.Now.AddDays(i).Date).ToList().Count);
+                    RevenueList.Add(orders.Where(x => x.CreatedAt.Value.Date == DateTime.Now.AddDays(i).Date).Sum(x => x.TotalAmount));
+                }
+ 
+                break;
+            case "Last 30 days":
+                for (int i = -1 * 30; i <= 0; i++)
+                {
+                    CustomerList.Add(customers.Where(x => x.CreatedAt.Value.Date == DateTime.Now.AddDays(i).Date).ToList().Count);
+                    RevenueList.Add(orders.Where(x => x.CreatedAt.Value.Date == DateTime.Now.AddDays(i).Date).Sum(x => x.TotalAmount));
+                }
+                break;
+            case "Current Month":
+                for (int i = 1; i <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
+                {
+                    CustomerList.Add(customers.Where(x => x.CreatedAt.Value.Day == i && x.CreatedAt.Value.Month == DateTime.Now.Month).ToList().Count);
+                    RevenueList.Add(orders.Where(x => x.CreatedAt.Value.Day == i && x.CreatedAt.Value.Month == DateTime.Now.Month).Sum(x => x.TotalAmount));
+                }
+                break;
+            case "Custom Date":
+                if (!string.IsNullOrEmpty(startDate) && string.IsNullOrEmpty(endDate))
+                {
+                    for (int i = 1; i <= 12; i++)
+                    {
+                        CustomerList.Add(customers.Where(x => x.CreatedAt.Value.Month == i && x.CreatedAt.Value.Date >= DateTime.Parse(startDate).Date).ToList().Count);
+                        RevenueList.Add(orders.Where(x => x.CreatedAt.Value.Month == i && x.CreatedAt.Value.Date >= DateTime.Parse(startDate).Date).Sum(x => x.TotalAmount));
+                    }
+                }
+                else if (string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate))
+                {
+                    for (int i = 1; i <= 12; i++)
+                    {
+                        CustomerList.Add(customers.Where(x => x.CreatedAt.Value.Month == i && x.CreatedAt.Value.Date <= DateTime.Parse(endDate).Date).ToList().Count);
+                        RevenueList.Add(orders.Where(x => x.CreatedAt.Value.Month == i && x.CreatedAt.Value.Date <= DateTime.Parse(endDate).Date).Sum(x => x.TotalAmount));
+                    }
+                }
+                else
+                {
+                    string[] StartDateList = startDate.Split("-");
+                    string[] EndDateList = endDate.Split("-");
+                    if (StartDateList[1] == EndDateList[1])
+                    {
+                        for (int i = 1; i <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
+                        {
+                            CustomerList.Add(customers.Where(x => x.CreatedAt.Value.Day == i && x.CreatedAt.Value.Date >= DateTime.Parse(startDate).Date
+                                            && x.CreatedAt.Value.Date <= DateTime.Parse(endDate).Date).ToList().Count);
+                            RevenueList.Add(orders.Where(x => x.CreatedAt.Value.Day == i && x.CreatedAt.Value.Date >= DateTime.Parse(startDate).Date
+                                            && x.CreatedAt.Value.Date <= DateTime.Parse(endDate).Date).Sum(x => x.TotalAmount));
+                        }
+                    }
+                    else
+                    {
+                        for (int i = int.Parse(StartDateList[1]); i <= int.Parse(EndDateList[1]); i++)
+                        {
+                            CustomerList.Add(customers.Where(x => x.CreatedAt.Value.Month == i && x.CreatedAt.Value.Date >= DateTime.Parse(startDate).Date
+                                            && x.CreatedAt.Value.Date <= DateTime.Parse(endDate).Date).ToList().Count);
+                            RevenueList.Add(orders.Where(x => x.CreatedAt.Value.Month == i && x.CreatedAt.Value.Date >= DateTime.Parse(startDate).Date
+                                            && x.CreatedAt.Value.Date <= DateTime.Parse(endDate).Date).Sum(x => x.TotalAmount));
+                        }
+                    }
+                }
+                break;
+        }
+        return (RevenueList, CustomerList);
+    }
+
+
     #region GetCountry
     public List<Country> GetCountry()
     {

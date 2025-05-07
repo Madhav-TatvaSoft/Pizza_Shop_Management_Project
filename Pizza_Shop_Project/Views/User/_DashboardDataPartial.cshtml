@@ -1,0 +1,234 @@
+@using Microsoft.AspNetCore.Authorization
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
+@model DAL.ViewModels.DashboardViewModel;
+
+<div class="container-fluid pt-3 p-0">
+    <div class="row gx-4 ">
+        <div class="col-12 mt-2 col-sm-6 col-lg-3">
+            <div class="bg-white shadow p-2 h-100" style="border-radius: 7px !important;">
+                <div class="d-flex justify-content-end ">
+                    <div class="p-2 d-flex justify-content-center align-items-center dashboard-icon-outer rounded-circle"
+                        style="border: 1px solid rgb(93, 214, 93);">
+                        <div class="dashboard-icon d-flex justify-content-center align-items-center"
+                            style="background-color: rgb(93, 214, 93);">
+                            <img src="~/images/icons/total-sales.svg" height="20" width="20" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start p-1">
+                    <h2 class="text-left fs-4   "> &#x20b9; @Model.TotalSales</h2>
+                </div>
+                <div class="d-flex text-black-50 justify-content-start p-1">
+                    <span style="font-size: 15px;">Total Sales</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 mt-2 col-sm-6 col-lg-3">
+            <div class="bg-white shadow p-2 h-100" style="border-radius: 7px !important;">
+                <div class="d-flex justify-content-end">
+                    <div class="p-2 d-flex justify-content-center align-items-center dashboard-icon-outer rounded-circle"
+                        style="border: 1px solid rgb(255, 118, 255);">
+                        <div class="dashboard-icon d-flex justify-content-center align-items-center"
+                            style="background-color: rgb(255, 118, 255);">
+                            <img src="~/images/icons/total-orders.svg" height="20" width="20" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start p-1">
+                    <h2 class="text-left fs-4">@Model.TotalOrders</h2>
+                </div>
+                <div class="d-flex text-black-50 justify-content-start p-1">
+                    <span style="font-size: 15px;">Total Orders</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 mt-2 col-sm-6 col-lg-3 ">
+            <div class="bg-white shadow p-2 h-100" style="border-radius: 7px !important;">
+                <div class="d-flex justify-content-end">
+                    <div class="p-2 d-flex justify-content-center align-items-center dashboard-icon-outer rounded-circle"
+                        style="border: 1px solid rgb(180, 180, 180);">
+                        <div class="dashboard-icon d-flex justify-content-center align-items-center"
+                            style="background-color: rgb(180, 180, 180);">
+                            <img src="~/images/icons/total-orders.svg" height="20" width="20" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start p-1">
+                    <h2 class="text-left fs-4"> &#x20b9; @Model.AvgOrderValue</h2>
+                </div>
+                <div class="d-flex text-black-50 justify-content-start p-1">
+                    <span style="font-size: 15px;">Avg. Order Value</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mt-2 col-sm-6 col-lg-3">
+            <div class="bg-white shadow p-2 h-100" style="border-radius: 7px !important;">
+                <div class="d-flex justify-content-end">
+                    <div class="p-2 d-flex justify-content-center align-items-center dashboard-icon-outer rounded-circle"
+                        style="border: 1px solid rgb(255, 118, 64);">
+                        <div class="dashboard-icon d-flex justify-content-center align-items-center"
+                            style="background-color: rgb(255, 118, 64);">
+                            <img src="~/images/icons/waiting-time.svg" height="20" width="20" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start p-1">
+                    <h2 class="text-left fs-4">@Model.AvgWaitingTime mins</h2>
+                </div>
+                <div class="d-flex text-black-50 justify-content-start p-1">
+                    <span style="font-size: 15px;">Avg. Waiting Time</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row gx-4 mt-4">
+        <div class="col mt-2">
+            <div class="d-flex flex-column bg-white shadow p-2 h-100" style="border-radius: 7px !important;">
+                <h4 class="fs-5 ps-1 pb-2">Revenue</h4>
+                <div class="chart">
+                    <canvas id="RevenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col mt-2">
+            <div class="d-flex flex-column bg-white shadow p-2 h-100" style="border-radius: 7px !important;">
+                <h4 class="fs-5 ps-1 pb-2">Customer Growth</h4>
+                <div class="chart">
+                    <canvas id="customerGrowthChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row d-flex mt-4">
+        <div class="col-12 mt-2 col-sm-6 @(User.IsInRole("Admin") ? "col-lg-3" : "col-lg-4")">
+            <div class="d-flex flex-column bg-white shadow p-3 h-100" style="border-radius: 7px !important;">
+                <h4 class="fs-5">Top Selling Items</h4>
+                @{
+                    var topIndex = 1;
+                }
+                @if (Model.TopSellingItems.Count == 0)
+                {
+                    <div class="d-flex justify-content-start align-items-center pt-3">
+                        <span class="text-black-50">No Data Found</span>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var item in Model.TopSellingItems)
+                    {
+                        <div class="d-flex justify-content-start align-items-center pt-3">
+                            <span class="text-secondary fw-bold pe-2 validate"># @topIndex</span>
+                            <img src="@item.ItemImage" alt="" height="35" width="35">
+                            <div class="d-flex flex-column ps-2">
+                                <span class="validate pb-1">@item.ItemName</span>
+                                <div class="d-flex validate">
+                                    <i class="fa-solid fa-bell-concierge totalOrder pe-1"></i>
+                                    @item.ItemCount Order
+                                </div>
+                            </div>
+                        </div>
+
+                        if (topIndex < Model.TopSellingItems.Count)
+                        {
+                            <hr class="mb-2 mt-2">
+                        }
+                        topIndex++;
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-12 mt-2 col-sm-6 @(User.IsInRole("Admin") ? "col-lg-3" : "col-lg-4")">
+            <div class="d-flex flex-column bg-white shadow p-3 h-100" style="border-radius: 7px !important;">
+                <h4 class="fs-5">Least Selling Items</h4>
+                @{
+                    var leastIndex = 1;
+                }
+                @if (Model.LeastSellingItems.Count == 0)
+                {
+                    <div class="d-flex justify-content-start align-items-center pt-3">
+                        <span class="text-black-50">No Data Found</span>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var item in Model.LeastSellingItems)
+                    {
+                        <div class="d-flex justify-content-start align-items-center pt-3">
+                            <span class="text-secondary fw-bold pe-2 validate"># @leastIndex</span>
+                            <img src="@item.ItemImage" alt="" height="35" width="35">
+                            <div class="d-flex flex-column ps-2">
+                                <span class="validate pb-1">@item.ItemName</span>
+                                <div class="d-flex validate">
+                                    <i class="fa-solid fa-bell-concierge totalOrder pe-1"></i>
+                                    @item.ItemCount Order
+                                </div>
+                            </div>
+                        </div>
+
+                        if (leastIndex < Model.LeastSellingItems.Count)
+                        {
+                            <hr class="mb-2 mt-2">
+                        }
+                        leastIndex++;
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-12 mt-2 col-sm-6 @(User.IsInRole("Admin") ? "col-lg-3" : "col-lg-4")">
+            <div class="bg-white shadow p-2  h-100 d-flex flex-column justify-content-between"
+                style="border-radius: 7px !important;">
+                <div class="d-flex justify-content-end">
+                    <div class="p-2 d-flex justify-content-center align-items-center dashboard-icon-outer rounded-circle"
+                        style="border: 1px solid orange;">
+                        <div class="dashboard-icon d-flex justify-content-center align-items-center"
+                            style="background-color: orange;">
+                            <img src="~/images/icons/waiting-list.svg" height="20" width="20" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex justify-content-start p-1">
+                        <h2 class="text-left fs-4">@Model.WaitingListCount</h2>
+                    </div>
+                    <div class="d-flex justify-content-start p-1">
+                        <span class="d-flex text-black-50 justify-content-start pb-3">Waiting List Count</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="col-12 mt-2 col-sm-6 col-lg-3">
+                <div class="bg-white shadow p-2  h-100 d-flex flex-column justify-content-between"
+                    style="border-radius: 7px !important;">
+                    <div class="d-flex justify-content-end">
+                        <div class="p-2 d-flex justify-content-center align-items-center dashboard-icon-outer rounded-circle"
+                            style="border: 1px solid orange;">
+                            <div class="dashboard-icon d-flex justify-content-center align-items-center"
+                                style="background-color: orange;">
+                                <img src="~/images/customer.svg" height="20" width="20" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="d-flex justify-content-start p-1">
+                            <h2 class="text-left fs-4">@Model.NewCustomerCount</h2>
+                        </div>
+                        <div class="d-flex justify-content-start p-1">
+                            <span class="d-flex text-black-50 justify-content-start pb-3">New Customer Count</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

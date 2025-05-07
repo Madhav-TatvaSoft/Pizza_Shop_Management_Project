@@ -1,13 +1,12 @@
-@model DAL.Models.User;
+@model DAL.ViewModels.DashboardViewModel;
 
 @{
-    ViewData["Title"] = "UserProfile Page";
+    ViewData["Title"] = "Dashboard Page";
     Layout = "_Layout";
 }
 
 <style>
     .dashboard-icon {
-
         width: 40px;
         height: 40px;
         border-radius: 100%;
@@ -25,227 +24,105 @@
 </style>
 
 <div class="body_content">
-    <h3 class="custom-blue fw-bold m-2">Dashboard</h3>
 
-    <div class="container-fluid mt-3">
-        <div class="row gx-4 ">
-            <div class="col-12 mt-2 col-sm-6 col-lg-3">
-                <div class="bg-white shadow rounded p-2 h-100">
-                    <div class="d-flex justify-content-end ">
-                        <div class="p-2 d-flex justify-content-center align-items-center dashboard-icon-outer rounded-circle"
-                            style="border: 1px solid rgb(93, 214, 93);">
-                            <div class="dashboard-icon d-flex justify-content-center align-items-center"
-                                style="background-color: rgb(93, 214, 93);">
-                                <img src="~/images/icons/total-sales.svg" height="20" width="20" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-start">
-                        <h2 class="text-left"> &#x20b9; 1600</h2>
-                    </div>
-                    <div class="d-flex justify-content-start">
-                        <span>Total Sales</span>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-12 mt-2 col-sm-6 col-lg-3">
-                <div class="bg-white shadow rounded p-2 h-100">
-                    <div class="d-flex justify-content-end">
-                        <div class="p-2 d-flex justify-content-center align-items-center dashboard-icon-outer rounded-circle"
-                            style="border: 1px solid rgb(255, 118, 255);">
-                            <div class="dashboard-icon d-flex justify-content-center align-items-center"
-                                style="background-color: rgb(255, 118, 255);">
-                                <img src="~/images/icons/total-orders.svg" height="20" width="20" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-start">
-                        <h2 class="text-left"> 1</h2>
-                    </div>
-                    <div class="d-flex justify-content-start">
-                        <span>Total Orders</span>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-12 mt-2 col-sm-6 col-lg-3 ">
-                <div class="bg-white shadow rounded p-2 h-100">
-                    <div class="d-flex justify-content-end">
-                        <div class="p-2 d-flex justify-content-center align-items-center dashboard-icon-outer rounded-circle"
-                            style="border: 1px solid rgb(180, 180, 180);">
-                            <div class="dashboard-icon d-flex justify-content-center align-items-center"
-                                style="background-color: rgb(180, 180, 180);">
-                                <img src="~/images/icons/total-orders.svg" height="20" width="20" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-start">
-                        <h2 class="text-left"> &#x20b9; 1630</h2>
-                    </div>
-                    <div class="d-flex justify-content-start">
-                        <span>Avg Order Value</span>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-12 mt-2 col-sm-6 col-lg-3">
-                <div class="bg-white shadow rounded p-2 h-100">
-                    <div class="d-flex justify-content-end">
-                        <div class="p-2 d-flex justify-content-center align-items-center dashboard-icon-outer rounded-circle"
-                            style="border: 1px solid rgb(255, 118, 64);">
-                            <div class="dashboard-icon d-flex justify-content-center align-items-center"
-                                style="background-color: rgb(255, 118, 64);">
-                                <img src="~/images/icons/waiting-time.svg" height="20" width="20" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-start">
-                        <h2 class="text-left"> 6.96 mins</h2>
-                    </div>
-                    <div class="d-flex justify-content-start">
-                        <span>Avg Waiting Time</span>
-                    </div>
-                </div>
-
-            </div>
+    <div class="d-md-flex justify-content-between pt-3">
+        <div class="user-text fs-3 fw-bold">Dashboard</div>
+        <div class="form-floating pt-3 pt-md-0 w-auto">
+            <select id="selectRange" class="form-select p-2"
+                style="height:45px !important; border-radius: 7px !important;">
+                <option value="Today">Today</option>
+                <option value="Last 7 days">Last 7 days</option>
+                <option value="Last 30 days">Last 30 days</option>
+                <option value="Current Month">Current Month</option>
+                <option value="Custom Date">Custom Date</option>
+            </select>
         </div>
+    </div>
 
-        <div class="row gx-4 mt-4">
-            <div class="col mt-2">
-                <div class="d-flex flex-column bg-white shadow rounded p-2 h-100">
-                    <h4>Revenue</h4>
-                    <div class="chart">
-                        <canvas id="myChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col mt-2">
-                <div class="d-flex flex-column bg-white shadow rounded p-2 h-100">
-                    <h4>Customer Growth</h4>
-                    <div class="chart">
-                        <canvas id="customerGrowthChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row d-flex mt-4">
-            <div class="col-12 mt-2 col-sm-6 col-lg-3">
-                <div class="d-flex flex-column bg-white shadow rounded p-2 h-100">
-                    <h4>Top Selling Items</h4>
-                    <div class="d-flex justify-content-start align-items-center">
-                        <span>#1</span>
-                        <img src="~/images/dining-menu.png" alt="" height="30" width="30">
-                        <div class="d-flex flex-column">
-                            <span>Grilled Burger</span>
-                            <div class="d-flex">
-                                <img src="~/images/icons/menu-icon.png" alt="" width="20" height="20"> 1 Order
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-start align-items-center">
-                        <span>#2</span>
-                        <img src="~/images/dining-menu.png" alt="" height="30" width="30">
-                        <div class="d-flex flex-column">
-                            <span>Grilled Burger</span>
-                            <div class="d-flex">
-                                <img src="~/images/icons/menu-icon.png" alt="" width="20" height="20"> 1 Order
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 mt-2 col-sm-6 col-lg-3">
-                <div class="d-flex flex-column bg-white shadow rounded p-2">
-                    <h4>Least Selling Items</h4>
-                    <div class="d-flex justify-content-start align-items-center">
-                        <span>#1</span>
-                        <img src="~/images/dining-menu.png" alt="" height="30" width="30">
-                        <div class="d-flex flex-column">
-                            <span>Grilled Burger</span>
-                            <div class="d-flex">
-                                <img src="~/images/icons/menu-icon.png" alt="" width="20" height="20"> 1 Order
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-start align-items-center">
-                        <span>#2</span>
-                        <img src="~/images/dining-menu.png" alt="" height="30" width="30">
-                        <div class="d-flex flex-column">
-                            <span>Grilled Burger</span>
-                            <div class="d-flex">
-                                <img src="~/images/icons/menu-icon.png" alt="" width="20" height="20"> 1 Order
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 mt-2 col-sm-6 col-lg-3">
-                <div class="bg-white shadow rounded p-2  h-100 d-flex flex-column justify-content-between">
-                    <div class="d-flex justify-content-end">
-                        <div class="p-2 d-flex justify-content-center align-items-center dashboard-icon-outer rounded-circle"
-                            style="border: 1px solid orange;">
-                            <div class="dashboard-icon d-flex justify-content-center align-items-center"
-                                style="background-color: orange;">
-                                <img src="~/images/icons/waiting-list.svg" height="20" width="20" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="d-flex justify-content-start">
-                            <h2 class="text-left">5</h2>
-                        </div>
-                        <div class="d-flex justify-content-start">
-                            <span>Waiting List Count</span>
-                        </div>
-                    </div>
+    <div id="Dashboard-Content">
 
-                </div>
-            </div>
-            <div class="col-12 mt-2 col-sm-6 col-lg-3">
-                <div class="bg-white shadow rounded p-2  h-100 d-flex flex-column justify-content-between">
-                    <div class="d-flex justify-content-end">
-                        <div class="p-2 d-flex justify-content-center align-items-center dashboard-icon-outer rounded-circle"
-                            style="border: 1px solid orange;">
-                            <div class="dashboard-icon d-flex justify-content-center align-items-center"
-                                style="background-color: orange;">
-                                <img src="~/images/icons/waiting-list.svg" height="20" width="20" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="d-flex justify-content-start">
-                            <h2 class="text-left">5</h2>
-                        </div>
-                        <div class="d-flex justify-content-start">
-                            <span>Waiting List Count</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var ctx = document.getElementById("myChart").getContext("2d");
+    var range = "Today";
+    var startDate = "";
+    var endDate = "";
+    var Labels = Array.from({ length: 31 }, (_, i) => i + 1);
+    var RevenueGrowthData;
+    var CustomerCountData;
 
-        new Chart(ctx, {
+    $('#selectRange').on('change', function () {
+        range = $(this).val();
+        if (range == "Custom Date") {
+
+        } else {
+            startDate = "";
+            endDate = "";
+            fetchDashboardData();
+        }
+    });
+
+    // Function to fetch and display the Dashboard content
+    function fetchDashboardData() {
+
+        range = $("#selectRange").val();
+
+        if (range == "Current Month") {
+            Labels = Array.from({ length: 31 }, (_, i) => i + 1)
+        }
+        else if (range == "Last 7 days") {
+            Labels = []
+            for (i = 6; i >= 0; i--) {
+                Labels.push(new Date(new Date().getTime() - i * 24 * 60 * 60 * 1000).getDate())
+            }
+        } else if (range == "Last 30 days") {
+            Labels = []
+            for (i = 29; i >= 0; i--) {
+                Labels.push(new Date(new Date().getTime() - i * 24 * 60 * 60 * 1000).getDate())
+            }
+        }
+        else if (range == "Today") {
+            Labels = []
+            for (i = 0; i <= 23; i++) {
+                Labels.push(`${i}:00`)
+            }
+        }
+        else {
+            Labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        }
+
+        $.ajax({
+            url: "/User/GetDashboardDetails",
+            type: 'GET',
+            data: { range, startDate, endDate },
+            success: function (data) {
+                $('#Dashboard-Content').html(data);
+                ChangeGraphData(range, startDate, endDate);
+                setTimeout((x) => {
+                    ShowGraphs();
+                }, 300)
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching dashboard content:", error);
+            }
+        });
+    }
+
+    function ShowGraphs() {
+        var ctx = document.getElementById("RevenueChart").getContext("2d");
+
+        // Revenue chart
+        RevenueChart = new Chart(ctx, {
             type: "line", // Line chart type
             data: {
-                labels: Array.from({ length: 31 }, (_, i) => i + 1), // Generate numbers from 1 to 31
+                labels: Labels, // Generate numbers from 1 to 31
                 datasets: [{
                     label: "Revenue (₹)",
-                    data: Array.from({ length: 31 }, () => Math.floor(Math.random() * 10000) + 5000), // Random data for each day
+                    data: RevenueGrowthData, // Random data for each day
                     backgroundColor: "rgba(75, 192, 192, 0.2)", // Light fill color
                     borderColor: "rgba(75, 192, 192, 1)", // Line color
                     borderWidth: 2,
@@ -274,16 +151,14 @@
 
         var ctx2 = document.getElementById("customerGrowthChart").getContext("2d");
 
-        new Chart(ctx2, {
+        // Customer chart
+        CustomerChart = new Chart(ctx2, {
             type: "line",
             data: {
-                labels: [
-                    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-                ],
+                labels: Labels,
                 datasets: [{
                     label: "Customer Growth",
-                    data: [100, 250, 400, 550, 700, 850, 1000, 1300, 1600, 1900, 2200, 2500],
+                    data: CustomerCountData,
                     backgroundColor: "rgba(54, 162, 235, 0.2)",
                     borderColor: "rgba(54, 162, 235, 1)",
                     borderWidth: 2,
@@ -298,26 +173,54 @@
                     x: {
                         title: {
                             display: true,
-                            text: "Months"
                         }
                     },
                     y: {
-                        ticks: {
-                            display: false
-                        },
-                        grid: {
-                            drawTicks: false,
-                            drawBorder: false
+                        beginAtZero: true,
+                        title: {
+                            display: true,
                         }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
                     }
                 }
             }
         });
-    });
+
+
+    }
+
+    function ChangeGraphData(range, startDate, endDate) {
+        if (range == "Custom Date") {
+            if (startDate == "" || endDate == "") {
+                Labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            }
+            else {
+                var StartDateList = startDate.split("-")
+                var EndDateList = endDate.split("-")
+                if (StartDateList[1] == EndDateList[1]) {
+                    Labels = Array.from({ length: 31 }, (_, i) => i + 1)
+                }
+                else {
+                    var DemoLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                    Labels = []
+                    for (i = parseInt(StartDateList[1]) - 1; i <= parseInt(EndDateList[1]) - 1; i++) {
+                        Labels.push(DemoLabels[i])
+                    }
+                }
+            }
+        }
+        $.ajax({
+            url: "/User/GetRevenueAndCustomer",
+            type: "GET",
+            data: { range: range, startDate: startDate, endDate: endDate },
+            success: function (response) {
+                RevenueGrowthData = response.revenueList
+                CustomerCountData = response.customerList
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        fetchDashboardData();
+    })
 
 </script>

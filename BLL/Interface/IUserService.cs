@@ -5,6 +5,9 @@ namespace BLL.Interface;
 
 public interface IUserService
 {
+    DashboardViewModel GetDashboardDetails(string Range = "",string startDate = "", string endDate = "");
+    (List<decimal?>, List<int>) GetRevenueAndCustomer(string Range, string startDate, string endDate);
+
     List<Country> GetCountry();
     List<State> GetState(long? countryId);
     List<City> GetCity(long? stateId);
