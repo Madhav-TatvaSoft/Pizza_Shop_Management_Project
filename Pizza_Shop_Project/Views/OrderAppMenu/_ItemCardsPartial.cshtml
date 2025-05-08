@@ -14,10 +14,10 @@
                         class=" bg-white">
                 </div>
             </div>
-            <div style="z-index:2; height: 65px; min-width: 200px; border-top-right-radius: 0.7rem !important; border-bottom-right-radius: 0.7rem !important;"
+            <div style="z-index:2; height: 65px; width: 200px; border-top-right-radius: 0.7rem !important; border-bottom-right-radius: 0.7rem !important;"
                 class="bg-white d-flex justify-content-between">
-                <div class="ps-2 py-1 d-flex flex-column justify-content-between">
-                    <span>@item.ItemName</span>
+                <div class="ps-2 py-1 d-flex flex-column justify-content-between text-truncate">
+                    <span class="text-truncate" title="@item.ItemName">@item.ItemName</span>
                     <span class="text-secondary validate pb-1">₹@item.Rate</span>
                 </div>
                 <div class="d-flex flex-column justify-content-between">

@@ -16,7 +16,14 @@ public class CategoryService : ICategoryService
 
     public async Task<List<Category>> GetAllCategories()
     {
-        return await _context.Categories.Where(x => !x.Isdelete).OrderBy(x => x.CategoryId).ToListAsync();
+        try
+        {
+            return await _context.Categories.Where(x => !x.Isdelete).OrderBy(x => x.CategoryId).ToListAsync();
+        }
+        catch(Exception e)
+        {
+            throw new Exception();
+        }
     }
 
     public async Task<bool> AddCategory(Category category, long userId)
