@@ -11,14 +11,11 @@ namespace Pizza_Shop_Project.Controllers
     {
         private readonly IRolePermission _rolePermission;
 
-        #region RolePermission Constructor
         public RolePermissionController(IRolePermission rolePermission)
         {
             _rolePermission = rolePermission;
         }
-        #endregion
 
-        #region RoleDashboard
         //Fetching roles
         [PermissionAuthorize("Role.View")]
         public IActionResult RoleDashboard()
@@ -27,7 +24,6 @@ namespace Pizza_Shop_Project.Controllers
             List<Role>? Roles = _rolePermission.GetAllRoles();
             return View(Roles);
         }
-        #endregion
 
         #region Permission
         [PermissionAuthorize("Role.AddEdit")]

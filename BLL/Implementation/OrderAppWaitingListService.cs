@@ -9,13 +9,11 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
 {
     private readonly PizzaShopDbContext _context;
 
-    #region Constructor
     public OrderAppWaitingListService(PizzaShopDbContext context)
     {
         _context = context;
     }
-    #endregion
-
+    
     public List<WaitingTokenDetailViewModel> GetWaitingList(long sectionid)
     {
         if (sectionid == 0)
@@ -101,7 +99,6 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
         }
     }
 
-
     public async Task<bool> DeleteWaitingToken(long waitingid)
     {
         try
@@ -181,8 +178,5 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
         await _context.SaveChangesAsync();
         return true;
     }
-
-
-
 
 }

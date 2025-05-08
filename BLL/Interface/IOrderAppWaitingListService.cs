@@ -11,6 +11,5 @@ public interface IOrderAppWaitingListService
     Task<bool> DeleteWaitingToken(long waitingid);
     List<OrderAppTableVM> GetAvailableTables(long sectionid);
 
-    Task<bool> AssignTableInWaiting(long waitingId, long sectionId,long customerid, int persons, int[] tableIds, long userId);
-
+    Task<bool> AssignTableInWaiting(long waitingId, long sectionId,long customerid, int persons, int[] tableIds, long userId);        
 }

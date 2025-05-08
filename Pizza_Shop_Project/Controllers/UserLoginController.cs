@@ -11,13 +11,11 @@ namespace Pizza_Shop_Project.Controllers
         private readonly IUserLoginService _userLoginService;
         private readonly IJWTService _jwtService;
 
-        #region UserLogin Constructor
         public UserLoginController(IUserLoginService userLoginService, IJWTService jwtService)
         {
             this._userLoginService = userLoginService;
             this._jwtService = jwtService;
         }
-        #endregion
 
         #region VerifyUserLogin
         public IActionResult VerifyUserLogin()
@@ -69,7 +67,6 @@ namespace Pizza_Shop_Project.Controllers
 
         #endregion
 
-        #region GetEmail
         public string GetEmail(string Email)
         {
             ForgotPasswordViewModel forgotPasswordViewModel = new ForgotPasswordViewModel();
@@ -77,7 +74,6 @@ namespace Pizza_Shop_Project.Controllers
             TempData["Email"] = Email;
             return Email;
         }
-        #endregion
 
         #region ForgotPassword
         public IActionResult ForgotPassword()

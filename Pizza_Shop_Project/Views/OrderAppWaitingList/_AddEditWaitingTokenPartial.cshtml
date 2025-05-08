@@ -103,12 +103,12 @@
     });
 
     // Waiting Token POST Method
-    $(document).on("submit", "#AddEditWaitingFormId", function (e) {
+    $("#AddEditWaitingFormId").on("submit", function (e) {
 
         e.preventDefault();
-        $(this).submit(function () {
+    @* $(this).submit(function () {
             return false;
-        });
+            }); *@
         var form = $(this);
 
         if (form.valid()) {
@@ -124,12 +124,12 @@
                 success: function (res) {
                     if (res.success) {
                         callSuccessToaster(res.text);
+                        GetSectionList();
+                        SectionClick();
+                        $(".btn-close").click();
                     } else {
                         callErrorToaster(res.text);
                     }
-                    $(".btn-close").click();
-                    GetSectionList();
-                    SectionClick();
                 },
                 error: function (xhr, status, error) {
                     callErrorToaster("An error occurred while saving the token details.");

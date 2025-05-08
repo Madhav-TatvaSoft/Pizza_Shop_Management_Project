@@ -16,7 +16,6 @@ public class UserLoginService : IUserLoginService
     private readonly IJWTService _jwtService;
     private readonly IConfiguration _configuration;
 
-    #region User Login Constructor
     public UserLoginService(PizzaShopDbContext context, IJWTService jwtService, IConfiguration configuration)
     {
         _context = context;
@@ -24,7 +23,7 @@ public class UserLoginService : IUserLoginService
         _configuration = configuration;
 
     }
-    #endregion
+    
 
     #region Encrypt Password 
     public string EncryptPassword(string password)
@@ -39,15 +38,12 @@ public class UserLoginService : IUserLoginService
     }
     #endregion
 
-    #region GetUserLogins 
     // Get List of Loginned User With Role
     public async Task<List<UserLogin>> GetUserLogins()
     {
         return await _context.UserLogins.Include(u => u.Role).ToListAsync();
     }
-    #endregion
 
-    #region VerifyUserLogin
     //Used to check the credentials of user
     public async Task<string> VerifyUserLogin(UserLoginViewModel userLogin)
     {
@@ -66,9 +62,7 @@ public class UserLoginService : IUserLoginService
         }
         return null;
     }
-    #endregion
 
-    #region SendEmail
     //  Used to Send Email
     public async Task<bool> SendEmail(ForgotPasswordViewModel forgotpassword, string resetLink)
     {
@@ -108,9 +102,7 @@ public class UserLoginService : IUserLoginService
         }
         return false;
     }
-    #endregion
 
-    #region Reset Password
     // Used to find If email exists and will update the encrypted password in the DB. 
     public async Task<bool> ResetPassword(ResetPasswordViewModel resetPassword)
     {
@@ -129,41 +121,30 @@ public class UserLoginService : IUserLoginService
         }
         return false;
     }
-    #endregion
 
-    #region Get Profile Image
     public string GetProfileImage(string Email)
     {
         return _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email).ProfileImage;
     }
-    #endregion
-
-    #region Get Username
+    
     public string GetUsername(string Email)
     {
         return _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email).Username;
     }
-    #endregion
-
-    #region Get UserId
+   
     public long GetUserId(string Email)
     {
         return _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email).UserId;
     }
-    #endregion
-
-    #region Get Password
+   
     public string GetPassword(string Email)
     {
         return _context.UserLogins.FirstOrDefault(x => x.Email == Email).Password;
     }
-    #endregion
-
-    #region Check Email Exists
+    
     public bool CheckEmailExist(string email)
     {
         return _context.UserLogins.Any(e => e.Email == email && !e.Isdelete);
     }
-    #endregion
 
 }

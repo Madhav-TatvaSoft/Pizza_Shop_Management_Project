@@ -19,7 +19,6 @@ namespace Pizza_Shop_Project.Controllers
         private readonly IUserService _userService;
         private readonly IUserLoginService _userLoginService;
 
-        #region Menu Constructor
         public MenuController(IUserLoginService userLoginService, IUserService userService, ICategoryService categoryService, IItemService itemService, IModifierGroupService modifierGroupService, IModifierItemService modifierItemService)
         {
             _userLoginService = userLoginService;
@@ -29,7 +28,6 @@ namespace Pizza_Shop_Project.Controllers
             _modifierGroupService = modifierGroupService;
             _modifierItemService = modifierItemService;
         }
-        #endregion
 
         #region Main-Menu-View
         [PermissionAuthorize("Menu.View")]
@@ -58,7 +56,6 @@ namespace Pizza_Shop_Project.Controllers
         }
         #endregion
 
-        #region Pagination-Menu-Item
         [PermissionAuthorize("Menu.View")]
         public async Task<IActionResult> PaginationMenuItemsByCategory(long? catid, string search = "", int pageNumber = 1, int pageSize = 3)
         {
@@ -71,11 +68,9 @@ namespace Pizza_Shop_Project.Controllers
             }
             return PartialView("_ItemPartialView", menuData.PaginationForItemByCategory);
         }
-        #endregion
 
         #region Category CRUD
 
-        #region Add-Category
         [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> AddCategory(Category category)
         {
@@ -98,9 +93,7 @@ namespace Pizza_Shop_Project.Controllers
             TempData["ErrorMessage"] = NotificationMessage.EntityCreatedFailed.Replace("{0}", "Category");
             return RedirectToAction("Menu");
         }
-        #endregion
 
-        #region Edit-Category
         [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> EditCategoryById(Category category)
         {
@@ -125,9 +118,7 @@ namespace Pizza_Shop_Project.Controllers
             TempData["ErrorMessage"] = NotificationMessage.EntityUpdatedFailed.Replace("{0}", "Category");
             return RedirectToAction("Menu");
         }
-        #endregion
 
-        #region Delete-Category
         [PermissionAuthorize("Menu.Delete")]
         public async Task<IActionResult> DeleteCategory(long Cat_Id)
         {
@@ -147,11 +138,8 @@ namespace Pizza_Shop_Project.Controllers
         }
         #endregion
 
-        #endregion
-
         #region Item CRUD
 
-        #region Add-Items-From-Modal
         // Get the Add item Modal 
         [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> GetItems()
@@ -250,9 +238,6 @@ namespace Pizza_Shop_Project.Controllers
             }
             return Json(new { success = false, text = NotificationMessage.EntityCreatedFailed.Replace("{0}", "Item") });
         }
-        #endregion
-
-        #region Edit-Items-From-Modal
 
         [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> GetItemsByItemId(long itemid)
@@ -344,9 +329,7 @@ namespace Pizza_Shop_Project.Controllers
             }
             return Json(new { success = false, text = NotificationMessage.EntityUpdatedFailed.Replace("{0}", "Item") });
         }
-        #endregion
 
-        #region Delete-Items-From-Modal
         [PermissionAuthorize("Menu.Delete")]
         public async Task<IActionResult> DeleteItem(long itemid)
         {
@@ -368,7 +351,6 @@ namespace Pizza_Shop_Project.Controllers
             }
 
         }
-        #endregion
 
         #endregion
 
@@ -417,7 +399,6 @@ namespace Pizza_Shop_Project.Controllers
 
         #region Modifier Group CRUD
 
-        #region Add Modifier Group POST
         [PermissionAuthorize("Menu.AddEdit")]
         [HttpPost]
         public async Task<IActionResult> AddModifierGroup(MenuViewModel MenuVM)
@@ -440,9 +421,7 @@ namespace Pizza_Shop_Project.Controllers
             }
             return Json(new { success = false, text = NotificationMessage.EntityCreatedFailed.Replace("{0}", "Modifier Group") });
         }
-        #endregion
 
-        #region Edit Modifier Group 
         [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> GetModifierGroupByModifierGroupId(long modgrpid)
         {
@@ -502,9 +481,6 @@ namespace Pizza_Shop_Project.Controllers
             return Json(new { success = false, text = NotificationMessage.EntityUpdatedFailed.Replace("{0}", "Modifier Group") });
         }
 
-        #endregion
-
-        #region Delete Modifier Group POST
         [PermissionAuthorize("Menu.Delete")]
         [HttpPost]
         public async Task<IActionResult> DeleteModifierGroup(long modgrpid)
@@ -520,7 +496,6 @@ namespace Pizza_Shop_Project.Controllers
             }
             return Json(new { success = false, text = NotificationMessage.EntityDeletedFailed.Replace("{0}", "Modifier Group") });
         }
-        #endregion
 
         #endregion
 
@@ -535,8 +510,6 @@ namespace Pizza_Shop_Project.Controllers
         #endregion
 
         #region Modifier CRUD
-
-        #region Add Modifier Item
 
         [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> AddModifierItem()
@@ -568,9 +541,7 @@ namespace Pizza_Shop_Project.Controllers
             }
             return Json(new { success = false, text = NotificationMessage.EntityCreatedFailed.Replace("{0}", "Modifier") });
         }
-        #endregion
 
-        #region Edit Modifier Item
         [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> GetModifiersByModifierId(long modid)
         {
@@ -601,9 +572,7 @@ namespace Pizza_Shop_Project.Controllers
             }
             return Json(new { success = false, text = NotificationMessage.EntityUpdatedFailed.Replace("{0}", "Modifier") });
         }
-        #endregion
 
-        #region Delete Modifiers From Modal
         [PermissionAuthorize("Menu.Delete")]
         [HttpPost]
         public async Task<IActionResult> DeleteModifier(long modid)
@@ -619,7 +588,6 @@ namespace Pizza_Shop_Project.Controllers
             }
             return Json(new { success = false, text = NotificationMessage.EntityDeletedFailed.Replace("{0}", "Modifier") });
         }
-        #endregion
 
         #endregion
 

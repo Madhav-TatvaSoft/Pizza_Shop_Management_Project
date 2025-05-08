@@ -13,15 +13,12 @@ public class OrderAppTableService : IOrderAppTableService
     private readonly PizzaShopDbContext _context;
     private readonly ICustomerService _customerService;
 
-    #region Constructor
     public OrderAppTableService(PizzaShopDbContext context, ICustomerService customerService)
     {
         _context = context;
         _customerService = customerService;
     }
-    #endregion
 
-    #region Get Section List
     public List<OrderAppSectionVM> GetAllSectionList()
     {
         List<OrderAppSectionVM> sectionList = _context.Sections
@@ -43,9 +40,7 @@ public class OrderAppTableService : IOrderAppTableService
 
         return sectionList;
     }
-    #endregion
 
-    #region Get Table List
     public List<OrderAppTableVM> GetTablesBySection(long SectionId)
     {
         List<OrderAppTableVM>? tableListVM = _context.Tables
@@ -69,9 +64,31 @@ public class OrderAppTableService : IOrderAppTableService
 
         return tableListVM;
     }
-    #endregion
 
-    #region AddCustomerToWaitingList
+    public bool CheckTokenExists(WaitingTokenDetailViewModel waitingTokenVM)
+    {
+        // if (waitingTokenVM.WaitingId == 0)
+        // {
+        //     Waitinglist? waitinglist = _context.Waitinglists.FirstOrDefault(w => w.Customer.Email == waitingTokenVM.Email && !w.Isdelete && !w.Isassign);
+        //     if (waitinglist != null)
+        //     {
+        //         return true;
+        //     }
+        // }
+        // else
+        // {
+        Waitinglist? waitinglist = _context.Waitinglists.FirstOrDefault(w => w.Customer.Email == waitingTokenVM.Email && w.WaitingId != waitingTokenVM.WaitingId && !w.Isdelete && !w.Isassign);
+        if (waitinglist != null)
+        {
+            return true;
+        }
+        // }
+
+        return false;
+
+    }
+
+
     public async Task<bool> AddCustomerToWaitingList(WaitingTokenDetailViewModel waitingTokenVM, long userId)
     {
         try
@@ -88,19 +105,13 @@ public class OrderAppTableService : IOrderAppTableService
                     return false;
                 }
 
-                // if (CustomerPresent != null)
-                // {
-                //     CustomerPresent.NoOfPerson += waitingTokenVM.NoOfPerson;
-                //     _context.Waitinglists.Update(CustomerPresent);
-                // }
-                // else
-                // {
+
                 waitinglist.CustomerId = customerId;
                 waitinglist.NoOfPerson = waitingTokenVM.NoOfPerson;
                 waitinglist.SectionId = waitingTokenVM.SectionId;
                 waitinglist.CreatedAt = DateTime.Now;
                 await _context.Waitinglists.AddAsync(waitinglist);
-                // }
+
             }
             else
             {
@@ -123,8 +134,6 @@ public class OrderAppTableService : IOrderAppTableService
             return false;
         }
     }
-
-    #endregion
 
     #region Get Waiting Customer List
     public async Task<List<WaitingTokenDetailViewModel>> GetWaitingCustomerList(long sectionid)
@@ -189,7 +198,6 @@ public class OrderAppTableService : IOrderAppTableService
     public async Task<bool> AssignTable(OrderAppTableMainViewModel TableMainVM, long userId)
     {
         JsonArray? tableIds = JsonSerializer.Deserialize<JsonArray>(TableMainVM.TableIds);
-        // var tableIdList = tableIds.Select(id => id.GetValue<int>()).ToList();
         List<int>? tableIdList = tableIds.Select(id => int.Parse(id.GetValue<string>())).ToList();
         Waitinglist? waitinglist = await _context.Waitinglists.Include(x => x.Customer).FirstOrDefaultAsync(x => x.WaitingId == TableMainVM.waitingTokenDetailViewModel.WaitingId && !x.Isdelete && !x.Isassign);
 
@@ -229,9 +237,7 @@ public class OrderAppTableService : IOrderAppTableService
         }
 
         await _context.SaveChangesAsync();
-
         return true;
-
     }
 
     #endregion

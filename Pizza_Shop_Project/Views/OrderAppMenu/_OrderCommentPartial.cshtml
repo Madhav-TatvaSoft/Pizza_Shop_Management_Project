@@ -1,4 +1,4 @@
-@using DAL.ViewModels
+@* @using DAL.ViewModels
 @model OrderDetailViewModel;
 
 <div class="modal-content">
@@ -19,8 +19,8 @@
             <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Cancel</button>
         </div>
     </form>
-</div>
-
+</div> *@
+@* 
 <script>
     $(document).on('submit', '#OrderCommentForm', function (event) {
 
@@ -29,7 +29,7 @@
 
         let formData = new FormData(this);
 
-        @* console.log(formData, "formData"); *@
+         console.log(formData, "formData"); 
 
         $.ajax({
             type: "POST",
@@ -51,4 +51,4 @@
             }
         });
     });
-</script>
+</script> *@

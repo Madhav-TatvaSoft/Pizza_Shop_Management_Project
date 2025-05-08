@@ -33,6 +33,7 @@ public class OrderAppWaitingListController : Controller
         return View();
     }
 
+    #region GET
     public IActionResult GetSectionList()
     {
         OrderAppWaitingViewModel WaitingVM = new();
@@ -65,34 +66,47 @@ public class OrderAppWaitingListController : Controller
 
         return PartialView("_AddEditWaitingTokenPartial", WaitingVM);
     }
+    #endregion
+
+    #region Waiting Token CRUD
 
     [HttpPost]
     public async Task<IActionResult> SaveWaitingToken([FromForm] OrderAppWaitingViewModel WaitingVM)
     {
-
         string token = Request.Cookies["AuthToken"];
         List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-        // Check Customer Present If not Then Add
-        bool createCustomer = await _customerService.AddEditCustomer(WaitingVM.WaitingTokenDetailVM, userId);
 
-        if (!createCustomer)
+        bool tokenExists = _orderAppTableService.CheckTokenExists(WaitingVM.WaitingTokenDetailVM);
+        if (tokenExists)
         {
-            return Json(new { success = false, text = NotificationMessage.EntityCreatedFailed.Replace("{0}", "Customer") });
-        }
-
-        // Add Customer to Waiting List
-        bool IsCustomerAddedToWaiting = await _orderAppTableService.AddCustomerToWaitingList(WaitingVM.WaitingTokenDetailVM, userId);
-
-        if (IsCustomerAddedToWaiting)
-        {
-            return Json(new { success = true, text = "Customer Added In Waiting List" });
+            return Json(new { success = false, text = "Token Already Exists!" });
         }
         else
         {
-            return Json(new { success = false, text = "Error While Adding Customer to waiting List. Try Again!" });
+            // Check Customer Present If not Then Add
+            bool createCustomer = await _customerService.AddEditCustomer(WaitingVM.WaitingTokenDetailVM, userId);
+
+            if (!createCustomer)
+            {
+                return Json(new { success = false, text = NotificationMessage.EntityCreatedFailed.Replace("{0}", "Customer") });
+            }
+
+            // Add Customer to Waiting List
+            bool IsCustomerAddedToWaiting = await _orderAppTableService.AddCustomerToWaitingList(WaitingVM.WaitingTokenDetailVM, userId);
+
+            if (IsCustomerAddedToWaiting)
+            {
+                return Json(new { success = true, text = "Customer Added In Waiting List" });
+            }
+            else
+            {
+                return Json(new { success = false, text = "Something went wrong, Please try again!" });
+            }
         }
+
+
     }
 
     [HttpPost]
@@ -106,6 +120,9 @@ public class OrderAppWaitingListController : Controller
         return Json(new { success = false, text = NotificationMessage.EntityDeletedFailed.Replace("{0}", "Waiting Token") });
     }
 
+    #endregion
+
+    #region Assign Table
     public IActionResult GetAssignTableModal(long sectionid)
     {
         OrderAppWaitingViewModel WaitingVM = new();
@@ -113,7 +130,6 @@ public class OrderAppWaitingListController : Controller
         return PartialView("_AssignTableModal", WaitingVM);
     }
 
-    #region AssignTable POST
     [HttpPost]
     public async Task<IActionResult> AssignTableInWaiting(long waitingId, long sectionId, long customerid, int persons, int[] tableIds)
     {
@@ -129,5 +145,7 @@ public class OrderAppWaitingListController : Controller
         return Json(new { success = false, text = "Something Went wrong, Try Again!" });
     }
     #endregion
+
+
 
 }

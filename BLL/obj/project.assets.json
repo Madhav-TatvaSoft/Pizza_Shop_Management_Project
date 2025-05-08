@@ -11499,11 +11499,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj",
+      "projectUniqueName": "D:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj",
       "projectName": "BLL",
-      "projectPath": "d:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj",
+      "projectPath": "D:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj",
       "packagesPath": "C:\\Users\\pca155\\.nuget\\packages\\",
-      "outputPath": "d:\\T30_Pizza_Shop_Project\\BLL\\obj\\",
+      "outputPath": "D:\\T30_Pizza_Shop_Project\\BLL\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\pca155\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -11518,8 +11518,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "d:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj": {
-              "projectPath": "d:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj"
+            "D:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj": {
+              "projectPath": "D:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj"
             }
           }
         }

@@ -28,7 +28,7 @@ public class CustomerService : ICustomerService
                 CustomerName = u.CustomerName,
                 Email = u.Email,
                 PhoneNo = u.PhoneNo,
-                CreatedAt = System.DateOnly.FromDateTime((DateTime)u.CreatedAt),
+                CreatedAt = u.CreatedAt != null ? DateOnly.FromDateTime((DateTime)u.CreatedAt) : default,
                 totalOrder = u.Orders.Count()
             })
             .AsQueryable();
@@ -414,7 +414,7 @@ public class CustomerService : ICustomerService
 
             CustomerId = x.CustomerId,
             CustomerName = x.CustomerName,
-            PhoneNo = (long)x.PhoneNo,
+            PhoneNo = x.PhoneNo.HasValue ? x.PhoneNo.Value : 0,
             CreatedAt = (DateTime)x.CreatedAt,
             visits = x.Orders.Count(),
             MaxOrder = x.Orders.Max(x => x.TotalAmount),

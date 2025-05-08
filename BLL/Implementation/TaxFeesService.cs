@@ -9,14 +9,12 @@ public class TaxFeesService : ITaxFeesService
 {
     private readonly PizzaShopDbContext _context;
 
-    #region Constructor
     public TaxFeesService(PizzaShopDbContext context)
     {
         _context = context;
     }
-    #endregion
 
-    #region Get Tax List
+    #region List
     public PaginationViewModel<TaxViewModel> GetTaxList(int pageNumber = 1, string search = "", int pageSize = 3)
     {
         IQueryable<TaxViewModel>? query = _context.Taxes
@@ -52,7 +50,7 @@ public class TaxFeesService : ITaxFeesService
     }
     #endregion
 
-    #region Get Tax By Id
+    #region Get
     public TaxViewModel GetTaxById(long taxid)
     {
         Tax? tax = _context.Taxes.FirstOrDefault(x => x.TaxId == taxid && x.Isdelete == false);
@@ -74,61 +72,7 @@ public class TaxFeesService : ITaxFeesService
     }
     #endregion
 
-    // #region Add Tax
-    // public async Task<bool> AddTax(TaxViewModel taxVM, long userId)
-    // {
-    //     Tax? isTaxExist = await _context.Taxes.FirstOrDefaultAsync(x => x.TaxName.ToLower().Trim() == taxVM.TaxName.ToLower().Trim() && x.Isdelete == false);
-    //     if (isTaxExist != null)
-    //     {
-    //         return false;
-    //     }
-
-    //     Tax tax = new Tax
-    //     {
-    //         TaxName = taxVM.TaxName,
-    //         TaxType = taxVM.TaxType,
-    //         TaxValue = taxVM.TaxValue,
-    //         Isenable = taxVM.Isenable,
-    //         Isdefault = taxVM.Isdefault,
-    //         Isdelete = false,
-    //         CreatedAt = DateTime.Now,
-    //         CreatedBy = userId,
-    //     };
-    //     await _context.Taxes.AddAsync(tax);
-    //     await _context.SaveChangesAsync();
-    //     return true;
-    // }
-
-    // #endregion
-
-    // #region Edit Tax
-    // public async Task<bool> EditTax(TaxViewModel taxVM, long userId)
-    // {
-    //     Tax? isTaxExist = await _context.Taxes.FirstOrDefaultAsync(x => x.TaxId != taxVM.TaxId && x.TaxName.ToLower().Trim() == taxVM.TaxName.ToLower().Trim() && x.Isdelete == false);
-
-    //     if (isTaxExist != null)
-    //     {
-    //         return false;
-    //     }
-
-    //     Tax? tax = _context.Taxes.FirstOrDefault(x => x.TaxId == taxVM.TaxId && x.Isdelete == false);
-    //     if (tax != null)
-    //     {
-    //         tax.TaxName = taxVM.TaxName;
-    //         tax.TaxType = taxVM.TaxType;
-    //         tax.TaxValue = taxVM.TaxValue;
-    //         tax.Isenable = taxVM.Isenable;
-    //         tax.Isdefault = taxVM.Isdefault;
-    //         tax.ModifiedAt = DateTime.Now;
-    //         tax.ModifiedBy = userId;
-    //         _context.Taxes.Update(tax);
-    //         await _context.SaveChangesAsync();
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-    // #endregion
+    #region CRUD
     public async Task<bool> AddEditTax(TaxViewModel taxVM, long userId)
     {
         try
@@ -185,7 +129,6 @@ public class TaxFeesService : ITaxFeesService
         }
     }
 
-    #region Delete Tax
     public async Task<bool> DeleteTax(long taxid)
     {
         Tax? tax = _context.Taxes.FirstOrDefault(x => x.TaxId == taxid && !x.Isdelete);

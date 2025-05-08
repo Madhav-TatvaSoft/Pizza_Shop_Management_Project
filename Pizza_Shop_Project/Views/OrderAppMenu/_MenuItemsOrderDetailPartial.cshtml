@@ -34,7 +34,8 @@
                 <div class="btn hollow-btn px-2" data-bs-toggle="modal" data-bs-target="#CustomerDetails"
                     style="width: 38px !important;"><i class="fa-solid fa-user pt-1 fs-5"></i></div>
                 <div class="btn hollow-btn px-2" data-bs-toggle="modal" data-bs-target="#orderComment"
-                    style="width: 38px !important;"><i class="fa-solid fa-message pt-1 fs-5"></i></div>
+                    onclick="getOrderInstruction()" style="width: 38px !important;"><i
+                        class="fa-solid fa-message pt-1 fs-5"></i></div>
             </div>
         </div>
 
@@ -238,7 +239,16 @@
                     onclick="SaveOrder()">Save</button>
                 <button id="OrderCompleteBtn" class="btn hollow-btn" style="width: 180px;"
                     onclick="CompleteOrder()">Complete</button>
-                <button id="OrderGenerateInvoiceBtn" class="btn hollow-btn" style="width: 180px;">Generate Invoice</button>
+                @if (Model.itemOrderVM.Count == 0)
+                {
+                    <button id="OrderGenerateInvoiceBtn" class="btn hollow-btn" style="width: 180px;" disabled>Generate Invoice</button>
+                }
+                else
+                {
+                    <a asp-action="GenerateInvoicePDF" asp-controller="Order"
+                        asp-route-orderid="@Model.OrderId"
+                        id="OrderGenerateInvoiceBtn" class="btn hollow-btn" style="width: 180px;">Generate Invoice</a>
+                }
             </div>
 
             <div class="text-end">
@@ -281,10 +291,32 @@
     </div>
 </div>
 
-<!--- Order comment--->
+@* <!--- Order comment--->
+<div id="orderComment" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal-dialog modal-dialog-centered modal-md">
+@Html.Partial("_OrderCommentPartial", Model);
+</div>
+</div> *@
+
+<!--- comment--->
 <div id="orderComment" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-md">
-        @Html.Partial("_OrderCommentPartial", Model);
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Order Wise Comment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row">
+                <div class="form-floating  col-12 mb-3">
+                    <textarea class="form-control" id="Comment" cols="33"></textarea>
+                    <label for="Comment"> &nbsp; Comment</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn solid-btn" onclick="saveOrderInstruction()">Save</button>
+                <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -410,23 +442,5 @@
     $(document).ready(function () {
         var orderDetails = @Html.Raw(Json.Serialize(Model));
         FillAlreadySavedDataInArray(orderDetails);
-
-        if (JSON.stringify(TempItem) == JSON.stringify(MainItem)) {
-            $('#OrderSaveBtn').attr('disabled', true);
-            $('#OrderCompleteBtn').attr('disabled', false);
-            $('#OrderGenerateInvoiceBtn').attr('disabled', false);
-            $('#OrderCancelBtn').attr('disabled', false);
-        } else {
-            $('#OrderSaveBtn').attr('disabled', false);
-            $('#OrderCompleteBtn').attr('disabled', true);
-            $('#OrderGenerateInvoiceBtn').attr('disabled', true);
-            $('#OrderCancelBtn').attr('disabled', false);
-        }
-        if (orderDetails.status == "Completed") {
-            $('#OrderSaveBtn').attr('disabled', true);
-            $('#OrderCompleteBtn').attr('disabled', true);
-            $('#OrderCancelBtn').attr('disabled', true);
-            $('#OrderGenerateInvoiceBtn').attr('disabled', false);
-        }
     });
 </script>

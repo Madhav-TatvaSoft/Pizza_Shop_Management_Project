@@ -12,13 +12,11 @@ public class OrderService : IOrderService
 {
     private readonly PizzaShopDbContext _context;
 
-    #region OrderService Constructor
     public OrderService(PizzaShopDbContext context)
     {
         _context = context;
     }
-    #endregion
-
+    
     #region Get Data
     public IQueryable<OrdersViewModel> GetAllOrders()
     {
@@ -455,25 +453,25 @@ public class OrderService : IOrderService
             orderDetailVM.SectionName = orderdetails.Order.Section.SectionName;
 
             // Item Order Details
-            orderDetailVM.itemOrderVM = _context.Orderdetails.Include(x => x.Item).Where(x => x.OrderId == orderid).Select(x => new ItemOrderViewModel
+            orderDetailVM.itemOrderVM = _context.Orderdetails.Include(x => x.Item).Where(x => x.OrderId == orderid && !x.Isdelete).Select(x => new ItemOrderViewModel
             {
                 ItemId = x.ItemId,
                 ItemName = x.Item.ItemName,
                 Quantity = x.Quantity,
                 Rate = x.Item.Rate,
                 TotalItemAmount = Math.Round(x.Quantity * x.Item.Rate, 2),
-                modifierOrderVM = _context.Modifierorders.Include(m => m.Modifier).Include(m => m.Orderdetail).ThenInclude(m => m.Item).Where(m => m.Orderdetail.ItemId == x.ItemId).Select(m => new ModifierorderViewModel
+                modifierOrderVM = _context.Modifierorders.Include(m => m.Modifier).Include(m => m.Orderdetail).ThenInclude(m => m.Item).Where(m => m.Orderdetail.OrderdetailId == x.OrderdetailId && !x.Isdelete).Select(m => new ModifierorderViewModel
                 {
                     ModifierId = m.ModifierId,
                     ModifierName = m.Modifier.ModifierName,
                     Rate = m.Modifier.Rate,
-                    Quantity = (int)m.ModifierQuantity,
-                    TotalModifierAmount = Math.Round((int)m.ModifierQuantity * (decimal)m.Modifier.Rate, 2),
+                    Quantity = x.Quantity,
+                    TotalModifierAmount = Math.Round(x.Quantity * (decimal)m.Modifier.Rate, 2),
                 }).ToList()
             }).ToList();
 
             // SubTotal Amount
-            orderDetailVM.SubTotalAmountOrder = Math.Round((decimal)orderDetailVM.itemOrderVM.Sum(x => x.TotalItemAmount + x.modifierOrderVM.Sum(x => x.TotalModifierAmount)), 2);
+            orderDetailVM.SubTotalAmountOrder = Math.Round(orderDetailVM.itemOrderVM.Sum(x => x.TotalItemAmount + x.modifierOrderVM.Sum(x => x.TotalModifierAmount)), 2);
 
             // Taxes Details
             // List<Tax> taxes = _context.Taxes.Where(x => x.Isdelete == false).ToList();
@@ -535,7 +533,6 @@ public class OrderService : IOrderService
             return null;
         }
     }
-
 
     #endregion
 

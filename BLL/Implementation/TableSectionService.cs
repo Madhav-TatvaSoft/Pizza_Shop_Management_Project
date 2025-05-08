@@ -9,21 +9,14 @@ public class TableSectionService : ITableSectionService
 {
     private readonly PizzaShopDbContext _context;
 
-    #region Table Section Constructor
     public TableSectionService(PizzaShopDbContext context)
     {
         _context = context;
     }
-    #endregion
-
-    #region Get All Sections
     public List<Section> GetAllSections()
     {
         return _context.Sections.Where(x => x.Isdelete == false).OrderBy(x => x.SectionId).ToList();
     }
-    #endregion
-
-    #region Pagination Model for Tables
     public PaginationViewModel<TablesViewModel> GetTablesBySection(long? sectionid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
         IQueryable<TablesViewModel>? query = _context.Tables
@@ -59,11 +52,9 @@ public class TableSectionService : ITableSectionService
 
         return new PaginationViewModel<TablesViewModel>(items, totalCount, pageNumber, pageSize);
     }
-    #endregion
-
+    
     #region Section CRUD
 
-    #region Add Section
     public async Task<bool> AddSection(SectionViewModel addsection, long userId)
     {
         Section? sections = await _context.Sections.FirstOrDefaultAsync(x => x.SectionName.ToLower().Trim() == addsection.SectionName.ToLower().Trim() && !x.Isdelete);
@@ -87,10 +78,7 @@ public class TableSectionService : ITableSectionService
             return true;
         }
     }
-    #endregion
-
-    #region Get Section By Id
-
+    
     public SectionViewModel GetSectionById(long sectionid)
     {
         Section? section = _context.Sections.FirstOrDefault(x => x.SectionId == sectionid && x.Isdelete == false);
@@ -107,9 +95,7 @@ public class TableSectionService : ITableSectionService
         }
         return null;
     }
-    #endregion
-
-    #region Edit Section
+   
     public async Task<bool> EditSection(SectionViewModel editSection, long userId)
     {
         if (editSection.SectionId == null)
@@ -138,9 +124,7 @@ public class TableSectionService : ITableSectionService
         }
         return false;
     }
-    #endregion
-
-    #region Delete Section
+   
     public async Task<bool> DeleteSection(long sectionid)
     {
         Section? sectionToDelete = await _context.Sections.FirstOrDefaultAsync(x => x.SectionId == sectionid && x.Isdelete == false);
@@ -182,13 +166,12 @@ public class TableSectionService : ITableSectionService
     {
         return _context.Tables.Any(x => x.SectionId == sectionid && !x.Isdelete && (x.Status != "Available"));
     }
-    #endregion
 
     #endregion
 
     #region Table CRUD
 
-    #region Add Table
+   
     public async Task<bool> AddTable(TablesViewModel tableVM, long userId)
     {
         if (tableVM.SectionId == null)
@@ -219,9 +202,7 @@ public class TableSectionService : ITableSectionService
         return true;
 
     }
-    #endregion
-
-    #region Edit Table
+    
     public TablesViewModel GetTableById(long tableId, long sectionId)
     {
         Table? table = _context.Tables.FirstOrDefault(x => x.TableId == tableId && x.SectionId == sectionId && x.Isdelete == false);
@@ -280,9 +261,7 @@ public class TableSectionService : ITableSectionService
         }
         return false;
     }
-    #endregion
 
-    #region Delete Table
     public async Task<bool> DeleteTable(long tableId)
     {
         Table? table = _context.Tables.FirstOrDefault(x => x.TableId == tableId && x.Isdelete == false);
@@ -301,7 +280,6 @@ public class TableSectionService : ITableSectionService
     {
         return _context.Tables.Any(x => x.TableId == tableId && !x.Isdelete &&  (x.Status != "Available"));
     }
-    #endregion
 
     #endregion
 

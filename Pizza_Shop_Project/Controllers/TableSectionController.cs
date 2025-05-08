@@ -22,7 +22,6 @@ public class TableSectionController : Controller
         _userLoginService = userLoginService;
     }
 
-    #region Main Table Section View
     [PermissionAuthorize("TableSection.View")]
     public IActionResult TableSection(long? sectionid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
@@ -40,9 +39,7 @@ public class TableSectionController : Controller
         ViewData["sidebar-active"] = "TableSection";
         return View(tableSectionVM);
     }
-    #endregion
 
-    #region Pagination Table
     [PermissionAuthorize("TableSection.View")]
     public IActionResult PaginationForTable(long? sectionid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
@@ -63,7 +60,6 @@ public class TableSectionController : Controller
             return StatusCode(500, $"Internal Server Error: {ex.Message}");
         }
     }
-    #endregion
 
     #region Section CRUD
 
@@ -140,7 +136,6 @@ public class TableSectionController : Controller
 
     #endregion
 
-    #region Get All Section List
     [PermissionAuthorize("TableSection.View")]
     public IActionResult GetAllSections()
     {
@@ -148,7 +143,6 @@ public class TableSectionController : Controller
         tableSectionVM.SectionList = _tableSectionService.GetAllSections();
         return PartialView("_SectionListPartial", tableSectionVM);
     }
-    #endregion
 
     #region Table CRUD
 

@@ -15,14 +15,12 @@ namespace Pizza_Shop_Project.Controllers
         private readonly IUserLoginService _userLoginService;
         private readonly IJWTService _JWTService;
 
-        #region User Constructor
         public UserController(IUserService userService, IJWTService JWTService, IUserLoginService userLoginService)
         {
             this._userService = userService;
             this._JWTService = JWTService;
             this._userLoginService = userLoginService;
         }
-        #endregion
 
         #region Dashboard
         [PermissionAuthorize("AdminAccountManager")]
@@ -50,8 +48,6 @@ namespace Pizza_Shop_Project.Controllers
 
         #endregion
 
-
-        #region State,City
         public JsonResult GetStates(long? countryId)
         {
             List<State>? states = _userService.GetState(countryId);
@@ -63,7 +59,6 @@ namespace Pizza_Shop_Project.Controllers
             List<City>? cities = _userService.GetCity(stateId);
             return Json(new SelectList(cities, "CityId", "CityName"));
         }
-        #endregion
 
         #region UserProfile
         public IActionResult UserProfile()
@@ -185,7 +180,6 @@ namespace Pizza_Shop_Project.Controllers
         }
         #endregion
 
-        #region Logout
         public IActionResult UserLogout()
         {
             Response.Cookies.Delete("AuthToken");
@@ -196,7 +190,6 @@ namespace Pizza_Shop_Project.Controllers
             TempData["SuccessMessage"] = NotificationMessage.LogoutSuccess;
             return RedirectToAction("VerifyUserLogin", "UserLogin");
         }
-        #endregion
 
         #region UserListData
         [PermissionAuthorize("Users.View")]
@@ -220,7 +213,6 @@ namespace Pizza_Shop_Project.Controllers
 
         #region User CRUD
 
-        #region AddUser
         [PermissionAuthorize("Users.AddEdit")]
         public IActionResult AddUser()
         {
@@ -328,9 +320,7 @@ namespace Pizza_Shop_Project.Controllers
             TempData["SuccessMessage"] = NotificationMessage.EntityCreated.Replace("{0}", "User");
             return RedirectToAction("UserListData", "User");
         }
-        #endregion
 
-        #region EditUser
         [PermissionAuthorize("Users.AddEdit")]
         public IActionResult EditUser(string Email)
         {
@@ -411,9 +401,7 @@ namespace Pizza_Shop_Project.Controllers
                 return RedirectToAction("EditUser", "User", new { Email = edituser.Email });
             }
         }
-        #endregion
 
-        #region DeleteUser
         [PermissionAuthorize("Users.Delete")]
         public async Task<IActionResult> DeleteUser(string Email)
         {
@@ -440,7 +428,6 @@ namespace Pizza_Shop_Project.Controllers
                 return RedirectToAction("UserListData", "User");
             }
         }
-        #endregion
 
         #endregion
 

@@ -34,7 +34,8 @@
                 <option value="Last 7 days">Last 7 days</option>
                 <option value="Last 30 days">Last 30 days</option>
                 <option value="Current Month">Current Month</option>
-                <option value="Custom Date">Custom Date</option>
+                <option value="Custom Date" data-bs-toggle="modal" data-bs-target="#CustomDateDashboardModal">Custom
+                    Date</option>
             </select>
         </div>
     </div>
@@ -43,6 +44,45 @@
 
     </div>
 </div>
+
+<!------------------------------------- Custom Date Modal --------------------------------------------------->
+
+<div id="CustomDateDashboardModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5 fw-bold text-secondary">Select Date Range</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="Cross-Cancel-btn"
+                    onclick="EmptyData();"></button>
+            </div>
+            <form id="CustomDateFormId">
+                <div class="modal-body">
+                    <div class="d-flex flex-sm-row flex-column gap-sm-3 gap-0">
+
+                        <div class="form-floating  col mb-3">
+                            <input type="date" id="startDate" class="form-control">
+                            <label>From Date</label>
+                        </div>
+
+                        <div class="form-floating  col ">
+                            <input type="date" id="endDate" class="form-control">
+                            <label>To Date</label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn solid-btn">Submit</button>
+                    <button type="button" class="btn hollow-btn" id="Cross-Cancel-btn" onclick="EmptyData();"
+                        data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -55,16 +95,11 @@
     var RevenueGrowthData;
     var CustomerCountData;
 
-    $('#selectRange').on('change', function () {
-        range = $(this).val();
-        if (range == "Custom Date") {
-
-        } else {
-            startDate = "";
-            endDate = "";
-            fetchDashboardData();
-        }
-    });
+    // Empty the Data from Modal
+    function EmptyData() {
+        $("#startDate").val("");
+        $("#endDate").val("");
+    }
 
     // Function to fetch and display the Dashboard content
     function fetchDashboardData() {
@@ -112,6 +147,7 @@
         });
     }
 
+    // Show Graph
     function ShowGraphs() {
         var ctx = document.getElementById("RevenueChart").getContext("2d");
 
@@ -188,6 +224,7 @@
 
     }
 
+    // Change the Graph
     function ChangeGraphData(range, startDate, endDate) {
         if (range == "Custom Date") {
             if (startDate == "" || endDate == "") {
@@ -219,7 +256,52 @@
         })
     }
 
+    // READY
     $(document).ready(function () {
+
+        $("#selectRange").on("change", function () {
+            range = $(this).val();
+            console.log(range)
+            if (range == "Custom Date") {
+                $("#CustomDateDashboardModal").modal("show");
+            }
+            else {
+                EmptyData();
+                startDate = "";
+                endDate = "";
+                fetchDashboardData(range, startDate, endDate);
+            }
+        });
+
+        $("#CustomDateFormId").on("submit", function (e) {
+            e.preventDefault();
+            startDate = $("#startDate").val();
+            endDate = $("#endDate").val();
+            fetchDashboardData(range, startDate, endDate);
+            $('.btn-close').click();
+        });
+
+        $("#startDate").on("change", function () {
+            startDate = document.getElementById("startDate").value;
+            endDateInput = document.getElementById("endDate").value;
+
+            if (endDateInput == "") return
+            if (endDateInput.value < startDate) {
+                callErrorToaster("To date should be greater than from date.Reset to date");
+                document.getElementById("endDate").value = "";
+            }
+        })
+
+        $("#endDate").on("change", function () {
+            startDate = document.getElementById("startDate").value;
+            endDate = document.getElementById("endDate").value;
+
+            if (endDate < startDate) {
+                callErrorToaster("To date should be greater than from date.Reset to date");
+                document.getElementById("endDate").value = "";
+            }
+        })
+
         fetchDashboardData();
     })
 

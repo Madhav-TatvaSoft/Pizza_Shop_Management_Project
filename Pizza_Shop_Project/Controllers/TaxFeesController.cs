@@ -19,23 +19,20 @@ public class TaxFeesController : Controller
         _taxFeesService = taxFeesService;
     }
 
-    #region Main Tax Fees View
     [PermissionAuthorize("TaxFees.View")]
     public IActionResult TaxFees()
     {
         ViewData["sidebar-active"] = "TaxFees";
         return View();
     }
-    #endregion
+    
 
-    #region Pagination Tax
     [PermissionAuthorize("TaxFees.View")]
     public IActionResult PaginationForTax(int pageNumber = 1, string search = "", int pageSize = 3)
     {
         PaginationViewModel<TaxViewModel>? taxList = _taxFeesService.GetTaxList(pageNumber, search, pageSize);
         return PartialView("_TaxListDataPartial", taxList);
     }
-    #endregion
 
     #region Tax CRUD
 
