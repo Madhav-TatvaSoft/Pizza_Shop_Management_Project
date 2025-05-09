@@ -38,6 +38,7 @@ public class OrderDetailViewModel
     // Extra Fields
     public decimal SubTotalAmountOrder { get; set; }
     public decimal TotalAmountOrder { get; set; }
+    public DateTime ModifiedOn { get; set; }
 
     // Rating
     public RatingsViewModel ratingVM { get; set; }

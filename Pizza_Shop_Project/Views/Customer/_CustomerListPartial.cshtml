@@ -11,7 +11,7 @@ else
 {
     @foreach (var item in Model.Items)
     {
-        <tr id="CustomerHistoryTR" class="border border-end-0 border-start-0 border-top-0 border-bottom-1 text-secondary" data-bs-toggle="modal" data-bs-target="#CustomerHistoryModal" >
+        <tr id="CustomerHistoryTR" class="border border-end-0 border-start-0 border-top-0 border-bottom-1 text-secondary" >
             <td class="text-start text-nowrap" data-customer="@item.CustomerId" >@item.CustomerName</td>
             <td class="text-start text-nowrap" data-customer="@item.CustomerId" >@item.Email</td>
             <td class="text-start text-nowrap" data-customer="@item.CustomerId" >@item.PhoneNo</td>

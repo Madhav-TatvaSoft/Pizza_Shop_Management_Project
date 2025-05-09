@@ -29,6 +29,18 @@
 <body>
 
     <div class="container-fluid">
+        @* Loader *@
+        @* <div id="loader">
+        <div class="sk-chase">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        </div>
+        </div> *@
+        @* loader end *@
         <div class="row">
 
             <!-- rightside  -->
@@ -39,14 +51,14 @@
                         <div class="left-elements d-flex">
                             <!-- logo text-->
                             @* <a asp-action="Dashboard" asp-controller="User"> *@
-                                <div class="logo-main-div d-flex gap-2 pt-2 pb-2 ">
-                                    <div class="logo-image bg-white d-flex">
-                                        <img src="~/images/logos/pizzashop_logo.png" width="50px" alt="">
+                            <div class="logo-main-div d-flex gap-2 pt-2 pb-2 ">
+                                <div class="logo-image bg-white d-flex">
+                                    <img src="~/images/logos/pizzashop_logo.png" width="50px" alt="">
 
-                                    </div>
-                                    <div class="logo-text text-white fs-5 pt-2 fw-semibold d-none d-sm-block">PIZZASHOP
-                                    </div>
                                 </div>
+                                <div class="logo-text text-white fs-5 pt-2 fw-semibold d-none d-sm-block">PIZZASHOP
+                                </div>
+                            </div>
                             @* </a> *@
                         </div>
 
@@ -140,7 +152,12 @@
                                     <li data-bs-toggle="modal" data-bs-target="#exampleModal"><a
                                             class="dropdown-item fw-semibold"><i
                                                 class="fa-solid fa-right-from-bracket pe-2"></i>Logout</a></li>
-
+                                    @if ((await AuthorizationService.AuthorizeAsync(User, "AccountManager")).Succeeded)
+                                    {
+                                        <li><a class="dropdown-item fw-semibold" asp-action="Dashboard"
+                                                asp-controller="User"><i class="fa-solid fa-circle-left pe-2"></i>Exit
+                                                OrderApp</a></li>
+                                    }
                                 </ul>
                             </div>
                         </div>
@@ -219,6 +236,28 @@
                 toastr.info(errorMessage);
             }
 
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // 1. Show toaster if TempData contains error (normal request)
+            let error = '@TempData["ErrorMessage"]';
+            if (error && error.trim() !== "") {
+                toastr.error(error);
+            }
+
+            // 2. Global AJAX error catcher
+            $(document).ajaxComplete(function (event, xhr, settings) {
+                if (xhr.getResponseHeader("X-Error") === "true") {
+                    const response = xhr.responseJSON;
+                    if (response && response.error) {
+                        toastr.error(response.error);
+                    } else {
+                        toastr.error('An unexpected error occurred.');
+                    }
+                }
+            });
         });
     </script>
 

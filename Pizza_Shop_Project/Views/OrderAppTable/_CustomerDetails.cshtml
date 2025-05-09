@@ -5,8 +5,10 @@
     <div class="customerDetails row pt-3">
         <div class="user-text fs-4 fw-bold mb-3">Customer Details</div>
 
-        <input type="hidden" id="customerId" asp-for="@Model.waitingTokenDetailViewModel.CustomerId" value="@Model.waitingTokenDetailViewModel.CustomerId" />
-        <input type="hidden" id="waitingId" asp-for="@Model.waitingTokenDetailViewModel.WaitingId" value="@Model.waitingTokenDetailViewModel.WaitingId" />
+        <input type="hidden" id="customerId" asp-for="@Model.waitingTokenDetailViewModel.CustomerId"
+            value="@Model.waitingTokenDetailViewModel.CustomerId" />
+        <input type="hidden" id="waitingId" asp-for="@Model.waitingTokenDetailViewModel.WaitingId"
+            value="@Model.waitingTokenDetailViewModel.WaitingId" />
 
         <div class="form-floating  col-12 mb-3">
             <input type="text" asp-for="@Model.waitingTokenDetailViewModel.Email" class="form-control" id="Email"
@@ -38,8 +40,7 @@
                 asp-validation-for="@Model.waitingTokenDetailViewModel.NoOfPerson"></span>
         </div>
         <div class="form-floating  col-md-6 col-12 mb-3">
-            <input type="hidden" id="sectionId"
-                asp-for="@Model.waitingTokenDetailViewModel.SectionId" />
+            <input type="hidden" id="sectionId" asp-for="@Model.waitingTokenDetailViewModel.SectionId" />
             <input type="text" asp-for="@Model.waitingTokenDetailViewModel.SectionId"
                 value="@Model.waitingTokenDetailViewModel.SectionName" class="form-control" id="sectionName"
                 placeholder="Section*" disabled>
@@ -66,6 +67,7 @@
 
         var selectedClass = document.getElementsByClassName("table-Selected");
         var NoOfPerson = $("#Persons").val();
+        var customerId = $("#customerId").val();
         var capacity = 0;
 
         for (i = 0; i < selectedClass.length; i++) {
@@ -79,9 +81,8 @@
 
         if (NoOfPerson > capacity) {
             callErrorToaster("Number of person is greater than Total Capacity of selected tables");
-        } 
-        else 
-        {
+        }
+        else {
             var formData = new FormData(this);
 
             formData.append("TableIds", JSON.stringify(TableIds));
@@ -95,6 +96,9 @@
                 success: function (response) {
                     if (response.success) {
                         callSuccessToaster(response.text);
+                        var MenuBtn = document.getElementById("MenuButtonOrderApp")
+                        MenuBtn.setAttribute("href", `/OrderAppMenu/OrderAppMenu?customerId=${customerId}`)
+                        MenuBtn.click();
                     } else {
                         callErrorToaster(response.text);
                     }

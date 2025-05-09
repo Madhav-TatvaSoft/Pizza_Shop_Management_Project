@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
@@ -22,7 +23,22 @@ public class ErrorController : Controller
         return View("InternalServerError");
     }
 
-    [Route("Error/{statusCode}")]
+    [AllowAnonymous]
+    public IActionResult HandleErrorWithToaster(string message)
+    {
+        TempData["ErrorMessage"] = message;
+
+        string referer = Request.Headers["Referer"].ToString();
+
+        if (string.IsNullOrEmpty(referer))
+        {
+            referer = Url.Action("VerifyUserLogin", "UserLogin") ?? "/"; // or any safe fallback page
+        }
+
+        return Redirect(referer);
+    }
+
+    [Route("Error/HandleError/{statusCode}")]
     public IActionResult HandleError(int statusCode)
     {
         switch (statusCode)

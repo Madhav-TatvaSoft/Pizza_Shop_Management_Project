@@ -372,6 +372,15 @@ D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\NuGet.ProjectModel
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\NuGet.Protocol.dll
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\NuGet.Versioning.dll
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Rotativa.AspNetCore.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Serilog.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Serilog.AspNetCore.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Serilog.Extensions.Hosting.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Serilog.Extensions.Logging.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Serilog.Formatting.Compact.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Serilog.Settings.Configuration.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Serilog.Sinks.Console.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Serilog.Sinks.Debug.dll
+D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\Serilog.Sinks.File.dll
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\System.CodeDom.dll
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\System.Composition.AttributedModel.dll
 D:\T30_Pizza_Shop_Project\Pizza_Shop_Project\bin\Debug\net7.0\System.Composition.Convention.dll

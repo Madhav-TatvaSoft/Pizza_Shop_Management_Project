@@ -83,6 +83,7 @@ public class OrderAppMenuController : Controller
     {
         OrderDetailViewModel orderDetailVM = new();
         orderDetailVM = _orderAppMenuService.GetOrderDetailsByCustomerId(customerId);
+        // orderDetailVM.itemOrderVM = new();
         return PartialView("_MenuItemsOrderDetailPartial", orderDetailVM);
     }
 

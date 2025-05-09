@@ -20,7 +20,7 @@
                                         asp-for="@Model.addItems.CategoryId" asp-items="ViewBag.categoryList">
                                         @* @foreach (var cat in Model.categoryList)
                                         {
-                                            <option value=" @cat.CategoryId">@cat.CategoryName</option>
+                                        <option value=" @cat.CategoryId">@cat.CategoryName</option>
                                         } *@
                                     </select>
                                     <label asp-for="@Model.addItems.CategoryId">Categories*</label>
@@ -215,7 +215,7 @@
             $.ajax({
                 url: '/Menu/GetModifiersByGroup',
                 type: 'GET',
-                @* contentType: 'application/json', *@
+    @* contentType: 'application/json', *@
                 data: { data: JSON.stringify(itemData) },
                 success: function (data) {
                     $('#ItemByModifiers').html(data);
@@ -299,27 +299,33 @@
 
             e.preventDefault();
 
-            let formData = new FormData(this);
-            formData.append('itemData', JSON.stringify(itemData));
+            let form = $("#AddItemForm");
 
-            $.ajax({
-                url: "/Menu/AddItem",
-                type: "POST",
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (data) {
-                    if (data.success) {
-                        callSuccessToaster(data.text);
-                    } else {
-                        callErrorToaster(data.text);
+            if (form.valid()) {
+
+                let formData = new FormData(this);
+                formData.append('itemData', JSON.stringify(itemData));
+
+                $.ajax({
+                    url: "/Menu/AddItem",
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (data) {
+                        if (data.success) {
+                            callSuccessToaster(data.text);
+                        } else {
+                            callErrorToaster(data.text);
+                        }
+                        $(".btn-close").click();
+                        PaginatedItemTable(catid, searchText, currentPage, pageSize);
+                        Item_Main_Checkbox_Select();
                     }
-                    $(".btn-close").click();
-                    PaginatedItemTable(catid, searchText, currentPage, pageSize);
-                    Item_Main_Checkbox_Select();
-                }
-            });
+                });
+            }
         });
+
     });
 
 </script>

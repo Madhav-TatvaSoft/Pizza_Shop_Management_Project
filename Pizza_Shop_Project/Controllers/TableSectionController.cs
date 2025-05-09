@@ -29,9 +29,8 @@ public class TableSectionController : Controller
         TableSectionViewModel tableSectionVM = new TableSectionViewModel();
         tableSectionVM.SectionList = _tableSectionService.GetAllSections();
 
-        ViewBag.SectionList = new SelectList(_tableSectionService.GetAllSections(), "SectionId", "SectionName");
-
-        if (sectionid == null)
+            ViewBag.SectionList = new SelectList(_tableSectionService.GetAllSections(), "SectionId", "SectionName");
+        if (sectionid == null && tableSectionVM.SectionList.Count != 0)
         {
             tableSectionVM.PaginationForTable = _tableSectionService.GetTablesBySection(tableSectionVM.SectionList[0].SectionId, search, pageNumber, pageSize);
         }
@@ -124,7 +123,7 @@ public class TableSectionController : Controller
         {
             return Json(new { success = false, text = "Section Cannot be deleted where Table is Occupied" });
         }
-        
+
         bool deleteSectionStatus = await _tableSectionService.DeleteSection(sectionid);
 
         if (deleteSectionStatus)

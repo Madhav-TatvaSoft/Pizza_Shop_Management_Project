@@ -239,7 +239,7 @@
                     onclick="SaveOrder()">Save</button>
                 <button id="OrderCompleteBtn" class="btn hollow-btn" style="width: 180px;"
                     onclick="CompleteOrder()">Complete</button>
-                @if (Model.itemOrderVM.Count == 0)
+                @if (Model.itemOrderVM == null)
                 {
                     <button id="OrderGenerateInvoiceBtn" class="btn hollow-btn" style="width: 180px;" disabled>Generate Invoice</button>
                 }
@@ -259,7 +259,6 @@
 
     </div>
 }
-
 
 <!----------------------------------------- Modal -------------------------------------------------------->
 

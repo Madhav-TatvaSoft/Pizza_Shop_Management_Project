@@ -335,7 +335,10 @@
                     type: "GET",
                     data: { customerid: customerid },
                     success: function (data) {
-                        $("#CustomerHistoryDiv").html(data);
+                        if (data.success != false) {
+                            $("#CustomerHistoryModal").modal("show");
+                            $("#CustomerHistoryDiv").html(data);
+                        }
                     }
                 });
             });

@@ -15,7 +15,7 @@ public class TableSectionService : ITableSectionService
     }
     public List<Section> GetAllSections()
     {
-        return _context.Sections.Where(x => x.Isdelete == false).OrderBy(x => x.SectionId).ToList();
+        return _context.Sections.Where(x => !x.Isdelete).OrderBy(x => x.SectionId).ToList();
     }
     public PaginationViewModel<TablesViewModel> GetTablesBySection(long? sectionid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
@@ -52,7 +52,7 @@ public class TableSectionService : ITableSectionService
 
         return new PaginationViewModel<TablesViewModel>(items, totalCount, pageNumber, pageSize);
     }
-    
+
     #region Section CRUD
 
     public async Task<bool> AddSection(SectionViewModel addsection, long userId)
@@ -78,7 +78,7 @@ public class TableSectionService : ITableSectionService
             return true;
         }
     }
-    
+
     public SectionViewModel GetSectionById(long sectionid)
     {
         Section? section = _context.Sections.FirstOrDefault(x => x.SectionId == sectionid && x.Isdelete == false);
@@ -95,7 +95,7 @@ public class TableSectionService : ITableSectionService
         }
         return null;
     }
-   
+
     public async Task<bool> EditSection(SectionViewModel editSection, long userId)
     {
         if (editSection.SectionId == null)
@@ -124,7 +124,7 @@ public class TableSectionService : ITableSectionService
         }
         return false;
     }
-   
+
     public async Task<bool> DeleteSection(long sectionid)
     {
         Section? sectionToDelete = await _context.Sections.FirstOrDefaultAsync(x => x.SectionId == sectionid && x.Isdelete == false);
@@ -171,7 +171,7 @@ public class TableSectionService : ITableSectionService
 
     #region Table CRUD
 
-   
+
     public async Task<bool> AddTable(TablesViewModel tableVM, long userId)
     {
         if (tableVM.SectionId == null)
@@ -202,7 +202,7 @@ public class TableSectionService : ITableSectionService
         return true;
 
     }
-    
+
     public TablesViewModel GetTableById(long tableId, long sectionId)
     {
         Table? table = _context.Tables.FirstOrDefault(x => x.TableId == tableId && x.SectionId == sectionId && x.Isdelete == false);
@@ -278,7 +278,7 @@ public class TableSectionService : ITableSectionService
 
     public async Task<bool> IsTableOccupied(long tableId)
     {
-        return _context.Tables.Any(x => x.TableId == tableId && !x.Isdelete &&  (x.Status != "Available"));
+        return _context.Tables.Any(x => x.TableId == tableId && !x.Isdelete && (x.Status != "Available"));
     }
 
     #endregion

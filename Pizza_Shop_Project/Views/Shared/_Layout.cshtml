@@ -26,8 +26,8 @@
 
 <body>
     <div class="container-fluid " style="">
-        @* Loader  *@
-        <div id="loader">
+        @* Loader *@
+        @* <div id="loader">
             <div class="sk-chase">
                 <div class="sk-chase-dot"></div>
                 <div class="sk-chase-dot"></div>
@@ -36,8 +36,8 @@
                 <div class="sk-chase-dot"></div>
                 <div class="sk-chase-dot"></div>
             </div>
-        </div>
-        @* loader end  *@
+        </div> *@
+        @* loader end *@
 
         <div class="row p-0">
 
@@ -389,6 +389,23 @@
             if (errorMessage) {
                 toastr.error(errorMessage);
             }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // 1. Show toaster if TempData contains error (normal request)
+
+            // 2. Global AJAX error catcher
+            $(document).ajaxComplete(function (event, xhr, settings) {
+                if (xhr.getResponseHeader("X-Error") === "true") {
+                    const response = xhr.responseJSON;
+                    if (response && response.error) {
+                        toastr.error(response.error);
+                    } else {
+                        toastr.error('An unexpected error occurred.');
+                    }
+                }
+            });
         });
     </script>
 

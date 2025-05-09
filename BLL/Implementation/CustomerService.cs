@@ -403,33 +403,58 @@ public class CustomerService : ICustomerService
 
     public CustomerHistoryViewModel GetCustomerHistory(long customerid)
     {
-        CustomerHistoryViewModel? customerDetails = _context.Customers.
-        Include(x => x.Orders).
-        ThenInclude(x => x.Orderdetails).
-        ThenInclude(x => x.Order.PaymentStatus).
-        Where(x => x.CustomerId == customerid).
-        Select(x => new CustomerHistoryViewModel
+        if (_context.Orders.Where(o => o.CustomerId == customerid && o.Status != "Cancelled" && !o.Isdelete).Count() == 0)
         {
-            // Customer Details
-
-            CustomerId = x.CustomerId,
-            CustomerName = x.CustomerName,
-            PhoneNo = x.PhoneNo.HasValue ? x.PhoneNo.Value : 0,
-            CreatedAt = (DateTime)x.CreatedAt,
-            visits = x.Orders.Count(),
-            MaxOrder = x.Orders.Max(x => x.TotalAmount),
-            AvgBill = Math.Round(x.Orders.Average(x => x.TotalAmount), 2),
-            orderList = x.Orders.Select(x => new OrderListViewModel
+            CustomerHistoryViewModel? customerDetails = _context.Customers.
+            Include(x => x.Orders).
+            ThenInclude(x => x.Orderdetails).
+            ThenInclude(x => x.Order.PaymentStatus).
+            Where(x => x.CustomerId == customerid).
+            Select(x => new CustomerHistoryViewModel
             {
-                OrderDate = DateOnly.FromDateTime(x.OrderDate),
-                OrderType = x.OrderType,
-                Paymentstatus = x.PaymentStatus.PaymentStatus,
-                NoOfItems = x.Orderdetails.Count(),
-                TotalAmount = x.TotalAmount
-            }).ToList()
-        }).FirstOrDefault();
+                // Customer Details
+                CustomerId = x.CustomerId,
+                CustomerName = x.CustomerName,
+                PhoneNo = x.PhoneNo.HasValue ? x.PhoneNo.Value : 0,
+                CreatedAt = (DateTime)x.CreatedAt,
+                visits = 0,
+                MaxOrder = 0,
+                AvgBill = 0.00M,
+                orderList = null
+            }).FirstOrDefault();
+            return customerDetails;
+        }
+        else
+        {
+            CustomerHistoryViewModel? customerDetails = _context.Customers.
+                    Include(x => x.Orders).
+                    ThenInclude(x => x.Orderdetails).
+                    ThenInclude(x => x.Order.PaymentStatus).
+                    Where(x => x.CustomerId == customerid).
+                    Select(x => new CustomerHistoryViewModel
+                    {
+                        // Customer Details
 
-        return customerDetails;
+                        CustomerId = x.CustomerId,
+                        CustomerName = x.CustomerName,
+                        PhoneNo = x.PhoneNo.HasValue ? x.PhoneNo.Value : 0,
+                        CreatedAt = (DateTime)x.CreatedAt,
+                        visits = x.Orders.Count(),
+                        MaxOrder = x.Orders.Max(x => x.TotalAmount),
+                        AvgBill = Math.Round(x.Orders.Average(x => x.TotalAmount), 2),
+                        orderList = x.Orders.Select(x => new OrderListViewModel
+                        {
+                            OrderDate = DateOnly.FromDateTime(x.OrderDate),
+                            OrderType = x.OrderType,
+                            Paymentstatus = x.PaymentStatus.PaymentStatus,
+                            NoOfItems = x.Orderdetails.Count(),
+                            TotalAmount = x.TotalAmount
+                        }).ToList()
+                    }).FirstOrDefault();
+
+            return customerDetails;
+        }
+
     }
 
     public long IsCustomerPresent(string Email)
@@ -485,7 +510,7 @@ public class CustomerService : ICustomerService
     public async Task<long> GetCustomerIdByTableId(long tableId)
     {
         AssignTable? customer = _context.AssignTables.FirstOrDefault(x => x.TableId == tableId && !x.Isdelete);
-        return (customer !=null) ? customer.CustomerId : 0;
+        return (customer != null) ? customer.CustomerId : 0;
     }
 
 }
