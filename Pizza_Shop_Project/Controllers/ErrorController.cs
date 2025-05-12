@@ -11,6 +11,12 @@ public class ErrorController : Controller
         return View("Unauthorized");
     }
 
+    [Route("Error/NotFound")]
+    public IActionResult NotFound()
+    {
+        return View("NotFound");
+    }
+
     [Route("Error/Forbidden")]
     public IActionResult Forbidden()
     {

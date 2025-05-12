@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PizzaShop_Project</title>
+    <title>@ViewData["Title"] - Pizza_Shop_Project</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Pizza_Shop_Project.styles.css" asp-append-version="true" />
@@ -237,6 +237,40 @@
             }
 
         });
+
+        function AjaxResponseHandle(response) {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(response, 'text/html');
+            var title = doc.title;
+            console.log(title)
+            if (title === "Login - Pizza_Shop_Project") {
+                window.location.href = '@Url.Action("VerifyUserLogin", "UserLogin")';
+            }
+            else if (title === "Dashboard - Pizza_Shop_Project") {
+                window.location.href = '@Url.Action("Dashboard", "User")';
+            }
+            else if (title === "InternalServerError" || title === "Forbidden" || title === "Unauthorized" || title === "NotFound") {
+                var url = `/ErrorPage/${title}`;
+                window.location.href = url;
+            }
+            else if (title === "InternalServerError - Pizza_Shop_Project" || title === "Forbidden - Pizza_Shop_Project" || title === "Unauthorized - Pizza_Shop_Project" || title === "NotFound - Pizza_Shop_Project") {
+                var url = `/ErrorPage/${title.split(" ")[0].toString().trim()}`;
+                window.location.href = url;
+            }
+            else {
+                callErrorToaster('Unexpected response format.');
+            }
+        }
+
+        function IsHtmlDoc(response) {
+            if (response.statusCode) {
+                return;
+            }
+            if ((response.trim().indexOf('<!DOCTYPE html>') === 0) || (response.trim().indexOf('<html>') === 0)) {
+                AjaxResponseHandle(response);
+            }
+        }
+
     </script>
 
     <script>

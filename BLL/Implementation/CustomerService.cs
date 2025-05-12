@@ -470,7 +470,7 @@ public class CustomerService : ICustomerService
 
     public long IsCustomerPresent(string Email)
     {
-        Customer customer = _context.Customers.FirstOrDefault(x => x.Email == Email && !x.Isdelete);
+        Customer? customer = _context.Customers.FirstOrDefault(x => x.Email == Email && !x.Isdelete);
         if (customer != null) return customer.CustomerId;
         else return 0;
     }

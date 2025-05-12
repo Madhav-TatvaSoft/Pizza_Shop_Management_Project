@@ -29,14 +29,13 @@ namespace Pizza_Shop_Project.Controllers
             _modifierItemService = modifierItemService;
         }
 
-        #region Main-Menu-View
         [PermissionAuthorize("Menu.View")]
         public async Task<IActionResult> Menu(long? catid, long? modgrpid, string search = "", int pageNumber = 1, int pageSize = 3)
         {
             MenuViewModel MenuVM = new();
-            MenuVM.categoryList = await _categoryService.GetAllCategories();
+            MenuVM.categoryList = await _categoryService.GetAll();
             MenuVM.modifierGroupList = await _modifierGroupService.GetAllModifierGroupList();
-            ViewBag.categoryList = new SelectList(await _categoryService.GetAllCategories(), "CategoryId", "CategoryName");
+            ViewBag.categoryList = new SelectList(await _categoryService.GetAll(), "CategoryId", "CategoryName");
 
 
             ViewBag.modifierGroupList = new SelectList(await _modifierGroupService.GetAllModifierGroupList(), "ModifierGrpId", "ModifierGrpName");
@@ -54,13 +53,12 @@ namespace Pizza_Shop_Project.Controllers
             ViewData["sidebar-active"] = "Menu";
             return View(MenuVM);
         }
-        #endregion
 
         [PermissionAuthorize("Menu.View")]
         public async Task<IActionResult> PaginationMenuItemsByCategory(long? catid, string search = "", int pageNumber = 1, int pageSize = 3)
         {
             MenuViewModel menuData = new MenuViewModel();
-            menuData.categoryList = await _categoryService.GetAllCategories();
+            menuData.categoryList = await _categoryService.GetAll();
 
             if (catid != null)
             {
@@ -74,7 +72,7 @@ namespace Pizza_Shop_Project.Controllers
         [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> AddCategory(Category category)
         {
-            bool IsCategoryNameExists = _categoryService.IsCategoryExistForAdd(category);
+            bool IsCategoryNameExists = _categoryService.IsExist(category);
             if (IsCategoryNameExists)
             {
                 TempData["ErrorMessage"] = NotificationMessage.AlreadyExists.Replace("{0}", "Category");
@@ -85,7 +83,7 @@ namespace Pizza_Shop_Project.Controllers
             List<User>? userData = _userService.getUserFromEmail(token);
             long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-            if (await _categoryService.AddCategory(category, userId))
+            if (await _categoryService.Add(category, userId))
             {
                 TempData["SuccessMessage"] = NotificationMessage.EntityCreated.Replace("{0}", "Category");
                 return RedirectToAction("Menu");
@@ -97,7 +95,7 @@ namespace Pizza_Shop_Project.Controllers
         [PermissionAuthorize("Menu.AddEdit")]
         public async Task<IActionResult> EditCategoryById(Category category)
         {
-            bool IsCategoryNameExists = _categoryService.IsCategoryExistForEdit(category);
+            bool IsCategoryNameExists = _categoryService.IsExist(category);
             if (IsCategoryNameExists)
             {
                 TempData["ErrorMessage"] = NotificationMessage.AlreadyExists.Replace("{0}", "Category");
@@ -110,7 +108,7 @@ namespace Pizza_Shop_Project.Controllers
 
             long Cat_Id = category.CategoryId;
 
-            if (await _categoryService.EditCategory(category, Cat_Id, userId))
+            if (await _categoryService.Update(category, Cat_Id, userId))
             {
                 TempData["SuccessMessage"] = NotificationMessage.EntityUpdated.Replace("{0}", "Category");
                 return RedirectToAction("Menu");
@@ -122,13 +120,17 @@ namespace Pizza_Shop_Project.Controllers
         [PermissionAuthorize("Menu.Delete")]
         public async Task<IActionResult> DeleteCategory(long Cat_Id)
         {
+            string token = Request.Cookies["AuthToken"];
+            List<User>? userData = _userService.getUserFromEmail(token);
+            long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
             if (Cat_Id == null)
             {
                 TempData["ErrorMessage"] = NotificationMessage.DoesNotExists.Replace("{0}", "Category");
                 return RedirectToAction("Menu", "Menu");
             }
 
-            if (await _categoryService.DeleteCategory(Cat_Id))
+            if (await _categoryService.Delete(Cat_Id,userId))
             {
                 TempData["SuccessMessage"] = NotificationMessage.EntityDeleted.Replace("{0}", "Category");
                 return RedirectToAction("Menu", "Menu");
@@ -145,9 +147,9 @@ namespace Pizza_Shop_Project.Controllers
         public async Task<IActionResult> GetItems()
         {
             MenuViewModel MenuVM = new MenuViewModel();
-            MenuVM.categoryList = await _categoryService.GetAllCategories();
+            MenuVM.categoryList = await _categoryService.GetAll();
             MenuVM.modifierGroupList = await _modifierGroupService.GetAllModifierGroupList();
-            ViewBag.categoryList = new SelectList(await _categoryService.GetAllCategories(), "CategoryId", "CategoryName");
+            ViewBag.categoryList = new SelectList(await _categoryService.GetAll(), "CategoryId", "CategoryName");
             ViewBag.modifierGroupList = new SelectList(await _modifierGroupService.GetAllModifierGroupList(), "ModifierGrpId", "ModifierGrpName");
             return PartialView("_AddItemPartial", MenuVM);
         }
@@ -176,10 +178,10 @@ namespace Pizza_Shop_Project.Controllers
                 }
             }
 
-            MenuVM.categoryList = await _categoryService.GetAllCategories();
+            MenuVM.categoryList = await _categoryService.GetAll();
             MenuVM.modifierGroupList = await _modifierGroupService.GetAllModifierGroupList();
 
-            ViewBag.categoryList = new SelectList(await _categoryService.GetAllCategories(), "CategoryId", "CategoryName");
+            ViewBag.categoryList = new SelectList(await _categoryService.GetAll(), "CategoryId", "CategoryName");
             ViewBag.modifierGroupList = new SelectList(await _modifierGroupService.GetAllModifierGroupList(), "ModifierGrpId", "ModifierGrpName");
 
             return PartialView("_ModifierByGroup", MenuVM);
@@ -243,9 +245,9 @@ namespace Pizza_Shop_Project.Controllers
         public async Task<IActionResult> GetItemsByItemId(long itemid)
         {
             MenuViewModel MenuVM = new MenuViewModel();
-            MenuVM.categoryList = await _categoryService.GetAllCategories();
+            MenuVM.categoryList = await _categoryService.GetAll();
             MenuVM.modifierGroupList = await _modifierGroupService.GetAllModifierGroupList();
-            ViewBag.categoryList = new SelectList(await _categoryService.GetAllCategories(), "CategoryId", "CategoryName");
+            ViewBag.categoryList = new SelectList(await _categoryService.GetAll(), "CategoryId", "CategoryName");
             ViewBag.modifierGroupList = new SelectList(await _modifierGroupService.GetAllModifierGroupList(), "ModifierGrpId", "ModifierGrpName");
             MenuVM.addItems = _itemService.GetItemsByItemId(itemid);
             return PartialView("_EditItemPartial", MenuVM);
@@ -271,9 +273,9 @@ namespace Pizza_Shop_Project.Controllers
                 }
             }
 
-            MenuVM.categoryList = await _categoryService.GetAllCategories();
+            MenuVM.categoryList = await _categoryService.GetAll();
             MenuVM.modifierGroupList = await _modifierGroupService.GetAllModifierGroupList();
-            ViewBag.categoryList = new SelectList(await _categoryService.GetAllCategories(), "CategoryId", "CategoryName");
+            ViewBag.categoryList = new SelectList(await _categoryService.GetAll(), "CategoryId", "CategoryName");
             ViewBag.modifierGroupList = new SelectList(await _modifierGroupService.GetAllModifierGroupList(), "ModifierGrpId", "ModifierGrpName");
 
             return PartialView("_EditModifierByGroup", MenuVM);

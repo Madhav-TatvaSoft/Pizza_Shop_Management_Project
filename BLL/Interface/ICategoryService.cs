@@ -5,13 +5,12 @@ namespace BLL.Interface;
 
 public interface ICategoryService
 {
-    Task<List<Category>> 
-    GetAllCategories();
-    Task<bool> AddCategory(Category category, long userId);
-    Task<bool> EditCategory(Category category, long Cat_Id, long userId);
-    Task<bool> DeleteCategory(long Cat_Id);
-    bool IsCategoryExistForAdd(Category category);
-    bool IsCategoryExistForEdit(Category category);
+    Task<List<Category>> GetAll();
+    Task<bool> Add(Category category, long userId);
+    Task<bool> Update(Category category, long Cat_Id, long userId);
+    Task<bool> Delete(long Cat_Id,long userId);
+    bool IsExist(Category category);
+    // bool IsCategoryExistForEdit(Category category);
 
 }
 // using System.ComponentModel.DataAnnotations;

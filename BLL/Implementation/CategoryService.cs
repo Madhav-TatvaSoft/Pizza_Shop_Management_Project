@@ -2,113 +2,135 @@ using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 
 namespace BLL.Implementation;
 public class CategoryService : ICategoryService
 {
     private readonly PizzaShopDbContext _context;
+    // private IDbContextTransaction _transaction;
 
     public CategoryService(PizzaShopDbContext context)
     {
         _context = context;
+        // _transaction = transaction;
     }
 
-    public async Task<List<Category>> GetAllCategories()
+    public async Task<List<Category>> GetAll()
     {
-        try
-        {
-            return await _context.Categories.Where(x => !x.Isdelete).OrderBy(x => x.CategoryId).ToListAsync();
-        }
-        catch(Exception e)
-        {
-            throw new Exception();
-        }
+        return await _context.Categories.Where(x => !x.Isdelete).OrderBy(x => x.CategoryId).ToListAsync();
     }
 
-    public async Task<bool> AddCategory(Category category, long userId)
+    public async Task<bool> Add(Category category, long userId)
     {
-        if (category == null) return false;
-
-        Category cat = new Category();
-        cat.CategoryName = category.CategoryName;
-        cat.Description = category.Description;
-        cat.CreatedBy = userId;
-        cat.CreatedAt = DateTime.Now;
-        cat.Isdelete = false;
-        await _context.Categories.AddAsync(cat);
-        await _context.SaveChangesAsync();
-        return true;
-    }
-
-    public async Task<bool> EditCategory(Category category, long Cat_Id, long userId)
-    {
-        if (category == null || Cat_Id == null)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            return false;
-        }
+            try
+            {
+                if (category == null) return false;
 
-        Category? cat = await _context.Categories.SingleOrDefaultAsync(x => x.CategoryId == Cat_Id && !x.Isdelete);
-        if (cat == null)
-        {
-            return false;
+                Category cat = new Category();
+                cat.CategoryName = category.CategoryName;
+                cat.Description = category.Description;
+                cat.CreatedBy = userId;
+                cat.CreatedAt = DateTime.Now;
+                cat.Isdelete = false;
+                await _context.Categories.AddAsync(cat);
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
-        cat.CategoryName = category.CategoryName;
-        cat.Description = category.Description;
-        cat.ModifiedBy = userId;
-        cat.ModifiedAt = DateTime.Now;
-        _context.Categories.Update(cat);
-        await _context.SaveChangesAsync();
-        return true;
     }
 
-    public async Task<bool> DeleteCategory(long Cat_Id)
+    public async Task<bool> Update(Category category, long Cat_Id, long userId)
     {
-        Category? category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == Cat_Id && !x.Isdelete);
-
-        List<Item>? ItemsInCategory = await _context.Items.Where(x => x.CategoryId == Cat_Id && !x.Isdelete).ToListAsync();
-
-        // if (ItemsInCategory.Count > 0)
-        // {
-        //     foreach (var item in ItemsInCategory)
-        //     {
-        //         item.Isdelete = true;
-        //         item.ModifiedAt = DateTime.Now;
-        //         _context.Items.Update(item);
-        //         await _context.SaveChangesAsync();
-        //     }
-        // }
-
-        for (int i = 0; i < ItemsInCategory.Count; i++)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            // ItemsInCategory[i].ItemName = ItemsInCategory[i].ItemName + DateTime.Now;
-            ItemsInCategory[i].Isdelete = true;
-            ItemsInCategory[i].ModifiedAt = DateTime.Now;
-            _context.Items.Update(ItemsInCategory[i]);
-            await _context.SaveChangesAsync();
-        }
+            try
+            {
+                if (category == null || Cat_Id == null)
+                {
+                    return false;
+                }
 
-        // category.CategoryName = category.CategoryName + DateTime.Now;
-        if (category == null)
+                Category? cat = await _context.Categories.SingleOrDefaultAsync(x => x.CategoryId == Cat_Id && !x.Isdelete);
+                if (cat == null)
+                {
+                    return false;
+                }
+                cat.CategoryName = category.CategoryName;
+                cat.Description = category.Description;
+                cat.ModifiedBy = userId;
+                cat.ModifiedAt = DateTime.Now;
+                _context.Categories.Update(cat);
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+    }
+
+    public async Task<bool> Delete(long Cat_Id, long userId)
+    {
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            return false;
+            try
+            {
+                if (Cat_Id == null)
+                {
+                    return false;
+                }
+
+                Category? category = await _context.Categories.SingleOrDefaultAsync(x => x.CategoryId == Cat_Id && !x.Isdelete);
+                if (category == null)
+                {
+                    return false;
+                }
+
+                category.Isdelete = true;
+                category.ModifiedAt = DateTime.Now;
+                category.ModifiedBy = userId;
+                _context.Categories.Update(category);
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
-
-        category.Isdelete = true;
-        category.ModifiedAt = DateTime.Now;
-        _context.Categories.Update(category);
-        await _context.SaveChangesAsync();
-        return true;
     }
 
-    public bool IsCategoryExistForAdd(Category category)
+    public bool IsExist(Category category)
     {
-        return _context.Categories.Any(x => !x.Isdelete && x.CategoryName.ToLower().Trim() == category.CategoryName.ToLower().Trim());
+        if (category.CategoryId == 0)
+        {
+            return _context.Categories.Any(x => !x.Isdelete && x.CategoryName.ToLower().Trim() == category.CategoryName.ToLower().Trim());
+        }
+        else
+        {
+            return _context.Categories.Any(x => x.CategoryId != category.CategoryId && x.CategoryName.ToLower().Trim() == category.CategoryName.ToLower().Trim() && !x.Isdelete);
+        }
     }
 
-    public bool IsCategoryExistForEdit(Category category)
-    {
-        return _context.Categories.Any(x => x.CategoryId != category.CategoryId && x.CategoryName.ToLower().Trim() == category.CategoryName.ToLower().Trim() && !x.Isdelete);
-
-    }
 }

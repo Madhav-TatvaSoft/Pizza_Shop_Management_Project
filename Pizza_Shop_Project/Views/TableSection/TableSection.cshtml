@@ -326,9 +326,9 @@
                 type: "GET",
                 data: { sectionid, search: searchText_table, pageNumber: page, pageSize: pageSize_table },
                 success: function (data) {
-                    console.log("hiiiii")
-                    checkHtmlDoc(data);
-                    console.log("hello")
+                    
+                    // Check if the response is HTML
+                    IsHtmlDoc(data);
 
                     $("#table-list-body").html(data);
 

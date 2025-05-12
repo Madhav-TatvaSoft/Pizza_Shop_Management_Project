@@ -22,7 +22,7 @@ public class OrderAppKOTController : Controller
     public async Task<IActionResult> OrderAppKOT()
     {
         OrderAppKOTViewModel KOTVM = new();
-        KOTVM.categoryList = await _categoryService.GetAllCategories();
+        KOTVM.categoryList = await _categoryService.GetAll();
         ViewData["orderApp-Active"] = "KOT";
         ViewData["Icon"] = "fa-clipboard";
         return View(KOTVM);

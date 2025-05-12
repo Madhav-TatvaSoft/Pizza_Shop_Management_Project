@@ -28,7 +28,7 @@ public class OrderAppMenuController : Controller
     public async Task<IActionResult> OrderAppMenu(long customerId = 0)
     {
         OrderAppMenuViewModel OrderAppMenuVM = new();
-        OrderAppMenuVM.categoryList = await _categoryService.GetAllCategories();
+        OrderAppMenuVM.categoryList = await _categoryService.GetAll();
         ViewData["orderApp-Active"] = "Menu";
         ViewData["Icon"] = "fa-burger";
 
