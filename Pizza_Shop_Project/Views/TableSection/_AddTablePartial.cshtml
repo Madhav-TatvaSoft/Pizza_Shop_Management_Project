@@ -19,10 +19,11 @@
 
                 <div class="form-floating col-6 p-1">
                     <input type="hidden" asp-for="@Model.tablesVM.SectionId" id="Section_id_Table">
-                    <select class="form-select" asp-for="@Model.tablesVM.SectionId" id="selectSectionIdDropDown" aria-label="Floating label select example" disabled>
+                    <select class="form-select" asp-for="@Model.tablesVM.SectionId" id="selectSectionIdDropDown"
+                        aria-label="Floating label select example" disabled>
                         @foreach (var data in Model.SectionList)
                         {
-                            <option value="@data.SectionId" >@data.SectionName</option>
+                            <option value="@data.SectionId">@data.SectionName</option>
                         }
                     </select>
                     <label for="selectSectionIdDropDown">Section Name</label>
@@ -61,6 +62,8 @@
 
 
 <script>
+    
+    var sectionID = $("#selectSectionIdDropDown").val();
 
     // Table To Fill data in the Add modal 
     $("#AddTableForm").on("submit", function (e) {
@@ -86,11 +89,11 @@
                         callErrorToaster(data.text);
                     }
                     $(".btn-close").click();
-                    PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
-                    @* loadSectionList(); *@
+                    PaginationForTable(sectionID, searchText_table, currentPage_table, pageSize_table);
                     Table_Main_Checkbox_Select();
                 }
             });
         }
     });
+
 </script>

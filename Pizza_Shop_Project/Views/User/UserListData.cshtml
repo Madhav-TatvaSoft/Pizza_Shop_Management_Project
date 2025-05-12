@@ -4,7 +4,7 @@
 
 @model PaginationViewModel<User>
 @{
-  ViewData["Title"] = "UserListData Page";
+  ViewData["Title"] = "UserList";
   Layout = "_Layout";
 }
 
@@ -113,12 +113,12 @@
       deleteModal.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
         var email = button.getAttribute('data-email');
-        @* var role = button.getAttribute('data-role'); *@
-        var deleteEmailInput = document.getElementById('deleteEmail');
-        @* var deleteUserByRoleInput = document.getElementById('deleteUserByRole'); *@
-        deleteEmailInput.value = email;
-        @* deleteUserByRoleInput.value = role; *@
-      });
+    @* var role = button.getAttribute('data-role'); *@
+          var deleteEmailInput = document.getElementById('deleteEmail');
+    @* var deleteUserByRoleInput = document.getElementById('deleteUserByRole'); *@
+          deleteEmailInput.value = email;
+    @* deleteUserByRoleInput.value = role; *@
+        });
     });
   </script>
 
@@ -137,7 +137,6 @@
           type: "GET",
           data: { search, sortColumn, sortDirection, pageNumber: page, pageSize },
           success: function (data) {
-
             $("#userTableBody").html(data);
             currentPage = page;
             pageSize = parseInt(pageSize);
@@ -151,6 +150,10 @@
             $("#pagination-info").text("Showing " + startItem + " - " + endItem + " of " + totalRecords);
             $("#left-arrow").prop("disabled", currentPage === 1);
             $("#right-arrow").prop("disabled", currentPage * pageSize >= totalRecords);
+            checkHtmlDoc(data);
+          },
+          error: function (response) {
+            callErrorToaster("Error Loading data");
           }
         });
       }

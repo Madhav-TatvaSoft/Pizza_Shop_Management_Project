@@ -241,12 +241,12 @@
                     onclick="CompleteOrder()">Complete</button>
                 @if (Model.itemOrderVM == null)
                 {
-                    <button id="OrderGenerateInvoiceBtn" class="btn hollow-btn" style="width: 180px;" disabled>Generate Invoice</button>
+                    <button id="OrderGenerateInvoiceBtn" class="btn hollow-btn" style="width: 180px;" disabled>Generate
+                        Invoice</button>
                 }
                 else
                 {
-                    <a asp-action="GenerateInvoicePDF" asp-controller="Order"
-                        asp-route-orderid="@Model.OrderId"
+                    <a asp-action="GenerateInvoicePDF" asp-controller="Order" asp-route-orderid="@Model.OrderId"
                         id="OrderGenerateInvoiceBtn" class="btn hollow-btn" style="width: 180px;">Generate Invoice</a>
                 }
             </div>
@@ -440,6 +440,12 @@
 
     $(document).ready(function () {
         var orderDetails = @Html.Raw(Json.Serialize(Model));
+
+        $(".payment-type").on("change", function () {
+            var paymentMethodId = $(this).val();
+            orderDetails.paymentmethodId = paymentMethodId;
+        });
+
         FillAlreadySavedDataInArray(orderDetails);
     });
 </script>

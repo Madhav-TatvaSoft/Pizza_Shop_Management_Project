@@ -1,6 +1,6 @@
 @model DAL.ViewModels.UserLoginViewModel;
 @{
-    ViewData["Title"] = "Login Page";
+    ViewData["Title"] = "Login";
     Layout = "_LoginLayout";
 }
 
@@ -102,7 +102,7 @@
                             console.log("response");
                         },
                         error: function (response) {
-                            console.log(response);
+                            callErrorToaster("Email not found");
                         }
                     });
                 });

@@ -115,13 +115,12 @@ public class TableSectionController : Controller
     {
         TableSectionViewModel tableSectionVM = new TableSectionViewModel();
 
-
         tableSectionVM.SectionList = _tableSectionService.GetAllSections();
 
         bool occupiedTableInSection = await _tableSectionService.IsTableOccupiedinSection(sectionid);
         if (occupiedTableInSection)
         {
-            return Json(new { success = false, text = "Section Cannot be deleted where Table is Occupied" });
+            return Json(new { sectionid = tableSectionVM.SectionList[0].SectionId, success = false, text = "Section Cannot be deleted where Table is Occupied" });
         }
 
         bool deleteSectionStatus = await _tableSectionService.DeleteSection(sectionid);

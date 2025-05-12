@@ -14,7 +14,7 @@ public class TablesViewModel
     public string TableName { get; set; } = null!;
 
     [Required(ErrorMessage = "Capacity is Required")]
-    [Range(0, 20, ErrorMessage = "Capacity should be Positive and cannot exceed 20")]
+    [Range(1, 20, ErrorMessage = "Capacity should be Positive and cannot exceed 20")]
     public int Capacity { get; set; }
 
     public string Status { get; set; } = null!;

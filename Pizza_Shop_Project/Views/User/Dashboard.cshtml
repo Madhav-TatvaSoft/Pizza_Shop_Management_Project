@@ -1,7 +1,7 @@
 @model DAL.ViewModels.DashboardViewModel;
 
 @{
-    ViewData["Title"] = "Dashboard Page";
+    ViewData["Title"] = "Dashboard";
     Layout = "_Layout";
 }
 
@@ -142,7 +142,7 @@
                 }, 300)
             },
             error: function (xhr, status, error) {
-                console.error("Error fetching dashboard content:", error);
+                callErrorToaster("Error fetching dashboard content");
             }
         });
     }
@@ -262,6 +262,9 @@
             success: function (response) {
                 RevenueGrowthData = response.revenueList
                 CustomerCountData = response.customerList
+            },
+            error: function (response) {
+                callErrorToaster("Error fetching Data");
             }
         })
     }

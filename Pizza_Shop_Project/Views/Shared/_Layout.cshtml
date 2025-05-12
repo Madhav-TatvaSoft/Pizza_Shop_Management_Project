@@ -1,4 +1,4 @@
-﻿﻿﻿﻿@using Microsoft.AspNetCore.Authorization
+﻿﻿@using Microsoft.AspNetCore.Authorization
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
 <!DOCTYPE html>
@@ -28,14 +28,14 @@
     <div class="container-fluid " style="">
         @* Loader *@
         @* <div id="loader">
-            <div class="sk-chase">
-                <div class="sk-chase-dot"></div>
-                <div class="sk-chase-dot"></div>
-                <div class="sk-chase-dot"></div>
-                <div class="sk-chase-dot"></div>
-                <div class="sk-chase-dot"></div>
-                <div class="sk-chase-dot"></div>
-            </div>
+        <div class="sk-chase">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        </div>
         </div> *@
         @* loader end *@
 
@@ -376,7 +376,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function () {
-            
+
             var successMessage = '@TempData["SuccessMessage"]';
             var errorMessage = '@TempData["ErrorMessage"]';
 
@@ -395,24 +395,45 @@
             }
 
         });
-    </script>
-    <script>
-        $(document).ready(function () {
-            // 1. Show toaster if TempData contains error (normal request)
 
-            // 2. Global AJAX error catcher
-            $(document).ajaxComplete(function (event, xhr, settings) {
-                if (xhr.getResponseHeader("X-Error") === "true") {
-                    const response = xhr.responseJSON;
-                    if (response && response.error) {
-                        toastr.error(response.error);
-                    } else {
-                        toastr.error('An unexpected error occurred.');
-                    }
+        function handleAjaxResponse(response) {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(response, 'text/html');
+            var title = doc.title;
+            console.log(title)
+            if (title === "Login - Pizza_Shop_Project") {
+                window.location.href = '@Url.Action("VerifyUserLogin", "UserLogin")';
+            }
+            else if (title === "Dashboard - Pizza_Shop_Project") {
+                window.location.href = '@Url.Action("Dashboard", "User")';
+            }
+            else if (title === "404" || title === "401" || title === "403" || title === "400" || title === "500") {
+                var url = `@Url.Action("HandleError/{title}", "Error")`;
+                url.replace('{title}', title);
+                window.location.href = url;
+            }
+            else {
+                callErrorToaster('Unexpected response format.');
+            }
+        }
+
+        function checkHtmlDoc(response) {
+            if ((response.trim().indexOf('<!DOCTYPE html>') === 0) || (response.trim().indexOf('<html>') === 0)) {
+                handleAjaxResponse(response);
+            }
+        }
+
+        $(document).ajaxComplete(function (event, xhr, settings) {
+            if (xhr.getResponseHeader("X-Error") === "true") {
+                const response = xhr.responseJSON;
+                if (response && response.error) {
+                    toastr.error(response.error);
+                } else {
+                    toastr.error('An unexpected error occurred.');
                 }
-            });
-
+            }
         });
+
     </script>
 
     <partial name="_Toaster" />

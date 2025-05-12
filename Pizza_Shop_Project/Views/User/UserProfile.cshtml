@@ -1,19 +1,8 @@
 @model DAL.ViewModels.AddUserViewModel
 @{
-    ViewData["Title"] = "UserProfile Page";
+    ViewData["Title"] = "UserProfile";
     Layout = User.IsInRole("Chef") ? "_OrderAppLayout" : "_Layout";
-
-    @* var Image = Model.Image; *@
 }
-
-@* <!-- user list -->
-<div class="user-list-main-div bg-light d-md-flex justify-content-between">
-<!-- user txt -->
-
-<div class="user-text fs-3 mt-3 fw-bold user-text ms-3">My Profile</div>
-
-</div> *@
-
 
 <div class="d-flex flex-column px-xl-4 px-md-3 px-3 py-3 gap-3">
 
@@ -126,142 +115,7 @@
         </div>
     </form>
 
-</div>
-
-
-
-@* <form asp-action="UserProfile" method="post" class="form-main-div mt-3 ms-4 bg-white shadow-lg" style="width: 96%; "
-enctype="multipart/form-data">
-
-<!-- bg div -->
-<div class="row">
-<img src="../images/profile_div_bg.jpg" class="p-0" style="width: 100%; height: 80px;" />
-</div>
-
-<!-- profile pic -->
-<div class="row mt-3">
-<!-- <div class=""> -->
-<div class="position-relative">
-
-<img src="@Model.Image" id="user-profile" class="user-profile position-absolute ms-3 " />
-
-<label for="profile-img">
-<img src="../images/camera.svg" class="camera-img ms-3 position-absolute bg-white" alt="" />
-</label>
-<input asp-for="@Model.ProfileImage" type="file" class="form-control d-none" id="profile-img">
-
-</div>
-
-<div class="ms-md-5 ">
-
-<div class="d-flex justify-content-md-between flex-md-row flex-column mt-4 mt-md-0 ms-md-5 mt-1">
-<span class="fs-3 fw-bold ms-md-4">@Model.FirstName @Model.LastName</span>
-<span class="me-md-5 mt-sm-3 mt-2">@Model.Email</span>
-</div>
-
-<div class="fs-6 ms-md-5 me-md-5 mt-2 mt-sm-1"><span class="ms-md-4">@Model.Username</span></div>
-
-</div>
-<!-- </div> -->
-</div>
-
-<div class="row ">
-
-<div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
-<div class="form-floating d-flex flex-column ">
-<input asp-for="FirstName" type="text" class="form-control " id="floatingInput"
-placeholder="First Name">
-<label asp-for="FirstName" for="floatingInput" class="fs-6 text-secondary">First Name</label>
-<span asp-validation-for="FirstName" class="validate text-danger ms-1 mt-2"></span>
-</div>
-</div>
-
-<div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
-<div class="form-floating d-flex flex-column ">
-<input asp-for="LastName" type="text" class="form-control" id="floatingInput" placeholder="Last Name">
-<label asp-for="LastName" for="floatingInput" class="fs-6 text-secondary">Last Name</label>
-<span asp-validation-for="LastName" class="validate text-danger ms-1 mt-2"></span>
-</div>
-</div>
-
-<div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
-<div class="form-floating d-flex flex-column">
-<input asp-for="Username" type="text" class="form-control" id="floatingInput" placeholder="John Deo">
-<label asp-for="Username" for="floatingInput" class="fs-6 text-secondary">User Name</label>
-<span asp-validation-for="Username" class="validate text-danger ms-1 mt-2"></span>
-
-</div>
-</div>
-
-<div class="col-md-6 col-lg-6 col-xl-6 col-sm-12 col-12 mt-3">
-<div class="form-floating d-flex flex-column">
-<input asp-for="Phone" type="number" class="form-control" id="floatingInput" placeholder="Phone"
-pattern="0-9">
-<label asp-for="Phone" for="floatingInput" class="fs-6 text-secondary">Phone</label>
-<span asp-validation-for="Phone" class=" validate text-danger ms-1 mt-2"></span>
-
-</div>
-</div>
-
-<!-- country div -->
-<div class="col-md-4 col-lg-4 col-xl-4 col-sm-12 col-12 mt-3">
-<div class="form-floating d-flex flex-column">
-<select asp-for="@Model.CountryId" asp-items="@ViewBag.Countries" id="country" class="form-control">
-<option value="">Select Country</option>
-</select>
-<label for="floatingSelect text-secondary">Country</label>
-<span class="text-danger validate ms-1 mt-2">@TempData["CountryError"]</span>
-
-</div>
-</div>
-
-<!-- State div -->
-<div class="col-md-4 col-lg-4 col-xl-4 col-sm-12 col-12 mt-3">
-<div class="form-floating d-flex flex-column">
-<select id="state" asp-for="@Model.StateId" asp-items="@ViewBag.States" class="form-control">
-<option value="">Select State</option>
-</select>
-<label for="floatingSelect text-secondary">State</label>
-<span class="text-danger validate ms-1 mt-2">@TempData["StateError"]</span>
-
-</div>
-</div>
-
-<!-- city div -->
-<div class="col-md-4 col-lg-4 col-xl-4 col-sm-12 col-12 mt-3">
-<div class="form-floating d-flex flex-column">
-<select id="city" asp-for="@Model.CityId" asp-items="@ViewBag.Cities" class="form-control">
-<option value="">Select City</option>
-</select>
-<label for="floatingSelect text-secondary">City</label>
-<span class="text-danger validate ms-1 mt-2">@TempData["CityError"]</span>
-
-</div>
-</div>
-
-<div class="col-md-8 col-lg-8 col-xl-8 col-sm-12 col-12 mt-3">
-<div class="form-floating ">
-<input asp-for="Address" type="text" class="form-control" id="floatingInput" placeholder="Address">
-<label asp-for="Address" for="floatingInput" class="fs-6 text-secondary">Address</label>
-</div>
-</div>
-
-<div class="col-md-4 col-lg-4 col-xl-4 col-sm-12 col-12 mt-3">
-<div class="form-floating ">
-<input asp-for="Zipcode" type="text" class="form-control" id="floatingInput" placeholder="Zipcode">
-<label asp-for="Zipcode" for="floatingInput" class="fs-6 text-secondary">Zipcode</label>
-<span asp-validation-for="Zipcode" class="validate text-danger ms-1 mt-2"></span>
-</div>
-</div>
-
-<div class="create-user-cancel-div mt-4 mb-4 text-end">
-<button type="submit" class="btn solid-btn">Update</button>
-<a asp-action="Dashboard" asp-controller="User" type="button" class="btn btn-light hollow-btn ">Cancel</a>
-</div>
-
-</div>
-</form> *@
-
+</div> 
 
 @section Scripts {
 

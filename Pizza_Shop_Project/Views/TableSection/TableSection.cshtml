@@ -2,6 +2,12 @@
 @using Microsoft.AspNetCore.Authorization
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
+
+@{
+    ViewData["Title"] = "Tables/Sections";
+    Layout = "_Layout";
+}
+
 <!-- Section Table text  -->
 <div class="user-text bg-light fs-3 pt-4 fw-bold  pb-3 ps-md-4">Sections/Tables</div>
 
@@ -320,6 +326,9 @@
                 type: "GET",
                 data: { sectionid, search: searchText_table, pageNumber: page, pageSize: pageSize_table },
                 success: function (data) {
+                    console.log("hiiiii")
+                    checkHtmlDoc(data);
+                    console.log("hello")
 
                     $("#table-list-body").html(data);
 
@@ -337,6 +346,7 @@
                     $("#right-arrow-table").prop("disabled", currentPage_table * pageSize_table >= totalRecords_table);
 
                     $("#table-main-checkbox").prop("checked", false);
+
                 }
             });
         }
@@ -380,8 +390,8 @@
                 $(".SectionGet").removeClass("active-category");
                 $(this).addClass("active-category");
                 sectionid = $(this).data("id");
-                var section_id_table = document.getElementById("Section_id_Table");
-                section_id_table.value = sectionid;
+                @* var section_id_table = document.getElementById("Section_id_Table"); *@
+                @* section_id_table.value = sectionid; *@
                 @* console.log(sectionid,"tetet") *@
                 @* console.log(section_id_table.value,"jgjhg") *@
                 currentPage_table = 1;
@@ -474,7 +484,8 @@
             // Add Table Modal GET
             $("#AddTableModalId").on('click', function () {
 
-                sectionid = $("#Section_id_Table").val();
+                sectionid = $("#Section_id").val();
+                console.log(sectionid,"sec")
 
                 $.ajax({
                     url: "/TableSection/AddTable",
@@ -492,7 +503,7 @@
                 var button = $(event.relatedTarget);
                 var tableid = button.data("id");
 
-                sectionid = $("#Section_id_Table").val();
+                sectionid = $("#Section_id").val();
 
                 if (tableid != null) {
                     $.ajax({

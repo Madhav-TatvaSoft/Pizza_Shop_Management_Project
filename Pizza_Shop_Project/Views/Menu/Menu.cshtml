@@ -1,6 +1,12 @@
 @model DAL.ViewModels.MenuViewModel
 @using Microsoft.AspNetCore.Authorization
 @inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
+
+@{
+    ViewData["Title"] = "Menu";
+    Layout = "_Layout";
+}
+
 <!-- Menu text  -->
 <div class="user-text bg-light fs-3 pt-4 fw-bold  pb-3 ps-md-4">Menu</div>
 

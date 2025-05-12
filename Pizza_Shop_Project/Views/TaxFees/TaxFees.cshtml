@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
 @{
-    ViewData["Title"] = "UserListData Page";
+    ViewData["Title"] = "Taxes/Fees";
     Layout = "_Layout";
 }
 
@@ -15,7 +15,7 @@
     <!-- search add user -->
     <div class="search-adduser-div col-sm-11 col d-flex align-items-center justify-content-end gap-2 pt-3 ">
         <div class="search-button ">
-            <input type="text" id="searchbtn-tax" placeholder="Search by Name or Type" class="p-2 border ">
+            <input type="text" id="searchbtn-tax" placeholder="Search by Name/Type" class="p-2 border ">
             <i class="fa-solid fa-magnifying-glass search-icon-style-tax "></i>
         </div>
         @if ((await AuthorizationService.AuthorizeAsync(User, "TaxFees.AddEdit")).Succeeded)
@@ -74,7 +74,7 @@
 <!-- AddEdit Tax modal -->
 <div id="AddEditTaxModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" id="AddEditTax-Content">
-        
+
 
     </div>
 </div>
@@ -149,6 +149,9 @@
                     $("#pagination-info-tax").text("Showing " + startItem + " - " + endItem + " of " + totalRecords);
                     $("#left-arrow-tax").prop("disabled", currentPage === 1);
                     $("#right-arrow-tax").prop("disabled", currentPage * pageSize >= totalRecords);
+                },
+                error: function (response) {
+                    callErrorToaster("Error Loading data");
                 }
             });
         }
@@ -163,6 +166,9 @@
                 data: { taxid: taxid },
                 success: function (data) {
                     $("#AddEditTax-Content").html(data);
+                },
+                error: function (response) {
+                    callErrorToaster("Error Loading data");
                 }
             });
         });
@@ -229,10 +235,12 @@
                         $(".btn-close").click();
                         currentPage = 1;
                         PaginationForTax(currentPage, searchText, pageSize);
+                    },
+                    error: function (response) {
+                        callErrorToaster("Error Loading data");
                     }
                 });
             });
-
         });
     </script>
 }
