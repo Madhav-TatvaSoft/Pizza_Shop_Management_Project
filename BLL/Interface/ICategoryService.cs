@@ -5,7 +5,8 @@ namespace BLL.Interface;
 
 public interface ICategoryService
 {
-    Task<List<Category>> GetAllCategories();
+    Task<List<Category>> 
+    GetAllCategories();
     Task<bool> AddCategory(Category category, long userId);
     Task<bool> EditCategory(Category category, long Cat_Id, long userId);
     Task<bool> DeleteCategory(long Cat_Id);

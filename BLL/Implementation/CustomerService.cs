@@ -422,6 +422,12 @@ public class CustomerService : ICustomerService
                 AvgBill = 0.00M,
                 orderList = null
             }).FirstOrDefault();
+
+            if (customerDetails == null)
+            {
+                return null;
+            }
+
             return customerDetails;
         }
         else
@@ -452,6 +458,11 @@ public class CustomerService : ICustomerService
                         }).ToList()
                     }).FirstOrDefault();
 
+            if (customerDetails == null)
+            {
+                return null;
+            }
+
             return customerDetails;
         }
 
@@ -467,7 +478,7 @@ public class CustomerService : ICustomerService
     public List<CustomerViewModel> GetCustomerEmail(string searchTerm)
     {
         List<CustomerViewModel>? Emails = _context.Customers
-        .Where(c => c.Email.Contains(searchTerm))
+        .Where(c => c.Email.Contains(searchTerm.Trim()) && !c.Isdelete)
         .Select(c => new CustomerViewModel
         {
             Email = c.Email,

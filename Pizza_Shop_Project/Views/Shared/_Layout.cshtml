@@ -1,4 +1,4 @@
-﻿﻿@using Microsoft.AspNetCore.Authorization
+﻿﻿﻿﻿@using Microsoft.AspNetCore.Authorization
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService;
 <!DOCTYPE html>
@@ -376,19 +376,24 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function () {
+            
             var successMessage = '@TempData["SuccessMessage"]';
             var errorMessage = '@TempData["ErrorMessage"]';
+
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
                 "timeOut": "2000"
             };
+
             if (successMessage) {
                 toastr.success(successMessage);
             }
+
             if (errorMessage) {
                 toastr.error(errorMessage);
             }
+
         });
     </script>
     <script>
@@ -406,6 +411,7 @@
                     }
                 }
             });
+
         });
     </script>
 

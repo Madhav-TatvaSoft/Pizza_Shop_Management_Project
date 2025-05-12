@@ -112,7 +112,11 @@ public class OrderAppWaitingListController : Controller
     [HttpPost]
     public async Task<IActionResult> DeleteWaitingToken(long waitingid)
     {
-        bool deleteTokenStatus = await _orderAppWaitingListService.DeleteWaitingToken(waitingid);
+        string token = Request.Cookies["AuthToken"];
+        List<User>? userData = _userService.getUserFromEmail(token);
+        long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+        
+        bool deleteTokenStatus = await _orderAppWaitingListService.DeleteWaitingToken(waitingid,userId);
         if (deleteTokenStatus)
         {
             return Json(new { success = true, text = NotificationMessage.EntityDeleted.Replace("{0}", "Waiting Token") });

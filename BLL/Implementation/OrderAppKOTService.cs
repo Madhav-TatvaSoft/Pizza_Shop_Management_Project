@@ -10,12 +10,10 @@ public class OrderAppKOTService : IOrderAppKOTService
 {
     private readonly PizzaShopDbContext _context;
 
-    #region Constructor
     public OrderAppKOTService(PizzaShopDbContext context)
     {
         _context = context;
     }
-    #endregion
 
     #region Get KOT Items
     public async Task<PaginationViewModel<OrderAppKOTViewModel>> GetKOTItems(long catid, string filter, int page = 1, int pageSize = 5)
@@ -28,7 +26,7 @@ public class OrderAppKOTService : IOrderAppKOTService
             .Include(x => x.AssignTables)
                 .ThenInclude(x => x.Table)
             .Include(x => x.Section)
-            .Where(x => !x.Isdelete && x.Status != "Completed" && x.Status != "Cancelled");
+            .Where(x => !x.Isdelete && x.Status != "Completed" && x.Status != "Cancelled").OrderByDescending(x => x.OrderId);
 
         // && (x.OrderDate.Date > DateTime.Now.Date.AddDays(-6)) && (x.OrderDate.Date < DateTime.Now.Date)
 
@@ -46,7 +44,7 @@ public class OrderAppKOTService : IOrderAppKOTService
 
         if (catid == 0)
         {
-            query = query.Where(x => x.Orderdetails.Any(od => !od.Item.Isdelete && ((filter == "Ready") ? (od.ReadyQuantity > 0) : (od.Quantity - od.ReadyQuantity > 0))));
+            query = query.Where(x => !x.Isdelete && x.Orderdetails.Any(od => !od.Item.Isdelete && ((filter == "Ready") ? (od.ReadyQuantity > 0) : (od.Quantity - od.ReadyQuantity > 0))));
 
             List<OrderAppKOTViewModel>? data = query
             .Select(x => new OrderAppKOTViewModel
@@ -73,7 +71,7 @@ public class OrderAppKOTService : IOrderAppKOTService
                     {
                         ModifierId = z.ModifierId,
                         ModifierName = z.Modifier.ModifierName,
-                        Quantity = (int)z.ModifierQuantity
+                        // Quantity = (int)z.ModifierQuantity
                     }).ToList()
                 }).ToList()
             }).ToList();
@@ -86,7 +84,7 @@ public class OrderAppKOTService : IOrderAppKOTService
         }
         else
         {
-            query = query.Where(x => x.Orderdetails.Any(od => (od.Item.CategoryId == catid) && !od.Item.Isdelete && ((filter == "Ready") ? (od.ReadyQuantity > 0) : (od.Quantity - od.ReadyQuantity > 0))));
+            query = query.Where(x => !x.Isdelete && x.Orderdetails.Any(od => (od.Item.CategoryId == catid) && !od.Item.Isdelete && ((filter == "Ready") ? (od.ReadyQuantity > 0) : (od.Quantity - od.ReadyQuantity > 0))));
 
             var data = query
             .Select(x => new OrderAppKOTViewModel
@@ -113,7 +111,7 @@ public class OrderAppKOTService : IOrderAppKOTService
                     {
                         ModifierId = z.ModifierId,
                         ModifierName = z.Modifier.ModifierName,
-                        Quantity = (int)z.ModifierQuantity
+                        // Quantity = (int)z.ModifierQuantity
                     }).ToList()
                 }).ToList()
             }).ToList();
@@ -126,13 +124,10 @@ public class OrderAppKOTService : IOrderAppKOTService
         }
     }
 
-    #endregion
-
-    #region Get KOT Items From Modal
     public async Task<OrderAppKOTViewModel> GetKOTItemsFromModal(long catid, string filter, long orderid)
     {
         PaginationViewModel<OrderAppKOTViewModel> KotModalData = await GetKOTItems(catid, filter,1,5);
-        var KotData = KotModalData.Items.Where(x => x.OrderId == orderid).SingleOrDefault();
+        OrderAppKOTViewModel? KotData = KotModalData.Items.SingleOrDefault(x => x.OrderId == orderid);
         if (KotData == null)
         {
             KotData = new OrderAppKOTViewModel();
@@ -152,7 +147,7 @@ public class OrderAppKOTService : IOrderAppKOTService
 
         for (int i = 0; i < orderDetailId.Length; i++)
         {
-            Orderdetail? orderDetail = await _context.Orderdetails.FirstOrDefaultAsync(x => x.OrderdetailId == orderDetailId[i]);
+            Orderdetail? orderDetail = await _context.Orderdetails.FirstOrDefaultAsync(x => x.OrderdetailId == orderDetailId[i] && !x.Isdelete && x.Status != "Completed" && x.Status != "Cancelled");
 
             if (orderDetail == null)
             {

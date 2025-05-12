@@ -29,6 +29,7 @@ public class ErrorController : Controller
         TempData["ErrorMessage"] = message;
 
         string referer = Request.Headers["Referer"].ToString();
+        // string referer = Url.Action("GenericError","Error");
 
         if (string.IsNullOrEmpty(referer))
         {

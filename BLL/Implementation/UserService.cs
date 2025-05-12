@@ -269,7 +269,6 @@ public class UserService : IUserService
     }
     #endregion
 
-
     public bool UserChangePassword(ChangePasswordViewModel changepassword, string Email)
     {
         UserLogin? userdetails = _context.UserLogins.FirstOrDefault(x => x.Email == Email);

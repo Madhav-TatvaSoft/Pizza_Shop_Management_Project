@@ -20,7 +20,7 @@ public class ModifierGroupService : IModifierGroupService
     #region Pagination Model for Modifiers
     public PaginationViewModel<ModifiersViewModel> GetMenuModifiersByModGroups(long? modgrpid, string search = "", int pageNumber = 1, int pageSize = 3)
     {
-        IQueryable<ModifiersViewModel>? query = _context.Modifiers.Include(x => x.ModifierGrp).Where(x => x.ModifierGrpId == modgrpid && !x.Isdelete)
+        IQueryable<ModifiersViewModel>? query = _context.Modifiers.Include(x => x.ModifierGrp).Where(x => x.ModifierGrpId == modgrpid && !x.Isdelete).OrderBy(x => x.ModifierId)
            .Select(x => new ModifiersViewModel
            {
                ModifierId = x.ModifierId,

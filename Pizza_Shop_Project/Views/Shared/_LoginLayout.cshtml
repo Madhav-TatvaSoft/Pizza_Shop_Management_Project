@@ -65,10 +65,6 @@
     <script>
         $(document).ready(function () {
             // 1. Show toaster if TempData contains error (normal request)
-            let error = '@TempData["ErrorMessage"]';
-            if (error && error.trim() !== "") {
-                toastr.error(error);
-            }
 
             // 2. Global AJAX error catcher
             $(document).ajaxComplete(function (event, xhr, settings) {

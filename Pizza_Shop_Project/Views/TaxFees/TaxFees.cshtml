@@ -15,7 +15,7 @@
     <!-- search add user -->
     <div class="search-adduser-div col-sm-11 col d-flex align-items-center justify-content-end gap-2 pt-3 ">
         <div class="search-button ">
-            <input type="text" id="searchbtn-tax" placeholder="Search" class="p-2 border ">
+            <input type="text" id="searchbtn-tax" placeholder="Search by Name or Type" class="p-2 border ">
             <i class="fa-solid fa-magnifying-glass search-icon-style-tax "></i>
         </div>
         @if ((await AuthorizationService.AuthorizeAsync(User, "TaxFees.AddEdit")).Succeeded)

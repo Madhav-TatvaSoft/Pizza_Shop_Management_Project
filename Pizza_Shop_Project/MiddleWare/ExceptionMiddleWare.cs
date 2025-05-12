@@ -32,13 +32,13 @@ public class ExceptionMiddleWare
 
         switch (exception)
         {
-            case NotFoundException:
+            case CustomException:
                 code = HttpStatusCode.NotFound;
                 message = exception.Message;
                 break;
             default:
                 code = HttpStatusCode.InternalServerError;
-                message = "Internal server error. Please try again later.";
+                message = "Something went wrong. Please try after some time.";
                 break;
         }
 
@@ -46,7 +46,6 @@ public class ExceptionMiddleWare
 
         bool isAjax = context.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
         
-
         if (isAjax)
         {
             // For AJAX - return JSON response
@@ -61,6 +60,7 @@ public class ExceptionMiddleWare
                 statusCode = (int)code,
                 error = message
             };
+            
             string jsonMessage = JsonSerializer.Serialize(jsonResponse);
             await context.Response.WriteAsync(jsonMessage);
         }
@@ -85,5 +85,4 @@ public class ExceptionMiddleWare
             }
         }
     }
-
 }

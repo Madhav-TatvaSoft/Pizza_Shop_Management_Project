@@ -52,7 +52,11 @@ public class OrderAppMenuController : Controller
 
     public async Task<IActionResult> FavouriteItem(long itemId, bool IsFavourite)
     {
-        bool status = await _orderAppMenuService.FavouriteItem(itemId, IsFavourite);
+        string token = Request.Cookies["AuthToken"];
+        List<User>? userData = _userService.getUserFromEmail(token);
+        long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
+        bool status = await _orderAppMenuService.FavouriteItem(itemId, IsFavourite, userId);
         if (status)
         {
             if (IsFavourite)
@@ -146,21 +150,29 @@ public class OrderAppMenuController : Controller
     #region Order 
     public async Task<IActionResult> SaveOrder(string orderDetailIds, string orderDetails)
     {
+        string token = Request.Cookies["AuthToken"];
+        List<User>? userData = _userService.getUserFromEmail(token);
+        long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
         List<int> orderDetailId = JsonConvert.DeserializeObject<List<int>>(orderDetailIds);
         OrderDetailViewModel orderDetailVM = JsonConvert.DeserializeObject<OrderDetailViewModel>(orderDetails);
-        OrderDetailViewModel orderDetailsVM = await _orderAppMenuService.SaveOrder(orderDetailId, orderDetailVM);
+        OrderDetailViewModel orderDetailsVM = await _orderAppMenuService.SaveOrder(orderDetailId, orderDetailVM, userId);
 
         return PartialView("_MenuItemsOrderDetailPartial", orderDetailsVM);
     }
 
     public async Task<IActionResult> CompleteOrder(string orderDetailIds, string orderDetails)
     {
+        string token = Request.Cookies["AuthToken"];
+        List<User>? userData = _userService.getUserFromEmail(token);
+        long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
         List<int>? orderDetailId = JsonConvert.DeserializeObject<List<int>>(orderDetailIds);
         OrderDetailViewModel? orderDetailsVM = JsonConvert.DeserializeObject<OrderDetailViewModel>(orderDetails);
         bool IsItemsReady = await _orderAppMenuService.IsItemsReady(orderDetailId, orderDetailsVM);
         if (IsItemsReady)
         {
-            bool orderDetail = await _orderAppMenuService.CompleteOrder(orderDetailsVM);
+            bool orderDetail = await _orderAppMenuService.CompleteOrder(orderDetailsVM, userId);
             if (orderDetail)
             {
                 return Json(new { success = true, text = "Order Completed Successfully" });
@@ -178,7 +190,11 @@ public class OrderAppMenuController : Controller
 
     public async Task<IActionResult> SaveRating(OrderDetailViewModel orderDetailVM)
     {
-        bool IsRatingDone = await _orderAppMenuService.SaveRatings(orderDetailVM);
+        string token = Request.Cookies["AuthToken"];
+        List<User>? userData = _userService.getUserFromEmail(token);
+        long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
+        bool IsRatingDone = await _orderAppMenuService.SaveRatings(orderDetailVM, userId);
         if (IsRatingDone)
         {
             return Json(new { success = true, text = "Thank you for your feedback." });
@@ -191,6 +207,10 @@ public class OrderAppMenuController : Controller
 
     public async Task<IActionResult> CancelOrder(OrderDetailViewModel orderDetailVM)
     {
+        string token = Request.Cookies["AuthToken"];
+        List<User>? userData = _userService.getUserFromEmail(token);
+        long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
         bool IsAnyItemReady = await _orderAppMenuService.IsAnyItemReady(orderDetailVM);
         if (IsAnyItemReady)
         {
@@ -198,7 +218,7 @@ public class OrderAppMenuController : Controller
         }
         else
         {
-            bool IsOrderCancelled = await _orderAppMenuService.CancelOrder(orderDetailVM);
+            bool IsOrderCancelled = await _orderAppMenuService.CancelOrder(orderDetailVM, userId);
             if (IsOrderCancelled)
             {
                 return Json(new { success = true, text = "Order Cancelled Successfully" });

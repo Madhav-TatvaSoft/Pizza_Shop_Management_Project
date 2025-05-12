@@ -22,7 +22,7 @@ public class ItemService : IItemService
         IQueryable<ItemsViewModel>? query = _context.Items
            .Include(x => x.Category).Include(x => x.ItemType)
            .Where(x => x.CategoryId == catid
-            && !x.Isdelete)
+            && !x.Isdelete).OrderBy(x => x.ItemId)
            .Select(x => new ItemsViewModel
            {
                ItemId = x.ItemId,

@@ -37,6 +37,7 @@ public class TaxFeesService : ITaxFeesService
             string lowerSearchTerm = search.ToLower();
             query = query.Where(u =>
                 u.TaxName.ToLower().Contains(lowerSearchTerm)
+                || u.TaxType.ToLower().Contains(lowerSearchTerm)
             );
         }
 

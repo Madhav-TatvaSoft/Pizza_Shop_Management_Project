@@ -224,21 +224,21 @@
             if (IsOrderAnything) {
                 document.getElementById("OrderCancelBtn").removeAttribute("disabled");
                 document.getElementById("OrderCompleteBtn").removeAttribute("disabled");
-        @* document.getElementById("OrderGenerateInvoiceBtn").removeAttribute("disabled") *@
-                    if (IsAllItemSaved) {
+                @* document.getElementById("OrderGenerateInvoiceBtn").removeAttribute("disabled") *@
+                        if (IsAllItemSaved) {
                     document.getElementById("OrderSaveBtn").setAttribute("disabled", "disabled");
                     document.getElementById("OrderCompleteBtn").removeAttribute("disabled");
-        @* document.getElementById("OrderGenerateInvoiceBtn").removeAttribute("disabled") *@
-                    } else {
+                    @* document.getElementById("OrderGenerateInvoiceBtn").removeAttribute("disabled") *@
+                        } else {
                     document.getElementById("OrderSaveBtn").removeAttribute("disabled");
                     document.getElementById("OrderCompleteBtn").setAttribute("disabled", "disabled")
-        @* document.getElementById("OrderGenerateInvoiceBtn").setAttribute("disabled", "disabled"); *@
-                    }
+                    @* document.getElementById("OrderGenerateInvoiceBtn").setAttribute("disabled", "disabled"); *@
+                        }
             } else {
                 document.getElementById("OrderCancelBtn").setAttribute("disabled", "disabled");
                 document.getElementById("OrderCompleteBtn").setAttribute("disabled", "disabled")
-        @* document.getElementById("OrderGenerateInvoiceBtn").setAttribute("disabled", "disabled"); *@
-                    if (orderDetailsModel.itemOrderVM == null) {
+                @* document.getElementById("OrderGenerateInvoiceBtn").setAttribute("disabled", "disabled"); *@
+                        if (orderDetailsModel.itemOrderVM == null) {
                     document.getElementById("OrderSaveBtn").setAttribute("disabled", "disabled");
                 }
             }
@@ -583,7 +583,9 @@
         $(document).ready(function () {
 
             categorySelected(document.getElementsByClassName("category-click")[1], 0);
-            GetOrderDetailsByCustomerId();
+            if (@Model.customerId != 0) {
+                GetOrderDetailsByCustomerId();
+            }
 
         });
     </script>

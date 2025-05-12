@@ -116,9 +116,9 @@
                 success: function (res) {
                     if (res.success) {
                         callSuccessToaster(res.text);
-                        var MenuBtn = document.getElementById("MenuButtonOrderApp")
+                        @* var MenuBtn = document.getElementById("MenuButtonOrderApp")
                         MenuBtn.setAttribute("href", `/OrderAppMenu/OrderAppMenu?customerId=${customerid}`)
-                        MenuBtn.click();
+                        MenuBtn.click(); *@
                     }
                     else {
                         callErrorToaster(res.text);
