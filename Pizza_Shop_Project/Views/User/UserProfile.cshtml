@@ -126,11 +126,9 @@
         $(document).ready(function () {
             $('#country').change(function () {
                 var countryId = $(this).val();
-                console.log(countryId);
 
                 $.getJSON('@Url.Action("GetStates", "User")', { countryId: countryId }, function (states) {
                     var statesSelect = $('#state');
-                    console.log(states);
                     statesSelect.empty();
                     $("#city").empty();
                     statesSelect.append('<option selected value="">Select State</option>');

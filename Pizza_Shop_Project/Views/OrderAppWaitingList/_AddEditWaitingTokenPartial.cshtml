@@ -15,7 +15,7 @@
                 <input type="email" class="form-control" id="Email" asp-for="@Model.WaitingTokenDetailVM.Email"
                     placeholder="Email*" list="emailSuggestions" autocomplete="off">
                 <datalist id="emailSuggestions"></datalist>
-                <span asp-validation-for="@Model.WaitingTokenDetailVM.Email" class="text-danger "></span>
+                <span asp-validation-for="@Model.WaitingTokenDetailVM.Email" class="text-danger validate"></span>
                 <label for="Email" class="text-secondary"> &nbsp; Email*</label>
             </div>
             <div class="form-floating col-12 mb-3">
@@ -85,7 +85,7 @@
 
                 },
                 error: function () {
-                    console.log("Error fetching customer emails.");
+                    callErrorToaster("Error fetching customer emails.");
                 }
             });
         } else {
@@ -106,9 +106,7 @@
     $("#AddEditWaitingFormId").on("submit", function (e) {
 
         e.preventDefault();
-    @* $(this).submit(function () {
-            return false;
-            }); *@
+    
         var form = $(this);
 
         if (form.valid()) {
@@ -137,7 +135,7 @@
                 }
             });
         } else {
-            console.log("Form validation failed");
+            callErrorToaster("Form validation failed");
         }
     });
 

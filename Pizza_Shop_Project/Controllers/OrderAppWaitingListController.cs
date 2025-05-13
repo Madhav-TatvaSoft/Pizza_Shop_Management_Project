@@ -86,7 +86,7 @@ public class OrderAppWaitingListController : Controller
         else
         {
             // Check Customer Present If not Then Add
-            bool createCustomer = await _customerService.AddEditCustomer(WaitingVM.WaitingTokenDetailVM, userId);
+            bool createCustomer = await _customerService.SaveCustomer(WaitingVM.WaitingTokenDetailVM, userId);
 
             if (!createCustomer)
             {
@@ -102,7 +102,7 @@ public class OrderAppWaitingListController : Controller
             }
             else
             {
-                return Json(new { success = false, text = "Something went wrong, Please try again!" });
+                return Json(new { success = false, text = "Something went wrong, Please try againasdads!" });
             }
         }
 
@@ -148,8 +148,7 @@ public class OrderAppWaitingListController : Controller
         }
         return Json(new { success = false, text = "Something Went wrong, Try Again!" });
     }
+    
     #endregion
-
-
 
 }

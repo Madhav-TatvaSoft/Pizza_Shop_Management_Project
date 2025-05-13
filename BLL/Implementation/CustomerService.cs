@@ -491,31 +491,48 @@ public class CustomerService : ICustomerService
         return Emails;
     }
 
-    public async Task<bool> AddEditCustomer(WaitingTokenDetailViewModel waitingTokenVM, long userId)
+    public async Task<bool> SaveCustomer(WaitingTokenDetailViewModel waitingTokenVM, long userId)
     {
-        var existingCustomer = await _context.Customers.FirstOrDefaultAsync(c => c.Email == waitingTokenVM.Email && !c.Isdelete);
+        using (var transaction = await _context.Database.BeginTransactionAsync()){
+            try
+            {
+                if (waitingTokenVM == null) return false;
 
-        if (existingCustomer != null)
-        {
-            // Update existing customer
-            existingCustomer.CustomerName = waitingTokenVM.CustomerName;
-            existingCustomer.Email = waitingTokenVM.Email;
-            existingCustomer.PhoneNo = waitingTokenVM.PhoneNo;
-            existingCustomer.ModifiedBy = userId;
-            existingCustomer.ModifiedAt = DateTime.Now;
-            _context.Update(existingCustomer);
-            await _context.SaveChangesAsync();
-            return true;
+                // Check if customer already exists
+                var existingCustomer = await _context.Customers.FirstOrDefaultAsync(c => c.Email == waitingTokenVM.Email && !c.Isdelete);
+
+                if (existingCustomer != null)
+                {
+                    // Update existing customer
+                    existingCustomer.CustomerName = waitingTokenVM.CustomerName;
+                    existingCustomer.Email = waitingTokenVM.Email;
+                    existingCustomer.PhoneNo = waitingTokenVM.PhoneNo;
+                    existingCustomer.ModifiedBy = userId;
+                    existingCustomer.ModifiedAt = DateTime.Now;
+                    _context.Update(existingCustomer);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    // Add new customer
+                    Customer customer = new();
+                    customer.CustomerName = waitingTokenVM.CustomerName;
+                    customer.Email = waitingTokenVM.Email;
+                    customer.PhoneNo = waitingTokenVM.PhoneNo;
+                    customer.CreatedBy = userId;
+                    await _context.AddAsync(customer);
+                    await _context.SaveChangesAsync();
+                }
+
+                await transaction.CommitAsync();
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
-
-        Customer customer = new();
-        customer.CustomerName = waitingTokenVM.CustomerName;
-        customer.Email = waitingTokenVM.Email;
-        customer.PhoneNo = waitingTokenVM.PhoneNo;
-        customer.CreatedBy = userId;
-        await _context.AddAsync(customer);
-        await _context.SaveChangesAsync();
-        return true;
     }
 
     public async Task<long> GetCustomerIdByTableId(long tableId)

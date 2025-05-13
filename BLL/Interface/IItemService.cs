@@ -8,8 +8,7 @@ public interface IItemService
     Task<bool> AddItem(AddItemViewModel addItemVM, long userId);
     AddItemViewModel GetItemsByItemId(long itemid);
     Task<bool> EditItem(AddItemViewModel editItemVM, long userId);
-    Task<bool> DeleteItem(long itemid);
-    bool IsItemExistForAdd(AddItemViewModel addItemVM);
-    bool IsItemExistForEdit(AddItemViewModel addItemVM);
+    Task<bool> DeleteItem(long itemid ,long userId);
+    bool IsItemExist(AddItemViewModel ItemVM);
 
 }

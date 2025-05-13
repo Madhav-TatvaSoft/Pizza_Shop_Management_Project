@@ -151,6 +151,7 @@
 </form>
 
 @section Scripts {
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     @* Toggle Password *@
@@ -179,25 +180,23 @@
         $(document).ready(function () {
             $('#Countries').change(function () {
                 var countryId = $(this).val();
-        @* console.log(countryId); *@
 
-                    $.getJSON('@Url.Action("GetStates", "User")', { countryId: countryId }, function (states) {
-                        var statesSelect = $('#States');
-                        // Returns the array of the states according to the Country.
-        @* console.log(states); *@
-                            statesSelect.empty();
-                        $("#Cities").empty();
+                $.getJSON('@Url.Action("GetStates", "User")', { countryId: countryId }, function (states) {
+                    var statesSelect = $('#States');
+                    // Returns the array of the states according to the Country.
+                    statesSelect.empty();
+                    $("#Cities").empty();
 
-                        statesSelect.append('<option selected value="">Select State</option>');
-                        $("#Cities").append('<option selected value="">Select City</option>');
+                    statesSelect.append('<option selected value="">Select State</option>');
+                    $("#Cities").append('<option selected value="">Select City</option>');
 
-                        $.each(states, function (index, state) {
-                            statesSelect.append($('<option/>', {
-                                value: state.value,
-                                text: state.text
-                            }));
-                        });
+                    $.each(states, function (index, state) {
+                        statesSelect.append($('<option/>', {
+                            value: state.value,
+                            text: state.text
+                        }));
                     });
+                });
             });
             $('#States').change(function () {
                 var stateId = $(this).val();

@@ -119,7 +119,7 @@ public class OrderAppTableController : Controller
 
             // if (customerIdIfPresent == 0)
             // {
-            bool createCustomer = await _customerService.AddEditCustomer(TableMainVM.waitingTokenDetailViewModel, userId);
+            bool createCustomer = await _customerService.SaveCustomer(TableMainVM.waitingTokenDetailViewModel, userId);
 
             if (!createCustomer)
             {
@@ -144,7 +144,7 @@ public class OrderAppTableController : Controller
         List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-        bool createCustomer = await _customerService.AddEditCustomer(TableMainVM.waitingTokenDetailViewModel, userId);
+        bool createCustomer = await _customerService.SaveCustomer(TableMainVM.waitingTokenDetailViewModel, userId);
 
         if (!createCustomer)
         {

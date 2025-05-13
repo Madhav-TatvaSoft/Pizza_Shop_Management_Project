@@ -56,8 +56,8 @@ else
             type: "GET",
             data: { itemId: itemId, customerId: document.getElementById("customerId").innerHTML ?? 0 },
             success: function (data) {
+                IsHtmlDoc(data);
                 data += `<input type="hidden" id="itemIdForOrderDetails" value=${itemId}>`
-                @* console.log(data); *@
                 $("#ModifiersByItemId-Content").html(data);
                 $("#itemName").html(itemName);
                 $("#ModifiersByItemId").modal("show");

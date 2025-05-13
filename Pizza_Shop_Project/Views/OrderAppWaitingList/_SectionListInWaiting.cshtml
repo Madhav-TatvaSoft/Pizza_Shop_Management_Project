@@ -36,10 +36,11 @@
             type: "GET",
             data: { sectionid: secid },
             success: function (data) {
+                IsHtmlDoc(data);
                 $("#WaitingListBody").html(data);
             },
             error: function (xhr, status, error) {
-                console.error("Error fetching Data:", error);
+                callErrorToaster("Error fetching Data:", error);
             }
         });
     }

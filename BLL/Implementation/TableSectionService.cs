@@ -54,29 +54,41 @@ public class TableSectionService : ITableSectionService
     }
 
     #region Section CRUD
-
     public async Task<bool> AddSection(SectionViewModel addsection, long userId)
     {
-        Section? sections = await _context.Sections.FirstOrDefaultAsync(x => x.SectionName.ToLower().Trim() == addsection.SectionName.ToLower().Trim() && !x.Isdelete);
-        if (sections != null)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            return false;
-        }
-        else
-        {
-            Section section = new Section
+            try
             {
-                SectionName = addsection.SectionName,
-                Description = addsection.Description,
-                Isdelete = false,
-                CreatedAt = DateTime.Now,
-                CreatedBy = userId
-            };
+                Section? sections = await _context.Sections.FirstOrDefaultAsync(x => x.SectionName.ToLower().Trim() == addsection.SectionName.ToLower().Trim() && !x.Isdelete);
+                if (sections != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    Section section = new Section
+                    {
+                        SectionName = addsection.SectionName,
+                        Description = addsection.Description,
+                        Isdelete = false,
+                        CreatedAt = DateTime.Now,
+                        CreatedBy = userId
+                    };
 
-            await _context.Sections.AddAsync(section);
-            await _context.SaveChangesAsync();
-            return true;
+                    await _context.Sections.AddAsync(section);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return true;
+                }
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
+
     }
 
     public SectionViewModel GetSectionById(long sectionid)
@@ -98,68 +110,92 @@ public class TableSectionService : ITableSectionService
 
     public async Task<bool> EditSection(SectionViewModel editSection, long userId)
     {
-        if (editSection.SectionId == null)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            return false;
-        }
-        else
-        {
-            Section? isSectionNameExist = await _context.Sections.FirstOrDefaultAsync(x => x.SectionId != editSection.SectionId && x.SectionName.ToLower().Trim() == editSection.SectionName.ToLower().Trim() && x.Isdelete == false);
-            if (isSectionNameExist != null)
+            try
             {
+                if (editSection.SectionId == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    Section? isSectionNameExist = await _context.Sections.FirstOrDefaultAsync(x => x.SectionId != editSection.SectionId && x.SectionName.ToLower().Trim() == editSection.SectionName.ToLower().Trim() && x.Isdelete == false);
+                    if (isSectionNameExist != null)
+                    {
+                        return false;
+                    }
+                    Section? isSectionExist = await _context.Sections.FirstOrDefaultAsync(x => x.SectionId == editSection.SectionId && x.Isdelete == false);
+                    if (isSectionExist != null)
+                    {
+                        isSectionExist.SectionName = editSection.SectionName;
+                        isSectionExist.Description = editSection.Description;
+                        isSectionExist.ModifiedAt = DateTime.Now;
+                        isSectionExist.ModifiedBy = userId;
+
+                        _context.Sections.Update(isSectionExist);
+                        await _context.SaveChangesAsync();
+                        await transaction.CommitAsync();
+                        return true;
+                    }
+                }
                 return false;
             }
-            Section? isSectionExist = await _context.Sections.FirstOrDefaultAsync(x => x.SectionId == editSection.SectionId && x.Isdelete == false);
-            if (isSectionExist != null)
+            catch
             {
-                isSectionExist.SectionName = editSection.SectionName;
-                isSectionExist.Description = editSection.Description;
-                isSectionExist.ModifiedAt = DateTime.Now;
-                isSectionExist.ModifiedBy = userId;
-
-                _context.Sections.Update(isSectionExist);
-                await _context.SaveChangesAsync();
-                return true;
+                await transaction.RollbackAsync();
+                throw;
             }
         }
-        return false;
     }
 
     public async Task<bool> DeleteSection(long sectionid)
     {
-        Section? sectionToDelete = await _context.Sections.FirstOrDefaultAsync(x => x.SectionId == sectionid && x.Isdelete == false);
-
-        List<Table> existingTables = await _context.Tables.Where(x => x.SectionId == sectionid && x.Isdelete == false).ToListAsync();
-
-        if (existingTables.Count > 0)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            foreach (var table in existingTables)
+            try
             {
-                table.Isdelete = true;
-                _context.Tables.Update(table);
-                await _context.SaveChangesAsync();
+                Section? sectionToDelete = await _context.Sections.FirstOrDefaultAsync(x => x.SectionId == sectionid && x.Isdelete == false);
+
+                List<Table> existingTables = await _context.Tables.Where(x => x.SectionId == sectionid && x.Isdelete == false).ToListAsync();
+
+                if (existingTables.Count > 0)
+                {
+                    foreach (var table in existingTables)
+                    {
+                        table.Isdelete = true;
+                        _context.Tables.Update(table);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
+                // for (int i = 0; i < existingTables.Count; i++)
+                // {
+                //     existingTables[i].Isdelete = true;
+                //     _context.Update(existingTables[i]);
+                //     await _context.SaveChangesAsync();
+                // }
+
+                if (sectionToDelete != null)
+                {
+                    sectionToDelete.SectionName = sectionToDelete.SectionName + DateTime.Now;
+                    sectionToDelete.Isdelete = true;
+                    // sectionToDelete.ModifiedAt = DateTime.Now;
+                    // sectionToDelete.ModifiedBy = userId;
+
+                    _context.Sections.Update(sectionToDelete);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
             }
         }
-
-        // for (int i = 0; i < existingTables.Count; i++)
-        // {
-        //     existingTables[i].Isdelete = true;
-        //     _context.Update(existingTables[i]);
-        //     await _context.SaveChangesAsync();
-        // }
-
-        if (sectionToDelete != null)
-        {
-            sectionToDelete.SectionName = sectionToDelete.SectionName + DateTime.Now;
-            sectionToDelete.Isdelete = true;
-            // sectionToDelete.ModifiedAt = DateTime.Now;
-            // sectionToDelete.ModifiedBy = userId;
-
-            _context.Sections.Update(sectionToDelete);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-        return false;
     }
 
     public async Task<bool> IsTableOccupiedinSection(long sectionid)
@@ -171,35 +207,46 @@ public class TableSectionService : ITableSectionService
 
     #region Table CRUD
 
-
     public async Task<bool> AddTable(TablesViewModel tableVM, long userId)
     {
-        if (tableVM.SectionId == null)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            return false;
+            try
+            {
+                if (tableVM.SectionId == null)
+                {
+                    return false;
+                }
+
+                Table? isTableExist = await _context.Tables.FirstOrDefaultAsync(x => x.TableName.ToLower().Trim() == tableVM.TableName.ToLower().Trim() && x.SectionId == tableVM.SectionId && x.Isdelete == false);
+
+                if (isTableExist != null)
+                {
+                    return false;
+                }
+
+                Table table = new Table
+                {
+                    SectionId = tableVM.SectionId,
+                    TableName = tableVM.TableName,
+                    Capacity = tableVM.Capacity,
+                    Status = tableVM.Status,
+                    Isdelete = false,
+                    CreatedAt = DateTime.Now,
+                    CreatedBy = userId
+                };
+
+                await _context.Tables.AddAsync(table);
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
-
-        Table? isTableExist = await _context.Tables.FirstOrDefaultAsync(x => x.TableName.ToLower().Trim() == tableVM.TableName.ToLower().Trim() && x.SectionId == tableVM.SectionId && x.Isdelete == false);
-
-        if (isTableExist != null)
-        {
-            return false;
-        }
-
-        Table table = new Table
-        {
-            SectionId = tableVM.SectionId,
-            TableName = tableVM.TableName,
-            Capacity = tableVM.Capacity,
-            Status = tableVM.Status,
-            Isdelete = false,
-            CreatedAt = DateTime.Now,
-            CreatedBy = userId
-        };
-
-        await _context.Tables.AddAsync(table);
-        await _context.SaveChangesAsync();
-        return true;
 
     }
 
@@ -224,56 +271,68 @@ public class TableSectionService : ITableSectionService
 
     public async Task<bool> EditTable(TablesViewModel tableVM, long userId)
     {
-        // var isTableExist = _context.Tables.FirstOrDefault(x => x.TableId == tableVM.TableId && x.Isdelete == false);
-        // if (isTableExist != null)
-        // {
-        //     isTableExist.TableName = tableVM.TableName;
-        //     isTableExist.Capacity = tableVM.Capacity;
-        //     isTableExist.Status = tableVM.Status;
-
-        //     _context.Tables.Update(isTableExist);
-        //     _context.SaveChanges();
-        //     return true;
-        // }
-        // return false;
-
-        var isTableNameExist = _context.Tables.FirstOrDefault(x => x.TableId != tableVM.TableId && x.TableName.ToLower().Trim() == tableVM.TableName.ToLower().Trim() && x.Isdelete == false);
-
-        if (isTableNameExist != null)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            return false;
+            try
+            {
+
+                var isTableNameExist = _context.Tables.FirstOrDefault(x => x.TableId != tableVM.TableId && x.TableName.ToLower().Trim() == tableVM.TableName.ToLower().Trim() && x.Isdelete == false);
+
+                if (isTableNameExist != null)
+                {
+                    return false;
+                }
+
+                var table = _context.Tables.FirstOrDefault(x => x.TableId == tableVM.TableId && x.Isdelete == false);
+
+                if (table != null)
+                {
+                    table.SectionId = tableVM.SectionId;
+                    table.TableName = tableVM.TableName;
+                    table.Capacity = tableVM.Capacity;
+                    table.Status = tableVM.Status;
+                    table.ModifiedAt = DateTime.Now;
+                    table.ModifiedBy = userId;
+
+                    _context.Tables.Update(table);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
-
-        var table = _context.Tables.FirstOrDefault(x => x.TableId == tableVM.TableId && x.Isdelete == false);
-
-        if (table != null)
-        {
-            table.SectionId = tableVM.SectionId;
-            table.TableName = tableVM.TableName;
-            table.Capacity = tableVM.Capacity;
-            table.Status = tableVM.Status;
-            table.ModifiedAt = DateTime.Now;
-            table.ModifiedBy = userId;
-
-            _context.Tables.Update(table);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-        return false;
     }
 
     public async Task<bool> DeleteTable(long tableId)
     {
-        Table? table = _context.Tables.FirstOrDefault(x => x.TableId == tableId && x.Isdelete == false);
-        if (table != null)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            table.TableName = table.TableName + DateTime.Now;
-            table.Isdelete = true;
-            _context.Tables.Update(table);
-            await _context.SaveChangesAsync();
-            return true;
+            try
+            {
+                Table? table = _context.Tables.FirstOrDefault(x => x.TableId == tableId && x.Isdelete == false);
+                if (table != null)
+                {
+                    table.TableName = table.TableName + DateTime.Now;
+                    table.Isdelete = true;
+                    _context.Tables.Update(table);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
-        return false;
     }
 
     public async Task<bool> IsTableOccupied(long tableId)

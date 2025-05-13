@@ -128,25 +128,6 @@ public class OrderAppMenuController : Controller
         }
     }
 
-    // public async Task<IActionResult> UpdateOrderComment([FromForm] OrderDetailViewModel orderDetailVM)
-    // {
-
-    //     string token = Request.Cookies["AuthToken"];
-    //     List<User>? userData = _userService.getUserFromEmail(token);
-    //     long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
-
-    //     OrderDetailViewModel? data = await _orderAppMenuService.UpdateOrderComment(orderDetailVM, userId);
-
-    //     if (data != null)
-    //     {
-    //         return Json(new { success = true, text = "Order Comment Updated Successfully", data });
-    //     }
-    //     else
-    //     {
-    //         return Json(new { success = false, text = "Something Went Wrong! Try Again!" });
-    //     }
-    // }
-
     #region Order 
     public async Task<IActionResult> SaveOrder(string orderDetailIds, string orderDetails)
     {

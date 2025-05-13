@@ -13,7 +13,7 @@
             <select class="form-select form-select-sm" data-id="@group.ModifierGrpId"
                 id="edit-min-selection-@group.ModifierGrpId" onchange="EditMinByGroup(this)" asp-for="@group.Minmodifier">
                 @{
-                    int minOption = group.modifiersList.Count(); // Get the count of modifiers
+                    int minOption = group.modifiersList.Count(); 
                     for (int i = 0; i <= minOption; i++)
                     {
                         <option value="@i">@i</option>
@@ -25,7 +25,7 @@
                 id="edit-max-selection-@group.ModifierGrpId" onchange="EditMaxByGroup(this)" asp-for="@group.Maxmodifier">
 
                 @{
-                    int maxOption = group.modifiersList.Count(); // Get the count of modifiers
+                    int maxOption = group.modifiersList.Count(); 
                     for (int i = 0; i <= maxOption; i++)
                     {
                         <option value="@i">@i</option>

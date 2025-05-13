@@ -8,7 +8,6 @@ public interface IModifierItemService
     AddModifierViewModel GetModifiersByModifierId(long modid);
     Task<bool> EditModifierItem(AddModifierViewModel editModifierVM, long userId);
     Task<bool> DeleteModifier(long modid);
-    bool IsModifierExistForAdd(AddModifierViewModel ModifierVM);
-    bool IsModifierExistForEdit(AddModifierViewModel ModifierVM);
+    bool IsModifierExist(AddModifierViewModel ModifierVM);
 
 }

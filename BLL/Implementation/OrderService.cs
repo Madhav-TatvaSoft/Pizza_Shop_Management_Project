@@ -40,6 +40,7 @@ public class OrderService : IOrderService
             })
             .AsQueryable();
     }
+    
     #endregion
 
     #region Get Order List
@@ -438,7 +439,7 @@ public class OrderService : IOrderService
         orderDetailVM.Email = orderdetails.Order.Customer.Email;
 
         // No of Person
-        List<AssignTable> AssignTableList = _context.AssignTables.Include(x => x.Customer).Include(x => x.Order).Where(x => x.CustomerId == orderdetails.Order.CustomerId && x.OrderId == orderid && !x.Isdelete).ToList();
+        List<AssignTable> AssignTableList = _context.AssignTables.Include(x => x.Customer).Include(x => x.Order).Where(x => x.CustomerId == orderdetails.Order.CustomerId && x.OrderId == orderid).ToList();
 
         orderDetailVM.NoOfPerson = AssignTableList.Sum(x => x.NoOfPerson);
 

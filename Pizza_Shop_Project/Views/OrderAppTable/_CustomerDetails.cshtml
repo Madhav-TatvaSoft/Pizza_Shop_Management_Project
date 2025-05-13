@@ -56,59 +56,65 @@
 
 <partial name="_ValidationScriptsPartial" />
 
-
 <script>
 
     var TableIds = [];
 
+    // Assign Table Post
     $("#AssignTableForm").on("submit", function (e) {
 
         e.preventDefault();
+        var form = $("#AssignTableForm");
 
-        var selectedClass = document.getElementsByClassName("table-Selected");
-        var NoOfPerson = $("#Persons").val();
-        var customerId = $("#customerId").val();
-        var capacity = 0;
+        if (form.valid()) {
 
-        for (i = 0; i < selectedClass.length; i++) {
+            var selectedClass = document.getElementsByClassName("table-Selected");
+            var NoOfPerson = $("#Persons").val();
+            var customerId = $("#customerId").val();
+            var capacity = 0;
 
-            if (selectedClass[i].classList.contains("table-Selected")) {
+            for (i = 0; i < selectedClass.length; i++) {
 
-                capacity += parseInt(selectedClass[i].getAttribute("data-capacity"));
-                TableIds.push(selectedClass[i].children[0].innerHTML);
+                if (selectedClass[i].classList.contains("table-Selected")) {
+
+                    capacity += parseInt(selectedClass[i].getAttribute("data-capacity"));
+                    TableIds.push(selectedClass[i].children[0].innerHTML);
+                }
             }
-        }
 
-        if (NoOfPerson > capacity) {
-            callErrorToaster("Number of person is greater than Total Capacity of selected tables");
-        }
-        else {
-            var formData = new FormData(this);
+            if (NoOfPerson > capacity) {
+                callErrorToaster("Number of person is greater than Total Capacity of selected tables");
+            }
+            else {
 
-            formData.append("TableIds", JSON.stringify(TableIds));
 
-            $.ajax({
-                url: "/OrderAppTable/AssignTable",
-                type: "POST",
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (response) {
-                    if (response.success) {
-                        callSuccessToaster(response.text);
-                        @* var MenuBtn = document.getElementById("MenuButtonOrderApp")
+                var formData = new FormData(this);
+
+                formData.append("TableIds", JSON.stringify(TableIds));
+
+                $.ajax({
+                    url: "/OrderAppTable/AssignTable",
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            callSuccessToaster(response.text);
+    @* var MenuBtn = document.getElementById("MenuButtonOrderApp")
                         MenuBtn.setAttribute("href", `/OrderAppMenu/OrderAppMenu?customerId=${customerId}`)
                         MenuBtn.click(); *@
                     } else {
-                        callErrorToaster(response.text);
+                            callErrorToaster(response.text);
+                        }
+                        $(".btn-close").click();
+                        DisplaySections();
+                    },
+                    error: function (xhr, status, error) {
+                        callErrorToaster(xhr.responseText);
                     }
-                    $(".btn-close").click();
-                    DisplaySections();
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
+                });
+            }
         }
     });
 

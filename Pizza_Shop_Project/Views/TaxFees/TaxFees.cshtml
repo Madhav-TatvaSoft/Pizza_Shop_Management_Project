@@ -46,7 +46,6 @@
                 </tr>
             </thead>
             <tbody id="TaxTableBody">
-                @* @await Html.PartialAsync("_TaxListDataPartial", Model) *@
             </tbody>
         </table>
 
@@ -134,7 +133,7 @@
                 type: "GET",
                 data: { pageNumber: page, search, pageSize },
                 success: function (data) {
-
+                    IsHtmlDoc(data);
                     $("#TaxTableBody").html(data);
 
                     currentPage = page;
@@ -165,6 +164,7 @@
                 type: "GET",
                 data: { taxid: taxid },
                 success: function (data) {
+                    IsHtmlDoc(data);
                     $("#AddEditTax-Content").html(data);
                 },
                 error: function (response) {
@@ -176,6 +176,7 @@
     </script>
 
     <script>
+        // READY
         $(document).ready(function () {
 
             // Initial table load
@@ -209,7 +210,6 @@
             // Item per Page Tax
             $("#itemselect-tax").on("change", function () {
                 pageSize = $(this).val();
-                console.log("items-" + pageSize);
                 currentPage = 1;
                 PaginationForTax(currentPage, searchText, pageSize);
             });
@@ -220,7 +220,6 @@
                 e.preventDefault();
 
                 let taxid = document.getElementById("DeleteTaxId").value;
-                console.log(taxid, "--Taxid");
 
                 $.ajax({
                     url: "/TaxFees/DeleteTax",
@@ -241,6 +240,8 @@
                     }
                 });
             });
+        
         });
     </script>
+
 }

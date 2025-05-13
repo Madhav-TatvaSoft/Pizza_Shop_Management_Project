@@ -196,6 +196,7 @@
 
     var itemData = [];
 
+    // Get Modifiers by Group
     function GetModifierByGroups() {
         var selectedValue = $('#Modifier').val();
         var minOption = $(`#min-selection-${selectedValue}`).val() ?? 0;
@@ -215,16 +216,16 @@
             $.ajax({
                 url: '/Menu/GetModifiersByGroup',
                 type: 'GET',
-    @* contentType: 'application/json', *@
                 data: { data: JSON.stringify(itemData) },
                 success: function (data) {
+                    IsHtmlDoc(data);
                     $('#ItemByModifiers').html(data);
                 },
                 error: function (xhr, status, error) {
-                    console.error(error);
+                    callErrorToaster(error);
                 }
             });
-    }
+        }
     }
 
     function SetMinByGroup(element) {
@@ -272,10 +273,11 @@
                 type: 'GET',
                 data: { data: JSON.stringify(itemData) },
                 success: function (data) {
+                    IsHtmlDoc(data);
                     $('#ItemByModifiers').html(data);
                 },
                 error: function (xhr, status, error) {
-                    console.error(error);
+                    callErrorToaster(error);
                 }
             });
         }
@@ -288,10 +290,11 @@
             type: 'GET',
             data: { data: JSON.stringify(itemData) },
             success: function (data) {
+                IsHtmlDoc(data);
                 $('#ItemByModifiers').html(data);
             },
             error: function (xhr, status, error) {
-                console.error(error);
+                callErrorToaster(error);
             }
         });
 

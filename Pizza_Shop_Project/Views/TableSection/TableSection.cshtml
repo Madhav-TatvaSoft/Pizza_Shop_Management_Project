@@ -90,9 +90,6 @@
                         </thead>
                         <tbody style="white-space: nowrap;" id="table-list-body">
 
-                            @*Partial View of Table List*@
-                            @* @await Html.PartialAsync("_TableListPartialView", Model.PaginationForTable); *@
-
                         </tbody>
                     </table>
                 </div>
@@ -117,7 +114,6 @@
         </div>
     </div>
 </div>
-
 
 
 <!------------------------------------Modals---------------------------------------------->
@@ -317,7 +313,6 @@
         let searchText_table = "";
         let pageSize_table = $("#itemselect-table").val();
         let sectionid = $("#Section_id").val();
-        @* console.log(sectionid, "sectionid"); *@
 
         // Table Pagination function
         function PaginationForTable(sectionid, searchText_table = "", page = 1, pageSize_table = 3) {
@@ -353,23 +348,19 @@
 
         // To show the Section List Partially
         function loadSectionList() {
-
-            console.log("Section List");
-
-        @* var sectionid = @Model.SectionList[0].SectionId; *@
-
                 $.ajax({
                     url: "/TableSection/GetAllSections",
                     type: "GET",
                     success: function (data) {
+                        // Check if the response is HTML
+                    IsHtmlDoc(data);
                         document.getElementById("SectionList_Partial").innerHTML = data;
-        @* PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table); *@
                         }
                 });
         }
 
     </script>
-
+    
     <script>
         $(document).ready(function () {
 
@@ -390,10 +381,6 @@
                 $(".SectionGet").removeClass("active-category");
                 $(this).addClass("active-category");
                 sectionid = $(this).data("id");
-                @* var section_id_table = document.getElementById("Section_id_Table"); *@
-                @* section_id_table.value = sectionid; *@
-                @* console.log(sectionid,"tetet") *@
-                @* console.log(section_id_table.value,"jgjhg") *@
                 currentPage_table = 1;
                 PaginationForTable(sectionid, searchText_table, currentPage_table, pageSize_table);
             });
@@ -432,6 +419,8 @@
                     url: "/TableSection/AddSection",
                     type: "GET",
                     success: function (data) {
+                        // Check if the response is HTML
+                    IsHtmlDoc(data);
                         $("#AddSection-Content").html(data);
                     }
                 });
@@ -449,6 +438,8 @@
                         type: "GET",
                         data: { sectionid },
                         success: function (data) {
+                            // Check if the response is HTML
+                    IsHtmlDoc(data);
                             $("#EditSection-Content").html(data);
                         }
                     });
@@ -475,7 +466,6 @@
                         $(".btn-close").click();
                         currentPage_table = 1;
                         loadSectionList();
-                        console.log(data.sectionid);
                         PaginationForTable(data.sectionid, searchText_table, currentPage_table, pageSize_table);
                     }
                 });
@@ -485,13 +475,14 @@
             $("#AddTableModalId").on('click', function () {
 
                 sectionid = $("#Section_id").val();
-                console.log(sectionid,"sec")
 
                 $.ajax({
                     url: "/TableSection/AddTable",
                     type: "GET",
                     data: { sectionid: sectionid },
                     success: function (data) {
+                        // Check if the response is HTML
+                    IsHtmlDoc(data);
                         $("#AddTable-Content").html(data);
                     }
                 });
@@ -511,6 +502,8 @@
                         type: "GET",
                         data: { tableid, sectionid },
                         success: function (data) {
+                            // Check if the response is HTML
+                    IsHtmlDoc(data);
                             $("#EditTable-Content").html(data);
                         }
                     });
@@ -523,7 +516,6 @@
                 e.preventDefault();
 
                 let tableid = document.getElementById("DeleteTableId").value;
-                console.log(tableid, "-tableid");
 
                 $.ajax({
                     url: "/TableSection/DeleteTable",
@@ -575,8 +567,8 @@
                 }
             });
 
-            // End of Ready Function
         });
+            // End of Ready Function
 
     </script>
 

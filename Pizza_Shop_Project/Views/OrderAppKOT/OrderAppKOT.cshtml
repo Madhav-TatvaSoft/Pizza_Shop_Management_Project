@@ -67,6 +67,8 @@
                 type: "GET",
                 data: { catid, filter, page, pageSize },
                 success: function (data) {
+                    IsHtmlDoc(data);
+                    Is
                     data += `<input type="hidden" id="KOTCategoryID" value="${catid}">
                                                                             <input type="hidden" id="KOTStatus" value="${filter}">`
                     $("#KOT-Card-Items").html(data);
@@ -81,7 +83,7 @@
                     $("#RightArrow").prop("disabled", currentPage * pageSize >= totalRecords);
                 },
                 error: function (xhr, status, error) {
-                    console.error("Error fetching KOT items:", error);
+                    callErrorToaster("Error fetching KOT items:", error);
                 }
             });
         }

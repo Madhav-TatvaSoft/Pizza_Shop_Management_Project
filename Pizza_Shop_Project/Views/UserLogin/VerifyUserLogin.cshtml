@@ -86,7 +86,6 @@
             });
         }
 
-
     </script>
 
 @* ForgotPassword script  *@
@@ -99,7 +98,6 @@
                         data: { "Email": $("#Email").val() },
                         success: function (response) {
                             window.location.href = "@Url.Action("ForgotPassword", "UserLogin")";
-                            console.log("response");
                         },
                         error: function (response) {
                             callErrorToaster("Email not found");

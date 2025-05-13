@@ -507,9 +507,6 @@
             <form id="AddExistModifierFormID">
                 <div class="modal-body">
                     <div class="search-button ">
-
-                        @* <input type="hidden" id="modifiergrp-id-items"
-                        value="@Model.PaginationForModifiersByModGroups.Items[0].ModifierGrpId"> *@
                         <input type="search" id="searchbtn-existingMod" placeholder="Search" class="p-1 border ">
                         <i class="fa-solid fa-magnifying-glass search-icon-style "></i>
 
@@ -578,8 +575,6 @@
             <form id="EditModifierGroupForm">
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        @* <input type="hidden" asp-for="@Model.addModifierGroupVM.Temp_Ids"
-                        id="EditTemp_Ids_HiddenField"> *@
                         <input type="hidden" asp-for="@Model.addModifierGroupVM.ModifierGrpId" id="EditModifierGrpId">
                         <input type="text" asp-for="@Model.addModifierGroupVM.ModifierGrpName" class="form-control"
                             id="EditModifierGroupName" placeholder="Name" required>
@@ -624,9 +619,6 @@
             <form id="EditExistModifierFormID">
                 <div class="modal-body">
                     <div class="search-button ">
-
-                        @* <input type="hidden" id="edit-modifiergrp-id-items"
-                        value="@Model.PaginationForModifiersByModGroups.Items[0].ModifierGrpId"> *@
                         <input type="search" id="edit-searchbtn-existingMod" placeholder="Search" class="p-1 border ">
                         <i class="fa-solid fa-magnifying-glass search-icon-style "></i>
 
@@ -646,8 +638,7 @@
                                 </tr>
                             </thead>
                             <tbody id="EditExistingModifiersListBody" style="white-space: nowrap;">
-                                @* @await Html.PartialAsync("_AddExisingModifierPaginationPartial",
-                                Model.Paginationmodifiers) *@
+        
                             </tbody>
                         </table>
 
@@ -796,6 +787,7 @@
 
         // -------------------------------Category------------------------------------------------------
 
+        // Remove Validation
         function RemoveValidation() {
             var list = document.getElementsByClassName("RemoveValidationClass");
             for (var i = 0; i < list.length; i++) {
@@ -1165,6 +1157,7 @@
                 type: "GET",
                 data: { catid, search, pageNumber: page, pageSize },
                 success: function (data) {
+                    IsHtmlDoc(data);
 
                     $("#item-list-body").html(data);
 
@@ -1193,7 +1186,7 @@
                 type: "GET",
                 data: { modgrpid, search, pageNumber: page, pageSize },
                 success: function (data) {
-
+                    IsHtmlDoc(data);
                     $("#modifier-list-body").html(data);
 
                     currentPage_mod = page;
@@ -1216,7 +1209,6 @@
         // Existing Modifiers Pagination function
         function ExistingPaginatedModifierTable(search = "", page = 1, pageSize = 5) {
             pageSize = parseInt(pageSize_Existmod);
-            console.log(pageSize, "PageSize adsddddd");
             $.ajax({
                 url: "/Menu/ExistingPaginationMenuModifiersByModGroups",
                 type: "GET",
@@ -1258,14 +1250,12 @@
         function EditExistingPaginatedModifierTable(search = "", page = 1, pageSize = 5) {
 
             pageSize = parseInt(pageSize_Existmodedit);
-            console.log(pageSize, "PageSize");
 
             $.ajax({
                 url: "/Menu/ExistingPaginationMenuModifiersByModGroups",
                 type: "GET",
                 data: { search, pageNumber: page, pageSize },
                 success: function (data) {
-                    console.log("Edit Existing Modifier");
                     document.getElementById("existing-modifier-main-checkbox").checked = false;
                     document.getElementById("EditExistingModifiersListBody").innerHTML = data;
 
@@ -1332,6 +1322,7 @@
                 url: "/Menu/GetAllModifierGroupList",
                 type: "GET",
                 success: function (data) {
+                    IsHtmlDoc(data);
                     document.getElementById("ModifierGroupList_Partial").innerHTML = data;
                     PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
 
@@ -1349,6 +1340,7 @@
             }
         }
 
+        // READY
         $(document).ready(function () {
 
             PaginatedItemTable(catid, searchText, currentPage, pageSize);
@@ -1410,6 +1402,7 @@
                     url: "/Menu/GetItems",
                     type: "GET",
                     success: function (data) {
+                        IsHtmlDoc(data);
                         $("#AddItemModal-Div").html(data);
                     }
                 });
@@ -1425,6 +1418,7 @@
                         type: "GET",
                         data: { itemid },
                         success: function (data) {
+                            IsHtmlDoc(data);
                             $("#EditItemModal-Div").html(data);
                         }
                     });
@@ -1442,11 +1436,6 @@
                             url: `/Menu/DeleteItem?itemID=${itemID}`,
                             type: "GET",
                             success: function (data) {
-                                @* if (data.success) {
-                                    callSuccessToaster(data.text);
-                                } else {
-                                    callErrorToaster(data.text);
-                                } *@
                                 $("#MassDeleteItemsBtn").prop("disabled", true);
                                 currentPage = 1;
                                 PaginatedItemTable(catid, searchText, currentPage, pageSize);
@@ -1471,7 +1460,6 @@
                 $(".ModifierGet").removeClass("active-category");
                 $(this).addClass("active-category");
                 modgrpid = $(this).data("id");
-                console.log(modgrpid, "Modgrpid on click");
                 currentPage_mod = 1;
                 PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
             });
@@ -1500,7 +1488,6 @@
             $("#itemselect-modifier").on("change", function () {
                 pageSize_mod = $(this).val();
                 currentPage_mod = 1;
-                console.log(pageSize_mod);
                 PaginatedModifierTable(modgrpid, searchText_mod, currentPage_mod, pageSize_mod);
                 Modifier_Main_Checkbox_Select();
             });
@@ -1709,6 +1696,7 @@
                     url: "/Menu/AddModifierItem",
                     type: "GET",
                     success: function (data) {
+                        IsHtmlDoc(data);
                         $("#AddModifierModal-MainDiv").html(data);
                     }
                 });
@@ -1724,6 +1712,7 @@
                         type: "GET",
                         data: { modid },
                         success: function (data) {
+                            IsHtmlDoc(data);
                             $("#EditModifierModal-MainDiv").html(data);
                         }
                     });
@@ -1782,8 +1771,8 @@
                 }
             });
 
-            // end of Ready
         });
+        // end of Ready
     </script>
 
     @{

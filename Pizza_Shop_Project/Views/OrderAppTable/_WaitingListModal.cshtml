@@ -80,7 +80,7 @@
 
                 },
                 error: function () {
-                    console.log("Error fetching customer emails.");
+                    callErrorToaster("Error fetching customer emails.");
                 }
             });
         } else {
@@ -116,7 +116,6 @@
                 processData: false, 
                 contentType: false, 
                 success: function (res) {
-                    console.log("Response:", res);
                     if (res.success) {
                         callSuccessToaster(res.text);
                     } else {
@@ -125,13 +124,12 @@
                     $(".btn-close").click(); 
                 },
                 error: function (xhr, status, error) {
-                    console.error("AJAX error:", status, error, xhr.responseText);
                     callErrorToaster("An error occurred while saving the token details.");
                     $(".btn-close").click();
                 }
             });
         } else {
-            console.log("Form validation failed");
+            callErrorToaster("Form validation failed");
         }
     });
 

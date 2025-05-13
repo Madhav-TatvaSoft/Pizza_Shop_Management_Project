@@ -30,6 +30,7 @@
 
 <script>
 
+    // Minus button Handle function
     function minusQuantity(tag) {
         var quantity = parseInt(tag.nextElementSibling.innerText);
         if (quantity > 1) {
@@ -38,6 +39,7 @@
         }
     }
 
+    // Plus button Handle function
     function plusQuantity(tag, maxQuantity) {
         var quantity = parseInt(tag.previousElementSibling.innerText);
         if (quantity < maxQuantity) {
@@ -46,6 +48,7 @@
         }
     }
 
+    // Function to handle checkbox click event
     function CheckBoxClick(tag) {
         if (tag.checked) {
             const quantityDiv = tag.parentElement.parentElement.children[1].children[0];
@@ -72,34 +75,5 @@
             quantityDiv.children[1].innerText = "0";
         }
     }
-    @*
-        function CheckBoxClick(tag) {
-        if (tag.checked) {
-                const quantityDiv = tag.parentElement.parentElement.children[1].querySelector('.hollow-btn');
-
-                const minusElement = quantityDiv.querySelector('.minus');
-                const plusElement = quantityDiv.querySelector('.plus');
-                const quantitySpan = quantityDiv.querySelector('span');
-
-                const maxQuantity = quantityDiv.getAttribute('data-quantity');
-
-                minusElement.setAttribute('onclick', 'minusQuantity(this)');
-                plusElement.setAttribute('onclick', 'plusQuantity(this, ' + maxQuantity + ')');
-
-                quantitySpan.innerText = "1";
-        }
-            else {
-                const quantityDiv = tag.parentElement.parentElement.children[1].querySelector('.hollow-btn');
-
-                const minusElement = quantityDiv.querySelector('.minus');
-                const plusElement = quantityDiv.querySelector('.plus');
-                const quantitySpan = quantityDiv.querySelector('span');
-
-                minusElement.removeAttribute('onclick');
-                plusElement.removeAttribute('onclick');
-
-                quantitySpan.innerText = "0";
-        }
-        } *@
 
 </script>

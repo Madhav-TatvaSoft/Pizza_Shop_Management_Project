@@ -9,12 +9,9 @@ namespace BLL.Implementation;
 public class CategoryService : ICategoryService
 {
     private readonly PizzaShopDbContext _context;
-    // private IDbContextTransaction _transaction;
-
     public CategoryService(PizzaShopDbContext context)
     {
         _context = context;
-        // _transaction = transaction;
     }
 
     public async Task<List<Category>> GetAll()

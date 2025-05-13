@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "Order App Menu";
     Layout = "~/Views/Shared/_OrderAppLayout.cshtml";
-    @* var custId = ; *@
 }
 
 <div class="d-flex">
@@ -38,7 +37,6 @@
 
             <div class="col-12 p-2 @(Model.customerId != 0 ? "col-xl-7":"col-12")">
 
-                @* <div class="col-xl-7 col-12 p-2"> *@
 
                 <div class="d-md-flex col-12 flex-xxl-row flex-column  justify-content-between mb-3">
                     <!-- search btn-->
@@ -134,6 +132,7 @@
                 type: "GET",
                 data: { categoryid },
                 success: function (data) {
+                    IsHtmlDoc(data);
                     $("#searchbtn").val("");
                     $("#ItemCards").html(data);
                 }
@@ -142,12 +141,12 @@
 
         // Search By Item
         function searchItem(searchText) {
-            console.log(searchText);
             $.ajax({
                 url: "/OrderAppMenu/GetItems",
                 type: "GET",
                 data: { searchText, categoryid },
                 success: function (data) {
+                    IsHtmlDoc(data);
                     $("#ItemCards").html(data);
                 }
             })
@@ -184,6 +183,7 @@
                 type: "GET",
                 data: { customerId: customerId },
                 success: function (data) {
+                    IsHtmlDoc(data);
                     $("#OrderDetails-Content").html(data);
                     IsAllItemSaved = true;
                 }
@@ -223,21 +223,17 @@
             if (IsOrderAnything) {
                 document.getElementById("OrderCancelBtn").removeAttribute("disabled");
                 document.getElementById("OrderCompleteBtn").removeAttribute("disabled");
-                @* document.getElementById("OrderGenerateInvoiceBtn").removeAttribute("disabled") *@
-                        if (IsAllItemSaved) {
+                if (IsAllItemSaved) {
                     document.getElementById("OrderSaveBtn").setAttribute("disabled", "disabled");
                     document.getElementById("OrderCompleteBtn").removeAttribute("disabled");
-                    @* document.getElementById("OrderGenerateInvoiceBtn").removeAttribute("disabled") *@
-                        } else {
+                } else {
                     document.getElementById("OrderSaveBtn").removeAttribute("disabled");
                     document.getElementById("OrderCompleteBtn").setAttribute("disabled", "disabled")
-                    @* document.getElementById("OrderGenerateInvoiceBtn").setAttribute("disabled", "disabled"); *@
-                        }
+                }
             } else {
                 document.getElementById("OrderCancelBtn").setAttribute("disabled", "disabled");
                 document.getElementById("OrderCompleteBtn").setAttribute("disabled", "disabled")
-                @* document.getElementById("OrderGenerateInvoiceBtn").setAttribute("disabled", "disabled"); *@
-                        if (orderDetailsModel.itemOrderVM == null) {
+                if (orderDetailsModel.itemOrderVM == null) {
                     document.getElementById("OrderSaveBtn").setAttribute("disabled", "disabled");
                 }
             }
@@ -301,7 +297,6 @@
                     if (x.toString().substr(0, x[0].toString().length + 1) + x.toString().substr(4) == item.toString().substr(0,
                         item[0].toString().length + 1) + item.toString().substr(4) && x[1] < 10) {
                         x[1]++;
-                        console.log("x", x[1]);
                         ItemCheckFlag = false;
                     }
                     else if (x[1] == 10) {
@@ -317,6 +312,7 @@
                     type: "GET",
                     data: { ItemList: JSON.stringify(MainItem), orderDetails: JSON.stringify(orderDetailsModel) },
                     success: function (data) {
+                        IsHtmlDoc(data);
                         $("#OrderDetails-Content").html(data);
                     }
                 })
@@ -338,6 +334,7 @@
                     type: "GET",
                     data: { ItemList: JSON.stringify(MainItem), count, orderDetails: JSON.stringify(orderDetailsModel) },
                     success: function (data) {
+                        IsHtmlDoc(data);
                         $("#OrderDetails-Content").html(data);
                     }
                 });
@@ -366,6 +363,7 @@
                         type: "GET",
                         data: { ItemList: JSON.stringify(MainItem), orderDetails: JSON.stringify(orderDetailsModel) },
                         success: function (data) {
+                            IsHtmlDoc(data);
                             $("#OrderDetails-Content").html(data);
                         }
                     });
@@ -391,6 +389,7 @@
                         type: "GET",
                         data: { ItemList: JSON.stringify(MainItem), orderDetails: JSON.stringify(orderDetailsModel) },
                         success: function (data) {
+                            IsHtmlDoc(data);
                             $("#OrderDetails-Content").html(data);
                         }
                     });
@@ -434,6 +433,7 @@
             IsAllItemSaved = false;
         }
 
+
         // Save Order.
         function SaveOrder() {
             if (IsOrderCompleted) {
@@ -447,6 +447,7 @@
                     type: "POST",
                     data: { OrderDetailIds: JSON.stringify(OrderDetailIds), orderDetails: JSON.stringify(orderDetailsModel) },
                     success: function (data) {
+                        IsHtmlDoc(data);
                         $("#OrderDetails-Content").html(data);
                         ItemQuantityUpdateFlag = true;
                         IsAllItemSaved = true;
@@ -523,7 +524,6 @@
 
         // Cancel Order
         function CancelOrder() {
-            console.log("ajax start", orderDetailsModel);
             $.ajax({
                 url: "/OrderAppMenu/CancelOrder",
                 type: "POST",

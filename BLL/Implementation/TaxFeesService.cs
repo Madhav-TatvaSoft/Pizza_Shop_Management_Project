@@ -49,6 +49,7 @@ public class TaxFeesService : ITaxFeesService
 
         return new PaginationViewModel<TaxViewModel>(items, totalCount, pageNumber, pageSize);
     }
+
     #endregion
 
     #region Get
@@ -74,75 +75,95 @@ public class TaxFeesService : ITaxFeesService
     #endregion
 
     #region CRUD
-    public async Task<bool> AddEditTax(TaxViewModel taxVM, long userId)
+    public async Task<bool> SaveTax(TaxViewModel taxVM, long userId)
     {
-        try
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            // Check if a tax with the same name already exists (excluding the current tax if editing)
-            Tax? isTaxExist = await _context.Taxes.FirstOrDefaultAsync(x =>
-                x.TaxName.ToLower().Trim() == taxVM.TaxName.ToLower().Trim() &&
-                !x.Isdelete &&
-                (taxVM.TaxId == 0 || x.TaxId != taxVM.TaxId));
+            try
+            {
 
-            if (isTaxExist != null)
-            {
-                return false; // Tax with the same name already exists
-            }
+                // Check if a tax with the same name already exists (excluding the current tax if editing)
+                Tax? isTaxExist = await _context.Taxes.FirstOrDefaultAsync(x =>
+                    x.TaxName.ToLower().Trim() == taxVM.TaxName.ToLower().Trim() &&
+                    !x.Isdelete &&
+                    (taxVM.TaxId == 0 || x.TaxId != taxVM.TaxId));
 
-            if (taxVM.TaxId == 0) // Add new tax
-            {
-                Tax tax = new Tax
+                if (isTaxExist != null)
                 {
-                    TaxName = taxVM.TaxName,
-                    TaxType = taxVM.TaxType,
-                    TaxValue = taxVM.TaxValue,
-                    Isenable = taxVM.Isenable,
-                    Isdefault = taxVM.Isdefault,
-                    Isdelete = false,
-                    CreatedAt = DateTime.Now,
-                    CreatedBy = userId,
-                };
-                await _context.Taxes.AddAsync(tax);
-            }
-            else // Edit existing tax
-            {
-                Tax? tax = await _context.Taxes.SingleOrDefaultAsync(x => x.TaxId == taxVM.TaxId && !x.Isdelete);
-                if (tax == null)
-                {
-                    return false; // Tax not found
+                    return false; // Tax with the same name already exists
                 }
-                tax.TaxName = taxVM.TaxName;
-                tax.TaxType = taxVM.TaxType;
-                tax.TaxValue = taxVM.TaxValue;
-                tax.Isenable = taxVM.Isenable;
-                tax.Isdefault = taxVM.Isdefault;
-                tax.ModifiedAt = DateTime.Now;
-                tax.ModifiedBy = userId;
-                _context.Taxes.Update(tax);
-            }
 
-            await _context.SaveChangesAsync();
-            return true;
+                if (taxVM.TaxId == 0) // Add new tax
+                {
+                    Tax tax = new Tax
+                    {
+                        TaxName = taxVM.TaxName,
+                        TaxType = taxVM.TaxType,
+                        TaxValue = taxVM.TaxValue,
+                        Isenable = taxVM.Isenable,
+                        Isdefault = taxVM.Isdefault,
+                        Isdelete = false,
+                        CreatedAt = DateTime.Now,
+                        CreatedBy = userId,
+                    };
+                    await _context.Taxes.AddAsync(tax);
+                }
+                else // Edit existing tax
+                {
+                    Tax? tax = await _context.Taxes.SingleOrDefaultAsync(x => x.TaxId == taxVM.TaxId && !x.Isdelete);
+                    if (tax == null)
+                    {
+                        return false; // Tax not found
+                    }
+                    tax.TaxName = taxVM.TaxName;
+                    tax.TaxType = taxVM.TaxType;
+                    tax.TaxValue = taxVM.TaxValue;
+                    tax.Isenable = taxVM.Isenable;
+                    tax.Isdefault = taxVM.Isdefault;
+                    tax.ModifiedAt = DateTime.Now;
+                    tax.ModifiedBy = userId;
+                    _context.Taxes.Update(tax);
+                }
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
-        catch (InvalidOperationException)
-        {
-            return false; // Handle duplicate case gracefully
-        }
+
     }
 
     public async Task<bool> DeleteTax(long taxid)
     {
-        Tax? tax = _context.Taxes.FirstOrDefault(x => x.TaxId == taxid && !x.Isdelete);
-        if (tax != null)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            tax.TaxName = tax.TaxName + DateTime.Now;
-            tax.Isdelete = true;
-            _context.Taxes.Update(tax);
-            await _context.SaveChangesAsync();
-            return true;
+            try
+            {
+                Tax? tax = _context.Taxes.FirstOrDefault(x => x.TaxId == taxid && !x.Isdelete);
+                if (tax != null)
+                {
+                    tax.TaxName = tax.TaxName + DateTime.Now;
+                    tax.Isdelete = true;
+                    _context.Taxes.Update(tax);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
-        return false;
     }
+    
     #endregion
 
 }

@@ -126,7 +126,7 @@
                     $("#FillSectionList").html(data);
                 },
                 error: function (xhr, status, error) {
-                    console.error("Error fetching Data:", error);
+                    callErrorToaster("Error fetching Data:", error);
                 }
             });
         }
@@ -140,6 +140,7 @@
                 type: "GET",
                 data: { waitingid: waitingid },
                 success: function (data) {
+                    IsHtmlDoc(data);
                     $("#AddEditWaitingTokenModal-Content").html(data);
                 }
             });

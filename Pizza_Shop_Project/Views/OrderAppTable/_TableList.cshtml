@@ -10,7 +10,8 @@ else
     @foreach (var table in Model)
     {
         <div class="table-card card border border-1 rounded-2" style="width: 270px;" data-capacity="@table.Capacity"
-            data-sec="@table.SectionId" @(table.Status == "Available" ? "onclick=SelectTable(this)" : "onclick=OpenMenuFromTable(this)")>
+            data-sec="@table.SectionId" @(table.Status == "Available" ? "onclick=SelectTable(this)" :
+    "onclick=OpenMenuFromTable(this)")>
             <div class="d-none">@table.TableId</div>
             <div class="d-none">@table.SectionId</div>
             <div
@@ -88,9 +89,6 @@ else
 
             element.querySelector(".time-difference").textContent = `${days}days ${hours}hours ${minutes}min ${seconds}sec`;
 
-    @* if (orderTime === "0001-01-01T00:00:00") {
-                element.querySelector(".time-difference").textContent = "0 min";
-                } *@
         });
     }
 
@@ -99,9 +97,6 @@ else
 
         var tableId = tag.children[0].innerHTML;
         var sectionId = tag.children[1].innerHTML;
-
-        console.log("tableId", tableId);
-        console.log("sectionId", sectionId);
 
         $.ajax({
             url: "/OrderAppTable/GetCustomerIdByTableId",

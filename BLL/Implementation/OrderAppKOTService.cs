@@ -126,7 +126,7 @@ public class OrderAppKOTService : IOrderAppKOTService
 
     public async Task<OrderAppKOTViewModel> GetKOTItemsFromModal(long catid, string filter, long orderid)
     {
-        PaginationViewModel<OrderAppKOTViewModel> KotModalData = await GetKOTItems(catid, filter,1,5);
+        PaginationViewModel<OrderAppKOTViewModel> KotModalData = await GetKOTItems(catid, filter, 1, 5);
         OrderAppKOTViewModel? KotData = KotModalData.Items.SingleOrDefault(x => x.OrderId == orderid);
         if (KotData == null)
         {
@@ -140,31 +140,46 @@ public class OrderAppKOTService : IOrderAppKOTService
     #region Update KOT Status
     public async Task<bool> UpdateKOTStatus(string filter, int[] orderDetailId, int[] quantity)
     {
-        if (orderDetailId.Length == 0 || orderDetailId == null || quantity == null || quantity.Length == 0 || orderDetailId.Length != quantity.Length)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            return false;
+            try
+            {
+                if (orderDetailId.Length == 0 || orderDetailId == null || quantity == null || quantity.Length == 0 || orderDetailId.Length != quantity.Length)
+                {
+                    return false;
+                }
+
+                for (int i = 0; i < orderDetailId.Length; i++)
+                {
+                    Orderdetail? orderDetail = await _context.Orderdetails.FirstOrDefaultAsync(x => x.OrderdetailId == orderDetailId[i] && !x.Isdelete && x.Status != "Completed" && x.Status != "Cancelled");
+
+                    if (orderDetail == null)
+                    {
+                        return false;
+                    }
+                    if (filter == "In_Progress")
+                    {
+                        orderDetail.ReadyQuantity += quantity[i];
+                    }
+                    else
+                    {
+                        orderDetail.ReadyQuantity -= quantity[i];
+                    }
+                    _context.Orderdetails.Update(orderDetail);
+                }
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
-        for (int i = 0; i < orderDetailId.Length; i++)
-        {
-            Orderdetail? orderDetail = await _context.Orderdetails.FirstOrDefaultAsync(x => x.OrderdetailId == orderDetailId[i] && !x.Isdelete && x.Status != "Completed" && x.Status != "Cancelled");
-
-            if (orderDetail == null)
-            {
-                return false;
-            }
-            if (filter == "In_Progress")
-            {
-                orderDetail.ReadyQuantity += quantity[i];
-            }
-            else
-            {
-                orderDetail.ReadyQuantity -= quantity[i];
-            }
-            _context.Orderdetails.Update(orderDetail);
-        }
-        await _context.SaveChangesAsync();
-        return true;
     }
     #endregion
 

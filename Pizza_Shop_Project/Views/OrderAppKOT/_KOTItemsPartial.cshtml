@@ -123,6 +123,7 @@
             type: "GET",
             data: { catid: catid, filter: filter, orderid: orderid },
             success: function (data) {
+                IsHtmlDoc(data);
                 $("#StatusUpdateModalTable").html(data);
             }
         });
@@ -165,10 +166,8 @@
         var filter = document.getElementById("KOTStatus").value;
 
         var checkboxes = document.getElementsByClassName("ItemStatusModalCBClass");
-        console.log(checkboxes.nextElementSibling);
-    @* console.log(checkboxes.parentElement.parentElement.children[1].children[0].children[1].innerText); *@
 
-                for (var i = 0; i < checkboxes.length; i++) {
+        for (var i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].checked) {
                 id.push(checkboxes[i].parentElement.parentElement.children[2].value);
                 quantity.push(checkboxes[i].parentElement.parentElement.children[1].children[0].children[1].innerText);

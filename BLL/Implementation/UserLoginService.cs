@@ -23,9 +23,7 @@ public class UserLoginService : IUserLoginService
         _configuration = configuration;
 
     }
-    
 
-    #region Encrypt Password 
     public string EncryptPassword(string password)
     {
         string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -36,7 +34,6 @@ public class UserLoginService : IUserLoginService
             numBytesRequested: 256 / 8));
         return hashed;
     }
-    #endregion
 
     // Get List of Loginned User With Role
     public async Task<List<UserLogin>> GetUserLogins()
@@ -106,42 +103,54 @@ public class UserLoginService : IUserLoginService
     // Used to find If email exists and will update the encrypted password in the DB. 
     public async Task<bool> ResetPassword(ResetPasswordViewModel resetPassword)
     {
-        UserLogin? data = _context.UserLogins.FirstOrDefault(e => e.Email == resetPassword.Email && !e.Isdelete);
-        if (data != null && !data.Isdelete)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            // Check if the new password is the same as the old password
-            if (data.Password == EncryptPassword(resetPassword.Password))
+            try
             {
+                UserLogin? data = _context.UserLogins.FirstOrDefault(e => e.Email == resetPassword.Email && !e.Isdelete);
+                if (data != null && !data.Isdelete)
+                {
+                    // Check if the new password is the same as the old password
+                    if (data.Password == EncryptPassword(resetPassword.Password))
+                    {
+                        return false;
+                    }
+                    data.Password = EncryptPassword(resetPassword.Password);
+                    _context.Update(data);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return true;
+                }
                 return false;
             }
-            data.Password = EncryptPassword(resetPassword.Password);
-            _context.Update(data);
-            await _context.SaveChangesAsync();
-            return true;
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
-        return false;
     }
 
     public string GetProfileImage(string Email)
     {
         return _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email).ProfileImage;
     }
-    
+
     public string GetUsername(string Email)
     {
         return _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email).Username;
     }
-   
+
     public long GetUserId(string Email)
     {
         return _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email).UserId;
     }
-   
+
     public string GetPassword(string Email)
     {
         return _context.UserLogins.FirstOrDefault(x => x.Email == Email).Password;
     }
-    
+
     public bool CheckEmailExist(string email)
     {
         return _context.UserLogins.Any(e => e.Email == email && !e.Isdelete);

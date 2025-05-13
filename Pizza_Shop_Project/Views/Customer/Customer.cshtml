@@ -169,7 +169,7 @@
                 type: "GET",
                 data: { search, sortColumn, sortDirection, pageNumber: page, pageSize, fromDate, toDate, selectRange },
                 success: function (data) {
-
+                    IsHtmlDoc(data);
                     $("#CustomerListBody").html(data);
 
                     currentPage = page;
@@ -203,14 +203,7 @@
                 },
                 success: function (data, status, xhr) {
                     let filename = "Customers.xlsx";
-
-        @* let disposition = xhr.getResponseHeader('Content-Disposition');
-                    if (disposition && disposition.indexOf('attachment') !== -1) {
-                    let matches = /filename="([^"]+)"/.exec(disposition);
-                    if (matches !== null && matches[1]) filename = matches[1];
-                    } *@
-
-                        let blob = new Blob([data], { type: xhr.getResponseHeader('Content-Type') });
+                    let blob = new Blob([data], { type: xhr.getResponseHeader('Content-Type') });
                     let link = document.createElement('a');
                     link.href = window.URL.createObjectURL(blob);
                     link.download = filename;
@@ -222,7 +215,6 @@
                     callSuccessToaster(text);
                 },
                 error: function (xhr, status, error) {
-                    console.error(error);
                     let Text = "Failed to Export Excel"
                     callErrorToaster(Text);
                 }
@@ -250,7 +242,6 @@
             // Sorting Order functionality
             $("#sortable-name").on("click", function () {
                 sortColumn = $(this).data("column");
-                console.log(sortColumn);
                 sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
                 $(this).attr("data-direction", sortDirection);
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
@@ -259,7 +250,6 @@
             // Sorting Date functionality
             $("#sortable-date").on("click", function () {
                 sortColumn = $(this).data("column");
-                console.log(sortColumn);
                 sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
                 $(this).attr("data-direction", sortDirection);
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
@@ -268,7 +258,6 @@
             // Sorting Customer functionality
             $("#sortable-totalOrder").on("click", function () {
                 sortColumn = $(this).data("column");
-                console.log(sortColumn);
                 sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
                 $(this).attr("data-direction", sortDirection);
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
@@ -295,7 +284,6 @@
             // Item Select
             $("#itemselect").on("change", function () {
                 pageSize = $(this).val();
-                console.log("items-" + pageSize);
                 currentPage = 1;
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, fromDate, toDate, selectRange);
             });
@@ -326,9 +314,7 @@
             // Customer History View
             $(document).on("click", "#CustomerHistoryTR", function (e) {
                 var button = e.target;
-                console.log(button);
                 var customerid = button.getAttribute("data-customer");
-                console.log(customerid, "id");
 
                 $.ajax({
                     url: "/Customer/GetCustomerHistory",
@@ -336,6 +322,7 @@
                     data: { customerid: customerid },
                     success: function (data) {
                         if (data.success != false) {
+                            IsHtmlDoc(data);
                             $("#CustomerHistoryModal").modal("show");
                             $("#CustomerHistoryDiv").html(data);
                         }

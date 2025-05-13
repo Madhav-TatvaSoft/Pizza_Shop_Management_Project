@@ -216,8 +216,6 @@
 
         var isAdded = editItemData.findIndex(item => item.ModifierGrpId == selectedValue);
 
-        console.log(isAdded, "isAdded");
-
         if (isAdded == -1) {
             var modifierGroup = {
                 ModifierGrpId: selectedValue,
@@ -227,18 +225,18 @@
 
             editItemData.push(modifierGroup);
 
-            @* console.log(editItemData, "editItemData paschi no"); *@
 
             $.ajax({
                 url: '/Menu/EditModifiersByGroup',
                 type: 'POST',
                 data: { data: JSON.stringify(editItemData) },
                 success: function (data) {
+                    IsHtmlDoc(data);
                     $('#EditItemByModifiers').html(data);
 
                 },
                 error: function (xhr, status, error) {
-                    console.error(error);
+                    callErrorToaster(error);
                 }
             });
         }
@@ -292,17 +290,17 @@
         var index = editItemData.findIndex(item => item.ModifierGrpId == selectedValue);
 
         if (index != -1) {
-            console.log("if");
             editItemData.splice(index, 1);
             $.ajax({
                 url: '/Menu/EditModifiersByGroup',
                 type: 'POST',
                 data: { data: JSON.stringify(editItemData) },
                 success: function (data) {
+                    IsHtmlDoc(data);
                     $('#EditItemByModifiers').html(data);
                 },
                 error: function (xhr, status, error) {
-                    console.error(error);
+                    callErrorToaster(error);
                 }
             });
         }
@@ -319,7 +317,7 @@
                 $('#EditItemByModifiers').html(data);
             },
             error: function (xhr, status, error) {
-                console.error(error);
+                callErrorToaster(error);
             }
         });
 

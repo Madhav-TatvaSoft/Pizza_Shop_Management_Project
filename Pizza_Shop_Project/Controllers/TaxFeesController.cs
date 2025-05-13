@@ -61,7 +61,7 @@ public class TaxFeesController : Controller
         List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-        bool taxStatus = await _taxFeesService.AddEditTax(taxFeesVM.taxVM, userId);
+        bool taxStatus = await _taxFeesService.SaveTax(taxFeesVM.taxVM, userId);
         return Json(taxStatus
             ? new { success = true, text = taxFeesVM.taxVM.TaxId == 0 ? "Tax Added successfully" : "Tax Updated successfully" }
             : new { success = false, text = $"Failed to {(taxFeesVM.taxVM.TaxId == 0 ? "Add" : "Update")} Tax, Check If already exists!" });

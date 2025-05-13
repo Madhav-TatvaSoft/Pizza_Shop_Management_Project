@@ -52,6 +52,7 @@
 
     var waitingId = 0;
 
+    // Get Customer Details
     function GetCustomerDetails(waitingId) {
         let sectionId = $("#sectionId").val();
         let sectionName = $("#sectionName").val();
@@ -60,11 +61,13 @@
             type: "GET",
             data: { waitingId: waitingId, sectionId: sectionId, sectionName: sectionName },
             success: function (data) {
+                IsHtmlDoc(data);
                 $("#customersDetail").html(data);
             }
         });
     }
 
+    // Check Email Radio
     function CheckEmailRadio(tag) {
 
         var waitingListRadio = document.getElementsByClassName("waitingListOffCanvasRadio");
@@ -80,9 +83,11 @@
         }
     }
 
+    // READY
     $(document).ready(function () {
         GetCustomerDetails(waitingId);
     });
+
 
     $(document).on("change", ".waitingListOffCanvasRadio", function () {
         waitingId = $(this).attr("data-id");

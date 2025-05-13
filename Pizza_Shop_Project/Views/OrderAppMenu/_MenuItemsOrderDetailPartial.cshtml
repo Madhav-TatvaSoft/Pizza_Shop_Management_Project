@@ -113,19 +113,12 @@
                                 <td class="border border-1 border-end-0 border-start-0">
                                     <div class="p-2 border rounded d-flex align-items-center"
                                         style="max-width: fit-content; height: 30px;">
-                                        @* @if (item.status == "Pending")
-                            { *@
+
                                         <div class="me-4 minus" style="cursor: pointer;" onclick="MinusQuantity(this,@count)">-
                                         </div>
                                         <span>@item.Quantity</span>
                                         <div class="ms-4 plus" style="cursor: pointer;" onclick="PlusQuantity(this,@count)">+</div>
-                                        @* }
-                            else
-                            {
-                            <div class="me-4 " style="cursor: pointer;" onclick="PrintToaster()">-</div>
-                            <span>@item.Quantity</span>
-                            <div class="ms-4 " style="cursor: pointer;" onclick="PrintToaster()">+</div>
-                            } *@
+
 
                                     </div>
                                 </td>
@@ -134,14 +127,6 @@
                                 <td class="border border-1 border-start-0 border-end-0">
                                     <div class="d-flex flex-column gap-3 align-items-center mb-3" style="height: 30px;">
                                         <div>₹@item.TotalItemAmount</div>
-
-
-                                        @* @foreach (var modifier in item.modifierOrderVM)
-                            {
-                            <div id="TableMainBodyID-@item.ItemId-@count" class="accordion-collapse collapse ">
-                            ₹@modifier.TotalModifierAmount
-                            </div>
-                            } *@
                                         @if (item.modifierOrderVM.Count() != 0)
                                         {
                                             decimal? total = 0;
@@ -150,7 +135,6 @@
                                                 total += modifier.TotalModifierAmount;
                                             }
                                             <div id="">₹@total</div>
-                                            @* <div id="TableMainBodyID-@item.ItemId-@count">₹@total</div> *@
                                         }
                                     </div>
 
@@ -237,8 +221,8 @@
             <div class="py-4 d-flex flex-wrap justify-content-end gap-3">
                 <button id="OrderSaveBtn" class="btn solid-btn order-OrderSaveBtn" style="width: 180px;"
                     onclick="SaveOrder()">Save</button>
-                <button id="OrderCompleteBtn" class="btn hollow-btn" style="width: 180px;"
-                    onclick="CompleteOrder()">Complete</button>
+                <button id="OrderCompleteBtn" class="btn hollow-btn" style="width: 180px;" data-bs-toggle="modal"
+                    data-bs-target="#CompleteOrderModal">Complete</button>
                 @if (Model.itemOrderVM == null)
                 {
                     <button id="OrderGenerateInvoiceBtn" class="btn hollow-btn" style="width: 180px;" disabled>Generate
@@ -290,13 +274,6 @@
     </div>
 </div>
 
-@* <!--- Order comment--->
-<div id="orderComment" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-<div class="modal-dialog modal-dialog-centered modal-md">
-@Html.Partial("_OrderCommentPartial", Model);
-</div>
-</div> *@
-
 <!--- comment--->
 <div id="orderComment" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-md">
@@ -307,8 +284,8 @@
             </div>
             <div class="modal-body row">
                 <div class="form-floating  col-12 mb-3">
-                    <textarea class="form-control" id="Comment" cols="33"></textarea>
-                    <label for="Comment"> &nbsp; Comment</label>
+                    <textarea class="form-control" id="orderInstruction" cols="33"></textarea>
+                    <label for="orderInstruction"> &nbsp; Comment</label>
                 </div>
             </div>
             <div class="modal-footer">
@@ -343,7 +320,7 @@
 </div>
 
 <!-- Customer review after complete-->
-<div id="CustomerReviewModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+<div id="CustomerReviewModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs -keyboard="false">
     <div class="modal-dialog-centered modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -397,7 +374,7 @@
     </div>
 </div>
 
-<!-- Cancel Order Conformation -->
+<!-- Cancel Order Confirmation -->
 <div class="modal fade" id="CancelOrderModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -420,13 +397,35 @@
     </div>
 </div>
 
+<!-- Complete Order Confirmation -->
+<div class="modal fade" id="CompleteOrderModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5 fw-bold text-secondary">Complete Conformation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div class="d-flex justify-content-center mb-3"><img
+                        src="../images/toppng.com-warning-icon-2400x2400.png" style="width: 30px;" alt=""></div>
+                <p class="fw-semibold text-secondary text-center mb-3">Are you sure you want to Complete this Order ?
+                </p>
+                <div class="modal-footer mt-3 d-flex justify-content-center">
+                    <button type="submit" class="btn solid-btn" data-bs-dismiss="modal"
+                        onclick="CompleteOrder()">Yes</button>
+                    <button type="button" class="btn hollow-btn" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
 
 <script>
 
     $("#ReviewText").on('keyup', function () {
         comment = $(this).val();
-        console.log(comment, "comment")
         if (comment.length > 0) {
             $("#SaveCustomerReview").removeAttr("disabled");
         } else {

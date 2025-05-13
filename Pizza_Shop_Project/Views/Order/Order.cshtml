@@ -15,7 +15,6 @@
                 <input type="text" class="form-control p-3 h-100 dt-input border" id="searchbtn" placeholder="Search"
                     aria-controls="order-list" />
                 <i class="fa-solid fa-magnifying-glass search-icon-style-order "></i>
-                @* <label>Search</label> *@
             </div>
             <div class="form-floating w-100">
                 <select id="orderStatus" class="form-select p-2">
@@ -154,7 +153,7 @@
                 type: "GET",
                 data: { search, sortColumn, sortDirection, pageNumber: page, pageSize, orderStatus, fromDate, toDate, selectRange },
                 success: function (data) {
-
+                    IsHtmlDoc(data);
                     $("#OrderListBody").html(data);
 
                     currentPage = page;
@@ -206,7 +205,6 @@
                     callSuccessToaster(text);
                 },
                 error: function (xhr, status, error) {
-                    console.error(error);
                     let Text = "Failed to Export Excel"
                     callErrorToaster(Text);
                 }
@@ -225,7 +223,6 @@
             // Sorting Order functionality
             $("#sortable-order").on("click", function () {
                 sortColumn = $(this).data("column");
-                console.log(sortColumn);
                 sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
                 $(this).attr("data-direction", sortDirection);
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
@@ -234,7 +231,6 @@
             // Sorting Date functionality
             $("#sortable-date").on("click", function () {
                 sortColumn = $(this).data("column");
-                console.log(sortColumn);
                 sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
                 $(this).attr("data-direction", sortDirection);
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
@@ -243,7 +239,6 @@
             // Sorting Customer functionality
             $("#sortable-customer").on("click", function () {
                 sortColumn = $(this).data("column");
-                console.log(sortColumn);
                 sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
                 $(this).attr("data-direction", sortDirection);
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
@@ -252,7 +247,6 @@
             // Sorting Amount functionality
             $("#sortable-amount").on("click", function () {
                 sortColumn = $(this).data("column");
-                console.log(sortColumn);
                 sortDirection = $(this).attr("data-direction") === "asc" ? "desc" : "asc";
                 $(this).attr("data-direction", sortDirection);
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
@@ -279,7 +273,6 @@
             // Item Select
             $("#itemselect").on("change", function () {
                 pageSize = $(this).val();
-                console.log("items-" + pageSize);
                 currentPage = 1;
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
             });
@@ -287,7 +280,6 @@
             // Order Status
             $("#orderStatus").on("change", function () {
                 orderStatus = $(this).val();
-                console.log(orderStatus);
                 currentPage = 1;
                 loadTable(currentPage, searchText, sortColumn, sortDirection, pageSize, orderStatus, fromDate, toDate, selectRange);
             });
@@ -327,8 +319,6 @@
             $("#from-order-date").on("change", function () {
                 fromDate = document.getElementById("from-order-date").value;
                 toDate = document.getElementById("to-order-date").value;
-                @* console.log(fromDate)
-                console.log(toDate); *@
                 if (toDate == "") return
                 if (toDate < fromDate) {
                     callErrorToaster("To-date should be greater than From-date. Reset To-date");
@@ -340,8 +330,6 @@
             $("#to-order-date").on("change", function () {
                 fromDate = document.getElementById("from-order-date").value;
                 toDate = document.getElementById("to-order-date").value;
-                @* console.log(fromDate)
-                console.log(toDate); *@
                 if (toDate < fromDate) {
                     callErrorToaster("To-date should be greater than From-date. Reset To-date");
                     document.getElementById("to-order-date").value = "";
@@ -349,7 +337,7 @@
             })
 
             loadTable();
-            // End of Ready
         });
+        // End of Ready
     </script>
 }

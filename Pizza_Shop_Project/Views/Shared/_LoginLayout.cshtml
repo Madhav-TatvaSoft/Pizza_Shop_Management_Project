@@ -73,11 +73,11 @@
                 window.location.href = '@Url.Action("Dashboard", "User")';
             }
             else if (title === "InternalServerError" || title === "Forbidden" || title === "Unauthorized" || title === "NotFound") {
-                var url = `/ErrorPage/${title}`;
+                var url = `/Error/${title}`;
                 window.location.href = url;
             }
             else if (title === "InternalServerError - Pizza_Shop_Project" || title === "Forbidden - Pizza_Shop_Project" || title === "Unauthorized - Pizza_Shop_Project" || title === "NotFound - Pizza_Shop_Project") {
-                var url = `/ErrorPage/${title.split(" ")[0].toString().trim()}`;
+                var url = `/Error/${title.split(" ")[0].toString().trim()}`;
                 window.location.href = url;
             }
             else {

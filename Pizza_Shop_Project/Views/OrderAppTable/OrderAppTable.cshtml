@@ -44,6 +44,7 @@
 
     <script>
 
+        // Displkal Sections
         function DisplaySections() {
             $.ajax({
                 url: "/OrderAppTable/GetAllSectionList",
@@ -54,6 +55,7 @@
             });
         }
 
+        // READY
         $(document).ready(function () {
             DisplaySections();
         });

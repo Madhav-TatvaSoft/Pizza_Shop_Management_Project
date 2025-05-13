@@ -95,6 +95,7 @@ else
                 type: "GET",
                 data: { SectionId: SectionId },
                 success: function (data) {
+                    IsHtmlDoc(data);
                     $(`#TablesToDisplayDiv-${SectionId}`).html(data);
                     $(`#Assign-btn-${SectionId}`).attr("disabled", true);
                 }
@@ -137,11 +138,13 @@ else
             type: "GET",
             data: { sectionid: sectionid, sectionname: sectionname },
             success: function (data) {
+                IsHtmlDoc(data);
                 $("#WaitingListModal-Div").html(data);
             }
         });
     }
 
+    // Open the Filled Canvas
     function OpenFilledCanvas(tag) {
 
         $("#AssignTableButtonOffcanvas").show("offcanvas");
@@ -154,21 +157,10 @@ else
             type: "GET",
             data: { sectionid, sectionName },
             success: function (data) {
+                IsHtmlDoc(data);
                 $("#AssignTableButtonOffcanvas").html(data);
             }
         });
     }
-
-    @* function FillOffcanvasDetails(sectionId) {
-        console.log(sectionId);
-        $.ajax({
-            url: "/OrderAppTable/GetWaitingListAndCustomerDetails",
-            type: "GET",
-            data: { sectionId , sectionName},
-            success: function (data) {
-        $("#AssignTableOffcanvas").html(data);
-        }
-        })
-        } *@
 
 </script>

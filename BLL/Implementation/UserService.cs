@@ -26,95 +26,88 @@ public class UserService : IUserService
 
     public DashboardViewModel GetDashboardDetails(string Range = "", string startDate = "", string endDate = "")
     {
-        try
+
+        DashboardViewModel dashboard = new DashboardViewModel();
+
+        if (Range == "Today")
         {
-            DashboardViewModel dashboard = new DashboardViewModel();
-
-            if (Range == "Today")
-            {
-                startDate = DateTime.Now.ToString("yyyy-MM-dd");
-                endDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
-            }
-            else if (Range == "Last 7 days")
-            {
-                startDate = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd");
-                endDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
-            }
-            else if (Range == "Last 30 days")
-            {
-                startDate = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
-                endDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
-            }
-            else if (Range == "Current Month")
-            {
-                startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).ToString("yyyy-MM-dd");
-                endDate = DateTime.Now.ToString("yyyy-MM-dd");
-            }
-            else if (Range == "Custom Date")
-            {
-                startDate = startDate;
-                endDate = endDate;
-            }
-
-            dashboard.TotalSales = _context.Orders
-                                    .Where(x => !x.Isdelete && x.Status == "Completed" && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
-                                    .Sum(x => x.TotalAmount);
-            dashboard.TotalOrders = _context.Orders
-                                    .Where(x => !x.Isdelete && x.Status == "Completed" && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
-                                    .Count();
-            dashboard.AvgOrderValue = Math.Round(_context.Orders
-                                        .Where(x => !x.Isdelete && x.Status == "Completed" && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
-                                        .AsEnumerable()
-                                        .Select(x => x.TotalAmount)
-                                        .DefaultIfEmpty(0)
-                                        .Average(), 2);
-
-            dashboard.AvgWaitingTime = Math.Round(_context.Waitinglists
-                .Where(w => !w.Isdelete && w.CreatedAt.HasValue && w.AssignedAt.HasValue && w.CreatedAt >= DateTime.Parse(startDate) && w.CreatedAt <= DateTime.Parse(endDate))
-                .AsEnumerable()
-                .Select(w => (w.AssignedAt.Value - w.CreatedAt.Value).TotalMinutes)
-                .DefaultIfEmpty(0)
-                .Average(), 2);
-
-            dashboard.TopSellingItems = _context.Orderdetails.Include(x => x.Item).Where(x => !x.Isdelete && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
-                .GroupBy(x => x.ItemId)
-                .Select(g => new SellingItemViewModel
-                {
-                    ItemId = g.Key,
-                    ItemImage = _context.Items.FirstOrDefault(i => i.ItemId == g.Key).ItemImage,
-                    ItemName = _context.Items.FirstOrDefault(i => i.ItemId == g.Key).ItemName,
-                    ItemCount = g.Count()
-                })
-                .OrderByDescending(x => x.ItemCount)
-                .Take(2)
-                .ToList();
-
-            dashboard.LeastSellingItems = _context.Orderdetails.Include(x => x.Item).Where(x => !x.Isdelete && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
-                .GroupBy(x => x.ItemId)
-                .Select(g => new SellingItemViewModel
-                {
-                    ItemId = g.Key,
-                    ItemImage = _context.Items.FirstOrDefault(i => i.ItemId == g.Key).ItemImage,
-                    ItemName = _context.Items.FirstOrDefault(i => i.ItemId == g.Key).ItemName,
-                    ItemCount = g.Count()
-                })
-                .OrderBy(x => x.ItemCount)
-                .Take(2)
-                .ToList();
-
-            dashboard.WaitingListCount = _context.Waitinglists.Where(x => !x.Isdelete && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate) && !x.Isassign).Count();
-
-            dashboard.NewCustomerCount = _context.Customers
-                .Where(x => !x.Isdelete && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
-                .Count();
-
-            return dashboard;
+            startDate = DateTime.Now.ToString("yyyy-MM-dd");
+            endDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
         }
-        catch (Exception ex)
+        else if (Range == "Last 7 days")
         {
-            Console.WriteLine(ex.Message);
-            return null;
+            startDate = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd");
+            endDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
         }
+        else if (Range == "Last 30 days")
+        {
+            startDate = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
+            endDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+        }
+        else if (Range == "Current Month")
+        {
+            startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).ToString("yyyy-MM-dd");
+            endDate = DateTime.Now.ToString("yyyy-MM-dd");
+        }
+        else if (Range == "Custom Date")
+        {
+            startDate = startDate;
+            endDate = endDate;
+        }
+
+        dashboard.TotalSales = _context.Orders
+                                .Where(x => !x.Isdelete && x.Status == "Completed" && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
+                                .Sum(x => x.TotalAmount);
+        dashboard.TotalOrders = _context.Orders
+                                .Where(x => !x.Isdelete && x.Status == "Completed" && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
+                                .Count();
+        dashboard.AvgOrderValue = Math.Round(_context.Orders
+                                    .Where(x => !x.Isdelete && x.Status == "Completed" && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
+                                    .AsEnumerable()
+                                    .Select(x => x.TotalAmount)
+                                    .DefaultIfEmpty(0)
+                                    .Average(), 2);
+
+        dashboard.AvgWaitingTime = Math.Round(_context.Waitinglists
+            .Where(w => !w.Isdelete && w.CreatedAt.HasValue && w.AssignedAt.HasValue && w.CreatedAt >= DateTime.Parse(startDate) && w.CreatedAt <= DateTime.Parse(endDate))
+            .AsEnumerable()
+            .Select(w => (w.AssignedAt.Value - w.CreatedAt.Value).TotalMinutes)
+            .DefaultIfEmpty(0)
+            .Average(), 2);
+
+        dashboard.TopSellingItems = _context.Orderdetails.Include(x => x.Item).Where(x => !x.Isdelete && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
+            .GroupBy(x => x.ItemId)
+            .Select(g => new SellingItemViewModel
+            {
+                ItemId = g.Key,
+                ItemImage = _context.Items.FirstOrDefault(i => i.ItemId == g.Key).ItemImage,
+                ItemName = _context.Items.FirstOrDefault(i => i.ItemId == g.Key).ItemName,
+                ItemCount = g.Count()
+            })
+            .OrderByDescending(x => x.ItemCount)
+            .Take(2)
+            .ToList();
+
+        dashboard.LeastSellingItems = _context.Orderdetails.Include(x => x.Item).Where(x => !x.Isdelete && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
+            .GroupBy(x => x.ItemId)
+            .Select(g => new SellingItemViewModel
+            {
+                ItemId = g.Key,
+                ItemImage = _context.Items.FirstOrDefault(i => i.ItemId == g.Key).ItemImage,
+                ItemName = _context.Items.FirstOrDefault(i => i.ItemId == g.Key).ItemName,
+                ItemCount = g.Count()
+            })
+            .OrderBy(x => x.ItemCount)
+            .Take(2)
+            .ToList();
+
+        dashboard.WaitingListCount = _context.Waitinglists.Where(x => !x.Isdelete && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate) && !x.Isassign).Count();
+
+        dashboard.NewCustomerCount = _context.Customers
+            .Where(x => !x.Isdelete && x.CreatedAt >= DateTime.Parse(startDate) && x.CreatedAt <= DateTime.Parse(endDate))
+            .Count();
+
+        return dashboard;
     }
 
     public (List<decimal?>, List<int>) GetRevenueAndCustomer(string Range, string startDate, string endDate)
@@ -211,7 +204,6 @@ public class UserService : IUserService
     {
         return _context.States.Where(x => x.CountryId == countryId).ToList();
     }
-    
 
     public List<City> GetCity(long? stateId)
     {
@@ -247,39 +239,63 @@ public class UserService : IUserService
 
     public bool UpdateUserProfile(AddUserViewModel user, string Email)
     {
-
-        User userdetails = _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email);
-        userdetails.FirstName = user.FirstName;
-        userdetails.LastName = user.LastName;
-        userdetails.Username = user.Username;
-        userdetails.Address = user.Address;
-        if (user.Image != null)
+        using (var transaction = _context.Database.BeginTransaction())
         {
-            userdetails.ProfileImage = user.Image;
-        }
-        userdetails.Phone = user.Phone;
-        userdetails.Zipcode = user.Zipcode;
-        userdetails.CountryId = user.CountryId;
-        userdetails.StateId = user.StateId;
-        userdetails.CityId = user.CityId;
+            try
+            {
+                User userdetails = _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email);
+                userdetails.FirstName = user.FirstName;
+                userdetails.LastName = user.LastName;
+                userdetails.Username = user.Username;
+                userdetails.Address = user.Address;
+                if (user.Image != null)
+                {
+                    userdetails.ProfileImage = user.Image;
+                }
+                userdetails.Phone = user.Phone;
+                userdetails.Zipcode = user.Zipcode;
+                userdetails.CountryId = user.CountryId;
+                userdetails.StateId = user.StateId;
+                userdetails.CityId = user.CityId;
 
-        _context.Update(userdetails);
-        _context.SaveChanges();
-        return true;
+                _context.Update(userdetails);
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
     }
+
     #endregion
 
     public bool UserChangePassword(ChangePasswordViewModel changepassword, string Email)
     {
-        UserLogin? userdetails = _context.UserLogins.FirstOrDefault(x => x.Email == Email);
-        if (userdetails.Password == changepassword.CurrentPassword)
+        using (var transaction = _context.Database.BeginTransaction())
         {
-            userdetails.Password = changepassword.NewPassword;
-            _context.Update(userdetails);
-            _context.SaveChanges();
-            return true;
+            try
+            {
+                UserLogin? userdetails = _context.UserLogins.FirstOrDefault(x => x.Email == Email);
+                if (userdetails.Password == changepassword.CurrentPassword)
+                {
+                    userdetails.Password = changepassword.NewPassword;
+                    _context.Update(userdetails);
+                    _context.SaveChanges();
+                    transaction.Commit();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
-        return false;
     }
 
     public PaginationViewModel<User> GetUserList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5)
@@ -330,37 +346,49 @@ public class UserService : IUserService
     #region User CRUD
     public async Task<bool> AddUser(AddUserViewModel adduser, String Email)
     {
-        if (_context.UserLogins.Any(x => x.Email == adduser.Email))
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            return false;
+            try
+            {
+                if (_context.UserLogins.Any(x => x.Email == adduser.Email))
+                {
+                    return false;
+                }
+
+                UserLogin userlogin = new UserLogin();
+                userlogin.Email = adduser.Email;
+                userlogin.Password = _userLoginService.EncryptPassword(adduser.Password);
+                userlogin.RoleId = adduser.RoleId;
+
+                await _context.AddAsync(userlogin);
+                await _context.SaveChangesAsync();
+
+                User user = new User();
+                user.UserloginId = userlogin.UserloginId;
+                user.FirstName = adduser.FirstName;
+                user.LastName = adduser.LastName;
+                user.Phone = adduser.Phone;
+                user.Username = adduser.Username;
+                user.ProfileImage = adduser.Image;
+                // user.Status = userVM.Status;
+                user.CountryId = adduser.CountryId;
+                user.StateId = adduser.StateId;
+                user.CityId = adduser.CityId;
+                user.Address = adduser.Address;
+                user.Zipcode = adduser.Zipcode;
+
+                await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
-
-        UserLogin userlogin = new UserLogin();
-        userlogin.Email = adduser.Email;
-        userlogin.Password = _userLoginService.EncryptPassword(adduser.Password);
-        userlogin.RoleId = adduser.RoleId;
-
-        await _context.AddAsync(userlogin);
-        await _context.SaveChangesAsync();
-
-        User user = new User();
-        user.UserloginId = userlogin.UserloginId;
-        user.FirstName = adduser.FirstName;
-        user.LastName = adduser.LastName;
-        user.Phone = adduser.Phone;
-        user.Username = adduser.Username;
-        user.ProfileImage = adduser.Image;
-        // user.Status = userVM.Status;
-        user.CountryId = adduser.CountryId;
-        user.StateId = adduser.StateId;
-        user.CityId = adduser.CityId;
-        user.Address = adduser.Address;
-        user.Zipcode = adduser.Zipcode;
-
-        await _context.Users.AddAsync(user);
-        await _context.SaveChangesAsync();
-
-        return true;
     }
 
     public async Task<bool> SendEmail(string Password, string Username, string Email)
@@ -424,45 +452,69 @@ public class UserService : IUserService
         return data;
     }
 
-
     public async Task<bool> EditUser(AddUserViewModel user, string Email)
     {
-        User? userdetails = _context.Users.Include(x => x.Userlogin).FirstOrDefault(x => x.Userlogin.Email == Email);
-        userdetails.FirstName = user.FirstName;
-        userdetails.LastName = user.LastName;
-        userdetails.Username = user.Username;
-        if (userdetails.ProfileImage == null)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            userdetails.ProfileImage = user.Image;
-        }
-        userdetails.Address = user.Address;
-        userdetails.Phone = user.Phone;
-        userdetails.Zipcode = user.Zipcode;
-        userdetails.CountryId = user.CountryId;
-        userdetails.StateId = user.StateId;
-        userdetails.CityId = user.CityId;
-        userdetails.Userlogin.RoleId = user.RoleId;
-        userdetails.Status = user.Status;
+            try
+            {
+                User? userdetails = _context.Users.Include(x => x.Userlogin).FirstOrDefault(x => x.Userlogin.Email == Email);
+                userdetails.FirstName = user.FirstName;
+                userdetails.LastName = user.LastName;
+                userdetails.Username = user.Username;
+                if (userdetails.ProfileImage == null)
+                {
+                    userdetails.ProfileImage = user.Image;
+                }
+                userdetails.Address = user.Address;
+                userdetails.Phone = user.Phone;
+                userdetails.Zipcode = user.Zipcode;
+                userdetails.CountryId = user.CountryId;
+                userdetails.StateId = user.StateId;
+                userdetails.CityId = user.CityId;
+                userdetails.Userlogin.RoleId = user.RoleId;
+                userdetails.Status = user.Status;
 
-        _context.Update(userdetails);
-        await _context.SaveChangesAsync();
-        return true;
+                _context.Update(userdetails);
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
     }
 
     public async Task<bool> DeleteUser(string Email)
     {
-        UserLogin? userlogin = _context.UserLogins.FirstOrDefault(x => x.Email == Email);
-        User? user = _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email);
+        using (var transaction = await _context.Database.BeginTransactionAsync())
+        {
+            try
+            {
+                UserLogin? userlogin = _context.UserLogins.FirstOrDefault(x => x.Email == Email);
+                User? user = _context.Users.FirstOrDefault(x => x.Userlogin.Email == Email);
 
-        userlogin.Isdelete = true;
-        _context.Update(userlogin);
+                userlogin.Isdelete = true;
+                _context.Update(userlogin);
 
-        user.Isdelete = true;
-        _context.Update(user);
+                user.Isdelete = true;
+                _context.Update(user);
 
-        await _context.SaveChangesAsync();
-        return true;
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
     }
+    
     #endregion
 
     public async Task<bool> IsUserNameExists(string Username)

@@ -10,7 +10,7 @@ public interface ITaxFeesService
     TaxViewModel GetTaxById(long taxid);
     // Task<bool> AddTax(TaxViewModel taxVM , long userId);
     // Task<bool> EditTax(TaxViewModel taxVM , long userId);
-    Task<bool> AddEditTax(TaxViewModel taxVM, long userId);
+    Task<bool> SaveTax(TaxViewModel taxVM, long userId);
     Task<bool> DeleteTax(long taxid);
 
 }

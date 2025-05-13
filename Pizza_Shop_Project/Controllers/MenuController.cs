@@ -130,7 +130,7 @@ namespace Pizza_Shop_Project.Controllers
                 return RedirectToAction("Menu", "Menu");
             }
 
-            if (await _categoryService.Delete(Cat_Id,userId))
+            if (await _categoryService.Delete(Cat_Id, userId))
             {
                 TempData["SuccessMessage"] = NotificationMessage.EntityDeleted.Replace("{0}", "Category");
                 return RedirectToAction("Menu", "Menu");
@@ -192,7 +192,7 @@ namespace Pizza_Shop_Project.Controllers
         [HttpPost]
         public async Task<IActionResult> AddItem([FromForm] MenuViewModel MenuVm)
         {
-            bool IsItemNameExists = _itemService.IsItemExistForAdd(MenuVm.addItems);
+            bool IsItemNameExists = _itemService.IsItemExist(MenuVm.addItems);
             if (IsItemNameExists)
             {
                 return Json(new { success = false, text = NotificationMessage.AlreadyExists.Replace("{0}", "Item") });
@@ -285,7 +285,7 @@ namespace Pizza_Shop_Project.Controllers
         [HttpPost]
         public async Task<IActionResult> EditItem([FromForm] MenuViewModel MenuVm)
         {
-            bool IsItemNameExists = _itemService.IsItemExistForEdit(MenuVm.addItems);
+            bool IsItemNameExists = _itemService.IsItemExist(MenuVm.addItems);
             if (IsItemNameExists)
             {
                 return Json(new { success = false, text = NotificationMessage.AlreadyExists.Replace("{0}", "Item") });
@@ -335,6 +335,11 @@ namespace Pizza_Shop_Project.Controllers
         [PermissionAuthorize("Menu.Delete")]
         public async Task<IActionResult> DeleteItem(long itemid)
         {
+            string token = Request.Cookies["AuthToken"];
+            List<User>? userData = _userService.getUserFromEmail(token);
+            long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
+
+
             if (itemid == null)
             {
                 TempData["ErrorMessage"] = NotificationMessage.DoesNotExists.Replace("{0}", "Item");
@@ -343,7 +348,7 @@ namespace Pizza_Shop_Project.Controllers
             else
             {
 
-                if (await _itemService.DeleteItem(itemid))
+                if (await _itemService.DeleteItem(itemid,userId))
                 {
                     TempData["SuccessMessage"] = NotificationMessage.EntityDeleted.Replace("{0}", "Item");
                     return RedirectToAction("Menu", "Menu");
@@ -405,7 +410,7 @@ namespace Pizza_Shop_Project.Controllers
         [HttpPost]
         public async Task<IActionResult> AddModifierGroup(MenuViewModel MenuVM)
         {
-            bool IsModifierGrpExists = _modifierGroupService.IsModifierGroupExistForAdd(MenuVM.addModifierGroupVM);
+            bool IsModifierGrpExists = _modifierGroupService.IsModifierGroupExist(MenuVM.addModifierGroupVM);
 
             if (IsModifierGrpExists)
             {
@@ -464,7 +469,7 @@ namespace Pizza_Shop_Project.Controllers
         [HttpPost]
         public async Task<IActionResult> EditModifierGroup(MenuViewModel MenuVM)
         {
-            bool IsModifierGrpExists = _modifierGroupService.IsModifierGroupExistForEdit(MenuVM.addModifierGroupVM);
+            bool IsModifierGrpExists = _modifierGroupService.IsModifierGroupExist(MenuVM.addModifierGroupVM);
 
             if (IsModifierGrpExists)
             {
@@ -526,7 +531,7 @@ namespace Pizza_Shop_Project.Controllers
         [HttpPost]
         public async Task<IActionResult> AddModifierItem([FromForm] MenuViewModel MenuVm)
         {
-            bool IsModifierNameExists = _modifierItemService.IsModifierExistForAdd(MenuVm.addModifier);
+            bool IsModifierNameExists = _modifierItemService.IsModifierExist(MenuVm.addModifier);
 
             if (IsModifierNameExists)
             {
@@ -558,7 +563,7 @@ namespace Pizza_Shop_Project.Controllers
         [HttpPost]
         public async Task<IActionResult> EditModifierItem([FromForm] MenuViewModel MenuVm)
         {
-            bool IsModifierNameExists = _modifierItemService.IsModifierExistForEdit(MenuVm.addModifier);
+            bool IsModifierNameExists = _modifierItemService.IsModifierExist(MenuVm.addModifier);
             if (IsModifierNameExists)
             {
                 return Json(new { success = false, text = NotificationMessage.AlreadyExists.Replace("{0}", "Modifier") });

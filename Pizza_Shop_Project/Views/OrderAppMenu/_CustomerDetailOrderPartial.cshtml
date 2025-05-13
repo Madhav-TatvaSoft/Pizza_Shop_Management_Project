@@ -71,7 +71,6 @@
                 processData: false,
                 data: formData,
                 success: function (response) {
-                    console.log(response, "response");
                     if (response.success) {
                         $('#customerId').val(response.customerId);
                         callSuccessToaster(response.text);
