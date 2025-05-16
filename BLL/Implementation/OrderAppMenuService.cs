@@ -644,7 +644,6 @@ public class OrderAppMenuService : IOrderAppMenuService
 
                 order.TotalAmount = orderDetailsVM.TotalAmountOrder;
                 order.ExtraInstruction = orderDetailsVM.OrderInstruction;
-                // order.RatingId = orderDetailsVM.RatingId;
                 order.PaymentmethodId = orderDetailsVM.PaymentmethodId;
                 order.Status = "Completed";
                 order.PaymentStatusId = 2;

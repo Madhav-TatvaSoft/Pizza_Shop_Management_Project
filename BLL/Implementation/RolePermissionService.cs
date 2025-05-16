@@ -48,6 +48,7 @@ public class RolePermissionService : IRolePermission
         }
 
     }
+    
     #endregion
 
     #region Get
@@ -72,6 +73,7 @@ public class RolePermissionService : IRolePermission
         }
         return permissions;
     }
+    
     #endregion
 
 }

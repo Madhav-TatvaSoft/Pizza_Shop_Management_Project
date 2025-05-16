@@ -186,7 +186,6 @@ public class OrderAppTableService : IOrderAppTableService
         {
             try
             {
-
                 JsonArray? tableIds = JsonSerializer.Deserialize<JsonArray>(TableMainVM.TableIds);
                 List<int>? tableIdList = tableIds.Select(id => int.Parse(id.GetValue<string>())).ToList();
                 Waitinglist? waitinglist = await _context.Waitinglists.Include(x => x.Customer).FirstOrDefaultAsync(x => x.WaitingId == TableMainVM.waitingTokenDetailViewModel.WaitingId && !x.Isdelete && !x.Isassign);
@@ -200,7 +199,7 @@ public class OrderAppTableService : IOrderAppTableService
                     _context.Waitinglists.Update(waitinglist);
                 }
 
-                var tables = _context.Tables.Where(t => tableIdList.Contains((int)t.TableId) && !t.Isdelete && t.Status == "Available").ToList();
+                List<Table>? tables = _context.Tables.Where(t => tableIdList.Contains((int)t.TableId) && !t.Isdelete && t.Status == "Available").ToList();
 
 
                 if (tables != null)

@@ -135,14 +135,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddAuthorization();
 
-// app.Use(async (context, next) =>
-// {
-//     context.Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
-//     context.Response.Headers.Add("Pragma", "no-cache");
-//     context.Response.Headers.Add("Expires", "0");
 
-//     await next();
-// });
 
 
 builder.Services.AddSession(
@@ -181,6 +174,15 @@ app.UseAuthorization();
 app.UseStatusCodePagesWithReExecute("/Error/HandleError/{0}");
 
 app.UseSession();
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+    context.Response.Headers.Add("Pragma", "no-cache");
+    context.Response.Headers.Add("Expires", "0");
+
+    await next();
+});
 
 app.MapControllerRoute(
     name: "default",

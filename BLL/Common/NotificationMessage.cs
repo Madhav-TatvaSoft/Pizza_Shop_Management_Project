@@ -2,6 +2,7 @@ namespace BLL.common;
 
 public class NotificationMessage
 {
+    // Success Messages
     public const string InvalidCredentials = "Invalid credentials. Please try again.";
     public const string LoginSuccess = "Logged In Successfully.";
     public const string LogoutSuccess = "Logged Out successfully .";
@@ -24,5 +25,4 @@ public class NotificationMessage
     public const string PasswordChangeFailed = "Failed to change the password. Please try again.";
     public const string ImageFormat = "The Image format is not supported.";
     public const string AlreadyExists = "{0} Already Exists!";
-    // public const string InvalidModelState = "Model State Is Invalid!";
 }

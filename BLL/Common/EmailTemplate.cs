@@ -2,12 +2,6 @@ namespace BLL.common;
 
 public class EmailTemplate
 {
-    // private static string EmailHeader = $@"<div style='max-width: 500px; font-family: Arial, sans-serif; border: 1px solid #ddd;'>
-    //             <div style='background: #006CAC; padding: 10px; text-align: center; height:90px; max-width:100%; display: flex; justify-content: center; align-items: center;'>
-    //                 <img src='https://images.vexels.com/media/users/3/128437/isolated/preview/2dd809b7c15968cb7cc577b2cb49c84f-pizza-food-restaurant-logo.png' style='max-width: 50px;' />
-    //                 <span style='color: #fff; font-size: 24px; margin-left: 10px; font-weight: 600;'>PIZZASHOP</span>
-    //             </div>"; 
-
     // Template for Sending the Reset Password Email
     public static string ResetPasswordEmail(string resetLink)
     {

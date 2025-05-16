@@ -316,7 +316,6 @@ public class ModifierGroupService : IModifierGroupService
                     return false;
                 }
 
-                modifierGroupToDelete.ModifierGrpName = modifierGroupToDelete.ModifierGrpName + DateTime.Now;
                 modifierGroupToDelete.Isdelete = true;
                 modifierGroupToDelete.ModifiedAt = DateTime.Now;
                 _context.Update(modifierGroupToDelete);
@@ -347,6 +346,7 @@ public class ModifierGroupService : IModifierGroupService
             return _context.Modifiergroups.Any(x => x.ModifierGrpId != modifierGrpVM.ModifierGrpId && x.ModifierGrpName.ToLower().Trim() == modifierGrpVM.ModifierGrpName.ToLower().Trim() && !x.Isdelete);
         }
     }
+    
     #endregion
 
 }

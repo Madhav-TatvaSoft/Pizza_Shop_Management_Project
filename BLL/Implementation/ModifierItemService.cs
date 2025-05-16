@@ -76,11 +76,6 @@ public class ModifierItemService : IModifierItemService
                 }
                 else
                 {
-                    // var existingModifier = await _context.Modifiers.FirstOrDefaultAsync(x => x.ModifierName == editModifierVM.ModifierName && x.Isdelete == false);
-                    // if (existingModifier != null)
-                    // {
-                    //     return false;
-                    // }
                     Modifier? modifier = _context.Modifiers.FirstOrDefault(x => x.ModifierId == editModifierVM.ModifierId && x.Isdelete == false);
                     modifier.ModifierGrpId = editModifierVM.ModifierGrpId;
                     modifier.ModifierName = editModifierVM.ModifierName;

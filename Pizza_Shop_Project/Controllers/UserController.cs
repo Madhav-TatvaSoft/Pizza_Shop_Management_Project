@@ -187,7 +187,7 @@ namespace Pizza_Shop_Project.Controllers
             Response.Cookies.Delete("email");
             Response.Cookies.Delete("profileImage");
             Response.Cookies.Delete("username");
-            Response.Headers["Clear-Site-Data"] = "\"cache\", \"cookies\", \"storage\"";
+            // Response.Headers["Clear-Site-Data"] = "\"cache\", \"cookies\", \"storage\"";
             TempData["SuccessMessage"] = NotificationMessage.LogoutSuccess;
             return RedirectToAction("VerifyUserLogin", "UserLogin");
         }

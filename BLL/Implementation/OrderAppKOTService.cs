@@ -28,8 +28,6 @@ public class OrderAppKOTService : IOrderAppKOTService
             .Include(x => x.Section)
             .Where(x => !x.Isdelete && x.Status != "Completed" && x.Status != "Cancelled").OrderByDescending(x => x.OrderId);
 
-        // && (x.OrderDate.Date > DateTime.Now.Date.AddDays(-6)) && (x.OrderDate.Date < DateTime.Now.Date)
-
         // IQueryable<Order> query2 = from o in _context.Orders.Where(x => !x.Isdelete)
         //                             join od in _context.Orderdetails.Where(x => !x.Isdelete) on o.OrderId equals od.OrderId
         //                             join i in _context.Items.Where(x => !x.Isdelete) on od.ItemId equals i.ItemId
@@ -181,6 +179,7 @@ public class OrderAppKOTService : IOrderAppKOTService
         }
 
     }
+    
     #endregion
 
 }

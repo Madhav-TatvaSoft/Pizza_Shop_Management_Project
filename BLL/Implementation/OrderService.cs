@@ -122,6 +122,7 @@ public class OrderService : IOrderService
 
         return new PaginationViewModel<OrdersViewModel>(items, totalCount, pageNumber, pageSize);
     }
+    
     #endregion
 
     #region Export Order Data To Excel
@@ -389,14 +390,12 @@ public class OrderService : IOrderService
 
                 using (var rowCells = worksheet.Cells[row, 2, row, startCol + 1])
                 {
-                    // Apply alternating row colors (light gray for better readability)
                     if (row % 2 == 0)
                     {
                         rowCells.Style.Fill.PatternType = ExcelFillStyle.Solid;
                         rowCells.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
                     }
 
-                    // Apply black borders to each row
                     rowCells.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
 
 
@@ -482,20 +481,6 @@ public class OrderService : IOrderService
             orderDetailVM.SubTotalAmountOrder = Math.Round((decimal)orderDetailVM.itemOrderVM
             .Sum(x => x.TotalItemAmount + x.modifierOrderVM.Sum(x => x.TotalModifierAmount)), 2);
         }
-        // orderDetailVM.SubTotalAmountOrder = Math.Round(orderDetailVM.itemOrderVM.Sum(x => x.TotalItemAmount + x.modifierOrderVM.Sum(x => x.TotalModifierAmount)), 2);
-
-        // Taxes Details
-        // List<Tax> taxes = _context.Taxes.Where(x => x.Isdelete == false).ToList();
-        // Invoice invoices = _context.Invoices.FirstOrDefault(x => x.Isdelete == false && x.OrderId == orderid);
-
-        // for (int i = 1; i < taxes.Count; i++)
-        // {
-        //     TaxInvoiceMapping fillTax = new TaxInvoiceMapping();
-        //     fillTax.TaxId = taxes[i].TaxId;
-        //     fillTax.InvoiceId = invoices.InvoiceId;
-        //     _context.Add(fillTax);
-        //     await _context.SaveChangesAsync();
-        // }
 
         List<TaxInvoiceMapping>? taxdetails = _context.TaxInvoiceMappings.Include(x => x.Invoice).Include(x => x.Tax).Where(x => x.Invoice.OrderId == orderid).ToList();
 
@@ -544,11 +529,7 @@ public class OrderService : IOrderService
             orderDetailVM.TotalAmountOrder = orderDetailVM.SubTotalAmountOrder + orderDetailVM.taxInvoiceVM.Sum(x => x.TaxValue);
         }
 
-        // orderDetailVM.TotalAmountOrder = orderDetailVM.SubTotalAmountOrder + orderDetailVM.taxInvoiceVM.Sum(x => x.TaxValue);
-
         return orderDetailVM;
-
-
     }
 
     #endregion
