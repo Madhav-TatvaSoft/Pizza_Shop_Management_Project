@@ -165,7 +165,7 @@ public class OrderAppMenuController : Controller
         }
         else
         {
-            return Json(new { success = false, text = "Items are not ready yet !" });
+            return Json(new { success = false, text = "All Items are not ready yet !" });
         }
     }
 
@@ -195,7 +195,7 @@ public class OrderAppMenuController : Controller
         bool IsAnyItemReady = await _orderAppMenuService.IsAnyItemReady(orderDetailVM);
         if (IsAnyItemReady)
         {
-            return Json(new { success = false, text = "Items are ready to be served. Cannot cancel the order." });
+            return Json(new { success = false, text = "Sorry Some Items are ready to be served." });
         }
         else
         {

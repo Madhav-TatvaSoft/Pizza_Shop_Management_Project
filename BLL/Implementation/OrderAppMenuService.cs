@@ -710,8 +710,6 @@ public class OrderAppMenuService : IOrderAppMenuService
                 throw;
             }
         }
-
-
     }
 
     public async Task<bool> SaveRatings(OrderDetailViewModel orderDetailVM, long userId)
@@ -751,7 +749,6 @@ public class OrderAppMenuService : IOrderAppMenuService
                     return true;
                 }
                 await transaction.RollbackAsync();
-
                 return false;
             }
             catch

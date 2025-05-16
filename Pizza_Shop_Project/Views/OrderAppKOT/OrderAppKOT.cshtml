@@ -68,7 +68,7 @@
                 data: { catid, filter, page, pageSize },
                 success: function (data) {
                     IsHtmlDoc(data);
-                    Is
+                    
                     data += `<input type="hidden" id="KOTCategoryID" value="${catid}">
                                                                             <input type="hidden" id="KOTStatus" value="${filter}">`
                     $("#KOT-Card-Items").html(data);
