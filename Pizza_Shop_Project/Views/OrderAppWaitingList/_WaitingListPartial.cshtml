@@ -21,10 +21,10 @@ else
             <td class="text-nowrap ">@item.Email</td>
             <td class="text-center text-nowrap">
                 <i class="fa-solid fa-pen me-2 mt-2 Waiting_Token_id" data-bs-toggle="modal"
-                    data-bs-target="#AddEditWaitingTokenModal" data-id="@item.WaitingId"></i>
+                    data-bs-target="#AddEditWaitingTokenModal" data-id="@item.WaitingId" style="cursor: pointer;"></i>
                 <i class="fa-solid fa-trash-can me-2" data-bs-toggle="modal" data-bs-target="#DeleteWaitingTokenModal"
-                    data-id="@item.WaitingId" onclick="GetIdForDeleteToken(this)"></i>
-                <i class="fa-solid fa-user-plus AssignTableModal" data-bs-toggle="modal" data-bs-target="#AssignTableModal" data-cusid="@item.CustomerId" data-person="@item.NoOfPerson" data-secid="@item.SectionId" data-secname="@item.SectionName" data-id="@item.WaitingId"></i>
+                    data-id="@item.WaitingId" onclick="GetIdForDeleteToken(this)" style="cursor: pointer;"></i>
+                <i class="fa-solid fa-user-plus AssignTableModal" data-bs-toggle="modal" data-bs-target="#AssignTableModal" data-cusid="@item.CustomerId" data-person="@item.NoOfPerson" data-secid="@item.SectionId" data-secname="@item.SectionName" data-id="@item.WaitingId" style="cursor: pointer;"></i>
             </td>
         </tr>
     }

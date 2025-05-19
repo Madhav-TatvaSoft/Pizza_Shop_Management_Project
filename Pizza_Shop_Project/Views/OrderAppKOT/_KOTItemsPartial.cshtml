@@ -94,107 +94,107 @@
 </div>
 <!----------------------------------------------End of Modal-------------------------------------------------->
 
-<script>
+    <script>
 
-    var id = [];
-    var quantity = [];
+        var id = [];
+        var quantity = [];
 
-    // Ajax for Opening the Modal data.
-    $(".KOTItemsCardClass").on('click', function (event) {
+        // Ajax for Opening the Modal data.
+        $(".KOTItemsCardClass").on('click', function (event) {
 
-        $("#KOTStatusModal").modal("show");
+            $("#KOTStatusModal").modal("show");
 
-        var catid = document.getElementById("KOTCategoryID").value;
-        var filter = document.getElementById("KOTStatus").value;
+            var catid = document.getElementById("KOTCategoryID").value;
+            var filter = document.getElementById("KOTStatus").value;
 
-        var orderid = $(this).data("id");
+            var orderid = $(this).data("id");
 
-        document.getElementById("ModalOrderID").innerHTML = orderid;
+            document.getElementById("ModalOrderID").innerHTML = orderid;
 
-        if (filter == "In_Progress") {
-            document.getElementById("SaveButtonText").innerHTML = "Mark as Ready";
-        }
-        else {
-            document.getElementById("SaveButtonText").innerHTML = "Mark as Progress";
-        }
-
-        $.ajax({
-            url: "/OrderAppKOT/GetKOTItemsFromModal",
-            type: "GET",
-            data: { catid: catid, filter: filter, orderid: orderid },
-            success: function (data) {
-                IsHtmlDoc(data);
-                $("#StatusUpdateModalTable").html(data);
+            if (filter == "In_Progress") {
+                document.getElementById("SaveButtonText").innerHTML = "Mark as Ready";
             }
+            else {
+                document.getElementById("SaveButtonText").innerHTML = "Mark as Progress";
+            }
+
+            $.ajax({
+                url: "/OrderAppKOT/GetKOTItemsFromModal",
+                type: "GET",
+                data: { catid: catid, filter: filter, orderid: orderid },
+                success: function (data) {
+                    IsHtmlDoc(data);
+                    $("#StatusUpdateModalTable").html(data);
+                }
+            });
         });
-    });
 
-    // Time Display
-    function orderTimeDisplay() {
+        // Time Display
+        function orderTimeDisplay() {
 
-        var orderdateclass = document.getElementsByClassName("orderTimeDisplay");
+            var orderdateclass = document.getElementsByClassName("orderTimeDisplay");
 
-        for (i = 0; i < orderdateclass.length; i++) {
-            var currentDate = Date.now();
-            var orderDate = orderdateclass[i].parentElement.children[1].innerHTML.trim();
-            var DateOnly = orderDate.split(" ");
-            var orderDay = DateOnly[0].split("-")[0];
-            var orderMonth = DateOnly[0].split("-")[1];
-            var orderYear = DateOnly[0].split("-")[2];
-            var orderDateFormated = orderYear + "-" + orderMonth + "-" + orderDay + "T" + DateOnly[1];
-            var orderDateToCal = new Date(orderDateFormated);
-            var timeDiff = currentDate - orderDateToCal;
+            for (i = 0; i < orderdateclass.length; i++) {
+                var currentDate = Date.now();
+                var orderDate = orderdateclass[i].parentElement.children[1].innerHTML.trim();
+                var DateOnly = orderDate.split(" ");
+                var orderDay = DateOnly[0].split("-")[0];
+                var orderMonth = DateOnly[0].split("-")[1];
+                var orderYear = DateOnly[0].split("-")[2];
+                var orderDateFormated = orderYear + "-" + orderMonth + "-" + orderDay + "T" + DateOnly[1];
+                var orderDateToCal = new Date(orderDateFormated);
+                var timeDiff = currentDate - orderDateToCal;
 
-            const timeDiffday = Math.floor(timeDiff / (24 * 60 * 60 * 1000));
-            const daysms = timeDiff % (24 * 60 * 60 * 1000);
-            const timeDiffHours = Math.floor(daysms / (60 * 60 * 1000));
-            const hoursms = timeDiff % (60 * 60 * 1000);
-            const timeDiffMins = Math.floor(hoursms / (60 * 1000));
-            const minutesms = timeDiff % (60 * 1000);
-            const timeDiffSecs = Math.floor(minutesms / 1000);
-            orderdateclass[i].innerHTML = timeDiffday + " days " + timeDiffHours + " hours " + timeDiffMins + " min " + timeDiffSecs + " sec";
-        }
-    }
-
-    var displaytime = window.setInterval(function () {
-        orderTimeDisplay()
-    }, -1000);
-
-    // KOT Status Update
-    $("#SaveButtonText").on("click", function () {
-
-        var filter = document.getElementById("KOTStatus").value;
-
-        var checkboxes = document.getElementsByClassName("ItemStatusModalCBClass");
-
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                id.push(checkboxes[i].parentElement.parentElement.children[2].value);
-                quantity.push(checkboxes[i].parentElement.parentElement.children[1].children[0].children[1].innerText);
+                const timeDiffday = Math.floor(timeDiff / (24 * 60 * 60 * 1000));
+                const daysms = timeDiff % (24 * 60 * 60 * 1000);
+                const timeDiffHours = Math.floor(daysms / (60 * 60 * 1000));
+                const hoursms = timeDiff % (60 * 60 * 1000);
+                const timeDiffMins = Math.floor(hoursms / (60 * 1000));
+                const minutesms = timeDiff % (60 * 1000);
+                const timeDiffSecs = Math.floor(minutesms / 1000);
+                orderdateclass[i].innerHTML = timeDiffday + " days " + timeDiffHours + " hours " + timeDiffMins + " min " + timeDiffSecs + " sec";
             }
         }
 
-        $.ajax({
-            url: "/OrderAppKOT/UpdateKOTStatus",
-            type: "POST",
-            data: { filter, orderDetailId: id, quantity },
-            success: function (data) {
-                if (data.success) {
-                    callSuccessToaster(data.text);
-                }
-                else {
-                    callErrorToaster(data.text);
-                }
-                $(".btn-close").click();
-                if (filter == "In_Progress") {
-                    $("#In_Progress").click();
-                }
-                else {
-                    $("#Ready").click();
-                }
+        var displaytime = window.setInterval(function () {
+            orderTimeDisplay()
+        }, -1000);
 
+        // KOT Status Update
+        $("#SaveButtonText").on("click", function () {
+
+            var filter = document.getElementById("KOTStatus").value;
+
+            var checkboxes = document.getElementsByClassName("ItemStatusModalCBClass");
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    id.push(checkboxes[i].parentElement.parentElement.children[2].value);
+                    quantity.push(checkboxes[i].parentElement.parentElement.children[1].children[0].children[1].innerText);
+                }
             }
-        });
-    })
 
-</script>
+            $.ajax({
+                url: "/OrderAppKOT/UpdateKOTStatus",
+                type: "POST",
+                data: { filter, orderDetailId: id, quantity },
+                success: function (data) {
+                    if (data.success) {
+                        callSuccessToaster(data.text);
+                    }
+                    else {
+                        callErrorToaster(data.text);
+                    }
+                    $(".btn-close").click();
+                    if (filter == "In_Progress") {
+                        $("#In_Progress").click();
+                    }
+                    else {
+                        $("#Ready").click();
+                    }
+
+                }
+            });
+        })
+
+    </script>
