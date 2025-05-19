@@ -36,7 +36,7 @@ public class OrderAppKOTController : Controller
 
     public async Task<IActionResult> GetKOTItemsFromModal(long catid, string filter, long orderid)
     {
-        var KOTVM = await _orderAppKOTService.GetKOTItemsFromModal(catid, filter, orderid);
+        OrderAppKOTViewModel? KOTVM = await _orderAppKOTService.GetKOTItemsFromModal(catid, filter, orderid);
         return PartialView("_KOTModalDataPartial", KOTVM);
     }
 

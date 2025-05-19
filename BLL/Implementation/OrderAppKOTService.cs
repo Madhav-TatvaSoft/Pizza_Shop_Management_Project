@@ -76,7 +76,7 @@ public class OrderAppKOTService : IOrderAppKOTService
 
             int totalCount = data.Count();
 
-            var items = data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            List<OrderAppKOTViewModel>? items = data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             return new PaginationViewModel<OrderAppKOTViewModel>(items, totalCount, page, pageSize);
         }
@@ -84,7 +84,7 @@ public class OrderAppKOTService : IOrderAppKOTService
         {
             query = query.Where(x => !x.Isdelete && x.Orderdetails.Any(od => (od.Item.CategoryId == catid) && !od.Item.Isdelete && ((filter == "Ready") ? (od.ReadyQuantity > 0) : (od.Quantity - od.ReadyQuantity > 0))));
 
-            var data = query
+            List<OrderAppKOTViewModel>? data = query
             .Select(x => new OrderAppKOTViewModel
             {
                 OrderId = x.OrderId,
@@ -116,7 +116,7 @@ public class OrderAppKOTService : IOrderAppKOTService
 
             int totalCount = data.Count();
 
-            var items = data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            List<OrderAppKOTViewModel>? items = data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             return new PaginationViewModel<OrderAppKOTViewModel>(items, totalCount, page, pageSize);
         }

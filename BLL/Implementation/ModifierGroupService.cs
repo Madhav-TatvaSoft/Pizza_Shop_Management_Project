@@ -160,7 +160,7 @@ public class ModifierGroupService : IModifierGroupService
 
     public async Task<Modifiergroup> GetModifierGroupByModifierGroupId(long modgrpid)
     {
-        var modifierGroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpId == modgrpid && !x.Isdelete);
+        Modifiergroup? modifierGroup = await _context.Modifiergroups.FirstOrDefaultAsync(x => x.ModifierGrpId == modgrpid && !x.Isdelete);
 
         if (modifierGroup == null)
         {

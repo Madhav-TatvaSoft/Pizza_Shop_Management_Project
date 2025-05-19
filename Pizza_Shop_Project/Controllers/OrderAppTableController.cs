@@ -64,7 +64,7 @@ public class OrderAppTableController : Controller
             return Json(new List<object>());
         }
 
-        var Emails = _customerService.GetCustomerEmail(searchTerm);
+        List<CustomerViewModel>?  Emails = _customerService.GetCustomerEmail(searchTerm);
 
         return Json(Emails);
     }

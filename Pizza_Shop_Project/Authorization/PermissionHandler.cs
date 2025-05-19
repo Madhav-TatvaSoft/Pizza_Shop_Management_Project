@@ -19,7 +19,7 @@ public class PermissionHandler : AuthorizationHandler<PermissionRequirement>
 
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
     {
-        var httpContext = _httpContextAccessor.HttpContext;
+        HttpContext? httpContext = _httpContextAccessor.HttpContext;
 
         if (httpContext == null)
         {
@@ -27,7 +27,7 @@ public class PermissionHandler : AuthorizationHandler<PermissionRequirement>
             return Task.CompletedTask;
         }
 
-        var cookieSavedToken = httpContext.Request.Cookies["AuthToken"];
+        string? cookieSavedToken = httpContext.Request.Cookies["AuthToken"];
 
         // Check if the token is missing (Unauthenticated user)
         if (string.IsNullOrEmpty(cookieSavedToken))
@@ -40,7 +40,7 @@ public class PermissionHandler : AuthorizationHandler<PermissionRequirement>
             return Task.CompletedTask;
         }
 
-        var roleName = _jWTService.GetClaimValue(cookieSavedToken, "role");
+        string? roleName = _jWTService.GetClaimValue(cookieSavedToken, "role");
 
         // Check if the role is missing (Invalid token)
         if (string.IsNullOrEmpty(roleName))

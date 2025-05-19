@@ -37,7 +37,7 @@ public class CustomerController : Controller
     }
 
     public IActionResult GetCustomerHistory(long customerid){
-        var customerhistory = _customerService.GetCustomerHistory(customerid);
+        CustomerHistoryViewModel? customerhistory = _customerService.GetCustomerHistory(customerid);
         return PartialView("_CustomerHistoryPartial",customerhistory);
     }
 
