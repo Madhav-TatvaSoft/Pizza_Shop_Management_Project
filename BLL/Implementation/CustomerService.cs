@@ -482,6 +482,7 @@ public class CustomerService : ICustomerService
         .Select(c => new CustomerViewModel
         {
             Email = c.Email,
+            CustomerId = c.CustomerId,
             CustomerName = c.CustomerName ?? "",
             PhoneNo = c.PhoneNo
         })

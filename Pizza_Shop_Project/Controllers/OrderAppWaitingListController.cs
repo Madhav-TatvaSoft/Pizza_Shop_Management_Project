@@ -79,9 +79,15 @@ public class OrderAppWaitingListController : Controller
 
 
         bool tokenExists = _orderAppTableService.CheckTokenExists(WaitingVM.WaitingTokenDetailVM);
+        bool AlreadyAssigned = await _orderAppWaitingListService.AlreadyAssigned(WaitingVM.WaitingTokenDetailVM.CustomerId);
+
         if (tokenExists)
         {
             return Json(new { success = false, text = "Token Already Exists!" });
+        }
+        else if (AlreadyAssigned)
+        {
+            return Json(new { success = false, text = "Customer Already Assigned!" });
         }
         else
         {
@@ -102,7 +108,7 @@ public class OrderAppWaitingListController : Controller
             }
             else
             {
-                return Json(new { success = false, text = "Something went wrong, Please try againasdads!" });
+                return Json(new { success = false, text = "Something went wrong, Please try again!" });
             }
         }
 
@@ -115,8 +121,8 @@ public class OrderAppWaitingListController : Controller
         string token = Request.Cookies["AuthToken"];
         List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
-        
-        bool deleteTokenStatus = await _orderAppWaitingListService.DeleteWaitingToken(waitingid,userId);
+
+        bool deleteTokenStatus = await _orderAppWaitingListService.DeleteWaitingToken(waitingid, userId);
         if (deleteTokenStatus)
         {
             return Json(new { success = true, text = NotificationMessage.EntityDeleted.Replace("{0}", "Waiting Token") });
@@ -148,7 +154,7 @@ public class OrderAppWaitingListController : Controller
         }
         return Json(new { success = false, text = "Something Went wrong, Try Again!" });
     }
-    
+
     #endregion
 
 }

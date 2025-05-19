@@ -10,6 +10,7 @@
         <div class="modal-body row">
 
             <input type="hidden" asp-for="@Model.WaitingTokenDetailVM.WaitingId" />
+            <input type="hidden" asp-for="@Model.WaitingTokenDetailVM.CustomerId" id="CustomerId" />
 
             <div class="form-floating col-12 mb-3">
                 <input type="email" class="form-control" id="Email" asp-for="@Model.WaitingTokenDetailVM.Email"
@@ -74,13 +75,13 @@
                 type: "GET",
                 data: { searchTerm: query },
                 success: function (data) {
-
                     $("#emailSuggestions").empty();
 
                     $.each(data, function (index, item) {
                         $("#emailSuggestions").append(
                             `<option value="${item.email}" data-name="${item.customerName}" data-phone="${item.phoneNo}">${item.email} - ${item.customerName} (${item.phoneNo})</option>`
                         );
+                        $("#CustomerId").val(item.customerId);
                     });
 
                 },

@@ -208,4 +208,13 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
 
     }
 
+    public async Task<bool> AlreadyAssigned(long customerid){
+        AssignTable? IsTableAssigned = await _context.AssignTables.FirstOrDefaultAsync(w => w.CustomerId == customerid && !w.Isdelete);
+        if (IsTableAssigned != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
 }
