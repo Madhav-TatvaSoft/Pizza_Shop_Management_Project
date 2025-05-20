@@ -200,19 +200,19 @@
                 <div>Payment Method</div>
                 <div class="d-flex gap-2 justify-content-between align-items-center">
                     <div class="form-check d-flex align-items-center">
-                        <input class="form-check-input payment-type" type="radio" name="payment" value="1"
+                        <input class="form-check-input payment-type" type="radio" name="payment" value="1" id="radioDefault1"
                         @(Model.PaymentmethodId == 1 ? "checked=\"checked\"" : "")>
                         <label class="form-check-label ps-2 pt-1" for="radioDefault1">Cash</label>
                     </div>
                     <div class="form-check d-flex align-items-center">
-                        <input class="form-check-input payment-type" type="radio" name="payment" value="2"
+                        <input class="form-check-input payment-type" type="radio" name="payment" value="2" id="radioDefault2"
                         @(Model.PaymentmethodId == 2 ? "checked=\"checked\"" : "")>
-                        <label class="form-check-label ps-2 pt-1" for="radioDefault1">Card</label>
+                        <label class="form-check-label ps-2 pt-1" for="radioDefault2">Card</label>
                     </div>
                     <div class="form-check d-flex align-items-center">
-                        <input class="form-check-input payment-type" type="radio" name="payment" value="3"
+                        <input class="form-check-input payment-type" type="radio" name="payment" value="3" id="radioDefault3"
                         @(Model.PaymentmethodId == 3 ? "checked=\"checked\"" : "")>
-                        <label class="form-check-label ps-2 pt-1" for="radioDefault1">UPI</label>
+                        <label class="form-check-label ps-2 pt-1" for="radioDefault3">UPI</label>
                     </div>
                 </div>
             </div>

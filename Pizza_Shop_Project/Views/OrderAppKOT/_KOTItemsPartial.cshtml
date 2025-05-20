@@ -1,65 +1,81 @@
 @using DAL.ViewModels
 @model PaginationViewModel<OrderAppKOTViewModel>;
-@foreach (var item in Model.Items)
+
+@if (Model.Items.Count == 0)
 {
-    <div class="KOTItemsCardClass rounded border-2" data-id="@item.OrderId"
-        style="width: 350px; border-style: dotted !important; border-color: rgb(179, 179, 179) !important;">
-        <div class="d-flex p-2" style="background-color: rgb(238, 238, 238);">
-            <div class="user-text fw-bold text-nowrap"># @item.OrderId</div>
-            <div class="text-secondary ms-5 text-nowrap">
-                <i class="fa-regular fa-clock"></i>
-                <span class="d-none">@item.OrderDate</span>
-                <span class="orderTimeDisplay"></span>
+    <div class="text-center text-secondary fs-6">No Items Found</div>
+}
+else
+{
+    @foreach (var order in Model.Items)
+    {
+        <div class="KOTItemsCardClass rounded border-2" data-id="@order.OrderId"
+            style="width: 350px; border-style: dotted !important; border-color: rgb(179, 179, 179) !important;">
+            <div class="d-flex p-2" style="background-color: rgb(238, 238, 238);">
+                <div class="user-text fw-bold text-nowrap"># @order.OrderId</div>
+                <div class="text-secondary ms-5 text-nowrap">
+                    <i class="fa-regular fa-clock"></i>
+                    <span class="d-none">@order.OrderDate</span>
+                    <span class="orderTimeDisplay"></span>
+                </div>
             </div>
-        </div>
-        <div class="d-flex p-2 fw-semibold pt-2 pb-2" style="background-color: rgb(238, 238, 238);">
-            @item.SectionName
-            <li class="ps-3 validate">
-                <!-- Table -->
-                @for (int i = 0; i < item.tableList.Count; i++)
-                {
-                    @item.tableList[i].TableName
-                    if (i < item.tableList.Count - 1)
+            <div class="d-flex p-2 fw-semibold pt-2 pb-2" style="background-color: rgb(238, 238, 238);">
+                @order.SectionName
+                <li class="ps-3 validate">
+                    <!-- Table -->
+                    @for (int i = 0; i < order.tableList.Count; i++)
                     {
-                        <span class="text-secondary">,</span>
+                        @order.tableList[i].TableName
+                        if (i < order.tableList.Count - 1)
+                        {
+                            <span class="text-secondary">,</span>
+                        }
+                    }
+                </li>
+            </div>
+            <div class="text-secondary p-2" style="overflow: auto; height: 150px;">
+
+                @if (order.itemOrderVM != null)
+                {
+                    <!-- Item -->
+                    @foreach (var itemList in order.itemOrderVM)
+                    {
+                        <div class="pb-4">
+                            <div class="d-flex justify-content-between">
+                                <div class="text-black">@itemList.ItemName</div>
+                                <div class="text-dark ps-3">@itemList.Quantity</div>
+                            </div>
+                            <div>
+                                @if (itemList.modifierOrderVM != null)
+                                {
+                                    <!-- Modifier -->
+                                    @foreach (var modifier in itemList.modifierOrderVM)
+                                    {
+                                        <li class="ps-2 pt-2 validate">@modifier.ModifierName</li>
+                                    }
+                                }
+                            </div>
+                            @if (itemList.ExtraInstruction != "")
+                            {
+                                <div class="p-2 pb-0" style="color: #00c9e4;">Instruction : <span
+                                        class="text-secondary">@itemList.ExtraInstruction</span></div>
+                            }
+                        </div>
                     }
                 }
-            </li>
-        </div>
-        <div class="text-secondary p-2" style="overflow: auto; height: 150px;">
-            <!-- Item -->
-            @foreach (var itemList in item.itemOrderVM)
-            {
-                <div class="pb-2">
-                    <div class="d-flex justify-content-between">
-                        <div>@itemList.ItemName</div>
-                        <div class="text-dark ps-3">@itemList.Quantity</div>
-                    </div>
-                    <div>
-                        <!-- Modifier -->
-                        @foreach (var modifier in itemList.modifierOrderVM)
-                        {
-                            <li class="ps-2 pt-2 validate">@modifier.ModifierName</li>
-                        }
-                    </div>
-                    @if (itemList.ExtraInstruction != null)
-                    {
-                        <div class="p-2 pb-0" style="color: #00c9e4;">Instruction : <span
-                                class="text-secondary">@itemList.ExtraInstruction</span></div>
-                    }
-                </div>
-            }
-        </div>
-        @if (item.ExtraInstruction != null)
-        {
-            <div class="d-flex p-2 border border-top-5" style="background-color: rgb(238, 238, 238); height: 64px;">
-                <span class="text-nowrap" style="color: #00c9e4;">Order Instruction : </span><span
-                    class="text-dark ps-1">@item.ExtraInstruction</span>
             </div>
-        }
-    </div>
+            <div class="d-flex p-2 border border-top-5" style="background-color: rgb(238, 238, 238); height: 64px;">
+                @if (order.ExtraInstruction != "")
+                {
+                    <span class="text-nowrap" style="color: #00c9e4;">Order Instruction : </span>
+
+                    <span class="text-dark ps-1">@order.ExtraInstruction</span>
+                }
+            </div>
+        </div>
+    }
+    <input type="hidden" id="totalRecords" value="@Model.TotalCount" />
 }
-<input type="hidden" id="totalRecords" value="@Model.TotalCount" />
 
 <!----------------------------------------------Modal-------------------------------------------------->
 
@@ -94,107 +110,107 @@
 </div>
 <!----------------------------------------------End of Modal-------------------------------------------------->
 
-    <script>
+<script>
 
-        var id = [];
-        var quantity = [];
+    var id = [];
+    var quantity = [];
 
-        // Ajax for Opening the Modal data.
-        $(".KOTItemsCardClass").on('click', function (event) {
+    // Ajax for Opening the Modal data.
+    $(".KOTItemsCardClass").on('click', function (event) {
 
-            $("#KOTStatusModal").modal("show");
+        $("#KOTStatusModal").modal("show");
 
-            var catid = document.getElementById("KOTCategoryID").value;
-            var filter = document.getElementById("KOTStatus").value;
+        var catid = document.getElementById("KOTCategoryID").value;
+        var filter = document.getElementById("KOTStatus").value;
 
-            var orderid = $(this).data("id");
+        var orderid = $(this).data("id");
 
-            document.getElementById("ModalOrderID").innerHTML = orderid;
+        document.getElementById("ModalOrderID").innerHTML = orderid;
 
-            if (filter == "In_Progress") {
-                document.getElementById("SaveButtonText").innerHTML = "Mark as Ready";
+        if (filter == "In_Progress") {
+            document.getElementById("SaveButtonText").innerHTML = "Mark as Ready";
+        }
+        else {
+            document.getElementById("SaveButtonText").innerHTML = "Mark as Progress";
+        }
+
+        $.ajax({
+            url: "/OrderAppKOT/GetKOTItemsFromModal",
+            type: "GET",
+            data: { catid: catid, filter: filter, orderid: orderid },
+            success: function (data) {
+                IsHtmlDoc(data);
+                $("#StatusUpdateModalTable").html(data);
             }
-            else {
-                document.getElementById("SaveButtonText").innerHTML = "Mark as Progress";
-            }
-
-            $.ajax({
-                url: "/OrderAppKOT/GetKOTItemsFromModal",
-                type: "GET",
-                data: { catid: catid, filter: filter, orderid: orderid },
-                success: function (data) {
-                    IsHtmlDoc(data);
-                    $("#StatusUpdateModalTable").html(data);
-                }
-            });
         });
+    });
 
-        // Time Display
-        function orderTimeDisplay() {
+    // Time Display
+    function orderTimeDisplay() {
 
-            var orderdateclass = document.getElementsByClassName("orderTimeDisplay");
+        var orderdateclass = document.getElementsByClassName("orderTimeDisplay");
 
-            for (i = 0; i < orderdateclass.length; i++) {
-                var currentDate = Date.now();
-                var orderDate = orderdateclass[i].parentElement.children[1].innerHTML.trim();
-                var DateOnly = orderDate.split(" ");
-                var orderDay = DateOnly[0].split("-")[0];
-                var orderMonth = DateOnly[0].split("-")[1];
-                var orderYear = DateOnly[0].split("-")[2];
-                var orderDateFormated = orderYear + "-" + orderMonth + "-" + orderDay + "T" + DateOnly[1];
-                var orderDateToCal = new Date(orderDateFormated);
-                var timeDiff = currentDate - orderDateToCal;
+        for (i = 0; i < orderdateclass.length; i++) {
+            var currentDate = Date.now();
+            var orderDate = orderdateclass[i].parentElement.children[1].innerHTML.trim();
+            var DateOnly = orderDate.split(" ");
+            var orderDay = DateOnly[0].split("-")[0];
+            var orderMonth = DateOnly[0].split("-")[1];
+            var orderYear = DateOnly[0].split("-")[2];
+            var orderDateFormated = orderYear + "-" + orderMonth + "-" + orderDay + "T" + DateOnly[1];
+            var orderDateToCal = new Date(orderDateFormated);
+            var timeDiff = currentDate - orderDateToCal;
 
-                const timeDiffday = Math.floor(timeDiff / (24 * 60 * 60 * 1000));
-                const daysms = timeDiff % (24 * 60 * 60 * 1000);
-                const timeDiffHours = Math.floor(daysms / (60 * 60 * 1000));
-                const hoursms = timeDiff % (60 * 60 * 1000);
-                const timeDiffMins = Math.floor(hoursms / (60 * 1000));
-                const minutesms = timeDiff % (60 * 1000);
-                const timeDiffSecs = Math.floor(minutesms / 1000);
-                orderdateclass[i].innerHTML = timeDiffday + " days " + timeDiffHours + " hours " + timeDiffMins + " min " + timeDiffSecs + " sec";
+            const timeDiffday = Math.floor(timeDiff / (24 * 60 * 60 * 1000));
+            const daysms = timeDiff % (24 * 60 * 60 * 1000);
+            const timeDiffHours = Math.floor(daysms / (60 * 60 * 1000));
+            const hoursms = timeDiff % (60 * 60 * 1000);
+            const timeDiffMins = Math.floor(hoursms / (60 * 1000));
+            const minutesms = timeDiff % (60 * 1000);
+            const timeDiffSecs = Math.floor(minutesms / 1000);
+            orderdateclass[i].innerHTML = timeDiffday + " days " + timeDiffHours + " hours " + timeDiffMins + " min " + timeDiffSecs + " sec";
+        }
+    }
+
+    var displaytime = window.setInterval(function () {
+        orderTimeDisplay()
+    }, -1000);
+
+    // KOT Status Update
+    $("#SaveButtonText").on("click", function () {
+
+        var filter = document.getElementById("KOTStatus").value;
+
+        var checkboxes = document.getElementsByClassName("ItemStatusModalCBClass");
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                id.push(checkboxes[i].parentElement.parentElement.children[2].value);
+                quantity.push(checkboxes[i].parentElement.parentElement.children[1].children[0].children[1].innerText);
             }
         }
 
-        var displaytime = window.setInterval(function () {
-            orderTimeDisplay()
-        }, -1000);
-
-        // KOT Status Update
-        $("#SaveButtonText").on("click", function () {
-
-            var filter = document.getElementById("KOTStatus").value;
-
-            var checkboxes = document.getElementsByClassName("ItemStatusModalCBClass");
-
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i].checked) {
-                    id.push(checkboxes[i].parentElement.parentElement.children[2].value);
-                    quantity.push(checkboxes[i].parentElement.parentElement.children[1].children[0].children[1].innerText);
+        $.ajax({
+            url: "/OrderAppKOT/UpdateKOTStatus",
+            type: "POST",
+            data: { filter, orderDetailId: id, quantity },
+            success: function (data) {
+                if (data.success) {
+                    callSuccessToaster(data.text);
                 }
+                else {
+                    callErrorToaster(data.text);
+                }
+                $(".btn-close").click();
+                if (filter == "In_Progress") {
+                    $("#In_Progress").click();
+                }
+                else {
+                    $("#Ready").click();
+                }
+
             }
+        });
+    })
 
-            $.ajax({
-                url: "/OrderAppKOT/UpdateKOTStatus",
-                type: "POST",
-                data: { filter, orderDetailId: id, quantity },
-                success: function (data) {
-                    if (data.success) {
-                        callSuccessToaster(data.text);
-                    }
-                    else {
-                        callErrorToaster(data.text);
-                    }
-                    $(".btn-close").click();
-                    if (filter == "In_Progress") {
-                        $("#In_Progress").click();
-                    }
-                    else {
-                        $("#Ready").click();
-                    }
-
-                }
-            });
-        })
-
-    </script>
+</script>

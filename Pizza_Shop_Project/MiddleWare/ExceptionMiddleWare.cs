@@ -27,31 +27,17 @@ public class ExceptionMiddleWare
 
     private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        HttpStatusCode code;
-        string message;
-
-        switch (exception)
-        {
-            case CustomException:
-                code = HttpStatusCode.NotFound;
-                message = exception.Message;
-                break;
-            default:
-                code = HttpStatusCode.InternalServerError;
-                message = "Something went wrong. Please try after some time.";
-                break;
-        }
+        HttpStatusCode code = HttpStatusCode.InternalServerError;
+        string message = "Something went wrong. Please try after some time.";
 
         _logger.LogError(exception, "An unhandled exception occurred.");
 
         bool isAjax = context.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
-        
+
         if (isAjax)
         {
-            // For AJAX - return JSON response
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = 200; // Always OK (to avoid redirect issues)
-
+            context.Response.StatusCode = 200;
             context.Response.Headers.Add("X-Error", "true");
 
             var jsonResponse = new
@@ -60,29 +46,17 @@ public class ExceptionMiddleWare
                 statusCode = (int)code,
                 error = message
             };
-            
+
             string jsonMessage = JsonSerializer.Serialize(jsonResponse);
             await context.Response.WriteAsync(jsonMessage);
         }
         else
         {
-            // // For Normal Requests - use TempData for Toastr
-            // context.Response.Redirect($"/Error/HandleErrorWithToaster?message={Uri.EscapeDataString(message)}");
-            if (!context.Response.HasStarted)
-            {
-                var redirectUrl = $"/Error/HandleErrorWithToaster?message={Uri.EscapeDataString(message)}";
-                _logger.LogInformation("Redirecting to: {RedirectUrl}", redirectUrl);
-                context.Response.StatusCode = (int)HttpStatusCode.Redirect; // 302
-                context.Response.Headers["Location"] = redirectUrl; // Manual redirect
-                // return; // Exit to prevent further processing
-                await context.Response.CompleteAsync();
-            }
-            else
-            {
-                _logger.LogWarning("Response already started, cannot redirect.");
-                context.Response.StatusCode = (int)code;
-                await context.Response.WriteAsync(message);
-            }
+            var redirectUrl = $"/Error/HandleErrorWithToaster?message={Uri.EscapeDataString(message)}";
+            _logger.LogInformation("Redirecting to: {RedirectUrl}", redirectUrl);
+            context.Response.StatusCode = (int)HttpStatusCode.Redirect; // 302 To Temporary redirect
+            context.Response.Headers["Location"] = redirectUrl;
+            await context.Response.CompleteAsync();
         }
     }
 }

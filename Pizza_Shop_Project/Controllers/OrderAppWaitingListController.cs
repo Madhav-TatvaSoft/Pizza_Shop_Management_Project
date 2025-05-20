@@ -100,11 +100,19 @@ public class OrderAppWaitingListController : Controller
             }
 
             // Add Customer to Waiting List
-            bool IsCustomerAddedToWaiting = await _orderAppTableService.AddCustomerToWaitingList(WaitingVM.WaitingTokenDetailVM, userId);
+            bool IsCustomerAddedToWaiting = await _orderAppTableService.SaveCustomerToWaitingList(WaitingVM.WaitingTokenDetailVM, userId);
 
             if (IsCustomerAddedToWaiting)
             {
-                return Json(new { success = true, text = "Customer Added In Waiting List" });
+                // Check if the customer is already in the waiting list
+                if (WaitingVM.WaitingTokenDetailVM.WaitingId != 0)
+                {
+                    return Json(new { success = true, text = "Customer Updated In Waiting List" });
+                }
+                else
+                {
+                    return Json(new { success = true, text = "Customer Added In Waiting List" });
+                }
             }
             else
             {

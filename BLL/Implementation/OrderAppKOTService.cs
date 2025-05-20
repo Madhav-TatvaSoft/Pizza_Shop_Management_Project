@@ -21,6 +21,7 @@ public class OrderAppKOTService : IOrderAppKOTService
     }
 
     #region Get KOT Items
+
     // public async Task<PaginationViewModel<OrderAppKOTViewModel>> GetKOTItems(long catid, string filter, int page = 1, int pageSize = 5)
     // {
     // IQueryable<Order> query = _context.Orders
@@ -32,7 +33,6 @@ public class OrderAppKOTService : IOrderAppKOTService
     //         .ThenInclude(x => x.Table)
     //     .Include(x => x.Section)
     //     .Where(x => !x.Isdelete && x.Status != "Completed" && x.Status != "Cancelled").OrderByDescending(x => x.OrderId);
-
 
     //     if (catid == 0)
     //     {
@@ -117,6 +117,44 @@ public class OrderAppKOTService : IOrderAppKOTService
     // }
 
 
+    // Using a Function in DB to get KOT items
+    
+    public async Task<PaginationViewModel<OrderAppKOTViewModel>> GetKOTItems(long catid, string filter, int page = 1, int pageSize = 5)
+    {
+        using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("PizzaShopConnection")))
+        {
+            await connection.OpenAsync();
+
+            using (var command = new NpgsqlCommand("SELECT get_kot_items(@p_catid, @p_filter)", connection))
+            {
+                command.Parameters.AddWithValue("p_catid", catid);
+                command.Parameters.AddWithValue("p_filter", filter ?? "");
+
+                try
+                {
+                    var jsonResult = await command.ExecuteScalarAsync();
+                    if (jsonResult == null || jsonResult == DBNull.Value)
+                    {
+                        return new PaginationViewModel<OrderAppKOTViewModel>(new List<OrderAppKOTViewModel>(), 0, page, pageSize);
+                    }
+
+                    var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+                    var data = JsonSerializer.Deserialize<List<OrderAppKOTViewModel>>(jsonResult.ToString(), options)
+                        ?? new List<OrderAppKOTViewModel>();
+
+                    int totalCount = data.Count;
+                    var items = data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+                    return new PaginationViewModel<OrderAppKOTViewModel>(items, totalCount, page, pageSize);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    return new PaginationViewModel<OrderAppKOTViewModel>(new List<OrderAppKOTViewModel>(), 0, page, pageSize);
+                }
+            }
+        }
+    }
 
     public async Task<OrderAppKOTViewModel> GetKOTItemsFromModal(long catid, string filter, long orderid)
     {
@@ -132,6 +170,7 @@ public class OrderAppKOTService : IOrderAppKOTService
     #endregion
 
     #region Update KOT Status
+
     // public async Task<bool> UpdateKOTStatus(string filter, int[] orderDetailId, int[] quantity)
     // {
     //     using (var transaction = await _context.Database.BeginTransactionAsync())
@@ -176,6 +215,7 @@ public class OrderAppKOTService : IOrderAppKOTService
     // }
 
     // Updating the KOT Item status using a stored procedure
+    
     public async Task<bool> UpdateKOTStatus(string filter, int[] orderDetailId, int[] quantity)
     {
 
@@ -209,46 +249,5 @@ public class OrderAppKOTService : IOrderAppKOTService
     }
 
     #endregion
-
-    public async Task<PaginationViewModel<OrderAppKOTViewModel>> GetKOTItems(long catid, string filter, int page = 1, int pageSize = 5)
-    {
-        using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("PizzaShopConnection")))
-        {
-            await connection.OpenAsync();
-
-            using (var command = new NpgsqlCommand("SELECT get_kot_items(@p_catid, @p_filter)", connection))
-            {
-                command.Parameters.AddWithValue("p_catid", catid);
-                command.Parameters.AddWithValue("p_filter", filter ?? "");
-
-                try
-                {
-                    var jsonResult = await command.ExecuteScalarAsync();
-                    if (jsonResult == null || jsonResult == DBNull.Value)
-                    {
-                        return new PaginationViewModel<OrderAppKOTViewModel>(new List<OrderAppKOTViewModel>(), 0, page, pageSize);
-                    }
-
-                    // This is where OrderAppKOTViewModel is filled
-                    var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-                    var data = JsonSerializer.Deserialize<List<OrderAppKOTViewModel>>(jsonResult.ToString(), options)
-                        ?? new List<OrderAppKOTViewModel>();
-
-                    // Apply pagination
-                    int totalCount = data.Count;
-                    var items = data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-                    return new PaginationViewModel<OrderAppKOTViewModel>(items, totalCount, page, pageSize);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    return new PaginationViewModel<OrderAppKOTViewModel>(new List<OrderAppKOTViewModel>(), 0, page, pageSize);
-                }
-            }
-        }
-    }
-
-
 
 }

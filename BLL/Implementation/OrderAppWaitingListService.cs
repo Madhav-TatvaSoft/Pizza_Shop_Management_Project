@@ -18,32 +18,25 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
     {
         if (sectionid == 0)
         {
-            try
-            {
-                List<WaitingTokenDetailViewModel>? waiting = _context.Waitinglists.Include(x => x.Customer).Where(waiting => !waiting.Isdelete && !waiting.Isassign)
-                        .Select(waiting => new WaitingTokenDetailViewModel
-                        {
-                            WaitingId = waiting.WaitingId,
-                            CustomerId = waiting.CustomerId,
-                            CustomerName = waiting.Customer.CustomerName,
-                            PhoneNo = waiting.Customer.PhoneNo,
-                            Email = waiting.Customer.Email,
-                            NoOfPerson = waiting.NoOfPerson,
-                            CreatedAt = (DateTime)waiting.CreatedAt,
-                            WaitingTime = TimeOnly.FromTimeSpan((TimeSpan)(DateTime.Now - waiting.CreatedAt)),
-                            SectionId = waiting.SectionId,
-                            SectionName = waiting.Section.SectionName
-                        }).OrderBy(w => w.WaitingId).ToList();
-                if (waiting == null)
-                {
-                    return null;
-                }
-                return waiting;
-            }
-            catch (Exception e)
+            List<WaitingTokenDetailViewModel>? waiting = _context.Waitinglists.Include(x => x.Customer).Where(waiting => !waiting.Isdelete && !waiting.Isassign)
+                    .Select(waiting => new WaitingTokenDetailViewModel
+                    {
+                        WaitingId = waiting.WaitingId,
+                        CustomerId = waiting.CustomerId,
+                        CustomerName = waiting.Customer.CustomerName,
+                        PhoneNo = waiting.Customer.PhoneNo,
+                        Email = waiting.Customer.Email,
+                        NoOfPerson = waiting.NoOfPerson,
+                        CreatedAt = (DateTime)waiting.CreatedAt,
+                        WaitingTime = TimeOnly.FromTimeSpan((TimeSpan)(DateTime.Now - waiting.CreatedAt)),
+                        SectionId = waiting.SectionId,
+                        SectionName = waiting.Section.SectionName
+                    }).OrderBy(w => w.WaitingId).ToList();
+            if (waiting == null)
             {
                 return null;
             }
+            return waiting;
         }
         else
         {
@@ -208,7 +201,8 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
 
     }
 
-    public async Task<bool> AlreadyAssigned(long customerid){
+    public async Task<bool> AlreadyAssigned(long customerid)
+    {
         AssignTable? IsTableAssigned = await _context.AssignTables.FirstOrDefaultAsync(w => w.CustomerId == customerid && !w.Isdelete);
         if (IsTableAssigned != null)
         {

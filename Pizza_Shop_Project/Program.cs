@@ -25,7 +25,7 @@ Log.Logger = new LoggerConfiguration()
         path: logFilePath,
         rollingInterval: RollingInterval.Day,
         retainedFileCountLimit: 7,
-        fileSizeLimitBytes: 10_000_000,
+        fileSizeLimitBytes: 10_000_000, // in bytes 10 MB
         rollOnFileSizeLimit: true,
         shared: true,
         outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}{NewLine}{NewLine}"
@@ -135,9 +135,6 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddAuthorization();
 
-
-
-
 builder.Services.AddSession(
     options =>
     {
@@ -150,7 +147,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error/InternalServerError");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.

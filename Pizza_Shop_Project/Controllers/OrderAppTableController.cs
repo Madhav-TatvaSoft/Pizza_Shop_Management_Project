@@ -127,7 +127,7 @@ public class OrderAppTableController : Controller
             }
             // }
 
-            bool IsCustomerAddedToWaiting = await _orderAppTableService.AddCustomerToWaitingList(TableMainVM.waitingTokenDetailViewModel, userId);
+            bool IsCustomerAddedToWaiting = await _orderAppTableService.SaveCustomerToWaitingList(TableMainVM.waitingTokenDetailViewModel, userId);
 
             if (IsCustomerAddedToWaiting)
             {

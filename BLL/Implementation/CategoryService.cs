@@ -21,101 +21,79 @@ public class CategoryService : ICategoryService
 
     public async Task<bool> Add(Category category, long userId)
     {
-        using (var transaction = await _context.Database.BeginTransactionAsync())
-        {
-            try
-            {
-                if (category == null) return false;
 
-                Category cat = new Category();
-                cat.CategoryName = category.CategoryName;
-                cat.Description = category.Description;
-                cat.CreatedBy = userId;
-                cat.CreatedAt = DateTime.Now;
-                cat.Isdelete = false;
-                await _context.Categories.AddAsync(cat);
-                await _context.SaveChangesAsync();
+        if (category == null) return false;
 
-                await transaction.CommitAsync();
+        Category cat = new Category();
+        cat.CategoryName = category.CategoryName;
+        cat.Description = category.Description;
+        cat.CreatedBy = userId;
+        cat.CreatedAt = DateTime.Now;
+        cat.Isdelete = false;
+        await _context.Categories.AddAsync(cat);
+        await _context.SaveChangesAsync();
 
-                return true;
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
-        }
+        return true;
     }
 
     public async Task<bool> Update(Category category, long Cat_Id, long userId)
     {
-        using (var transaction = await _context.Database.BeginTransactionAsync())
+
+        if (category == null || Cat_Id == null)
         {
-            try
-            {
-                if (category == null || Cat_Id == null)
-                {
-                    return false;
-                }
-
-                Category? cat = await _context.Categories.SingleOrDefaultAsync(x => x.CategoryId == Cat_Id && !x.Isdelete);
-                if (cat == null)
-                {
-                    return false;
-                }
-                cat.CategoryName = category.CategoryName;
-                cat.Description = category.Description;
-                cat.ModifiedBy = userId;
-                cat.ModifiedAt = DateTime.Now;
-                _context.Categories.Update(cat);
-                await _context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-
-                return true;
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
+            return false;
         }
+
+        Category? cat = await _context.Categories.SingleOrDefaultAsync(x => x.CategoryId == Cat_Id && !x.Isdelete);
+        if (cat == null)
+        {
+            return false;
+        }
+        cat.CategoryName = category.CategoryName;
+        cat.Description = category.Description;
+        cat.ModifiedBy = userId;
+        cat.ModifiedAt = DateTime.Now;
+        _context.Categories.Update(cat);
+        await _context.SaveChangesAsync();
+
+        return true;
+
     }
 
     public async Task<bool> Delete(long Cat_Id, long userId)
     {
-        using (var transaction = await _context.Database.BeginTransactionAsync())
+
+        if (Cat_Id == null)
         {
-            try
+            return false;
+        }
+
+        Category? category = await _context.Categories.SingleOrDefaultAsync(x => x.CategoryId == Cat_Id && !x.Isdelete);
+        if (category == null)
+        {
+            return false;
+        }
+
+        var items = await _context.Items.Where(x => x.CategoryId == Cat_Id && !x.Isdelete).ToListAsync();
+        if (items != null)
+        {
+            foreach (var item in items)
             {
-                if (Cat_Id == null)
-                {
-                    return false;
-                }
-
-                Category? category = await _context.Categories.SingleOrDefaultAsync(x => x.CategoryId == Cat_Id && !x.Isdelete);
-                if (category == null)
-                {
-                    return false;
-                }
-
-                category.Isdelete = true;
-                category.ModifiedAt = DateTime.Now;
-                category.ModifiedBy = userId;
-                _context.Categories.Update(category);
-                await _context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-
-                return true;
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
+                item.Isdelete = true;
+                item.ModifiedAt = DateTime.Now;
+                item.ModifiedBy = userId;
+                _context.Items.Update(item);
             }
         }
+
+        category.Isdelete = true;
+        category.ModifiedAt = DateTime.Now;
+        category.ModifiedBy = userId;
+        _context.Categories.Update(category);
+        await _context.SaveChangesAsync();
+
+        return true;
+
     }
 
     public bool IsExist(Category category)

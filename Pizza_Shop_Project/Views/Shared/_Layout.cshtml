@@ -292,7 +292,7 @@
                         <div class="profilepic-div p-1 d-flex">
                             @if ((await AuthorizationService.AuthorizeAsync(User, "AccountManager")).Succeeded)
                             {
-                                <div id="Mobile-icon">
+                                <div id="Mobile-icon" data-toggle="tooltip" data-placement="bottom" title="OrderApp">
                                     <a asp-action="OrderAppTable" asp-Controller="OrderAppTable"
                                         class="btn pt-1 text-decoration-none"><i
                                             class="bi bi-tablet text-white fs-3"></i></a>
@@ -303,7 +303,7 @@
                             <div class="dropdown">
 
                                 <button class="btn  dropdown" type="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
+                                    aria-expanded="false" data-toggle="tooltip" data-placement="bottom" title="Profle">
                                     <img src="@(HttpContextAccessor.HttpContext.Request.Cookies["ProfileImage"])"
                                         width="45px" height="45px">
                                 </button>

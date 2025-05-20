@@ -17,11 +17,11 @@ public class WaitingTokenDetailViewModel
     [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
     public long? PhoneNo { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Email is required.")]
     public string? Email { get; set; }
 
     [Required(ErrorMessage = "No of Person is required.")]
-    [Range(1, 100, ErrorMessage = "No of Person should be between 1 to 100.")]
+    [Range(1, 20, ErrorMessage = "No of Person should be between 1 to 20.")]
     public int NoOfPerson { get; set; }
     public long SectionId { get; set; }
     public string SectionName { get; set; }

@@ -75,7 +75,7 @@ public class OrderAppTableService : IOrderAppTableService
         return false;
     }
 
-    public async Task<bool> AddCustomerToWaitingList(WaitingTokenDetailViewModel waitingTokenVM, long userId)
+    public async Task<bool> SaveCustomerToWaitingList(WaitingTokenDetailViewModel waitingTokenVM, long userId)
     {
         using (var transaction = await _context.Database.BeginTransactionAsync())
         {
@@ -87,12 +87,8 @@ public class OrderAppTableService : IOrderAppTableService
                 {
                     Waitinglist waitinglist = new();
 
-                    Waitinglist? CustomerPresent = _context.Waitinglists.FirstOrDefault(waiting => waiting.CustomerId == customerId);
-                    if (CustomerPresent != null)
-                    {
-                        return false;
-                    }
-
+                    Waitinglist? CustomerPresent = _context.Waitinglists.FirstOrDefault(waiting => waiting.CustomerId == customerId && !waiting.Isdelete);
+                    
                     waitinglist.CustomerId = customerId;
                     waitinglist.NoOfPerson = waitingTokenVM.NoOfPerson;
                     waitinglist.SectionId = waitingTokenVM.SectionId;
