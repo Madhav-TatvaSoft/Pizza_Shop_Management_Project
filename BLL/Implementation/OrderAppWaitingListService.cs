@@ -268,7 +268,6 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
                 }
                 else
                 {
-
                     return false;
                 }
 
@@ -284,17 +283,46 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
                 throw;
             }
         }
-
     }
+
+    // public async Task<bool> AlreadyAssigned(long customerid)
+    // {
+    //     AssignTable? IsTableAssigned = await _context.AssignTables.FirstOrDefaultAsync(at => at.CustomerId == customerid && !at.Isdelete);
+    //     if (IsTableAssigned != null)
+    //     {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     public async Task<bool> AlreadyAssigned(long customerid)
     {
-        AssignTable? IsTableAssigned = await _context.AssignTables.FirstOrDefaultAsync(w => w.CustomerId == customerid && !w.Isdelete);
-        if (IsTableAssigned != null)
+        using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("PizzaShopConnection")))
         {
-            return true;
+            connection.Open();
+
+            using (var command = new NpgsqlCommand("SELECT already_assigned(@inp_customerid)", connection))
+            {
+                command.Parameters.AddWithValue("inp_customerid", customerid);
+
+                try
+                {
+                    var result = await command.ExecuteScalarAsync();
+                    return Convert.ToBoolean(result);
+                }
+                catch (PostgresException ex)
+                {
+                    Console.WriteLine($"Error: {ex.MessageText}");
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    return false;
+                }
+
+            }
         }
-        return false;
     }
 
 }

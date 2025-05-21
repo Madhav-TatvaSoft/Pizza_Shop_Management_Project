@@ -1,7 +1,7 @@
 ----------------------------------------------------------------  WAITING LIST Module --------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
------------ GET SECTION LIST ORDERAPP -------------
+------------------------- GET SECTION LIST ORDERAPP -----------------------------
 
 CREATE OR REPLACE FUNCTION get_section_list_orderapp()
 RETURNS JSON
@@ -50,7 +50,7 @@ $$;
 
 -- END --
 
----------------- GET WAITING LIST -------------- 
+-------------------------------------- GET WAITING LIST ------------------------------------- 
 
 CREATE OR REPLACE FUNCTION get_waiting_list(
 ---    inp_sectionid BIGINT
@@ -84,11 +84,11 @@ BEGIN
 
     RETURN WaitingList;
 END;
-$$ LANGUAGE plpgsql ;
+$$ LANGUAGE plpgsql;
 
 -- END -- 
 
--- DELETE TOKEN PROCEDURE --
+-------------------------------------- DELETE TOKEN PROCEDURE -------------------------------------
 
 CREATE OR REPLACE PROCEDURE delete_waiting_token(
     inp_waitingid BIGINT,
@@ -115,3 +115,67 @@ BEGIN
     -- Implicit commit if no exception
 END;
 $$;
+
+-- END --
+
+-------------------------------------------- GET AVAILable TABLES -----------------------------------------
+
+CREATE OR REPLACE FUNCTION get_available_tables(
+	inp_sectionid BIGINT
+)
+RETURNS JSON
+AS $$
+DECLARE
+    AvailableTableList JSON;
+BEGIN
+	SELECT COALESCE (json_agg(row_to_json(list)),'[]'::JSON)
+	INTO AvailableTableList
+	FROM (
+		SELECT 
+			t.table_id AS "TableId",
+			t.table_name AS "TableName",
+			t.section_id AS "SectionId",
+			t.capacity AS "Capacity"
+		FROM tables AS t
+		WHERE t.section_id = inp_sectionid
+		AND t.isdelete = false
+		AND t.status = 'Available'
+		ORDER BY t.table_id
+	) list;
+
+	RETURN AvailableTableList;
+END;
+$$ LANGUAGE plpgsql;
+
+-- END --
+
+-------------------------------------------- CHECK ALREADY ASSIGNED -----------------------------------------
+
+CREATE OR REPLACE FUNCTION already_assigned(
+	inp_customerid BIGINT
+)
+RETURNS BOOLEAN
+AS $$
+DECLARE
+    IsAssigned BOOLEAN;
+BEGIN
+	SELECT EXISTS(
+		SELECT 
+		FROM "assignTable" AS at
+		WHERE at.customer_id = inp_customerid
+		AND at.isdelete = false
+		) INTO IsAssigned;
+	
+	RETURN IsAssigned;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+
+
+
+
+
+
