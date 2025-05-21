@@ -218,70 +218,94 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
         }
     }
 
+    // public async Task<bool> AssignTableInWaiting(long waitingId, long sectionId, long customerid, int persons, int[] tableIds, long userId)
+    // {
+    //     using (var transaction = await _context.Database.BeginTransactionAsync())
+    //     {
+    //         try
+    //         {
+    //             List<int>? tableIdsList = tableIds.ToList();
+    //             Waitinglist? waitinglist = await _context.Waitinglists.Include(x => x.Customer).FirstOrDefaultAsync(x => x.WaitingId == waitingId && !x.Isdelete && !x.Isassign);
+
+    //             if (waitinglist == null)
+    //             {
+    //                 return false;
+    //             }
+
+    //             waitinglist.Isassign = true;
+    //             // new Added
+    //             waitinglist.Isdelete = true;
+    //             waitinglist.AssignedAt = DateTime.Now;
+    //             waitinglist.ModifiedAt = DateTime.Now;
+    //             waitinglist.ModifiedBy = userId;
+    //             _context.Waitinglists.Update(waitinglist);
+
+    //             List<Table>? tables = _context.Tables.Where(t => tableIdsList.Contains((int)t.TableId) && !t.Isdelete && t.Status == "Available").ToList();
+
+    //             if (tables != null)
+    //             {
+
+    //                 for (int i = 0; i < tables.Count(); i++)
+    //                 {
+    //                     AssignTable assignTable = new();
+    //                     assignTable.CustomerId = customerid;
+    //                     assignTable.TableId = tableIdsList[i];
+    //                     assignTable.NoOfPerson = persons;
+    //                     assignTable.CreatedAt = DateTime.Now;
+    //                     assignTable.CreatedBy = userId;
+    //                     await _context.AddAsync(assignTable);
+
+    //                     Table? table = await _context.Tables.FirstOrDefaultAsync(x => x.TableId == tableIdsList[i] && !x.Isdelete);
+    //                     if (table != null)
+    //                     {
+    //                         table.Status = "Assigned";
+    //                         table.ModifiedAt = DateTime.Now;
+    //                         table.ModifiedBy = userId;
+    //                         _context.Tables.Update(table);
+    //                         await _context.SaveChangesAsync();
+    //                     }
+    //                 }
+    //             }
+    //             else
+    //             {
+    //                 return false;
+    //             }
+
+    //             await _context.SaveChangesAsync();
+
+    //             await transaction.CommitAsync();
+
+    //             return true;
+    //         }
+    //         catch
+    //         {
+    //             await transaction.RollbackAsync();
+    //             throw;
+    //         }
+    //     }
+    // }
+
     public async Task<bool> AssignTableInWaiting(long waitingId, long sectionId, long customerid, int persons, int[] tableIds, long userId)
     {
-        using (var transaction = await _context.Database.BeginTransactionAsync())
+        using var connection = new NpgsqlConnection(_configuration.GetConnectionString("PizzaShopConnection"));
+
+        try
         {
-            try
-            {
-                List<int>? tableIdsList = tableIds.ToList();
-                Waitinglist? waitinglist = await _context.Waitinglists.Include(x => x.Customer).FirstOrDefaultAsync(x => x.WaitingId == waitingId && !x.Isdelete && !x.Isassign);
+            var result = await connection.ExecuteAsync(
+                "CALL assign_table_in_waiting(@inp_waitingid, @inp_sectionid, @inp_customerid, @inp_persons, @inp_tableids, @inp_userid)",
+                new { inp_waitingid = waitingId, inp_sectionid = sectionId, inp_customerid = customerid, inp_persons = persons, inp_tableids = tableIds, inp_userid = userId });
 
-                if (waitinglist == null)
-                {
-                    return false;
-                }
-
-                waitinglist.Isassign = true;
-                // new Added
-                waitinglist.Isdelete = true;
-                waitinglist.AssignedAt = DateTime.Now;
-                waitinglist.ModifiedAt = DateTime.Now;
-                waitinglist.ModifiedBy = userId;
-                _context.Waitinglists.Update(waitinglist);
-
-                List<Table>? tables = _context.Tables.Where(t => tableIdsList.Contains((int)t.TableId) && !t.Isdelete && t.Status == "Available").ToList();
-
-                if (tables != null)
-                {
-
-                    for (int i = 0; i < tables.Count(); i++)
-                    {
-                        AssignTable assignTable = new();
-                        assignTable.CustomerId = customerid;
-                        assignTable.TableId = tableIdsList[i];
-                        assignTable.NoOfPerson = persons;
-                        assignTable.CreatedAt = DateTime.Now;
-                        assignTable.CreatedBy = userId;
-                        await _context.AddAsync(assignTable);
-
-                        Table? table = await _context.Tables.FirstOrDefaultAsync(x => x.TableId == tableIdsList[i] && !x.Isdelete);
-                        if (table != null)
-                        {
-                            table.Status = "Assigned";
-                            table.ModifiedAt = DateTime.Now;
-                            table.ModifiedBy = userId;
-                            _context.Tables.Update(table);
-                            await _context.SaveChangesAsync();
-                        }
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-
-                await _context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-
-                return true;
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
+            return true;
+        }
+        catch (PostgresException ex)
+        {
+            Console.WriteLine($"Error: {ex.MessageText}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return false;
         }
     }
 

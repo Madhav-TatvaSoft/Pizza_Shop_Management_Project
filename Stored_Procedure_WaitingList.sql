@@ -165,10 +165,113 @@ BEGIN
 		WHERE at.customer_id = inp_customerid
 		AND at.isdelete = false
 		) INTO IsAssigned;
-	
 	RETURN IsAssigned;
 END;
 $$ LANGUAGE plpgsql;
+
+-- END --
+
+-------------------------------------------- ASSIGN TABLE IN WAITING -----------------------------------------
+
+CREATE OR REPLACE PROCEDURE assign_table_in_waiting(
+    inp_waitingid BIGINT,
+    inp_sectionid BIGINT,
+    inp_customerid BIGINT,
+    inp_persons INTEGER,
+    inp_tableids INTEGER[],
+    inp_userid BIGINT
+)
+LANGUAGE plpgsql AS $$
+DECLARE
+    v_tableid INTEGER;
+    v_table_exists BOOLEAN;
+    v_waiting_exists BOOLEAN;
+BEGIN
+    -- Begin transaction
+    BEGIN
+        -- Check if waiting list entry exists
+        SELECT EXISTS (
+            SELECT 1 
+            FROM waitinglist
+            WHERE waiting_id = inp_waitingid 
+            AND isdelete = false 
+            AND isassign = false
+        ) INTO v_waiting_exists;
+
+        IF NOT v_waiting_exists THEN
+            RAISE EXCEPTION 'Waiting list entry not found or already assigned/deleted';
+        END IF;
+
+        -- Update waiting list entry
+        UPDATE waitinglist
+        SET 
+            isassign = true,
+            isdelete = true,
+            assigned_at = NOW(),
+            modified_at = NOW(),
+            modified_by = inp_userid
+        WHERE waiting_id = inp_waitingid
+            AND isdelete = false
+            AND isassign = false;
+
+        -- Loop through table IDs
+        FOREACH v_tableid IN ARRAY inp_tableids
+        LOOP
+            -- Check if table exists and is available
+            SELECT EXISTS (
+                SELECT 1 
+                FROM tables
+                WHERE table_id = v_tableid 
+                AND isdelete = false 
+                AND status = 'Available'
+            ) INTO v_table_exists;
+
+            IF NOT v_table_exists THEN
+                RAISE EXCEPTION 'Table % is not available or does not exist', v_tableid;
+            END IF;
+
+            -- Insert into assign_table
+            INSERT INTO "assignTable" (
+                customer_id,
+                table_id,
+                no_of_person,
+                created_at,
+                created_by
+            )
+            VALUES (
+                inp_customerid,
+                v_tableid,
+                inp_persons,
+                NOW(),
+                inp_userid
+            );
+
+            -- Update table status
+            UPDATE tables
+            SET 
+                status = 'Assigned',
+                modified_at = NOW(),
+                modified_by = inp_userid
+            WHERE table_id = v_tableid
+                AND isdelete = false;
+        END LOOP;
+
+        -- Implicit commit if no exception
+    EXCEPTION WHEN OTHERS THEN
+        -- Roll back transaction on error
+        RAISE EXCEPTION 'Error in assigning table: %', SQLERRM;
+    END;
+END;
+$$;
+
+
+
+			
+
+
+	
+
+
 
 
 
