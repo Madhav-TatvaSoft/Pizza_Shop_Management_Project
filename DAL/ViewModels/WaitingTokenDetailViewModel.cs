@@ -26,5 +26,5 @@ public class WaitingTokenDetailViewModel
     public long SectionId { get; set; }
     public string SectionName { get; set; }
     public DateTime CreatedAt { get; set; }
-    public TimeOnly WaitingTime { get; set; }
+    // public TimeOnly WaitingTime { get; set; }
 }

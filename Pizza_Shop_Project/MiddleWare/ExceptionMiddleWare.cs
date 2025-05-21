@@ -13,7 +13,7 @@ public class ExceptionMiddleWare
         _next = next;
         _logger = logger;
     }
-    public async Task InvokeAsync(HttpContext context)
+    public async Task Invoke(HttpContext context)
     {
         try
         {
@@ -21,14 +21,14 @@ public class ExceptionMiddleWare
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(context, ex);
+            await HandleException(context, ex);
         }
     }
 
-    private async Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private async Task HandleException(HttpContext context, Exception exception)
     {
         HttpStatusCode code = HttpStatusCode.InternalServerError;
-        string message = "Something went wrong. Please try after some time.";
+        string message = "Something went wrong. Please try again.";
 
         _logger.LogError(exception, "An unhandled exception occurred.");
 

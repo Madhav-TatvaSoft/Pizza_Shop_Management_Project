@@ -13,7 +13,7 @@ public class ImageTemplate
         if (!Directory.Exists(folderPath))
             Directory.CreateDirectory(folderPath);
 
-        string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+        string fileName = Guid.NewGuid() + "_" + file.FileName;
         string filePath = Path.Combine(folderPath, fileName);
 
         using (var stream = new FileStream(filePath, FileMode.Create))

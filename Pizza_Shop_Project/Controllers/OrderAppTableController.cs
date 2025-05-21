@@ -36,7 +36,7 @@ public class OrderAppTableController : Controller
     public async Task<IActionResult> GetAllSectionList()
     {
         OrderAppTableMainViewModel TableMainVM = new();
-        TableMainVM.sectionListVM = _orderAppTableService.GetAllSectionList();
+        TableMainVM.sectionListVM = await _orderAppTableService.GetAllSectionList();
         return PartialView("_SectionList", TableMainVM);
     }
 

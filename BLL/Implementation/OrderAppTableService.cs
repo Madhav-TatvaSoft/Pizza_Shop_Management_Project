@@ -5,6 +5,8 @@ using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
 
 namespace BLL.Implementation;
 
@@ -12,33 +14,54 @@ public class OrderAppTableService : IOrderAppTableService
 {
     private readonly PizzaShopDbContext _context;
     private readonly ICustomerService _customerService;
+    private readonly IConfiguration _configuration;
 
-    public OrderAppTableService(PizzaShopDbContext context, ICustomerService customerService)
+    public OrderAppTableService(PizzaShopDbContext context, ICustomerService customerService, IConfiguration configuration)
     {
+        _configuration = configuration;
         _context = context;
         _customerService = customerService;
     }
 
-    public List<OrderAppSectionVM> GetAllSectionList()
-    {
-        List<OrderAppSectionVM> sectionList = _context.Sections
-            .Where(sec => !sec.Isdelete).OrderBy(sec => sec.SectionId)
-            .Select(sec => new OrderAppSectionVM
-            {
-                SectionId = sec.SectionId,
-                SectionName = sec.SectionName,
-                AvailableCount = sec.Tables.Count(table => table.Status == "Available" && !table.Isdelete),
-                AssignedCount = sec.Tables.Count(table => table.Status == "Assigned" || table.Status == "Occupied" && !table.Isdelete),
-                RunningCount = sec.Tables.Count(table => table.Status == "Running" && !table.Isdelete),
-                WaitingCount = sec.Waitinglists.Count(w => w.SectionId == sec.SectionId && !w.Isdelete && !w.Isassign),
-            }).ToList();
+    // public List<OrderAppSectionVM> GetAllSectionList()
+    // {
+    //     List<OrderAppSectionVM> sectionList = _context.Sections
+    //         .Where(sec => !sec.Isdelete).OrderBy(sec => sec.SectionId)
+    //         .Select(sec => new OrderAppSectionVM
+    //         {
+    //             SectionId = sec.SectionId,
+    //             SectionName = sec.SectionName,
+    //             AvailableCount = sec.Tables.Count(table => table.Status == "Available" && !table.Isdelete),
+    //             AssignedCount = sec.Tables.Count(table => table.Status == "Assigned" || table.Status == "Occupied" && !table.Isdelete),
+    //             RunningCount = sec.Tables.Count(table => table.Status == "Running" && !table.Isdelete),
+    //             WaitingCount = sec.Waitinglists.Count(w => w.SectionId == sec.SectionId && !w.Isdelete && !w.Isassign),
+    //         }).ToList();
 
-        if (sectionList == null)
+    //     if (sectionList == null)
+    //     {
+    //         return null;
+    //     }
+
+    //     return sectionList;
+    // }
+
+    public async Task<List<OrderAppSectionVM>> GetAllSectionList()
+    {
+        using var connection = new NpgsqlConnection(_configuration.GetConnectionString("PizzaShopConnection"));
+        await connection.OpenAsync();
+
+        using var command = new NpgsqlCommand("SELECT get_section_list_orderapp()", connection);
+
+        var jsonResult = await command.ExecuteScalarAsync();
+        if (jsonResult == null)
         {
-            return null;
+            return new List<OrderAppSectionVM>();
         }
 
-        return sectionList;
+        var data = JsonSerializer.Deserialize<List<OrderAppSectionVM>>(jsonResult.ToString())
+            ?? new List<OrderAppSectionVM>();
+
+        return data;
     }
 
     public List<OrderAppTableVM> GetTablesBySection(long SectionId)
@@ -86,9 +109,6 @@ public class OrderAppTableService : IOrderAppTableService
                 if (waitingTokenVM.WaitingId == 0)
                 {
                     Waitinglist waitinglist = new();
-
-                    Waitinglist? CustomerPresent = _context.Waitinglists.FirstOrDefault(waiting => waiting.CustomerId == customerId && !waiting.Isdelete);
-                    
                     waitinglist.CustomerId = customerId;
                     waitinglist.NoOfPerson = waitingTokenVM.NoOfPerson;
                     waitinglist.SectionId = waitingTokenVM.SectionId;

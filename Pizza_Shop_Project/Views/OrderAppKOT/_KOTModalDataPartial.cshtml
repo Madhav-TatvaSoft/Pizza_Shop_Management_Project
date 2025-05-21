@@ -6,8 +6,8 @@
     <tr
         class="border border-top-0 border-start-0 border-end-0 border-bottom-1 border-light-50 d-flex justify-content-between align-content-center">
         <td class="text-secondary text-nowrap">
-            <input type="checkbox" class="ItemStatusModalCBClass" id="itemCheckbox" onclick="CheckBoxClick(this);">
-            <label class="ps-2 text-black" for="itemCheckbox">@item.ItemName</label>
+            <input type="checkbox" class="ItemStatusModalCBClass" onclick="CheckBoxClick(this);">
+            <label class="ps-2 text-black">@item.ItemName</label>
             <div class="pt-1">
                 @foreach (var modifier in item.modifierOrderVM)
                 {

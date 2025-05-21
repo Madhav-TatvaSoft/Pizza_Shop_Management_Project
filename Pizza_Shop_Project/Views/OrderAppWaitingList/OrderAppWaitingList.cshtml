@@ -135,6 +135,7 @@
         $(document).on('click', ".Waiting_Token_id", function (event) {
             var button = event.target
             var waitingid = $(button).data("id");
+            console.log(waitingid);
             $.ajax({
                 url: "/OrderAppWaitingList/GetWaitingToken",
                 type: "GET",

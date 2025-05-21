@@ -1,9 +1,11 @@
 @using DAL.ViewModels
 @model OrderAppWaitingViewModel;
 
+
+
 @if (Model.WaitingTokenVMList.Count == 0)
 {
-    <tr class="text-danger fw-bold text-center">
+    <tr class="text-secondary fw-bold text-center">
         <td colspan="8" class="text-center pt-2">No Waiting Token Found</td>
     </tr>
 }
@@ -11,21 +13,28 @@ else
 {
     foreach (var item in Model.WaitingTokenVMList)
     {
-        <tr class="border border-bottom-2 border-top-0 border-end-0 border-start-0 fw-bold text-black-50">
-            <td class="text-nowrap "># @item.WaitingId</td>
-            <td class="text-nowrap">@item.CreatedAt.ToString("MMM dd, yyyy h:mm tt")</td>
-            <td class="text-nowrap ">@item.WaitingTime.Hour hrs @item.WaitingTime.Minute min</td>
-            <td class="text-nowrap ">@item.CustomerName</td>
-            <td class="text-nowrap ">@item.NoOfPerson</td>
-            <td class="text-nowrap">@item.PhoneNo</td>
-            <td class="text-nowrap ">@item.Email</td>
-            <td class="text-center text-nowrap">
-                <i class="fa-solid fa-pen me-2 mt-2 Waiting_Token_id" data-bs-toggle="modal"
-                    data-bs-target="#AddEditWaitingTokenModal" data-id="@item.WaitingId" style="cursor: pointer;"></i>
-                <i class="fa-solid fa-trash-can me-2" data-bs-toggle="modal" data-bs-target="#DeleteWaitingTokenModal"
-                    data-id="@item.WaitingId" onclick="GetIdForDeleteToken(this)" style="cursor: pointer;"></i>
-                <i class="fa-solid fa-user-plus AssignTableModal" data-bs-toggle="modal" data-bs-target="#AssignTableModal" data-cusid="@item.CustomerId" data-person="@item.NoOfPerson" data-secid="@item.SectionId" data-secname="@item.SectionName" data-id="@item.WaitingId" style="cursor: pointer;"></i>
-            </td>
-        </tr>
+        {
+            var waitingHour = (DateTime.Now - item.CreatedAt).Hours;
+            var waitingMin = (DateTime.Now - item.CreatedAt).Minutes;
+
+            <tr class="border border-bottom-2 border-top-0 border-end-0 border-start-0 fw-bold text-black-50">
+                <td class="text-nowrap "># @item.WaitingId</td>
+                <td class="text-nowrap">@item.CreatedAt.ToString("MMM dd, yyyy h:mm tt")</td>
+                <td class="text-nowrap ">@waitingHour hrs @waitingMin mins</td>
+                <td class="text-nowrap ">@item.CustomerName</td>
+                <td class="text-nowrap ">@item.NoOfPerson</td>
+                <td class="text-nowrap">@item.PhoneNo</td>
+                <td class="text-nowrap ">@item.Email</td>
+                <td class="text-center text-nowrap">
+                    <i class="fa-solid fa-pen me-2 mt-2 Waiting_Token_id" data-bs-toggle="modal"
+                        data-bs-target="#AddEditWaitingTokenModal" data-id="@item.WaitingId" style="cursor: pointer;"></i>
+                    <i class="fa-solid fa-trash-can me-2" data-bs-toggle="modal" data-bs-target="#DeleteWaitingTokenModal"
+                        data-id="@item.WaitingId" onclick="GetIdForDeleteToken(this)" style="cursor: pointer;"></i>
+                    <i class="fa-solid fa-user-plus AssignTableModal" data-bs-toggle="modal" data-bs-target="#AssignTableModal"
+                        data-cusid="@item.CustomerId" data-person="@item.NoOfPerson" data-secid="@item.SectionId"
+                        data-secname="@item.SectionName" data-id="@item.WaitingId" style="cursor: pointer;"></i>
+                </td>
+            </tr>
+        }
     }
 }

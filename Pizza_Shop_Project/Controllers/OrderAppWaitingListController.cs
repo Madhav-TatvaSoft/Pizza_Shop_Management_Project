@@ -34,26 +34,25 @@ public class OrderAppWaitingListController : Controller
     }
 
     #region GET
-    public IActionResult GetSectionList()
+    public async Task<IActionResult> GetSectionList()
     {
         OrderAppWaitingViewModel WaitingVM = new();
-        WaitingVM.sectionVMList = _orderAppTableService.GetAllSectionList();
+        WaitingVM.sectionVMList = await _orderAppTableService.GetAllSectionList();
         return PartialView("_SectionListInWaiting", WaitingVM);
     }
 
     public IActionResult GetWaitingList(long sectionid)
     {
         OrderAppWaitingViewModel WaitingVM = new();
-        // WaitingVM.WaitingTokenVMList = new List<WaitingTokenDetailViewModel>();
         WaitingVM.WaitingTokenVMList = _orderAppWaitingListService.GetWaitingList(sectionid);
         return PartialView("_WaitingListPartial", WaitingVM);
 
     }
 
-    public IActionResult GetWaitingToken(long waitingid)
+    public async Task<IActionResult> GetWaitingToken(long waitingid)
     {
         OrderAppWaitingViewModel WaitingVM = new();
-        WaitingVM.sectionVMList = _orderAppTableService.GetAllSectionList();
+        WaitingVM.sectionVMList = await _orderAppTableService.GetAllSectionList();
 
         if (waitingid == 0)
         {
@@ -61,7 +60,8 @@ public class OrderAppWaitingListController : Controller
         }
         else
         {
-            WaitingVM.WaitingTokenDetailVM = _orderAppWaitingListService.GetWaitingToken(waitingid);
+            var waitingList = _orderAppWaitingListService.GetWaitingList(0);
+            WaitingVM.WaitingTokenDetailVM = waitingList.FirstOrDefault(x => x.WaitingId == waitingid);
         }
 
         return PartialView("_AddEditWaitingTokenPartial", WaitingVM);
@@ -119,8 +119,6 @@ public class OrderAppWaitingListController : Controller
                 return Json(new { success = false, text = "Something went wrong, Please try again!" });
             }
         }
-
-
     }
 
     [HttpPost]
