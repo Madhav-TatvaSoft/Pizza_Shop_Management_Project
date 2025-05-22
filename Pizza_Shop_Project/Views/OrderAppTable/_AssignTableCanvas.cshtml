@@ -9,22 +9,24 @@
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 </div>
 <div class="offcanvas-body">
-    @if (Model.WaitingTokenVMList.Count == 0)
-    {
-        <div class="fw-bold fs-5 text-danger p-3 ps-0 border border-top-1 border-end-0 border-start-0 border-bottom-2">There
-            are no Waiting Token in this Section</div>
-    }
-    else
-    {
-        <div class="table-responsive">
-            <table class="table">
-                <thead class="border border-end-0 border-start-0 border-top-0 border-bottom-1 border-dark fw-bold">
-                    <th class="text-center">&nbsp</th>
-                    <th class="text-start">ID</th>
-                    <th class="text-nowrap text-start">Name</th>
-                    <th class="text-start">No. of Person</th>
-                </thead>
-                <tbody>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="border border-end-0 border-start-0 border-top-0 border-bottom-1 border-dark fw-bold">
+                <th class="text-center">&nbsp</th>
+                <th class="text-start">ID</th>
+                <th class="text-nowrap text-start">Name</th>
+                <th class="text-start">No. of Person</th>
+            </thead>
+            <tbody>
+                @if (Model.WaitingTokenVMList.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="4" class="text-center text-secondary">No Waiting Token Available</td>
+                    </tr>
+                }
+                else
+                {
                     @foreach (var waiting in Model.WaitingTokenVMList)
                     {
                         <tr class="border border-end-0 border-start-0 border-top-0 border-bottom-1 text-secondary">
@@ -36,10 +38,11 @@
                             <td class="text-start">@waiting.NoOfPerson</td>
                         </tr>
                     }
-                </tbody>
-            </table>
-        </div>
-    }
+                }
+            </tbody>
+        </table>
+    </div>
+
 
     <!-- Customer Details Partial View -->
     <div id="customersDetail">

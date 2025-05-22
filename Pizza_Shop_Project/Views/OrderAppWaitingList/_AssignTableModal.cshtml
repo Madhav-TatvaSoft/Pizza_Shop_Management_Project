@@ -99,7 +99,7 @@
         var persons = $("#Persons").val();
 
         if (persons > capacity) {
-            callErrorToaster("Capacity is less than No of Persons!");
+            callErrorToaster(`Sorry, Table capacity is ${capacity}`);
             return;
         }
         else {

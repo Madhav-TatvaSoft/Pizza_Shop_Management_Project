@@ -321,31 +321,27 @@ public class OrderAppWaitingListService : IOrderAppWaitingListService
 
     public async Task<bool> AlreadyAssigned(long customerid)
     {
-        using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("PizzaShopConnection")))
+        using var connection = new NpgsqlConnection(_configuration.GetConnectionString("PizzaShopConnection"));
+        connection.Open();
+
+        using var command = new NpgsqlCommand("SELECT already_assigned(@inp_customerid)", connection);
+        command.Parameters.AddWithValue("inp_customerid", customerid);
+
+        try
         {
-            connection.Open();
+            var result = await command.ExecuteScalarAsync();
+            return Convert.ToBoolean(result);
+        }
+        catch (PostgresException ex)
+        {
+            Console.WriteLine($"Error: {ex.MessageText}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return false;
 
-            using (var command = new NpgsqlCommand("SELECT already_assigned(@inp_customerid)", connection))
-            {
-                command.Parameters.AddWithValue("inp_customerid", customerid);
-
-                try
-                {
-                    var result = await command.ExecuteScalarAsync();
-                    return Convert.ToBoolean(result);
-                }
-                catch (PostgresException ex)
-                {
-                    Console.WriteLine($"Error: {ex.MessageText}");
-                    return false;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    return false;
-                }
-
-            }
         }
     }
 
