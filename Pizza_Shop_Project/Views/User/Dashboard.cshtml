@@ -62,6 +62,7 @@
                         <div class="form-floating  col mb-3">
                             <input type="date" id="startDate" class="form-control">
                             <label>From Date</label>
+
                         </div>
 
                         <div class="form-floating  col ">
@@ -291,6 +292,10 @@
             e.preventDefault();
             startDate = $("#startDate").val();
             endDate = $("#endDate").val();
+            if (startDate == "" || endDate == "") {
+                callErrorToaster("Please select both dates");
+                return;
+            }
             fetchDashboardData(range, startDate, endDate);
             $('.btn-close').click();
         });

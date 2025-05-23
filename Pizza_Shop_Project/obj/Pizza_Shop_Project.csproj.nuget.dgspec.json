@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj": {}
+    "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj": {}
   },
   "projects": {
     "D:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj": {
@@ -26,8 +26,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "d:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj": {
-                "projectPath": "d:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj"
+              "D:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj": {
+                "projectPath": "D:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj"
               }
             }
           }
@@ -115,14 +115,14 @@
         }
       }
     },
-    "d:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj": {
+    "D:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj",
+        "projectUniqueName": "D:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj",
         "projectName": "DAL",
-        "projectPath": "d:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj",
+        "projectPath": "D:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj",
         "packagesPath": "C:\\Users\\pca155\\.nuget\\packages\\",
-        "outputPath": "d:\\T30_Pizza_Shop_Project\\DAL\\obj\\",
+        "outputPath": "D:\\T30_Pizza_Shop_Project\\DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pca155\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -210,14 +210,14 @@
         }
       }
     },
-    "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj": {
+    "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj",
+        "projectUniqueName": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj",
         "projectName": "Pizza_Shop_Project",
-        "projectPath": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj",
+        "projectPath": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\Pizza_Shop_Project.csproj",
         "packagesPath": "C:\\Users\\pca155\\.nuget\\packages\\",
-        "outputPath": "d:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\",
+        "outputPath": "D:\\T30_Pizza_Shop_Project\\Pizza_Shop_Project\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pca155\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -235,8 +235,8 @@
               "D:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj": {
                 "projectPath": "D:\\T30_Pizza_Shop_Project\\BLL\\BLL.csproj"
               },
-              "d:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj": {
-                "projectPath": "d:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj"
+              "D:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj": {
+                "projectPath": "D:\\T30_Pizza_Shop_Project\\DAL\\DAL.csproj"
               }
             }
           }

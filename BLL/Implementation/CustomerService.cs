@@ -29,14 +29,14 @@ public class CustomerService : ICustomerService
                 Email = u.Email,
                 PhoneNo = u.PhoneNo,
                 CreatedAt = u.CreatedAt != null ? DateOnly.FromDateTime((DateTime)u.CreatedAt) : default,
-                totalOrder = u.Orders.Count()
+                totalOrder = u.Orders.Where(o => o.Status == "Completed").Count()
             })
             .AsQueryable();
     }
 
     public PaginationViewModel<CustomerViewModel> GetCustomerList(string search = "", string sortColumn = "", string sortDirection = "", int pageNumber = 1, int pageSize = 5, string fromDate = "", string toDate = "", string selectRange = "")
     {
-        var query = GetAllCustomers();
+        IQueryable<CustomerViewModel>? query = GetAllCustomers();
 
         // IQueryable<CustomerViewModel>? query2 = from c in _context.Customers.Where(i => !i.Isdelete)
         //                                         join o in _context.Orders.Where(i => !i.Isdelete)
@@ -119,7 +119,7 @@ public class CustomerService : ICustomerService
 
     public Task<byte[]> ExportData(string search = "", string fromDate = "", string toDate = "", string selectRange = "")
     {
-        var query = GetAllCustomers();
+        IQueryable<CustomerViewModel>? query = GetAllCustomers();
 
         // Apply search 
         if (!string.IsNullOrEmpty(search))
