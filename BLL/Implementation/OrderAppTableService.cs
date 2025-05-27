@@ -382,7 +382,6 @@ public class OrderAppTableService : IOrderAppTableService
 
     public async Task<bool> AssignTable(OrderAppTableMainViewModel TableMainVM, long userId)
     {
-
         using var connection = new NpgsqlConnection(_configuration.GetConnectionString("PizzaShopConnection"));
 
         try
@@ -414,8 +413,6 @@ public class OrderAppTableService : IOrderAppTableService
             return false;
         }
     }
-
-    
 
     #endregion
 

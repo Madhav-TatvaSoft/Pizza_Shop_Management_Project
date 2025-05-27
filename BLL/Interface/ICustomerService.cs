@@ -12,5 +12,5 @@ public interface ICustomerService
     Task<bool> SaveCustomer(WaitingTokenDetailViewModel waitingTokenVM, long userId);
     IQueryable<CustomerViewModel> GetAllCustomers();
     Task<long> GetCustomerIdByTableId(long tableId);
-
+    Task<OrderDetailViewModel> UpdateCustomerDetails(OrderDetailViewModel orderDetailVM, long userId);
 }

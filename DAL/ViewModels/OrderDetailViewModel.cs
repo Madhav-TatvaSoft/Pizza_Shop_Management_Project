@@ -8,7 +8,7 @@ public class OrderDetailViewModel
     public long InvoiceId { get; set; }
     public string InvoiceNo { get; set; } = null!;
     public long OrderId { get; set; }
-    public DateTime OrderDate { get; set; }
+    public DateTime? OrderDate { get; set; }
 
     // New Added
     public string Status { get; set; } = null!;
@@ -38,7 +38,7 @@ public class OrderDetailViewModel
     // Extra Fields
     public decimal SubTotalAmountOrder { get; set; }
     public decimal TotalAmountOrder { get; set; }
-    public DateTime ModifiedOn { get; set; }
+    public DateTime? ModifiedOn { get; set; }
 
     // Rating
     public RatingsViewModel ratingVM { get; set; }

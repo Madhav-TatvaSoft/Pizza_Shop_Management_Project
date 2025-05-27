@@ -1,245 +1,341 @@
 
+using System.Text.Json;
 using BLL.Interface;
 using DAL.Models;
 using DAL.ViewModels;
+using Dapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql;
 
 namespace BLL.Implementation;
 
 public class OrderAppMenuService : IOrderAppMenuService
 {
     private readonly PizzaShopDbContext _context;
+    private readonly IConfiguration _configuration;
 
-    public OrderAppMenuService(PizzaShopDbContext context)
+    public OrderAppMenuService(PizzaShopDbContext context, IConfiguration configuration)
     {
         _context = context;
+        _configuration = configuration;
     }
+
+    // public List<ItemsViewModel> GetItems(long categoryid, string searchText = "")
+    // {
+    //     var AllItems = _context.Items.Where(x => x.Isavailable == true && !x.Isdelete).ToList();
+
+    //     if (categoryid == -1)
+    //     {
+    //         AllItems = AllItems.Where(x => x.IsFavourite == true).ToList();
+    //     }
+    //     else if (categoryid == 0)
+    //     {
+    //         AllItems = AllItems;
+    //     }
+    //     else
+    //     {
+    //         AllItems = AllItems.Where(x => x.CategoryId == categoryid).ToList();
+    //     }
+
+    //     if (!searchText.IsNullOrEmpty())
+    //     {
+    //         AllItems = AllItems.Where(x => x.ItemName.ToLower().Trim().Contains(searchText.ToLower().Trim())).ToList();
+    //     }
+
+    //     List<ItemsViewModel> itemsList = AllItems.Select(i => new ItemsViewModel
+    //     {
+    //         ItemId = i.ItemId,
+    //         ItemName = i.ItemName,
+    //         CategoryId = i.CategoryId,
+    //         ItemTypeId = i.ItemTypeId,
+    //         Rate = Math.Ceiling(i.Rate),
+    //         ItemImage = i.ItemImage,
+    //         IsFavourite = i.IsFavourite,
+    //         Isdelete = i.Isdelete
+    //     }).ToList();
+
+    //     return itemsList;
+    // }
 
     public List<ItemsViewModel> GetItems(long categoryid, string searchText = "")
     {
-        var AllItems = _context.Items.Where(x => x.Isavailable == true && !x.Isdelete).ToList();
+        using var connection = new NpgsqlConnection(_configuration.GetConnectionString("PizzaShopConnection"));
+        connection.Open();
 
-        if (categoryid == -1)
-        {
-            AllItems = AllItems.Where(x => x.IsFavourite == true).ToList();
-        }
-        else if (categoryid == 0)
-        {
-            AllItems = AllItems;
-        }
-        else
-        {
-            AllItems = AllItems.Where(x => x.CategoryId == categoryid).ToList();
-        }
+        using var command = new NpgsqlCommand("SELECT get_item_list_orderapp(@inp_categoryid,@inp_searchText)", connection);
+        command.Parameters.AddWithValue("inp_categoryid", categoryid);
+        command.Parameters.AddWithValue("inp_searchText", searchText);
 
-        if (!searchText.IsNullOrEmpty())
+        var jsonResult = command.ExecuteScalar();
+
+        if (jsonResult == null)
         {
-            AllItems = AllItems.Where(x => x.ItemName.ToLower().Trim().Contains(searchText.ToLower().Trim())).ToList();
+            return new List<ItemsViewModel>();
         }
 
-        List<ItemsViewModel> itemsList = AllItems.Select(i => new ItemsViewModel
-        {
-            ItemId = i.ItemId,
-            ItemName = i.ItemName,
-            CategoryId = i.CategoryId,
-            ItemTypeId = i.ItemTypeId,
-            Rate = Math.Ceiling(i.Rate),
-            ItemImage = i.ItemImage,
-            IsFavourite = i.IsFavourite,
-            Isdelete = i.Isdelete
-        }).ToList();
+        var data = JsonSerializer.Deserialize<List<ItemsViewModel>>(jsonResult.ToString())
+            ?? new List<ItemsViewModel>();
 
-        return itemsList;
-
+        return data;
     }
+
+    // public async Task<bool> FavouriteItem(long itemId, bool IsFavourite, long userId)
+    // {
+    //     using (var transaction = await _context.Database.BeginTransactionAsync())
+    //     {
+    //         try
+    //         {
+    //             Item? item = await _context.Items.FirstOrDefaultAsync(x => x.ItemId == itemId && !x.Isdelete);
+    //             if (item != null)
+    //             {
+    //                 item.IsFavourite = IsFavourite;
+    //                 item.ModifiedAt = DateTime.Now;
+    //                 item.ModifiedBy = userId;
+    //                 _context.Items.Update(item);
+    //                 await _context.SaveChangesAsync();
+    //                 await transaction.CommitAsync();
+    //                 return true;
+    //             }
+    //             else
+    //             {
+    //                 await transaction.RollbackAsync();
+    //                 return false;
+    //             }
+    //         }
+    //         catch
+    //         {
+    //             await transaction.RollbackAsync();
+    //             throw;
+    //         }
+    //     }
+    // }
 
     public async Task<bool> FavouriteItem(long itemId, bool IsFavourite, long userId)
     {
-        using (var transaction = await _context.Database.BeginTransactionAsync())
-        {
-            try
-            {
-                Item? item = await _context.Items.FirstOrDefaultAsync(x => x.ItemId == itemId && !x.Isdelete);
-                if (item != null)
-                {
-                    item.IsFavourite = IsFavourite;
-                    item.ModifiedAt = DateTime.Now;
-                    item.ModifiedBy = userId;
-                    _context.Items.Update(item);
-                    await _context.SaveChangesAsync();
-                    await transaction.CommitAsync();
-                    return true;
-                }
-                else
-                {
-                    await transaction.RollbackAsync();
-                    return false;
-                }
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
-        }
+        using var connection = new NpgsqlConnection(_configuration.GetConnectionString("PizzaShopConnection"));
 
+        try
+        {
+            await connection.ExecuteAsync(
+                "CALL favourite_item_orderapp(@inp_itemid, @inp_isFavourite,@inp_userid)",
+                new
+                {
+                    inp_itemid = itemId,
+                    inp_isFavourite = IsFavourite,
+                    inp_userid = userId
+                });
+
+            return true;
+        }
+        catch (PostgresException ex)
+        {
+            Console.WriteLine($"Error: {ex.MessageText}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return false;
+        }
     }
+
+    // public List<ItemModifierViewModel> GetModifiersByItemId(long itemId)
+    // {
+    //     Item? SelectedItem = _context.Items
+    //     .Include(item => item.ItemModifierGroupMappings).ThenInclude(itemmodgrp => itemmodgrp.ModifierGrp).ThenInclude(modgrp => modgrp.Modifiers).FirstOrDefault(i => i.ItemId == itemId && !i.Isdelete);
+
+    //     if (SelectedItem == null)
+    //     {
+    //         return new List<ItemModifierViewModel>();
+    //     }
+    //     else
+    //     {
+    //         List<ItemModifierViewModel>? itemModifierGroupMappings = SelectedItem.ItemModifierGroupMappings
+    //             .Where(x => !x.Isdelete)
+    //             .Select(x => new ItemModifierViewModel
+    //             {
+    //                 ModifierGrpId = x.ModifierGrpId,
+    //                 ModifierGrpName = x.ModifierGrp.ModifierGrpName,
+    //                 Minmodifier = x.Minmodifier,
+    //                 Maxmodifier = x.Maxmodifier,
+    //                 modifiersList = x.ModifierGrp.Modifiers
+    //                     .Where(e => !e.Isdelete)
+    //                     .Select(x => new Modifier
+    //                     {
+    //                         ModifierId = x.ModifierId,
+    //                         ModifierName = x.ModifierName,
+    //                         Rate = x.Rate
+    //                     }).ToList()
+    //             }).ToList();
+    //         return itemModifierGroupMappings;
+    //     }
+    // }
 
     public List<ItemModifierViewModel> GetModifiersByItemId(long itemId)
     {
-        Item? SelectedItem = _context.Items
-        .Include(item => item.ItemModifierGroupMappings).ThenInclude(itemmodgrp => itemmodgrp.ModifierGrp).ThenInclude(modgrp => modgrp.Modifiers).FirstOrDefault(i => i.ItemId == itemId && !i.Isdelete);
+        using var connection = new NpgsqlConnection(_configuration.GetConnectionString("PizzaShopConnection"));
+        connection.Open();
 
-        if (SelectedItem == null)
+        using var command = new NpgsqlCommand("SELECT get_modifiers_by_itemid_orderapp(@inp_itemid)", connection);
+        command.Parameters.AddWithValue("inp_itemid", itemId);
+
+        var jsonResult = command.ExecuteScalar();
+
+        if (jsonResult == null)
         {
             return new List<ItemModifierViewModel>();
         }
-        else
-        {
-            List<ItemModifierViewModel>? itemModifierGroupMappings = SelectedItem.ItemModifierGroupMappings
-                .Where(x => !x.Isdelete)
-                .Select(x => new ItemModifierViewModel
-                {
-                    ModifierGrpId = x.ModifierGrpId,
-                    ModifierGrpName = x.ModifierGrp.ModifierGrpName,
-                    Minmodifier = x.Minmodifier,
-                    Maxmodifier = x.Maxmodifier,
-                    modifiersList = x.ModifierGrp.Modifiers
-                        .Where(e => !e.Isdelete)
-                        .Select(x => new Modifier
-                        {
-                            ModifierId = x.ModifierId,
-                            ModifierName = x.ModifierName,
-                            Rate = x.Rate
-                        }).ToList()
-                }).ToList();
-            return itemModifierGroupMappings;
-        }
+
+        var data = JsonSerializer.Deserialize<List<ItemModifierViewModel>>(jsonResult.ToString())
+            ?? new List<ItemModifierViewModel>();
+
+        return data;
     }
+
+    // public OrderDetailViewModel GetOrderDetailsByCustomerId(long customerId)
+    // {
+    //     List<Customer> customerList = _context.Customers
+    //                                     .Include(cus => cus.AssignTables).ThenInclude(at => at.Table).ThenInclude(t => t.Section)
+    //                                     .Include(sec => sec.AssignTables).ThenInclude(at => at.Order).ThenInclude(o => o.Orderdetails)
+    //                                     .Where(od => od.CustomerId == customerId && !od.Isdelete)
+    //                                     .ToList();   
+
+    //     long orderId = _context.AssignTables.FirstOrDefault(at => at.CustomerId == customerId && !at.Isdelete)?.OrderId ?? 0;
+
+    //     List<AssignTable> AssignTableList = customerList[0].AssignTables.Where(at => !at.Isdelete).ToList();
+
+    //     OrderDetailViewModel orderDetailsvm = customerList
+    //       .Select(od => new OrderDetailViewModel
+    //       {
+    //           OrderId = orderId,
+    //           PaymentmethodId = 4,
+
+    //           // Table Details
+    //           SectionId = AssignTableList[0].Table.SectionId,
+    //           SectionName = AssignTableList[0].Table.Section.SectionName,
+    //           tableList = AssignTableList.Select(t => new Table
+    //           {
+    //               TableId = t.TableId,
+    //               TableName = t.Table.TableName,
+    //               Capacity = t.Table.Capacity,
+    //               SectionId = t.Table.SectionId
+    //           }).ToList(),
+
+    //           //Customer Details
+    //           CustomerId = od.CustomerId,
+    //           CustomerName = od.CustomerName,
+    //           PhoneNo = od.PhoneNo,
+    //           Email = od.Email,
+    //           NoOfPerson = od.AssignTables.FirstOrDefault().NoOfPerson
+
+    //       }).ToList()[0];
+
+    //     if (orderId != 0)
+    //     {
+    //         var orderDetails = _context.Orderdetails.Include(od => od.Item)
+    //                         .Include(x => x.Modifierorders).ThenInclude(modo => modo.Modifier)
+    //                         .Where(m => m.OrderId == orderId && !m.Isdelete).ToList();
+
+    //         orderDetailsvm.Status = _context.Orders.FirstOrDefault(x => x.OrderId == orderId && !x.Isdelete)!.Status;
+
+    //         orderDetailsvm.OrderInstruction = _context.Orders.FirstOrDefault(x => x.OrderId == orderId && !x.Isdelete)?.ExtraInstruction;
+
+    //         orderDetailsvm.InvoiceId = _context.Invoices.FirstOrDefault(i => i.OrderId == orderId && i.CustomerId == customerId && !i.Isdelete) == null ? 0 : _context.Invoices.FirstOrDefault(i => i.OrderId == orderId && i.CustomerId == customerId && !i.Isdelete)!.InvoiceId;
+
+    //         orderDetailsvm.OrderDate = _context.AssignTables.FirstOrDefault(x => x.CustomerId == customerId && !x.Isdelete)!.Order!.OrderDate;
+
+    //         orderDetailsvm.ModifiedOn = _context.AssignTables.FirstOrDefault(x => x.CustomerId == customerId && !x.Isdelete)!.Order!.ModifiedAt == null ?
+    //                                         _context.AssignTables.FirstOrDefault(x => x.CustomerId == customerId && !x.Isdelete)!.Order!.OrderDate : (DateTime)_context.AssignTables.FirstOrDefault(x => x.CustomerId == customerId && !x.Isdelete)!.Order!.ModifiedAt!;
+
+    //         orderDetailsvm.ratingVM = new RatingsViewModel();
+
+    //         orderDetailsvm.itemOrderVM = orderDetails
+    //                     .Select(i => new ItemOrderViewModel
+    //                     {
+    //                         ItemId = i.ItemId,
+    //                         ItemName = i.Item.ItemName,
+    //                         Rate = i.Item.Rate,
+    //                         status = "In Progress",
+    //                         Quantity = i.Quantity,
+    //                         ExtraInstruction = i.ExtraInstruction == null ? "" : i.ExtraInstruction,
+    //                         OrderdetailId = i.OrderdetailId,
+    //                         TotalItemAmount = Math.Round(i.Quantity * i.Item.Rate, 2),
+    //                         modifierOrderVM = _context.Modifierorders.Include(m => m.Modifier).Include(m => m.Orderdetail).ThenInclude(m => m.Item)
+    //                             .Where(m => m.Orderdetail.OrderdetailId == i.OrderdetailId)
+    //                             .Select(m => new ModifierorderViewModel
+    //                             {
+    //                                 ModifierId = m.ModifierId,
+    //                                 ModifierName = m.Modifier.ModifierName,
+    //                                 Rate = m.Modifier.Rate,
+    //                                 Quantity = i.Quantity,
+    //                                 TotalModifierAmount = Math.Round(i.Quantity * (decimal)m.Modifier.Rate, 2),
+    //                             }).OrderBy(x => x.ModifierId).ToList()
+
+    //                     }).ToList();
+
+    //         orderDetailsvm.SubTotalAmountOrder = Math.Round(orderDetailsvm.itemOrderVM
+    //                                                 .Sum(x => x.TotalItemAmount + x.modifierOrderVM.Sum(x => x.TotalModifierAmount)), 2);
+
+    //         var taxedetails = _context.Taxes.Where(tax => !tax.Isdelete && (bool)tax.Isenable);
+
+    //         orderDetailsvm.taxInvoiceVM = new List<TaxInvoiceViewModel>();
+
+    //         foreach (var tax in taxedetails)
+    //         {
+
+    //             if (tax.TaxType == "Flat Amount")
+    //             {
+    //                 orderDetailsvm.taxInvoiceVM.Add(
+    //                     new TaxInvoiceViewModel
+    //                     {
+    //                         TaxId = tax.TaxId,
+    //                         TaxName = tax.TaxName,
+    //                         TaxType = tax.TaxType,
+    //                         TaxValue = tax.TaxValue
+    //                     }
+    //                 );
+    //             }
+    //             else
+    //             {
+    //                 orderDetailsvm.taxInvoiceVM.Add(
+    //                     new TaxInvoiceViewModel
+    //                     {
+    //                         TaxId = tax.TaxId,
+    //                         TaxName = tax.TaxName,
+    //                         TaxType = tax.TaxType,
+    //                         TaxValue = Math.Round(tax.TaxValue / 100 * orderDetailsvm.SubTotalAmountOrder, 2)
+    //                     }
+    //                 );
+    //             }
+    //         }
+    //         orderDetailsvm.TotalAmountOrder = orderDetailsvm.SubTotalAmountOrder + orderDetailsvm.taxInvoiceVM.Sum(x => x.TaxValue);
+
+    //         return orderDetailsvm;
+    //     }
+    //     return orderDetailsvm;
+    // }
 
     public OrderDetailViewModel GetOrderDetailsByCustomerId(long customerId)
     {
-        List<Customer> customerList = _context.Customers
-                                        .Include(cus => cus.AssignTables).ThenInclude(at => at.Table).ThenInclude(t => t.Section)
-                                        .Include(sec => sec.AssignTables).ThenInclude(at => at.Order).ThenInclude(o => o.Orderdetails)
-                                        .Where(od => od.CustomerId == customerId && !od.Isdelete)
-                                        .ToList();
+        using var connection = new NpgsqlConnection(_configuration.GetConnectionString("PizzaShopConnection"));
+        connection.Open();
 
-        long orderId = _context.AssignTables.FirstOrDefault(at => at.CustomerId == customerId && !at.Isdelete)?.OrderId ?? 0;
+        using var command = new NpgsqlCommand("SELECT get_order_details_by_customer_id(@inp_customer_id)", connection);
+        command.Parameters.AddWithValue("inp_customer_id", customerId);
 
-        List<AssignTable> AssignTableList = customerList[0].AssignTables.Where(at => !at.Isdelete).ToList();
+        var jsonResult = command.ExecuteScalar();
 
-        OrderDetailViewModel orderDetailsvm = customerList
-          .Select(od => new OrderDetailViewModel
-          {
-              OrderId = orderId,
-              PaymentmethodId = 4,
-
-              // Table Details
-
-              SectionId = AssignTableList[0].Table.SectionId,
-              SectionName = AssignTableList[0].Table.Section.SectionName,
-              tableList = AssignTableList.Select(t => new Table
-              {
-                  TableId = t.TableId,
-                  TableName = t.Table.TableName,
-                  Capacity = t.Table.Capacity,
-                  SectionId = t.Table.SectionId
-              }).ToList(),
-
-              //Customer Details
-              CustomerId = od.CustomerId,
-              CustomerName = od.CustomerName,
-              PhoneNo = od.PhoneNo,
-              Email = od.Email,
-              NoOfPerson = od.AssignTables.FirstOrDefault().NoOfPerson
-
-          }).ToList()[0];
-
-        if (orderId != 0)
+        if (jsonResult == null)
         {
-            var orderDetails = _context.Orderdetails.Include(od => od.Item)
-                            .Include(x => x.Modifierorders).ThenInclude(modo => modo.Modifier)
-                            .Where(m => m.OrderId == orderId && !m.Isdelete).ToList();
-
-            orderDetailsvm.Status = _context.Orders.FirstOrDefault(x => x.OrderId == orderId && !x.Isdelete)!.Status;
-
-            orderDetailsvm.OrderInstruction = _context.Orders.FirstOrDefault(x => x.OrderId == orderId && !x.Isdelete)?.ExtraInstruction;
-
-            orderDetailsvm.InvoiceId = _context.Invoices.FirstOrDefault(i => i.OrderId == orderId && i.CustomerId == customerId && !i.Isdelete) == null ? 0 : _context.Invoices.FirstOrDefault(i => i.OrderId == orderId && i.CustomerId == customerId && !i.Isdelete)!.InvoiceId;
-
-            orderDetailsvm.OrderDate = _context.AssignTables.FirstOrDefault(x => x.CustomerId == customerId && !x.Isdelete)!.Order!.OrderDate;
-
-            orderDetailsvm.ModifiedOn = _context.AssignTables.FirstOrDefault(x => x.CustomerId == customerId && !x.Isdelete)!.Order!.ModifiedAt == null ?
-                                            _context.AssignTables.FirstOrDefault(x => x.CustomerId == customerId && !x.Isdelete)!.Order!.OrderDate : (DateTime)_context.AssignTables.FirstOrDefault(x => x.CustomerId == customerId && !x.Isdelete)!.Order!.ModifiedAt!;
-
-            orderDetailsvm.ratingVM = new RatingsViewModel();
-
-            orderDetailsvm.itemOrderVM = orderDetails
-                        .Select(i => new ItemOrderViewModel
-                        {
-                            ItemId = i.ItemId,
-                            ItemName = i.Item.ItemName,
-                            Rate = i.Item.Rate,
-                            status = "In Progress",
-                            Quantity = i.Quantity,
-                            ExtraInstruction = i.ExtraInstruction == null ? "" : i.ExtraInstruction,
-                            OrderdetailId = i.OrderdetailId,
-                            TotalItemAmount = Math.Round(i.Quantity * i.Item.Rate, 2),
-                            modifierOrderVM = _context.Modifierorders.Include(m => m.Modifier).Include(m => m.Orderdetail).ThenInclude(m => m.Item)
-                                .Where(m => m.Orderdetail.OrderdetailId == i.OrderdetailId)
-                                .Select(m => new ModifierorderViewModel
-                                {
-                                    ModifierId = m.ModifierId,
-                                    ModifierName = m.Modifier.ModifierName,
-                                    Rate = m.Modifier.Rate,
-                                    Quantity = i.Quantity,
-                                    TotalModifierAmount = Math.Round(i.Quantity * (decimal)m.Modifier.Rate, 2),
-                                }).OrderBy(x => x.ModifierId).ToList()
-
-                        }).ToList();
-
-            orderDetailsvm.SubTotalAmountOrder = Math.Round(orderDetailsvm.itemOrderVM
-                                                    .Sum(x => x.TotalItemAmount + x.modifierOrderVM.Sum(x => x.TotalModifierAmount)), 2);
-
-            var taxedetails = _context.Taxes.Where(tax => !tax.Isdelete && (bool)tax.Isenable);
-
-            orderDetailsvm.taxInvoiceVM = new List<TaxInvoiceViewModel>();
-
-            foreach (var tax in taxedetails)
-            {
-
-                if (tax.TaxType == "Flat Amount")
-                {
-                    orderDetailsvm.taxInvoiceVM.Add(
-                        new TaxInvoiceViewModel
-                        {
-                            TaxId = tax.TaxId,
-                            TaxName = tax.TaxName,
-                            TaxType = tax.TaxType,
-                            TaxValue = tax.TaxValue
-                        }
-                    );
-                }
-                else
-                {
-                    orderDetailsvm.taxInvoiceVM.Add(
-                        new TaxInvoiceViewModel
-                        {
-                            TaxId = tax.TaxId,
-                            TaxName = tax.TaxName,
-                            TaxType = tax.TaxType,
-                            TaxValue = Math.Round(tax.TaxValue / 100 * orderDetailsvm.SubTotalAmountOrder, 2)
-                        }
-                    );
-                }
-            }
-            orderDetailsvm.TotalAmountOrder = orderDetailsvm.SubTotalAmountOrder + orderDetailsvm.taxInvoiceVM.Sum(x => x.TaxValue);
-
-            return orderDetailsvm;
+            return new OrderDetailViewModel();
         }
-        return orderDetailsvm;
+
+        var data = JsonSerializer.Deserialize<OrderDetailViewModel>(jsonResult.ToString())
+            ?? new OrderDetailViewModel();
+
+        return data;
     }
 
     public async Task<OrderDetailViewModel> UpdateOrderDetailPartialView(List<List<int>> itemList, OrderDetailViewModel orderDetailsvm)
@@ -363,50 +459,6 @@ public class OrderAppMenuService : IOrderAppMenuService
         }
         orderdetails.TotalAmountOrder = orderdetails.SubTotalAmountOrder + orderdetails.taxInvoiceVM.Sum(x => x.TaxValue);
         return orderdetails;
-    }
-
-    public async Task<OrderDetailViewModel> UpdateCustomerDetails(OrderDetailViewModel orderDetailVM, long userId)
-    {
-        using (var transaction = await _context.Database.BeginTransactionAsync())
-        {
-            try
-            {
-                Customer? customer = await _context.Customers.SingleOrDefaultAsync(x => x.CustomerId == orderDetailVM.CustomerId && !x.Isdelete);
-
-                if (customer == null)
-                {
-                    return null;
-                }
-                customer.CustomerName = orderDetailVM.CustomerName;
-                customer.PhoneNo = orderDetailVM.PhoneNo;
-                customer.Email = orderDetailVM.Email;
-                customer.ModifiedAt = DateTime.Now;
-                customer.ModifiedBy = userId;
-                _context.Customers.Update(customer);
-
-                var AssignTable = _context.AssignTables.Where(x => x.CustomerId == orderDetailVM.CustomerId && !x.Isdelete).ToList();
-
-                foreach (var table in AssignTable)
-                {
-                    table.NoOfPerson = orderDetailVM.NoOfPerson;
-                    table.ModifiedAt = DateTime.Now;
-                    table.ModifiedBy = userId;
-                    _context.AssignTables.Update(table);
-                }
-
-                await _context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-
-                return orderDetailVM;
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
-        }
-
     }
 
     public async Task<OrderDetailViewModel> SaveOrder(List<int> orderDetailIds, OrderDetailViewModel orderDetailsVM, long userId)

@@ -542,4 +542,47 @@ public class CustomerService : ICustomerService
         return (customer != null) ? customer.CustomerId : 0;
     }
 
+    public async Task<OrderDetailViewModel> UpdateCustomerDetails(OrderDetailViewModel orderDetailVM, long userId)
+    {
+        using (var transaction = await _context.Database.BeginTransactionAsync())
+        {
+            try
+            {
+                Customer? customer = await _context.Customers.SingleOrDefaultAsync(x => x.CustomerId == orderDetailVM.CustomerId && !x.Isdelete);
+
+                if (customer == null)
+                {
+                    return null;
+                }
+                customer.CustomerName = orderDetailVM.CustomerName;
+                customer.PhoneNo = orderDetailVM.PhoneNo;
+                customer.Email = orderDetailVM.Email;
+                customer.ModifiedAt = DateTime.Now;
+                customer.ModifiedBy = userId;
+                _context.Customers.Update(customer);
+
+                var AssignTable = _context.AssignTables.Where(x => x.CustomerId == orderDetailVM.CustomerId && !x.Isdelete).ToList();
+
+                foreach (var table in AssignTable)
+                {
+                    table.NoOfPerson = orderDetailVM.NoOfPerson;
+                    table.ModifiedAt = DateTime.Now;
+                    table.ModifiedBy = userId;
+                    _context.AssignTables.Update(table);
+                }
+
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return orderDetailVM;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+    }
+
 }

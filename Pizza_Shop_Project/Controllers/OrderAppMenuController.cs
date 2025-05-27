@@ -16,13 +16,15 @@ public class OrderAppMenuController : Controller
     private readonly IOrderAppMenuService _orderAppMenuService;
     private readonly IUserService _userService;
     private readonly IUserLoginService _userLoginService;
+    private readonly ICustomerService _customerService;
 
-    public OrderAppMenuController(ICategoryService categoryService, IOrderAppMenuService orderAppMenuService, IUserService userService, IUserLoginService userLoginService)
+    public OrderAppMenuController(ICategoryService categoryService, IOrderAppMenuService orderAppMenuService, IUserService userService, IUserLoginService userLoginService,ICustomerService customerService)
     {
         _userService = userService;
         _userLoginService = userLoginService;
         _categoryService = categoryService;
         _orderAppMenuService = orderAppMenuService;
+        _customerService = customerService;
     }
 
     public async Task<IActionResult> OrderAppMenu(long customerId = 0)
@@ -117,7 +119,7 @@ public class OrderAppMenuController : Controller
         List<User>? userData = _userService.getUserFromEmail(token);
         long userId = _userLoginService.GetUserId(userData[0].Userlogin.Email);
 
-        OrderDetailViewModel? data = await _orderAppMenuService.UpdateCustomerDetails(orderDetailVM, userId);
+        OrderDetailViewModel? data = await _customerService.UpdateCustomerDetails(orderDetailVM, userId);
         if (data != null)
         {
             return Json(new { success = true, text = "Customer Details Updated Successfully", data });
