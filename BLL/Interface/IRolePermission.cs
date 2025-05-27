@@ -5,10 +5,10 @@ namespace BLL.Interface;
 
 public interface IRolePermission
 {
-    public List<Role> GetAllRoles();
+    List<Role> GetAllRoles();
 
-    public bool EditPermissionMapping(RolesPermissionViewModel rolepermissionmapping);
+    bool EditPermissionMapping(RolesPermissionViewModel rolepermissionmapping);
 
-    public List<RolesPermissionViewModel> GetPermissionByRole(string name);
+    List<RolesPermissionViewModel> GetPermissionByRole(string name);
 
 }

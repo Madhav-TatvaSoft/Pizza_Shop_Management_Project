@@ -5,24 +5,24 @@ namespace BLL.Interface;
 
 public interface ITableSectionService
 {
-    public List<Section> GetAllSections();
-    public PaginationViewModel<TablesViewModel> GetTablesBySection(long? sectionid, string search = "", int pageNumber = 1, int pageSize = 3);
+    List<Section> GetAllSections();
+    PaginationViewModel<TablesViewModel> GetTablesBySection(long? sectionid, string search = "", int pageNumber = 1, int pageSize = 3);
 
-    public Task<bool> AddSection(SectionViewModel addsection, long userId);
-    public SectionViewModel GetSectionById(long sectionid);
-    public Task<bool> EditSection(SectionViewModel editSection, long userId);
+    Task<bool> AddSection(SectionViewModel addsection, long userId);
+    SectionViewModel GetSectionById(long sectionid);
+    Task<bool> EditSection(SectionViewModel editSection, long userId);
 
-    public Task<bool> DeleteSection(long sectionid);
+    Task<bool> DeleteSection(long sectionid);
 
-    public Task<bool> AddTable(TablesViewModel tableVM, long userId);
+    Task<bool> AddTable(TablesViewModel tableVM, long userId);
 
-    public TablesViewModel GetTableById(long tableId, long sectionId);
+    TablesViewModel GetTableById(long tableId, long sectionId);
 
-    public Task<bool> EditTable(TablesViewModel tableVM, long userId);
+    Task<bool> EditTable(TablesViewModel tableVM, long userId);
 
-    public Task<bool> DeleteTable(long tableId);
-    public Task<bool> IsTableOccupied(long tableId);
-    public Task<bool> IsTableOccupiedinSection(long sectionid);
+    Task<bool> DeleteTable(long tableId);
+    Task<bool> IsTableOccupied(long tableId);
+    Task<bool> IsTableOccupiedinSection(long sectionid);
 
 
 }

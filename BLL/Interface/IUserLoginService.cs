@@ -5,14 +5,14 @@ namespace BLL.Interface;
 
 public interface IUserLoginService
 {
-    public string EncryptPassword(string password);
-    public Task<List<UserLogin>> GetUserLogins();
-    public Task<string> VerifyUserLogin(UserLoginViewModel userLogin);
-    public Task<bool> SendEmail(ForgotPasswordViewModel forgotpassword, string resetLink);
-    public Task<bool> ResetPassword(ResetPasswordViewModel resetPassword);
-    public string GetProfileImage(string Email);
-    public string GetUsername(string Email);
-    public long GetUserId(string Email);
-    public string GetPassword(string Email);
-    public bool CheckEmailExist(string email);
+    string EncryptPassword(string password);
+    Task<List<UserLogin>> GetUserLogins();
+    Task<string> VerifyUserLogin(UserLoginViewModel userLogin);
+    Task<bool> SendEmail(ForgotPasswordViewModel forgotpassword, string resetLink);
+    Task<bool> ResetPassword(ResetPasswordViewModel resetPassword);
+    string GetProfileImage(string Email);
+    string GetUsername(string Email);
+    long GetUserId(string Email);
+    string GetPassword(string Email);
+    bool CheckEmailExist(string email);
 }

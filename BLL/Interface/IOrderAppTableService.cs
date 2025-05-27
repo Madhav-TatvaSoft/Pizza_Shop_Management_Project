@@ -5,7 +5,7 @@ namespace BLL.Interface;
 public interface IOrderAppTableService
 {
     Task<List<OrderAppSectionVM>> GetAllSectionList();
-    public List<OrderAppTableVM> GetTablesBySection(long SectionId);
+    List<OrderAppTableVM> GetTablesBySection(long SectionId);
     bool CheckTokenExists(WaitingTokenDetailViewModel waitingTokenVM);
     Task<bool> SaveCustomerToWaitingList(WaitingTokenDetailViewModel waitingTokenVM, long userId);
     Task<List<WaitingTokenDetailViewModel>> GetWaitingCustomerList(long sectionid);

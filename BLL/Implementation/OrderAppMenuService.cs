@@ -426,8 +426,8 @@ public class OrderAppMenuService : IOrderAppMenuService
             orderDetails.TotalAmountOrder = 0;
             return orderDetails;
         }
-        var taxedetails = _context.Taxes
-        .Where(x => !x.Isdelete).ToList();
+        var taxedetails = await _context.Taxes
+        .Where(x => !x.Isdelete).ToListAsync();
 
         orderdetails.taxInvoiceVM = new List<TaxInvoiceViewModel>();
         foreach (var tax in taxedetails)
