@@ -1,4 +1,3 @@
-------------------------- GET ORDER DETAIL BY CUSTOMER ID ORDERAPP -----------------------------
 
 CREATE OR REPLACE FUNCTION get_order_details_by_customer_id( inp_customer_id BIGINT )
 RETURNS JSON

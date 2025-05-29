@@ -51,7 +51,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.itemOrderVM == null)
+                    @if (Model.itemOrderVM == null || Model.itemOrderVM.Count == 0)
                     {
                         <tr class="">
                             <td colspan="4"
@@ -167,7 +167,7 @@
         @* <!-- Tax section --> *@
         <div class="p-1 border-top">
 
-            @if (Model.itemOrderVM != null)
+            @if (Model.itemOrderVM != null )
             {
                 <div class="fs-6 w-100 pt-1 pb-2 d-flex justify-content-between align-items-center">
                     <span class="fs-5">SubTotal</span>
@@ -223,7 +223,7 @@
                     onclick="SaveOrder()">Save</button>
                 <button id="OrderCompleteBtn" class="btn hollow-btn" style="width: 180px;" data-bs-toggle="modal"
                     data-bs-target="#CompleteOrderModal">Complete</button>
-                @if (Model.itemOrderVM == null)
+                @if (Model.itemOrderVM == null || Model.itemOrderVM.Count == 0)
                 {
                     <button id="OrderGenerateInvoiceBtn" class="btn hollow-btn" style="width: 180px;" disabled>Generate
                         Invoice</button>
@@ -424,14 +424,14 @@
 
 <script>
 
-    $("#ReviewText").on('keyup', function () {
+    @* $("#ReviewText").on('keyup', function () {
         comment = $(this).val();
         if (comment.length > 0) {
             $("#SaveCustomerReview").removeAttr("disabled");
         } else {
             $("#SaveCustomerReview").attr("disabled", "disabled");
         }
-    });
+    }); *@
 
     function PrintToaster() {
         callErrorToaster("Sorry order is almost Ready!");

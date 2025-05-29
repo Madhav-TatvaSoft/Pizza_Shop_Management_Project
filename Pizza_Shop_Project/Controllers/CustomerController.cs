@@ -40,5 +40,4 @@ public class CustomerController : Controller
         CustomerHistoryViewModel? customerhistory = _customerService.GetCustomerHistory(customerid);
         return PartialView("_CustomerHistoryPartial",customerhistory);
     }
-
 }

@@ -13,10 +13,20 @@
             <input type="hidden" asp-for="@Model.WaitingTokenDetailVM.CustomerId" id="CustomerId" />
 
             <div class="form-floating col-12 mb-3">
-                <input type="email" class="form-control" id="Email" asp-for="@Model.WaitingTokenDetailVM.Email"
-                    placeholder="Email*" list="emailSuggestions" autocomplete="off">
-                <datalist id="emailSuggestions"></datalist>
-                <span asp-validation-for="@Model.WaitingTokenDetailVM.Email" class="text-danger validate"></span>
+                @if (Model.WaitingTokenDetailVM.WaitingId != 0)
+                {
+                    <input type="hidden" class="form-control" id="Email1" asp-for="@Model.WaitingTokenDetailVM.Email"
+                        placeholder="Email*" >
+                    <input type="email" class="form-control" id="Email1" asp-for="@Model.WaitingTokenDetailVM.Email"
+                        placeholder="Email*" disabled>
+                }
+                else
+                {
+                    <input type="email" class="form-control" id="Email" asp-for="@Model.WaitingTokenDetailVM.Email"
+                        placeholder="Email*" list="emailSuggestions" autocomplete="off">
+                    <datalist id="emailSuggestions"></datalist>
+                    <span asp-validation-for="@Model.WaitingTokenDetailVM.Email" class="text-danger validate"></span>
+                }
                 <label for="Email" class="text-secondary"> &nbsp; Email*</label>
             </div>
             <div class="form-floating col-12 mb-3">
@@ -107,7 +117,7 @@
     $("#AddEditWaitingFormId").on("submit", function (e) {
 
         e.preventDefault();
-    
+
         var form = $(this);
 
         if (form.valid()) {
@@ -135,7 +145,7 @@
                     $(".btn-close").click();
                 }
             });
-        } 
+        }
     });
 
 </script>

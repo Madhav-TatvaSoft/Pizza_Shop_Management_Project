@@ -10,7 +10,7 @@ else
     @foreach (var order in Model.Items)
     {
         <div class="KOTItemsCardClass rounded border-2" data-id="@order.OrderId"
-            style="width: 350px; border-style: dotted !important; border-color: rgb(179, 179, 179) !important;">
+            style="width: fit-content; border-style: dotted !important; border-color: rgb(179, 179, 179) !important;">
             <div class="d-flex p-2" style="background-color: rgb(238, 238, 238);">
                 <div class="user-text fw-bold text-nowrap"># @order.OrderId</div>
                 <div class="text-secondary ms-5 text-nowrap">
@@ -21,7 +21,7 @@ else
             </div>
             <div class="d-flex p-2 fw-semibold pt-2 pb-2" style="background-color: rgb(238, 238, 238);">
                 @order.SectionName
-                <li class="ps-3 validate">
+                <li class="ps-3 validate" >
                     <!-- Table -->
                     @for (int i = 0; i < order.tableList.Count; i++)
                     {
